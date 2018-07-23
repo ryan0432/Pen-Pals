@@ -13,12 +13,19 @@ public class ShapeEditor : Editor
         float drawPlaneHight = 0;
         float dstToDrawPlane = (drawPlaneHight - mouseRay.origin.z) / mouseRay.direction.z;
         Vector3 mousePos = mouseRay.GetPoint(dstToDrawPlane);
-        Vector3 nodePos = new Vector3 ( (int)mousePos.x, (int)mousePos.y , (int)mousePos.z );
+        Vector3 nodePos = new Vector3 (Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), Mathf.Round(mousePos.z));
 
         if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0)
         {
             Undo.RecordObject(shapeCreator, "Add Node");
+            shapeCreator.Nodes.Add(nodePos);
             Debug.Log("Nodes Added: " + nodePos);
+            Debug.Log(shapeCreator.Nodes.Count);
+        }
+
+        for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
+        {
+            Handles.DrawSolidDisc(shapeCreator.Nodes[i], Vector3.forward, 0.2f);
         }
 
         if (guiEvent.type == EventType.Layout)
