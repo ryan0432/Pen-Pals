@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 8f8e78418c64f2f41ba1286494af33da
+timeCreated: 1532306877
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - icon_Highlighter: {fileID: 2800000, guid: cfb7e77ac6494f04bab6be9ad256b52d, type: 3}
+  - icon_Terrain: {fileID: 2800000, guid: 1b9edf3a7d6e0cd47bfc8373ab505eaf, type: 3}
+  - icon_Pencil: {instanceID: 0}
+  - icon_ColourPencil: {instanceID: 0}
+  - icon_MovingTerrain: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
