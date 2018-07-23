@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     [HideInInspector]
     private PlayerInteraction interaction;
 
+    private bool is_moving;
+    private float timer;
 
     #endregion
 
@@ -43,6 +45,8 @@ public class Player : MonoBehaviour
     [Range(1, 10)]
     public int movement_distance;
 
+    public AnimationCurve movement_curve;
+
     #endregion
 
 
@@ -57,7 +61,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        type = PlayerInteraction.Player_Type.BLUE;
+        //type = PlayerInteraction.Player_Type.BLUE;
 
         interaction = PlayerInteraction.Instance;
     }
@@ -65,12 +69,20 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //*! Check the input of the player based on the type
-        interaction.Check_For_Input(type);
+        if (interaction.Check_For_Input(type))
+        {
+            is_moving = true;
+        }
+        
 
-        transform.position = new Vector3(current_position.x, current_position.y, 0);
+
+        //*! Apply the new Position
+        Apply_New_Position(transform.position, new Vector3(current_position.x, current_position.y, 0));
+
+
 
     }
-        
+
 
 
     //*!----------------------------!*//
@@ -80,7 +92,7 @@ public class Player : MonoBehaviour
     //*! Public Access
     #region Public Functions
 
- 
+
 
     #endregion
 
@@ -89,6 +101,23 @@ public class Player : MonoBehaviour
     //*! Private Access
     #region Private Functions
 
- 
+    //*! New Position Apply
+    private void Apply_New_Position(Vector3 old_position, Vector3 new_position)
+    {
+        //if (timer <= movement_curve.length && is_moving)
+        //{
+        //    timer += Time.deltaTime;
+        //    Debug.Log(movement_curve.Evaluate(timer));
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("Loop");
+        //    timer = 0.0f;
+        //}
+
+
+        transform.position = new Vector3(current_position.x, current_position.y, 0);
+    }
+
     #endregion
 }

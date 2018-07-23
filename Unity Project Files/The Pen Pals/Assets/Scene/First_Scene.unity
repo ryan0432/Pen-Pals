@@ -185,7 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 23.799002, y: -3.5950003, z: 6.241}
 --- !u!1 &295497760
 GameObject:
@@ -214,16 +214,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ad4ff671fed9ea4390b9adeaa0b907a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blocky:
-    player: {fileID: 0}
+  red:
+    player: {fileID: 1515906995}
     controls:
       move_up_key: 119
       move_down_key: 115
       move_right_key: 100
       move_left_key: 97
     is_falling: 0
-  lionel:
-    player: {fileID: 0}
+  blue:
+    player: {fileID: 1515906995}
     controls:
       move_up_key: 273
       move_down_key: 274
@@ -240,7 +240,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &663331776
 GameObject:
@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 663331780}
   - component: {fileID: 663331779}
   - component: {fileID: 663331778}
+  - component: {fileID: 663331781}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -324,6 +325,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 663331776}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!111 &663331781
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663331776}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 62edbd4013ab2f04794df474fed48a69, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1515906994
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1515906996}
   - component: {fileID: 1515906995}
+  - component: {fileID: 1515906997}
   m_Layer: 0
   m_Name: Blocky
   m_TagString: Untagged
@@ -354,6 +371,30 @@ MonoBehaviour:
   type: 0
   current_position: {x: 0, y: 0}
   movement_distance: 1
+  movement_curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.1000061
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.36562032
+      value: 0.81828356
+      inSlope: 1.0481477
+      outSlope: 1.0481477
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1.1000061
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!4 &1515906996
 Transform:
   m_ObjectHideFlags: 0
@@ -368,6 +409,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &1515906997
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1515906994}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 62edbd4013ab2f04794df474fed48a69, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 62edbd4013ab2f04794df474fed48a69, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1523044815
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,5 +511,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -18,10 +18,10 @@ public class PlayerInteraction : MonoBehaviour
     
 
     [SerializeField]
-    private Blocky blocky = new Blocky();
+    private RED red = new RED();
 
     [SerializeField]
-    private Lionel lionel = new Lionel();
+    private BLUE blue = new BLUE();
 
     #endregion
 
@@ -90,32 +90,32 @@ public class PlayerInteraction : MonoBehaviour
     //*! Move the player in the direction based on the input the player gave. Move by set distance
     private void Move_Player_Direction(Player_Type a_player_Type, Movement_Direction a_movement_Direction)
     {
-        //*! Get a reference to the player object for 'blocky' and 'lionel'
-        blocky.player = Player.Instance;
-        lionel.player = Player.Instance;
+        //*! Get a reference to the player object for 'red' and 'blue'
+        red.player = Player.Instance;
+        blue.player = Player.Instance;
 
         switch (a_player_Type)
         {
             case Player_Type.RED:
 
-                //*! Apply the movement to the player - blocky
+                //*! Apply the movement to the player - red
                 switch (a_movement_Direction)
                 {
                     case Movement_Direction.UP:
                         //+- Y Axis
-                        blocky.player.current_position += new Vector2(0, blocky.player.movement_distance);
+                        red.player.current_position += new Vector2(0, red.player.movement_distance);
                         break;
                     case Movement_Direction.DOWN:
                         //-- Y Axis
-                        blocky.player.current_position -= new Vector2(0, blocky.player.movement_distance);
+                        red.player.current_position -= new Vector2(0, red.player.movement_distance);
                         break;
                     case Movement_Direction.LEFT:
                         //-- X Axis
-                        blocky.player.current_position -= new Vector2(blocky.player.movement_distance, 0);
+                        red.player.current_position -= new Vector2(red.player.movement_distance, 0);
                         break;
                     case Movement_Direction.RIGHT:
                         //+- X Axis
-                        blocky.player.current_position += new Vector2(blocky.player.movement_distance, 0);
+                        red.player.current_position += new Vector2(red.player.movement_distance, 0);
                         break;
                     default:
                         break;
@@ -126,24 +126,24 @@ public class PlayerInteraction : MonoBehaviour
 
             case Player_Type.BLUE:
 
-                //*! Apply the movement to the player - lionel
+                //*! Apply the movement to the player - blue
                 switch (a_movement_Direction)
                 {
                     case Movement_Direction.UP:
                         //+- Y Axis
-                        lionel.player.current_position += new Vector2(0, lionel.player.movement_distance);
+                        blue.player.current_position += new Vector2(0, blue.player.movement_distance);
                         break;
                     case Movement_Direction.DOWN:
                         //-- Y Axis
-                        lionel.player.current_position -= new Vector2(0, lionel.player.movement_distance);
+                        blue.player.current_position -= new Vector2(0, blue.player.movement_distance);
                         break;
                     case Movement_Direction.LEFT:
                         //-- X Axis
-                        lionel.player.current_position -= new Vector2(lionel.player.movement_distance, 0);
+                        blue.player.current_position -= new Vector2(blue.player.movement_distance, 0);
                         break;
                     case Movement_Direction.RIGHT:
                         //+- X Axis
-                        lionel.player.current_position += new Vector2(lionel.player.movement_distance, 0);
+                        blue.player.current_position += new Vector2(blue.player.movement_distance, 0);
                         break;
                     default:
                         break;
@@ -157,31 +157,31 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    //*! Check if Blocky has inputed something
-    private bool Get_Blocky_Input()
+    //*! Check if RED has inputed something
+    private bool Get_RED_Input()
     {
         //*! Check if the player is falling, if they are then there is no control in the air.
-        if (blocky.is_falling)
+        if (red.is_falling)
             return false;
 
 
-        //*! Blocky Input Checks
-        if (Input.GetKeyDown(blocky.Controls.move_up_key))
+        //*! RED Input Checks
+        if (Input.GetKeyDown(red.Controls.move_up_key))
         {
             Move_Player_Direction(Player_Type.RED, Movement_Direction.UP);
             return true;
         }
-        else if (Input.GetKeyDown(blocky.Controls.move_down_key))
+        else if (Input.GetKeyDown(red.Controls.move_down_key))
         {
             Move_Player_Direction(Player_Type.RED, Movement_Direction.DOWN);
             return true;
         }
-        else if (Input.GetKeyDown(blocky.Controls.move_left_key))
+        else if (Input.GetKeyDown(red.Controls.move_left_key))
         {
             Move_Player_Direction(Player_Type.RED, Movement_Direction.LEFT);
             return true;
         }
-        else if (Input.GetKeyDown(blocky.Controls.move_right_key))
+        else if (Input.GetKeyDown(red.Controls.move_right_key))
         {
             Move_Player_Direction(Player_Type.RED, Movement_Direction.RIGHT);
             return true;
@@ -190,26 +190,26 @@ public class PlayerInteraction : MonoBehaviour
         return false;
     }
 
-    //*! Check if Lionel has inputed something
-    private bool Get_Lionel_Input()
+    //*! Check if BLUE has inputed something
+    private bool Get_BLUE_Input()
     {
-        //*! Lionel Input Checks
-        if (Input.GetKeyDown(lionel.Controls.move_up_key))
+        //*! BLUE Input Checks
+        if (Input.GetKeyDown(blue.Controls.move_up_key))
         {
             Move_Player_Direction(Player_Type.BLUE, Movement_Direction.UP);
             return true;
         }
-        else if (Input.GetKeyDown(lionel.Controls.move_down_key))
+        else if (Input.GetKeyDown(blue.Controls.move_down_key))
         {
             Move_Player_Direction(Player_Type.BLUE, Movement_Direction.DOWN);
             return true;
         }
-        else if (Input.GetKeyDown(lionel.Controls.move_left_key))
+        else if (Input.GetKeyDown(blue.Controls.move_left_key))
         {
             Move_Player_Direction(Player_Type.BLUE, Movement_Direction.LEFT);
             return true;
         }
-        else if (Input.GetKeyDown(lionel.Controls.move_right_key))
+        else if (Input.GetKeyDown(blue.Controls.move_right_key))
         {
             Move_Player_Direction(Player_Type.BLUE, Movement_Direction.RIGHT);
             return true;
@@ -232,10 +232,10 @@ public class PlayerInteraction : MonoBehaviour
         switch (a_player_type)
         {
             case Player_Type.RED:
-                return Get_Blocky_Input();
+                return Get_RED_Input();
                 ///break;
             case Player_Type.BLUE:
-                return Get_Lionel_Input();
+                return Get_BLUE_Input();
                 ///break;
             default:
                 return false;
@@ -252,10 +252,10 @@ public class PlayerInteraction : MonoBehaviour
 
 
 /// <summary>
-/// Blocky Class Object
+/// RED Class Object
 /// </summary>
 [System.Serializable]
-public class Blocky
+public class RED
 {
     [HideInInspector]
     //*! Player Class Reference
@@ -277,10 +277,10 @@ public class Blocky
 }
 
 /// <summary>
-/// Lionel Class Object
+/// BLUE Class Object
 /// </summary>
 [System.Serializable]
-public class Lionel
+public class BLUE
 {
 
     [HideInInspector]
@@ -308,11 +308,7 @@ public struct Movement
     public KeyCode move_down_key;
     public KeyCode move_right_key;
     public KeyCode move_left_key;
-
-    public static void Check(PlayerInteraction.Player_Type a_player_type)
-    {
-        //PlayerInteraction.Check_For_Input(a_player_type);
-    }
+ 
  
 
 }
