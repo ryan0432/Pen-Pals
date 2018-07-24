@@ -27,9 +27,13 @@ public class Player : MonoBehaviour
     [HideInInspector]
     private PlayerInteraction interaction;
 
+    //*! if the player is moving lock out the controls input
     private bool is_moving;
-    private float timer;
 
+    //*! When can the player input a movement control
+    private bool can_move;
+    
+ 
     #endregion
 
 
@@ -45,7 +49,11 @@ public class Player : MonoBehaviour
     [Range(1, 10)]
     public int movement_distance;
 
-    public AnimationCurve movement_curve;
+    //*! Movement speed for player to move
+    [Range(1, 10)]
+    public int movement_speed;
+
+   
 
     #endregion
 
@@ -56,34 +64,44 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        Instance = this;        
+
+        if (movement_distance < 1)
+            movement_distance = 1;
     }
 
     private void Start()
     {
-        //type = PlayerInteraction.Player_Type.BLUE;
-
+        //*! Get a singleton reference to the interaction component
         interaction = PlayerInteraction.Instance;
+
+        //*! Can move is set to true allowing the player to move
+        can_move = true;
     }
 
     private void Update()
     {
         //*! Check the input of the player based on the type
-        if (interaction.Check_For_Input(type))
+        if (!is_moving && can_move && interaction.Check_For_Input(type))
         {
             is_moving = true;
+            //disable input
+            can_move = false;
         }
-        
 
+    
+        //*! When the player is moving, move it
+        else if (is_moving)
+        {
+            // Set the next input 
+            interaction.Set_Player_Next_Input(type, interaction.Get_Now_Input(type));
 
-        //*! Apply the new Position
-        Apply_New_Position(transform.position, new Vector3(current_position.x, current_position.y, 0));
-
+            //*! Apply the new Position
+            Apply_New_Position(transform.position, new Vector3(current_position.x, current_position.y, 0));
+        }
 
 
     }
-
-
 
     //*!----------------------------!*//
     //*!    Custom Functions
@@ -104,19 +122,38 @@ public class Player : MonoBehaviour
     //*! New Position Apply
     private void Apply_New_Position(Vector3 old_position, Vector3 new_position)
     {
-        //if (timer <= movement_curve.length && is_moving)
-        //{
-        //    timer += Time.deltaTime;
-        //    Debug.Log(movement_curve.Evaluate(timer));
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("Loop");
-        //    timer = 0.0f;
-        //}
+        
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(current_position.x, current_position.y, 0), Time.deltaTime * movement_speed);
+        //mag check 50% ~ near allow for second input
+        float mag = (transform.position - new Vector3(current_position.x, current_position.y, 0)).magnitude;
 
+        
 
-        transform.position = new Vector3(current_position.x, current_position.y, 0);
+        if (mag < 0.75f)
+        {
+            //Debug.Log("mag : " + m.ToString("0.00"));
+
+        }
+
+        if (transform.position == new Vector3(current_position.x, current_position.y, 0))
+        {
+            
+            is_moving = false;
+            // re enable input
+            can_move = true;
+
+            //*! Not nothing - move the player in that direction based on the input
+            if (interaction.Get_Current_Input(type) != KeyCode.None)
+            {
+                interaction.Move_Player_By_Next_Input(type, interaction.Get_Next_Input(type));
+            }
+        }
+        else
+        {
+            is_moving = true;
+            // disable input
+            can_move = false;
+        }
     }
 
     #endregion
