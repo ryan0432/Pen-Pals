@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(ShapeCreator))]
 public class ShapeEditor : Editor
 {
+    List<ShapeCreator> shapeGroups = new List<ShapeCreator>();
     ShapeCreator shapeCreator;
     bool needRepaint;
 
@@ -36,12 +38,15 @@ public class ShapeEditor : Editor
         float drawPlaneHight = 0;
         float dstToDrawPlane = (drawPlaneHight - mouseRay.origin.z) / mouseRay.direction.z;
         Vector3 mousePos = mouseRay.GetPoint(dstToDrawPlane);
+        //Vector3 nodePos = new Vector3((float)Math.Round(mousePos.x * 2) / 2,
+        //                              (float)Math.Round(mousePos.y * 2) / 2,
+        //                              (float)Math.Round(mousePos.z * 2) / 2);
         Vector3 nodePos = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y), Mathf.Round(mousePos.z));
 
-        //HandleUtility.CalcLineTranslation
-        
+        bool drawLineKeyInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None);
+        bool erasLineKeyInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 1 && guiEvent.modifiers == EventModifiers.None);
 
-        if (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None)
+        if (drawLineKeyInput)
         {
             Undo.RecordObject(shapeCreator, "Add Node");
 
@@ -70,6 +75,16 @@ public class ShapeEditor : Editor
             Debug.Log("Node Count: " + shapeCreator.Nodes.Count);
             needRepaint = true;
         }
+
+        if (erasLineKeyInput)
+        {
+            for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
+            {
+
+            }
+        }
+
+
 
         //if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None)
         //{
@@ -103,7 +118,7 @@ public class ShapeEditor : Editor
             for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
             {
                 Handles.color = new Color(1, 0.5f, 0, 1 );
-                Handles.DrawSolidDisc(shapeCreator.Nodes[i], Vector3.forward, 0.2f);
+                Handles.DrawSolidDisc(shapeCreator.Nodes[i], Vector3.forward, 0.1f);
             }
         }
 
