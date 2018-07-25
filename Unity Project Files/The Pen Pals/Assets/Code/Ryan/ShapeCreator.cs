@@ -11,6 +11,9 @@ public class ShapeCreator : MonoBehaviour
     [HideInInspector]
     private List<Vector3> edgeNormals = new List<Vector3>();
 
+    [Range(0.05f, 0.8f)]
+    public float nodeRadius = 0.1f;
+
     public List<Vector3> Nodes
     {
         get { return nodes; }

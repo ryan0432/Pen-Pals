@@ -16,7 +16,7 @@ public class ShapeEditor : Editor
 
         if (guiEvent.type == EventType.Repaint)
         {
-            printHandles();
+            PrintHandles();
         }
         else if (guiEvent.type == EventType.Layout)
         {
@@ -111,14 +111,14 @@ public class ShapeEditor : Editor
         //}
     }
 
-    private void printHandles()
+    private void PrintHandles()
     {
         if (shapeCreator.Nodes.Count > 0)
         {
             for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
             {
                 Handles.color = new Color(1, 0.5f, 0, 1 );
-                Handles.DrawSolidDisc(shapeCreator.Nodes[i], Vector3.forward, 0.1f);
+                Handles.DrawSolidDisc(shapeCreator.Nodes[i], Vector3.forward, shapeCreator.nodeRadius);
             }
         }
 
@@ -136,8 +136,35 @@ public class ShapeEditor : Editor
         needRepaint = false;
     }
 
+    void UpdateMouseSelection(Vector3 mousePos)
+    {
+        int mouseOverNodeIndex = -1;
+        for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
+        {
+            if (Vector3.Distance(mousePos, shapeCreator.Nodes[i]) <= shapeCreator.nodeRadius)
+            {
+                mouseOverNodeIndex = i;
+                break;
+            }
+        }
+
+        //if(mouseOverNodeIndex != )
+
+    }
+
     private void OnEnable()
     {
         shapeCreator = target as ShapeCreator;
+    }
+
+    private class SelectionInfo
+    {
+        public int selectedNodeIndex = -1;
+        public int selectedEdgeIndex = -1;
+        public bool nodeHovered;
+        public bool nodeSelected;
+        public bool edgeHovered;
+        public bool edgeSelected;
+        public Vector3 dragStartPos;
     }
 }
