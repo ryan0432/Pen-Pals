@@ -14,9 +14,7 @@ public class TemplateCodeSheet : MonoBehaviour
     //*!    Private Variables
     //*!----------------------------!*//
     #region Private Variables
-    //*! Variables to use atomic style naming convention. 
-    //*! lower_case with each word seperated by an underscore '_'
-    private int m_number;
+
     #endregion
 
 
@@ -31,7 +29,7 @@ public class TemplateCodeSheet : MonoBehaviour
     //*!----------------------------!*//
     //*!    Unity Functions
     //*!----------------------------!*//
-
+    #region Unity Functions
     private void Start()
     {
 
@@ -42,6 +40,7 @@ public class TemplateCodeSheet : MonoBehaviour
 
     }
 
+    #endregion
 
     //*!----------------------------!*//
     //*!    Custom Functions
@@ -50,11 +49,6 @@ public class TemplateCodeSheet : MonoBehaviour
     //*! Public Access
     #region Public Functions
 
-    //*! Function description
-    public void Function_Public()
-    {
-
-    }
 
     #endregion
 
@@ -63,10 +57,6 @@ public class TemplateCodeSheet : MonoBehaviour
     //*! Private Access
     #region Private Functions
 
-    private void Function_Private()
-    {
-
-    }
 
     #endregion
 
@@ -74,11 +64,6 @@ public class TemplateCodeSheet : MonoBehaviour
 
     //*! Protected Access
     #region Protected Functions
-
-    protected void Function_Protected()
-    {
-
-    }
 
     #endregion
 
