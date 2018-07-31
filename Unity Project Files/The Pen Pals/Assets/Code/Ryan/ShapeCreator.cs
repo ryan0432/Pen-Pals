@@ -1,9 +1,16 @@
-﻿using System.Collections;
+﻿//*!----------------------------!*//
+//*! Programmer: Ryan Chung
+//*!----------------------------!*//
+
+//*! Using namespaces
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShapeCreator : MonoBehaviour
 {
+    //*!----------------------------!*//
+    //*!    Private Variables
+    //*!----------------------------!*//
     [HideInInspector]
     private List<Vector3> nodes = new List<Vector3>();
     [HideInInspector]
@@ -11,9 +18,13 @@ public class ShapeCreator : MonoBehaviour
     [HideInInspector]
     private List<Vector3> edgeNormals = new List<Vector3>();
 
+    //*!----------------------------!*//
+    //*!    Public Variables
+    //*!----------------------------!*//
     [Range(0.05f, 0.8f)]
     public float nodeRadius = 0.1f;
 
+    //*! Public Access
     public List<Vector3> Nodes
     {
         get { return nodes; }
