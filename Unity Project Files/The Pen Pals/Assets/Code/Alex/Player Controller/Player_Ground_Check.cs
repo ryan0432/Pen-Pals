@@ -20,9 +20,12 @@ public class Player_Ground_Check : MonoBehaviour
     private bool touching_ground;
 
     //*! Player interaction Grounded
-    private PlayerInteraction interaction;
+    private Player_Base_Interaction interaction;
 
-    private Player attached_player;
+    private Player_Base attached_player;
+
+    private Player_Base player_RED;
+    private Player_Base player_BLUE;
 
     #endregion
 
@@ -51,19 +54,20 @@ public class Player_Ground_Check : MonoBehaviour
 
     private void Start()
     {
-        interaction = PlayerInteraction.Instance;
+        interaction = Player_Base_Interaction.Instance;
 
-        //*! Short hand for grabbing the player
-        attached_player = transform.parent.GetComponent<Player>();
+        player_RED = interaction.Player_RED.player_red;
+        player_BLUE = interaction.Player_RED.player_blue;
 
+        attached_player = gameObject.transform.parent.GetComponent<Player_Base>();
     }
 
     private void Update()
     {
         //*! Is the player touching the ground
         //Ground_Check();   //-! Player calles the Ground Check when its aligned with the grid.
-
     }
+
 
 
     //*! When the player hits something, or something hits the player.
@@ -97,16 +101,33 @@ public class Player_Ground_Check : MonoBehaviour
     //*! Is the player grounded
     public bool Touching()
     {
+        if (attached_player == null)
+        {
+            return false;
+        }
+
         if (touching_ground)
         {
             //Debug.Log("Player is grounded!");
             switch (attached_player.Type)
             {
-                case PlayerInteraction.Player_Type.RED:
-                    interaction.Red.is_grounded = true;
+                case Player_Base_Interaction.P_Type.RED_BLOCK:
+                case Player_Base_Interaction.P_Type.RED_LINE:
+                case Player_Base_Interaction.P_Type.RED:
+                    interaction.Player_RED.is_grounded = true;
+                    //*! When the player is grounded enable all controls
+                    //interaction.Player_RED.Controls.can_move_up = true;
+                    //interaction.Player_RED.Controls.can_move_down = true;
+                    //interaction.Player_RED.Controls.can_move_left = true;
+                    //interaction.Player_RED.Controls.can_move_right = true;
                     break;
-                case PlayerInteraction.Player_Type.BLUE:
-                    interaction.Blue.is_grounded = true;
+                case Player_Base_Interaction.P_Type.BLUE:
+                    interaction.Player_BLUE.is_grounded = true;
+                    //*! When the player is grounded enable all controls
+                    //interaction.Player_BLUE.Controls.can_move_up = true;
+                    //interaction.Player_BLUE.Controls.can_move_down = true;
+                    //interaction.Player_BLUE.Controls.can_move_left = true;
+                    //interaction.Player_BLUE.Controls.can_move_right = true;
                     break;
                 default:
                     break;
@@ -118,11 +139,17 @@ public class Player_Ground_Check : MonoBehaviour
             //Debug.Log("Player is NOT grounded!");
             switch (attached_player.Type)
             {
-                case PlayerInteraction.Player_Type.RED:
-                    interaction.Red.is_grounded = false;
+                case Player_Base_Interaction.P_Type.RED_BLOCK:
+                case Player_Base_Interaction.P_Type.RED_LINE:
+                case Player_Base_Interaction.P_Type.RED:
+                    interaction.Player_RED.is_grounded = false;
+                    interaction.Player_RED.Controls.can_move_up = false;
+                    ///player_RED.Stop_Player();
                     break;
-                case PlayerInteraction.Player_Type.BLUE:
-                    interaction.Blue.is_grounded = false;
+                case Player_Base_Interaction.P_Type.BLUE:
+                    interaction.Player_BLUE.is_grounded = false;
+                    interaction.Player_BLUE.Controls.can_move_up = false;
+                    ///player_BLUE.Stop_Player();
                     break;
                 default:
                     break;
