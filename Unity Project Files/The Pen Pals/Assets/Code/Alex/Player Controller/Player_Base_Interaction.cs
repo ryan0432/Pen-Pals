@@ -33,6 +33,8 @@ public class Player_Base_Interaction : MonoBehaviour
         OVERRIDE
     }
 
+    //*! Air temp timer
+    private float t_timer;
 
 
     #endregion
@@ -94,14 +96,43 @@ public class Player_Base_Interaction : MonoBehaviour
         BLUE.Controls.can_move_down = false;
         BLUE.Controls.can_move_left = true;
         BLUE.Controls.can_move_right = true;
-
-
-
     }
 
     private void Update()
     {
 
+        ////*! Air timer start and finish for player, a delay between when the system knows the player is not touching the ground.
+        ////*! Either player in the air?
+        //if (RED.in_air || BLUE.in_air)
+        //{
+        //    //*! Counter
+        //    t_timer += Time.deltaTime;
+        //    //*! Red Player air timer
+        //    if (t_timer >= RED.air_time)
+        //    {
+        //        //*! Not Grounded when jumping
+        //        RED.in_air = false;
+        //        //*! Reset
+        //        t_timer = 0.0f;
+        //    }
+        //    //*! Blue Player air timer
+        //    else if (t_timer >= BLUE.air_time)
+        //    {
+        //        //*! Not Grounded when jumping
+        //        BLUE.in_air = false;
+        //        //*! Reset
+        //        t_timer = 0.0f;
+        //    }
+        //    //*! While not what??
+        //    else
+        //    {               
+        //        //*! Not Grounded when jumping
+        //        RED.is_grounded = false;
+        //        //*! Not Grounded when jumping
+        //        BLUE.is_grounded = false;
+        //    }
+
+        //}
     }
 
     #endregion
@@ -668,6 +699,9 @@ public class Player_Base_Interaction : MonoBehaviour
                 RED.Controls.can_move_up = false;
                 RED.Controls.can_move_down = false;
 
+                //*! Player is in the air
+                //RED.in_air = true;
+
                 //*! Not Grounded when jumping
                 RED.is_grounded = false;
 
@@ -807,7 +841,10 @@ public class Player_Base_Interaction : MonoBehaviour
                 //*! Disable Up and Down
                 BLUE.Controls.can_move_up = false;
                 BLUE.Controls.can_move_down = false;
-                
+
+                //*! Blue player in air
+                //BLUE.in_air = true;
+
                 //*! Not Grounded when jumping
                 BLUE.is_grounded = false;
 
@@ -1082,16 +1119,23 @@ public class Player_Data
     [HideInInspector]
     public Player_Base player_blue = Player_Base.Blue_Instance;
 
-    [SerializeField]
+ 
     [Header("Percentage of distance remaining before the next point")]
     [Tooltip("How much is left to travel for the player between the two points")]
     [Range(1, 100)]
     //*! Default value of 1% remaining
     public int distance_remaining = 1;
     
-    [SerializeField]
+  
     //*! Controls
     public Movement_Data Controls;
+
+    //*! Player air-time - in seconds
+    [Range(0.01f, 0.99f)]
+    public float air_time;
+
+    
+    public bool in_air;
 
     //*! Is the player grounded - bool
     public bool is_grounded;
@@ -1125,5 +1169,6 @@ public struct Movement_Data
 
     //*! Current key stroke
     public KeyCode current_input;
-
 }
+
+//!* Opps!

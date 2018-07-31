@@ -48,17 +48,25 @@ public class Player_Ground_Check : MonoBehaviour
 
     private void Awake()
     {
+        //*! Singleton of this
         Instance = this;
     }
 
 
     private void Start()
     {
+        //*! Interaction Base Instacne
         interaction = Player_Base_Interaction.Instance;
 
-        player_RED = interaction.Player_RED.player_red;
-        player_BLUE = interaction.Player_RED.player_blue;
+        //*! Player Red / Blue Instances of Player_Base
+        if (player_RED == null || player_BLUE == null)
+        {
+            player_RED = interaction.Player_RED.player_red;
+            player_BLUE = interaction.Player_RED.player_blue;
+        }
 
+
+        //*! Parent Player_Base Reference
         attached_player = gameObject.transform.parent.GetComponent<Player_Base>();
     }
 
@@ -68,8 +76,7 @@ public class Player_Ground_Check : MonoBehaviour
         //Ground_Check();   //-! Player calles the Ground Check when its aligned with the grid.
     }
 
-
-
+ 
     //*! When the player hits something, or something hits the player.
     private void OnTriggerStay(Collider other)
     {
@@ -106,29 +113,25 @@ public class Player_Ground_Check : MonoBehaviour
             return false;
         }
 
+        //*! When the player is Grounded
         if (touching_ground)
         {
-            //Debug.Log("Player is grounded!");
+            //*! What player is the parent to this?
             switch (attached_player.Type)
             {
                 case Player_Base_Interaction.P_Type.RED_BLOCK:
                 case Player_Base_Interaction.P_Type.RED_LINE:
                 case Player_Base_Interaction.P_Type.RED:
                     interaction.Player_RED.is_grounded = true;
-                    //*! When the player is grounded enable all controls
-                    //interaction.Player_RED.Controls.can_move_up = true;
-                    //interaction.Player_RED.Controls.can_move_down = true;
-                    //interaction.Player_RED.Controls.can_move_left = true;
-                    //interaction.Player_RED.Controls.can_move_right = true;
                     break;
+ 
+
+                case Player_Base_Interaction.P_Type.BLUE_BLOCK:
+                case Player_Base_Interaction.P_Type.BLUE_LINE:
                 case Player_Base_Interaction.P_Type.BLUE:
                     interaction.Player_BLUE.is_grounded = true;
-                    //*! When the player is grounded enable all controls
-                    //interaction.Player_BLUE.Controls.can_move_up = true;
-                    //interaction.Player_BLUE.Controls.can_move_down = true;
-                    //interaction.Player_BLUE.Controls.can_move_left = true;
-                    //interaction.Player_BLUE.Controls.can_move_right = true;
                     break;
+ 
                 default:
                     break;
             }
@@ -144,13 +147,16 @@ public class Player_Ground_Check : MonoBehaviour
                 case Player_Base_Interaction.P_Type.RED:
                     interaction.Player_RED.is_grounded = false;
                     interaction.Player_RED.Controls.can_move_up = false;
-                    ///player_RED.Stop_Player();
                     break;
+               
+
+                case Player_Base_Interaction.P_Type.BLUE_BLOCK:
+                case Player_Base_Interaction.P_Type.BLUE_LINE:
                 case Player_Base_Interaction.P_Type.BLUE:
                     interaction.Player_BLUE.is_grounded = false;
                     interaction.Player_BLUE.Controls.can_move_up = false;
-                    ///player_BLUE.Stop_Player();
                     break;
+       
                 default:
                     break;
             }

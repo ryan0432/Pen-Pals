@@ -30,9 +30,11 @@ public class Player_Base : MonoBehaviour
     //*! Player Interaction Reference for movement
     private Player_Base_Interaction interaction_base;
 
-
     //*! Player Ground Check Reference, only used when aligned to the grid
     private Player_Ground_Check ground_check;
+
+ 
+
 
     #endregion
 
@@ -101,6 +103,8 @@ public class Player_Base : MonoBehaviour
     {
         //*! Is the player moving
         Player_Movement();
+
+ 
     }
 
     #endregion
@@ -132,6 +136,7 @@ public class Player_Base : MonoBehaviour
      *       up > nothing as it is disabled
      *       
      *  Gravity kicks in, no input allowed until grounded
+     *  - Just after you jump, 0 to 1 seconds of air time before falling
      *  
      *  when grounded
      *       right > disable nothing > gravity check
@@ -146,12 +151,14 @@ public class Player_Base : MonoBehaviour
     //*! Input Logic
     private void Player_Movement()
     {
+        //*! When the player is not touching the ground and not moving
         if (!ground_check.Touching() && !is_moving)
         {
+            //*! Auto hit the down key, until grounded
             Player_Falling();
         }
-
-        //*! The player is not moving
+        
+        //*! The player is not moving, BUT is touching the ground
         if (ground_check.Touching() && !is_moving)
         {
             //*! Assign the first input key code
@@ -164,6 +171,7 @@ public class Player_Base : MonoBehaviour
         //*! The player is currently moving
         else if (is_moving)
         {
+            //*! Early Input opportunity
             if (can_enter_second_input)
             {
                 //*! Assign the second / next input key code
@@ -173,11 +181,14 @@ public class Player_Base : MonoBehaviour
                 can_enter_second_input = false;
             }
 
-            //*! Apply the new Position
+            //Debug.Log("A");
+            //*! Apply the new Position     //-? Helps it be more consitant
             Move_Towards_Target_Location(transform.position, new Vector3(current_position.x, current_position.y, 0));
 
+            //*! Move the player in the direction of the current input
             if (interaction_base.Get_Current_Input(Type) != KeyCode.None)
             {
+                //Debug.Log("B");
                 //*! Apply the new Position
                 Move_Towards_Target_Location(transform.position, new Vector3(current_position.x, current_position.y, 0));
             }
@@ -212,6 +223,58 @@ public class Player_Base : MonoBehaviour
             //*! Player has finished moving
             is_moving = false;
 
+            #region testing
+            //if (interaction_base.Get_Current_Input(Type) == interaction_base.Player_RED.Controls.move_up_key)
+            //{
+            //    interaction_base.Player_RED.in_air = true;
+            //}
+            //else if(interaction_base.Get_Current_Input(Type) == interaction_base.Player_BLUE.Controls.move_up_key)
+            //{
+            //    interaction_base.Player_BLUE.in_air = true;
+            //}
+
+            switch (Type)
+            {
+                case Player_Base_Interaction.P_Type.RED_BLOCK:
+                ///case Player_Base_Interaction.P_Type.RED_LINE:
+                case Player_Base_Interaction.P_Type.RED:
+
+                    if (interaction_base.Player_RED.in_air)
+                    {
+                        is_moving = true;
+                        //*! Clear the current input
+                        interaction_base.Clear_Current_Input(Type);
+                        return;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+
+                case Player_Base_Interaction.P_Type.BLUE_BLOCK:
+                ///case Player_Base_Interaction.P_Type.BLUE_LINE:
+                case Player_Base_Interaction.P_Type.BLUE:
+
+                    if (interaction_base.Player_BLUE.in_air)
+                    {
+                        is_moving = true;
+                        //*! Clear the current input
+                        interaction_base.Clear_Current_Input(Type);
+                        return;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                default:
+                    break;
+            }
+
+            #endregion
+
+
             //*! Clear the current input
             interaction_base.Clear_Current_Input(Type);
 
@@ -245,21 +308,24 @@ public class Player_Base : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Custom Gravity Input Override
+    /// </summary>
     private void Player_Falling()
     {
+        //*! The player is now moving until it is grounded
         is_moving = true;
 
         //*! What Player Type
         switch (Type)
         {
             case Player_Base_Interaction.P_Type.RED_BLOCK:
-            case Player_Base_Interaction.P_Type.RED_LINE:
+            case Player_Base_Interaction.P_Type.RED_LINE://?
             case Player_Base_Interaction.P_Type.RED:
                 interaction_base.Move_Player_By_Next_Input(Type, interaction_base.Player_RED.Controls.move_down_key);
                 break;
-            case Player_Base_Interaction.P_Type.BLUE_LINE:
             case Player_Base_Interaction.P_Type.BLUE_BLOCK:
+            case Player_Base_Interaction.P_Type.BLUE_LINE://?
             case Player_Base_Interaction.P_Type.BLUE:
                 interaction_base.Move_Player_By_Next_Input(Type, interaction_base.Player_BLUE.Controls.move_down_key);
                 break;
