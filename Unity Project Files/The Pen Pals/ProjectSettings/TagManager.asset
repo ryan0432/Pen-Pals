@@ -14,16 +14,16 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - BLOCK
+  - LINE_BODY
+  - TERRAIN_PEN
+  - PENCIL
+  - COLOURED_PENCIL
+  - HIGHLIGHTER
+  - S_SYMBOL
+  - SWITCH_BLOCK
+  - SWITCH_LINE
+  - LINE_RAYCAST
   - 
   - 
   - 

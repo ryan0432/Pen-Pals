@@ -404,8 +404,28 @@ public class Player_Base_Interaction : MonoBehaviour
     //*! Red Controls First Input
     private void Set_First_Input_RED(bool affected_by_gravity)
     {
+
+        //*! Previous frame was jumping? but now grounded
+        if (RED.is_grounded && RED.Controls.is_jumping)
+        {
+            //*! Jumping when grounded
+            RED.Controls.is_jumping = false;
+           
+        }
+
+        //*! When is the player in the air
+        if (!RED.is_grounded)
+        {
+            RED.in_air = true;
+        }
+        else
+        {
+            RED.in_air = false;
+        }
+
+
         //*! Gravity Check
-        if (RED.is_grounded)
+        if (RED.is_grounded && affected_by_gravity)
         {
             //*! RED Input Checks
             if (Input.GetKeyDown(RED.Controls.move_up_key) && RED.Controls.can_move_up)
@@ -414,8 +434,9 @@ public class Player_Base_Interaction : MonoBehaviour
                 RED.Controls.can_move_up = false;
                 RED.Controls.can_move_down = false;
 
-                //*! Not Grounded when jumping
-                RED.is_grounded = false;
+                //*! Jumping when grounded
+                RED.Controls.is_jumping = true;
+ 
 
                 //*! Set the current input
                 RED.Controls.current_input = RED.Controls.move_up_key;
@@ -425,7 +446,8 @@ public class Player_Base_Interaction : MonoBehaviour
 
             }
             else if (Input.GetKeyDown(RED.Controls.move_down_key) && RED.Controls.can_move_down)
-            {
+            {             
+ 
 
                 //*! Set the current input
                 RED.Controls.current_input = RED.Controls.move_down_key;
@@ -434,20 +456,30 @@ public class Player_Base_Interaction : MonoBehaviour
                 Move_Player_In_Direction(P_Type.RED, Movement_Direction.DOWN, RED.Controls.move_down_key);
 
             }
-            else if (Input.GetKeyDown(RED.Controls.move_left_key))
+            else if (Input.GetKeyDown(RED.Controls.move_left_key) && RED.Controls.can_move_left)
             {
+                //*! Disable left and right, it will enable when grounded
+                RED.Controls.can_move_left = false;
+                RED.Controls.can_move_right = false;
+ 
                 //*! Set the current input
                 RED.Controls.current_input = RED.Controls.move_left_key;
 
-                //*! Move the player down
+                //*! Move the player left
                 Move_Player_In_Direction(P_Type.RED, Movement_Direction.LEFT, RED.Controls.move_left_key);
             }
-            else if (Input.GetKeyDown(RED.Controls.move_right_key))
+            else if (Input.GetKeyDown(RED.Controls.move_right_key) && RED.Controls.can_move_right)
             {
+ 
+                //*! Disable left and right, it will enable when grounded
+                RED.Controls.can_move_left = false;
+                RED.Controls.can_move_right = false;
+ 
+
                 //*! Set the current input
                 RED.Controls.current_input = RED.Controls.move_right_key;
 
-                //*! Move the player down
+                //*! Move the player right
                 Move_Player_In_Direction(P_Type.RED, Movement_Direction.RIGHT, RED.Controls.move_right_key);
             }
 
@@ -490,6 +522,7 @@ public class Player_Base_Interaction : MonoBehaviour
                 Move_Player_In_Direction(P_Type.RED, Movement_Direction.RIGHT, RED.Controls.move_right_key);
             }
         }
+
         //*! Player was not grounded and is affected by gravity -> Red Block
         else
         {
@@ -514,9 +547,11 @@ public class Player_Base_Interaction : MonoBehaviour
             }
             else if (Input.GetKeyDown(RED.Controls.move_left_key) && RED.Controls.can_move_left)
             {
+ 
                 //*! Disable Left and Right
                 RED.Controls.can_move_left = false;
                 RED.Controls.can_move_right = false;
+ 
 
                 //*! Set the current input
                 RED.Controls.current_input = RED.Controls.move_left_key;
@@ -526,9 +561,11 @@ public class Player_Base_Interaction : MonoBehaviour
             }
             else if (Input.GetKeyDown(RED.Controls.move_right_key) && RED.Controls.can_move_right)
             {
+ 
                 //*! Disable Left and Right
                 RED.Controls.can_move_left = false;
                 RED.Controls.can_move_right = false;
+ 
 
                 //*! Set the current input
                 RED.Controls.current_input = RED.Controls.move_right_key;
@@ -546,7 +583,7 @@ public class Player_Base_Interaction : MonoBehaviour
     private void Set_First_Input_BLUE(bool affected_by_gravity)
     {
         //*! Gravity Check
-        if (BLUE.is_grounded)
+        if (BLUE.is_grounded && affected_by_gravity)
         {
             //*! RED Input Checks
             if (Input.GetKeyDown(BLUE.Controls.move_up_key) && BLUE.Controls.can_move_up)
@@ -689,8 +726,24 @@ public class Player_Base_Interaction : MonoBehaviour
     //*! Red Controls Second Input - Not to move player but to set the next_input key code
     private void Set_Second_Input_RED(bool affected_by_gravity)
     {
+        //*! Previous frame was jumping? but now grounded
+        if (RED.is_grounded && RED.Controls.is_jumping)
+        {
+            //*! Jumping when grounded
+            RED.Controls.is_jumping = false;
+        }
+
+        //*! When is the player in the air
+        if (!RED.is_grounded)
+        {
+            RED.in_air = true;
+        }
+        else
+        {
+            RED.in_air = false;
+        }
         //*! Gravity Check
-        if (RED.is_grounded)
+        if (RED.is_grounded && affected_by_gravity)
         {
             //*! RED Input Checks
             if (Input.GetKeyDown(RED.Controls.move_up_key) && RED.Controls.can_move_up)
@@ -698,6 +751,9 @@ public class Player_Base_Interaction : MonoBehaviour
                 //*! Disable Up and Down
                 RED.Controls.can_move_up = false;
                 RED.Controls.can_move_down = false;
+
+                //*! Jumping when grounded
+                RED.Controls.is_jumping = true;
 
                 //*! Player is in the air
                 //RED.in_air = true;
@@ -714,6 +770,7 @@ public class Player_Base_Interaction : MonoBehaviour
             }
             else if (Input.GetKeyDown(RED.Controls.move_down_key))
             {
+ 
 
                 //*! Set the current input
                 RED.Controls.next_input = RED.Controls.move_down_key;
@@ -722,16 +779,27 @@ public class Player_Base_Interaction : MonoBehaviour
                 ///Move_Player_In_Direction(P_Type.RED, Movement_Direction.DOWN);
 
             }
-            else if (Input.GetKeyDown(RED.Controls.move_left_key))
+            else if (Input.GetKeyDown(RED.Controls.move_left_key) && RED.Controls.can_move_left)
             {
+
+                //*! Disable left and right, it will enable when grounded
+                RED.Controls.can_move_left = false;
+                RED.Controls.can_move_right = false;
+ 
+
                 //*! Set the current input
                 RED.Controls.next_input = RED.Controls.move_left_key;
 
                 ///*! Move the player down
                 ///Move_Player_In_Direction(P_Type.RED, Movement_Direction.LEFT);
             }
-            else if (Input.GetKeyDown(RED.Controls.move_right_key))
+            else if (Input.GetKeyDown(RED.Controls.move_right_key) && RED.Controls.can_move_right)
             {
+                //*! Disable left and right, it will enable when grounded
+                RED.Controls.can_move_left = false;
+                RED.Controls.can_move_right = false;
+ 
+
                 //*! Set the current input
                 RED.Controls.next_input = RED.Controls.move_right_key;
 
@@ -1151,6 +1219,8 @@ public class Player_Data
 [System.Serializable]
 public struct Movement_Data
 {
+    //*! When is the player jumping
+    public bool is_jumping;
     //*! Can move in that direction
     public bool can_move_up;
     [HideInInspector]

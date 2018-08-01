@@ -223,58 +223,6 @@ public class Player_Base : MonoBehaviour
             //*! Player has finished moving
             is_moving = false;
 
-            #region testing
-            //if (interaction_base.Get_Current_Input(Type) == interaction_base.Player_RED.Controls.move_up_key)
-            //{
-            //    interaction_base.Player_RED.in_air = true;
-            //}
-            //else if(interaction_base.Get_Current_Input(Type) == interaction_base.Player_BLUE.Controls.move_up_key)
-            //{
-            //    interaction_base.Player_BLUE.in_air = true;
-            //}
-
-            switch (Type)
-            {
-                case Player_Base_Interaction.P_Type.RED_BLOCK:
-                ///case Player_Base_Interaction.P_Type.RED_LINE:
-                case Player_Base_Interaction.P_Type.RED:
-
-                    if (interaction_base.Player_RED.in_air)
-                    {
-                        is_moving = true;
-                        //*! Clear the current input
-                        interaction_base.Clear_Current_Input(Type);
-                        return;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-
-                case Player_Base_Interaction.P_Type.BLUE_BLOCK:
-                ///case Player_Base_Interaction.P_Type.BLUE_LINE:
-                case Player_Base_Interaction.P_Type.BLUE:
-
-                    if (interaction_base.Player_BLUE.in_air)
-                    {
-                        is_moving = true;
-                        //*! Clear the current input
-                        interaction_base.Clear_Current_Input(Type);
-                        return;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                default:
-                    break;
-            }
-
-            #endregion
-
-
             //*! Clear the current input
             interaction_base.Clear_Current_Input(Type);
 
@@ -333,12 +281,6 @@ public class Player_Base : MonoBehaviour
                 break;
         }
     }
-
-       
-
-
-
-
 
 
 
