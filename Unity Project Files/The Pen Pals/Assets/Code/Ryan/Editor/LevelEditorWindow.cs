@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿//*!---------------------------------------------------------!*//
+//*! Programmer : Ryan Chung
+//*!
+//*! Description: A class for operating level editing window
+//*!
+//*! Last edit  : 01/08/2018
+//*!---------------------------------------------------------!*//
+
+//*! Using namespaces
+using UnityEngine;
 using UnityEditor;
 
+//*! Enum for selecting tool
 enum CurrTool
 {
     HIGHLIGHTER,
@@ -11,6 +21,10 @@ enum CurrTool
 }
 public class LevelEditorWindow : EditorWindow
 {
+    //*!----------------------------!*//
+    //*!    Private Variables
+    //*!----------------------------!*//
+
     [SerializeField]
     private Texture icon_Highlighter;
     [SerializeField]
@@ -24,14 +38,16 @@ public class LevelEditorWindow : EditorWindow
 
     private CurrTool currTool;
 
-    // Add menu named "My Window" to the Window menu
+    //*! Add menu named "Level Editor" to the Window menu
     [MenuItem("Window/Level Editor")]
     static void Init()
     {
         LevelEditorWindow window = (LevelEditorWindow)GetWindow(typeof(LevelEditorWindow), false, "Level Editor");
         window.Show();
     }
-
+    //*!----------------------------!*//
+    //*!    Unity Functions
+    //*!----------------------------!*//
     void OnGUI()
     {
         GUILayout.Label("Highlighter", EditorStyles.boldLabel);
@@ -65,5 +81,6 @@ public class LevelEditorWindow : EditorWindow
         }
     }
 
+    //*! Public Access
     CurrTool GetCurrTool() { return currTool; }
 }

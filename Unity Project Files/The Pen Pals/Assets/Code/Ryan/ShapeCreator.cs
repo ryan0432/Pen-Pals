@@ -1,6 +1,11 @@
-﻿//*!----------------------------!*//
-//*! Programmer: Ryan Chung
-//*!----------------------------!*//
+﻿//*!-------------------------------------------------------------------!*//
+//*! Programmer : Ryan Chung
+//*!
+//*! Description: A class storing graph infos such as [node positions],
+//*!              [edge positions], and [edge normals].
+//*!
+//*! Last edit  : 01/08/2018
+//*!-------------------------------------------------------------------!*//
 
 //*! Using namespaces
 using System.Collections.Generic;
