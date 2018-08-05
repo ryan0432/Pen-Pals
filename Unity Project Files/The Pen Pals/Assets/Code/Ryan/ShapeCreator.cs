@@ -28,6 +28,7 @@ public class ShapeCreator : MonoBehaviour
     //*!----------------------------!*//
     [Range(0.05f, 0.8f)]
     public float nodeRadius = 0.1f;
+    public float edgewidth = 0.1f;
 
     //*! Public Access
     public List<Vector3> Nodes

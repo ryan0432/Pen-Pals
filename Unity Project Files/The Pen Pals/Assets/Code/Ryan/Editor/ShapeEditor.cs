@@ -157,6 +157,17 @@ public class ShapeEditor : Editor
             // Request a repaint event
             needRepaint = true;
         }
+
+        if (selectionInfo.nodeHovered)
+        {
+            selectionInfo.edgeHovered = false;
+        }
+        else
+        {
+            int mouseOverEdgeIndex = -1;
+            float closestEdgeDist = shapeCreator.edgewidth;
+            //for ()
+        }
     }
 
     //*! Behavior of MLB down in editor window to draw a line
