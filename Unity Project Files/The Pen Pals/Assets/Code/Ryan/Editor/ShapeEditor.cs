@@ -17,7 +17,7 @@ public class ShapeEditor : Editor
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
-    List<ShapeCreator> shapeGroups = new List<ShapeCreator>();
+    //List<ShapeCreator> shapeGroups = new List<ShapeCreator>();
     SelectionInfo selectionInfo;
     ShapeCreator shapeCreator;
     bool needRepaint;
@@ -54,9 +54,9 @@ public class ShapeEditor : Editor
         bool drawLineInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None && !selectionInfo.nodeHovered);
         bool erasLineInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 1 && guiEvent.modifiers == EventModifiers.None);
 
-        bool dragNodeStartInput = (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None && selectionInfo.nodeHovered);
-        bool dragNodeDraggingInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None && selectionInfo.nodeSelected);
-        bool dragNodeEndInput = (guiEvent.type == EventType.MouseUp && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None && selectionInfo.nodeHovered);
+        bool dragNodeStartInput = (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.Shift && selectionInfo.nodeHovered);
+        bool dragNodeDraggingInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.Shift && selectionInfo.nodeSelected);
+        bool dragNodeEndInput = (guiEvent.type == EventType.MouseUp && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.Shift && selectionInfo.nodeHovered);
 
         //--- Conditions for checking mouse behaviors ---//
         if (drawLineInput)
@@ -171,8 +171,12 @@ public class ShapeEditor : Editor
         }
         else // If no node is hovered
         {
-            // 
+            // Set [mouseOverEdgeIndex] to -1 so it can be used to check if a edge
+            // is hovered or not. If a edge is hovered, set this var into hovered
+            // node index.
             int mouseOverEdgeIndex = -1;
+
+            // Loop over all nodes in the list to find the closet edge to mouse position
             for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
             {
                 Vector3 currNode = shapeCreator.Nodes[i];
@@ -187,7 +191,10 @@ public class ShapeEditor : Editor
 
             if (selectionInfo.hoveredEdgeIndex != mouseOverEdgeIndex)
             {
+                // Set hovered edge index to current hovering index
                 selectionInfo.hoveredEdgeIndex = mouseOverEdgeIndex;
+                // Set node is hovered in [selectionInfo] True/False by checking
+                // if hovered index is -1 or not
                 selectionInfo.edgeHovered = (mouseOverEdgeIndex != -1);
                 // Request a repaint event
                 needRepaint = true;
@@ -198,6 +205,7 @@ public class ShapeEditor : Editor
     //*! Behavior of MLB down in editor window to draw a line
     private void HandleDrawLine(Vector3 mousePosRounded)
     {
+        //
         Undo.RecordObject(shapeCreator, "Add Node");
 
         if (shapeCreator.Nodes.Contains(mousePosRounded))
@@ -206,29 +214,15 @@ public class ShapeEditor : Editor
         }
 
         shapeCreator.Nodes.Add(mousePosRounded);
-
-        if (shapeCreator.Nodes.Count > 1)
-        {
-            Vector3 prevNode = shapeCreator.Nodes[shapeCreator.Nodes.Count - 2];
-            Vector3 currNode = shapeCreator.Nodes[shapeCreator.Nodes.Count - 1];
-            Vector3 edgePos = (currNode - prevNode) / 2;
-            Vector3 edgeVec = currNode - prevNode;
-            Vector3 edgeNormal = Vector3.Cross(Vector3.Normalize((currNode - prevNode)), Vector3.forward);
-            shapeCreator.Edges.Add(edgePos);
-            shapeCreator.EdgeVecs.Add(edgeVec);
-            shapeCreator.EdgeNormals.Add(edgeNormal);
-
-            Debug.Log("Edge Position: " + edgePos);
-            Debug.Log("Edge Vector  : " + edgeVec);
-            Debug.Log("Edge Normal  : " + edgeNormal);
-            Debug.Log("Edge Count   : " + shapeCreator.Edges.Count);
-        }
-
         Debug.Log("Nodes Added: " + mousePosRounded);
         Debug.Log("Node Count : " + shapeCreator.Nodes.Count);
 
+        GenerateEdgesOnDraw();
+
         selectionInfo.nodeSelected = false;
         needRepaint = true;
+
+
     }
 
     //*! Behavior of mouse selecting a node to drag with MLB in editor window
@@ -251,6 +245,39 @@ public class ShapeEditor : Editor
         shapeCreator.Nodes[selectionInfo.hoveredNodeIndex] =
             RoundVec3(shapeCreator.Nodes[selectionInfo.hoveredNodeIndex]);
         needRepaint = true;
+    }
+
+    //*! Tool method for regenerating edges
+    private void GenerateEdgesOnDraw()
+    {
+        if (shapeCreator.Nodes.Count > 1)
+        {
+            for (int i = 1; i < shapeCreator.Nodes.Count; ++i)
+            {
+                Vector3 prevNode = shapeCreator.Nodes[shapeCreator.Nodes.Count - 2];
+                Vector3 currNode = shapeCreator.Nodes[shapeCreator.Nodes.Count - 1];
+                Vector3 edgePos = prevNode + ((currNode - prevNode) / 2);
+                Vector3 edgeVec = currNode - prevNode;
+                Vector3 edgeNormal = Vector3.Cross(Vector3.Normalize((currNode - prevNode)), Vector3.forward);
+
+                for (int j = 0; i < shapeCreator.Edges.Count; ++i)
+                {
+                    if (shapeCreator.Edges[j] == edgePos)
+                    {
+                        return;
+                    }
+                }
+
+                shapeCreator.Edges.Add(edgePos);
+                shapeCreator.EdgeVecs.Add(edgeVec);
+                shapeCreator.EdgeNormals.Add(edgeNormal);
+
+                Debug.Log("Edge Position: " + edgePos);
+                Debug.Log("Edge Vector  : " + edgeVec);
+                Debug.Log("Edge Normal  : " + edgeNormal);
+                Debug.Log("Edge Count   : " + shapeCreator.Edges.Count);
+            }
+        }
     }
 
     //*! Tool method that round inputted Vector3
