@@ -7,7 +7,7 @@
 using UnityEngine;
 
 
-public class Player_Base : MonoBehaviour
+public class Player_Block : MonoBehaviour
 {
 
     //*!----------------------------!*//
@@ -21,20 +21,20 @@ public class Player_Base : MonoBehaviour
     
     //*! When can the player queue an input to be executed
     private bool can_enter_second_input;
-
-    [SerializeField]
-    //*! What player type is the player
-    private Player_Base_Interaction.P_Type type;
+ 
 
     [HideInInspector]
     //*! Player Interaction Reference for movement
-    private Player_Base_Interaction interaction_base;
+    private Player_Block_Interaction interaction_base;
 
     //*! Player Ground Check Reference, only used when aligned to the grid
-    private Player_Ground_Check ground_check;
+    private Block_Collision_Ground ground_check;
 
- 
+    private Block_Collision_Left left_check;
 
+    private Block_Collision_Right right_check;
+
+    private Block_Collision_Up up_check;
 
     #endregion
 
@@ -44,11 +44,9 @@ public class Player_Base : MonoBehaviour
     //*!----------------------------!*//
     #region Public Variables
 
-    //*! Red Instance of the player
-    public static Player_Base Red_Instance;
-
-    //*! Blue Instance of the player
-    public static Player_Base Blue_Instance;
+    //*! Block Instance of the player
+    public static Player_Block player_block;
+ 
 
     //*! Current grid postition
     public Vector2 current_position;
@@ -61,11 +59,7 @@ public class Player_Base : MonoBehaviour
     [Range(1, 10)]
     public int movement_speed;
 
-    [HideInInspector]
-    //*! Getting the current player type
-    public Player_Base_Interaction.P_Type Type
-    { get { return type; } }
-
+ 
 
     #endregion
 
@@ -77,8 +71,8 @@ public class Player_Base : MonoBehaviour
     private void Awake()
     {
         //*! Singleton Reference(s)
-        Red_Instance = this;
-        Blue_Instance = this;
+        player_block = this;
+ 
 
         //*! Default value unless overriden
         if (movement_distance < 1)
@@ -87,10 +81,14 @@ public class Player_Base : MonoBehaviour
     private void Start()
     {
         //*! Get a singleton reference to the interaction component
-        interaction_base = Player_Base_Interaction.Instance;
+        interaction_base = Player_Block_Interaction.Instance;
 
         //*! Get a singleton reference to the ground check component
-        ground_check = Player_Ground_Check.Instance;
+        ground_check = Block_Collision_Ground.Instance;
+        left_check = Block_Collision_Left.Instance;
+        right_check = Block_Collision_Right.Instance;
+        up_check = Block_Collision_Up.Instance;
+
 
         //*! Can not queue the input
         can_enter_second_input = false;
@@ -103,9 +101,8 @@ public class Player_Base : MonoBehaviour
     {
         //*! Is the player moving
         Player_Movement();
-
- 
     }
+        
 
     #endregion
 
@@ -157,16 +154,36 @@ public class Player_Base : MonoBehaviour
             //*! Auto hit the down key, until grounded
             Player_Falling();
         }
-        
+        else if (!ground_check.Touching() && is_moving)
+        {
+            //*! Affects the can_move_ L/R bool
+            left_check.Touching();
+            right_check.Touching();
+            up_check.Touching();
+        }
+
+
+
         //*! The player is not moving, BUT is touching the ground
         if (ground_check.Touching() && !is_moving)
         {
+
+            //*! Affects the can_move_ L/R bool
+            left_check.Touching();
+            right_check.Touching();
+            up_check.Touching();
+
             //*! Assign the first input key code
-            if(interaction_base.Check_For_Input(Type))
+            if (interaction_base.Check_For_Input())
             {
                 //*! Only when there is input from the user
-                is_moving = true;
+                is_moving = true; 
+                //*! Affects the can_move_ L/R bool
+                left_check.Touching();
+                right_check.Touching();
+                up_check.Touching();
             }
+ 
         }
         //*! The player is currently moving
         else if (is_moving)
@@ -175,7 +192,7 @@ public class Player_Base : MonoBehaviour
             if (can_enter_second_input)
             {
                 //*! Assign the second / next input key code
-                interaction_base.Queue_Next_Input(Type);
+                interaction_base.Queue_Next_Input();
 
                 //*! Flag it back to false as this only needs to happen once
                 can_enter_second_input = false;
@@ -186,7 +203,7 @@ public class Player_Base : MonoBehaviour
             Move_Towards_Target_Location(transform.position, new Vector3(current_position.x, current_position.y, 0));
 
             //*! Move the player in the direction of the current input
-            if (interaction_base.Get_Current_Input(Type) != KeyCode.None)
+            if (interaction_base.Get_Current_Input() != KeyCode.None)
             {
                 //Debug.Log("B");
                 //*! Apply the new Position
@@ -198,6 +215,13 @@ public class Player_Base : MonoBehaviour
                 //Debug.LogWarning("Player moving but current input is none");
             }
         }
+
+
+        if (!interaction_base.PLAYER_BLOCK_DATA.Controls.can_move_left && !interaction_base.PLAYER_BLOCK_DATA.Controls.can_move_right && !interaction_base.PLAYER_BLOCK_DATA.Controls.can_move_up)
+        {
+            //Debug.LogError(interaction_base.Get_Current_Input());
+        }
+
     }
 
     //*! When the player is moving, update its position
@@ -211,7 +235,7 @@ public class Player_Base : MonoBehaviour
 
 
         //*! When the player is Magic Number (Percentage of distance between the two points)
-        if (distance_between < interaction_base.Get_Distance_Remaining(Type))
+        if (distance_between < interaction_base.Get_Distance_Remaining())
         {
             //Debug.Log("mag : " + m.ToString("0.00"));
             can_enter_second_input = true;
@@ -224,30 +248,43 @@ public class Player_Base : MonoBehaviour
             is_moving = false;
 
             //*! Clear the current input
-            interaction_base.Clear_Current_Input(Type);
+            interaction_base.Clear_Current_Input();
 
             //*! Check if the player is grounded
             //*! Not Grounded, and there is no next input
-            if(!ground_check.Touching() && interaction_base.Get_Next_Input(Type) == KeyCode.None)
+            if(!ground_check.Touching() && interaction_base.Get_Next_Input() == KeyCode.None)
             {
                 Player_Falling();
             }
             //*! If the player has queued some input and not none
-            else if (interaction_base.Get_Next_Input(Type) != KeyCode.None)
+            else if (interaction_base.Get_Next_Input() != KeyCode.None)
             {
                 //*! Allow the player update so call this function and move the player.
                 is_moving = true;
 
+
+                //*! Affects the can_move_ L/R bool
+                left_check.Touching();
+                right_check.Touching();
+                up_check.Touching();
+
+
+
                 //*! Automatically move the player towards its next location based on the next input
-                interaction_base.Move_Player_By_Next_Input(Type, interaction_base.Get_Next_Input(Type));
+                interaction_base.Move_Player_By_Next_Input(interaction_base.Get_Next_Input());
+                
                 
                 //*! Clear the current input
-                interaction_base.Clear_Next_Input(Type);
+                interaction_base.Clear_Next_Input();
             }
             else
             {
                 //*! When the player has reached the end point re enable the controls
-                interaction_base.Re_Enable_Input(Type);
+                interaction_base.Re_Enable_Input();
+                //*! Affects the can_move_ L/R bool
+                left_check.Touching();
+                right_check.Touching();
+                up_check.Touching();
             }
 
 
@@ -263,23 +300,8 @@ public class Player_Base : MonoBehaviour
     {
         //*! The player is now moving until it is grounded
         is_moving = true;
-
-        //*! What Player Type
-        switch (Type)
-        {
-            case Player_Base_Interaction.P_Type.RED_BLOCK:
-            case Player_Base_Interaction.P_Type.RED_LINE://?
-            case Player_Base_Interaction.P_Type.RED:
-                interaction_base.Move_Player_By_Next_Input(Type, interaction_base.Player_RED.Controls.move_down_key);
-                break;
-            case Player_Base_Interaction.P_Type.BLUE_BLOCK:
-            case Player_Base_Interaction.P_Type.BLUE_LINE://?
-            case Player_Base_Interaction.P_Type.BLUE:
-                interaction_base.Move_Player_By_Next_Input(Type, interaction_base.Player_BLUE.Controls.move_down_key);
-                break;
-            default:
-                break;
-        }
+        //*! Set player input to DOWN
+        interaction_base.Move_Player_By_Next_Input(interaction_base.PLAYER_BLOCK_DATA.Controls.move_down_key);
     }
 
 

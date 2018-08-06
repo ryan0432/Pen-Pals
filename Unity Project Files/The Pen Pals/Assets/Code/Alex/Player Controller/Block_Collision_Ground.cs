@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
-public class Player_Ground_Check : MonoBehaviour
+//*! Player Block Collision Check
+public class Block_Collision_Ground : MonoBehaviour
 {
 
     //*!----------------------------!*//
@@ -20,12 +20,12 @@ public class Player_Ground_Check : MonoBehaviour
     private bool touching_ground;
 
     //*! Player interaction Grounded
-    private Player_Base_Interaction interaction;
+    private Player_Block_Interaction interaction;
 
-    private Player_Base attached_player;
+    private Player_Block attached_player;
 
-    private Player_Base player_RED;
-    private Player_Base player_BLUE;
+    private Player_Block player_ground_block;
+ 
 
     #endregion
 
@@ -36,7 +36,11 @@ public class Player_Ground_Check : MonoBehaviour
     #region Public Variables
 
     //*! Singleton for the Ground Checker
-    public static Player_Ground_Check Instance;
+    public static Block_Collision_Ground Instance;
+
+
+
+
 
     #endregion
 
@@ -56,18 +60,17 @@ public class Player_Ground_Check : MonoBehaviour
     private void Start()
     {
         //*! Interaction Base Instacne
-        interaction = Player_Base_Interaction.Instance;
+        interaction = Player_Block_Interaction.Instance;
 
         //*! Player Red / Blue Instances of Player_Base
-        if (player_RED == null || player_BLUE == null)
+        if (player_ground_block == null)
         {
-            player_RED = interaction.Player_RED.player_red;
-            player_BLUE = interaction.Player_RED.player_blue;
+            player_ground_block = interaction.PLAYER_BLOCK_DATA.player_block_interaction;
         }
 
 
         //*! Parent Player_Base Reference
-        attached_player = gameObject.transform.parent.GetComponent<Player_Base>();
+        attached_player = gameObject.transform.parent.GetComponent<Player_Block>();
     }
 
     private void Update()
@@ -116,50 +119,13 @@ public class Player_Ground_Check : MonoBehaviour
         //*! When the player is Grounded
         if (touching_ground)
         {
-            //*! What player is the parent to this?
-            switch (attached_player.Type)
-            {
-                case Player_Base_Interaction.P_Type.RED_BLOCK:
-                case Player_Base_Interaction.P_Type.RED_LINE:
-                case Player_Base_Interaction.P_Type.RED:
-                    interaction.Player_RED.is_grounded = true;
-                    break;
- 
-
-                case Player_Base_Interaction.P_Type.BLUE_BLOCK:
-                case Player_Base_Interaction.P_Type.BLUE_LINE:
-                case Player_Base_Interaction.P_Type.BLUE:
-                    interaction.Player_BLUE.is_grounded = true;
-                    break;
- 
-                default:
-                    break;
-            }
+            interaction.PLAYER_BLOCK_DATA.is_grounded = true;
             return true;
         }
         else
         {
-            //Debug.Log("Player is NOT grounded!");
-            switch (attached_player.Type)
-            {
-                case Player_Base_Interaction.P_Type.RED_BLOCK:
-                case Player_Base_Interaction.P_Type.RED_LINE:
-                case Player_Base_Interaction.P_Type.RED:
-                    interaction.Player_RED.is_grounded = false;
-                    interaction.Player_RED.Controls.can_move_up = false;
-                    break;
-               
-
-                case Player_Base_Interaction.P_Type.BLUE_BLOCK:
-                case Player_Base_Interaction.P_Type.BLUE_LINE:
-                case Player_Base_Interaction.P_Type.BLUE:
-                    interaction.Player_BLUE.is_grounded = false;
-                    interaction.Player_BLUE.Controls.can_move_up = false;
-                    break;
-       
-                default:
-                    break;
-            }
+            interaction.PLAYER_BLOCK_DATA.is_grounded = false;
+            interaction.PLAYER_BLOCK_DATA.Controls.can_move_up = false;
             return false;
             
         }
