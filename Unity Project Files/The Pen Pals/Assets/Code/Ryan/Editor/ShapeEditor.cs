@@ -125,6 +125,9 @@ public class ShapeEditor : Editor
     //*! Update mouse selection info
     private void UpdateMouseSelection(Vector3 mousePos)
     {
+        ///------------------------------------------------------------------------------------///
+        /// From here starting to specify if the node is hovered and which hovered node index. ///
+        ///------------------------------------------------------------------------------------///
         // Set [mouseOverNodeIndex] to -1 so it can be used to check if a node
         // is hovered or not. If a node is hovered, set this var into hovered
         // node index.
@@ -158,15 +161,37 @@ public class ShapeEditor : Editor
             needRepaint = true;
         }
 
+        ///------------------------------------------------------------------------------------///
+        /// From here starting to specify if the edge is hovered and which hovered edge index. ///
+        ///------------------------------------------------------------------------------------///
+        // If a node is hovered, edges wouldn't be hovered
         if (selectionInfo.nodeHovered)
         {
             selectionInfo.edgeHovered = false;
         }
-        else
+        else // If no node is hovered
         {
+            // 
             int mouseOverEdgeIndex = -1;
-            float closestEdgeDist = shapeCreator.edgewidth;
-            //for ()
+            for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
+            {
+                Vector3 currNode = shapeCreator.Nodes[i];
+                Vector3 nextNode = shapeCreator.Nodes[i % shapeCreator.Nodes.Count];
+                if (HandleUtility.DistancePointToLineSegment(mousePos, currNode, nextNode) < shapeCreator.edgeWidth)
+                {
+                    selectionInfo.nodeHovered = false;
+                    selectionInfo.edgeHovered = true;
+                    mouseOverEdgeIndex = i;
+                }
+            }
+
+            if (selectionInfo.hoveredEdgeIndex != mouseOverEdgeIndex)
+            {
+                selectionInfo.hoveredEdgeIndex = mouseOverEdgeIndex;
+                selectionInfo.edgeHovered = (mouseOverEdgeIndex != -1);
+                // Request a repaint event
+                needRepaint = true;
+            }
         }
     }
 
@@ -187,17 +212,20 @@ public class ShapeEditor : Editor
             Vector3 prevNode = shapeCreator.Nodes[shapeCreator.Nodes.Count - 2];
             Vector3 currNode = shapeCreator.Nodes[shapeCreator.Nodes.Count - 1];
             Vector3 edgePos = (currNode - prevNode) / 2;
+            Vector3 edgeVec = currNode - prevNode;
             Vector3 edgeNormal = Vector3.Cross(Vector3.Normalize((currNode - prevNode)), Vector3.forward);
             shapeCreator.Edges.Add(edgePos);
+            shapeCreator.EdgeVecs.Add(edgeVec);
             shapeCreator.EdgeNormals.Add(edgeNormal);
 
-            Debug.Log("Edge Added: " + edgePos);
-            Debug.Log("Edge Nomal: " + edgeNormal);
-            Debug.Log("Edge Count: " + shapeCreator.Edges.Count);
+            Debug.Log("Edge Position: " + edgePos);
+            Debug.Log("Edge Vector  : " + edgeVec);
+            Debug.Log("Edge Normal  : " + edgeNormal);
+            Debug.Log("Edge Count   : " + shapeCreator.Edges.Count);
         }
 
         Debug.Log("Nodes Added: " + mousePosRounded);
-        Debug.Log("Node Count: " + shapeCreator.Nodes.Count);
+        Debug.Log("Node Count : " + shapeCreator.Nodes.Count);
 
         selectionInfo.nodeSelected = false;
         needRepaint = true;

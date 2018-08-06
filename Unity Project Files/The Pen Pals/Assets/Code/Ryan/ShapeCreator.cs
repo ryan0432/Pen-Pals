@@ -21,14 +21,18 @@ public class ShapeCreator : MonoBehaviour
     [HideInInspector]
     private List<Vector3> edges = new List<Vector3>();
     [HideInInspector]
+    private List<Vector3> edgeVecs = new List<Vector3>();
+    [HideInInspector]
     private List<Vector3> edgeNormals = new List<Vector3>();
+
 
     //*!----------------------------!*//
     //*!    Public Variables
     //*!----------------------------!*//
     [Range(0.05f, 0.8f)]
     public float nodeRadius = 0.1f;
-    public float edgewidth = 0.1f;
+    [Range(0.05f, 0.8f)]
+    public float edgeWidth = 0.1f;
 
     //*! Public Access
     public List<Vector3> Nodes
@@ -41,6 +45,12 @@ public class ShapeCreator : MonoBehaviour
     {
         get { return edges; }
         set { edges = value; }
+    }
+
+    public List<Vector3> EdgeVecs
+    {
+        get { return edgeVecs; }
+        set { edgeVecs = value; }
     }
 
     public List<Vector3> EdgeNormals
