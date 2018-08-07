@@ -1,15 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//*!----------------------------!*//
+//*! Programmer: Alex Scicluna 
+//*!----------------------------!*//
+
+//*! Using namespaces
 using UnityEngine;
 
-public class Block_Collision_Left : MonoBehaviour {
+
+//*! Player Block Collision Check
+public class Block_Collision_Ground : MonoBehaviour
+{
 
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
     #region Private Variables
     //*! Is the player touching an object that has the tag 'Ground'
-    private bool touching_left;
+    private bool touching_ground;
 
     //*! Player interaction Grounded
     private Player_Block_Interaction interaction;
@@ -17,7 +23,7 @@ public class Block_Collision_Left : MonoBehaviour {
     private Player_Block attached_player;
 
     private Player_Block player_ground_block;
-
+ 
 
     #endregion
 
@@ -28,7 +34,7 @@ public class Block_Collision_Left : MonoBehaviour {
     #region Public Variables
 
     //*! Singleton for the Ground Checker
-    public static Block_Collision_Left Instance;
+    public static Block_Collision_Ground Instance;
 
 
 
@@ -62,22 +68,22 @@ public class Block_Collision_Left : MonoBehaviour {
 
 
         //*! Parent Player_Base Reference
-        attached_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Block>();
-        
+        attached_player = gameObject.transform.parent.GetComponent<Player_Block>();
     }
 
     private void Update()
     {
- 
+        //*! Is the player touching the ground
+        //Ground_Check();   //-! Player calles the Ground Check when its aligned with the grid.
     }
 
-
+ 
     //*! When the player hits something, or something hits the player.
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Ground")
         {
-            touching_left = true;
+            touching_ground = true;
         }
     }
     //*! When the player leaves the ground
@@ -85,8 +91,7 @@ public class Block_Collision_Left : MonoBehaviour {
     {
         if (other.tag == "Ground")
         {
-            //Debug.LogError("IsOUt");
-            touching_left = false;
+            touching_ground = false;
         }
     }
 
@@ -102,23 +107,25 @@ public class Block_Collision_Left : MonoBehaviour {
     #region Public Functions
 
     //*! Is the player grounded
-    public void Touching()
+    public bool Touching()
     {
         if (attached_player == null)
         {
-            return;
+            return false;
         }
 
-        if (touching_left)
+        //*! When the player is Grounded
+        if (touching_ground)
         {
-            interaction.PLAYER_BLOCK_DATA.Controls.can_move_left = false;
-            return;
+            interaction.PLAYER_BLOCK_DATA.is_grounded = true;
+            return true;
         }
         else
         {
-            interaction.PLAYER_BLOCK_DATA.Controls.can_move_left = true;
-            return;
-
+            interaction.PLAYER_BLOCK_DATA.is_grounded = false;
+            interaction.PLAYER_BLOCK_DATA.Controls.can_move_up = false;
+            return false;
+            
         }
     }
 
@@ -138,5 +145,7 @@ public class Block_Collision_Left : MonoBehaviour {
     #region Protected Functions
 
     #endregion
+
+
 
 }

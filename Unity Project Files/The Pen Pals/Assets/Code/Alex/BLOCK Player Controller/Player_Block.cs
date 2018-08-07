@@ -52,11 +52,11 @@ public class Player_Block : MonoBehaviour
     public Vector2 current_position;
 
     //*! Movement distance for player to move
-    [Range(1, 4)]
+    [Range(1, 2)]
     public int movement_distance;
 
     //*! Movement speed for player to move
-    [Range(1, 10)]
+    [Range(1, 5)]
     public int movement_speed;
 
  
@@ -72,7 +72,10 @@ public class Player_Block : MonoBehaviour
     {
         //*! Singleton Reference(s)
         player_block = this;
- 
+
+        //*! Assign the current Position to not 0,0
+        current_position.x = transform.position.x;
+        current_position.y = transform.position.y;
 
         //*! Default value unless overriden
         if (movement_distance < 1)

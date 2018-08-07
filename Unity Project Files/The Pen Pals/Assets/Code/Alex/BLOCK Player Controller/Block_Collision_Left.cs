@@ -1,16 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//*!----------------------------!*//
+//*! Programmer: Alex Scicluna
+//*!----------------------------!*//
+
+
+//*! Using namespaces
 using UnityEngine;
 
-public class Block_Collision_Right : MonoBehaviour
-{
+
+
+public class Block_Collision_Left : MonoBehaviour {
 
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
     #region Private Variables
     //*! Is the player touching an object that has the tag 'Ground'
-    private bool touching_right;
+    private bool touching_left;
 
     //*! Player interaction Grounded
     private Player_Block_Interaction interaction;
@@ -29,7 +34,7 @@ public class Block_Collision_Right : MonoBehaviour
     #region Public Variables
 
     //*! Singleton for the Ground Checker
-    public static Block_Collision_Right Instance;
+    public static Block_Collision_Left Instance;
 
 
 
@@ -64,12 +69,12 @@ public class Block_Collision_Right : MonoBehaviour
 
         //*! Parent Player_Base Reference
         attached_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Block>();
-
+        
     }
 
     private void Update()
     {
-
+ 
     }
 
 
@@ -78,7 +83,7 @@ public class Block_Collision_Right : MonoBehaviour
     {
         if (other.tag == "Ground")
         {
-            touching_right = true;
+            touching_left = true;
         }
     }
     //*! When the player leaves the ground
@@ -86,7 +91,8 @@ public class Block_Collision_Right : MonoBehaviour
     {
         if (other.tag == "Ground")
         {
-            touching_right = false;
+            //Debug.LogError("IsOUt");
+            touching_left = false;
         }
     }
 
@@ -109,14 +115,14 @@ public class Block_Collision_Right : MonoBehaviour
             return;
         }
 
-        if (touching_right)
+        if (touching_left)
         {
-            interaction.PLAYER_BLOCK_DATA.Controls.can_move_right = false;
+            interaction.PLAYER_BLOCK_DATA.Controls.can_move_left = false;
             return;
         }
         else
         {
-            interaction.PLAYER_BLOCK_DATA.Controls.can_move_right = true;
+            interaction.PLAYER_BLOCK_DATA.Controls.can_move_left = true;
             return;
 
         }

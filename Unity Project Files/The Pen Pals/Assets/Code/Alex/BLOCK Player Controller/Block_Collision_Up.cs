@@ -1,15 +1,12 @@
 ﻿//*!----------------------------!*//
-//*! Programmer: Alex Scicluna 
+//*! Programmer: Alex Scicluna
 //*!----------------------------!*//
 
+
 //*! Using namespaces
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-//*! Player Block Collision Check
-public class Block_Collision_Ground : MonoBehaviour
+public class Block_Collision_Up : MonoBehaviour
 {
 
     //*!----------------------------!*//
@@ -17,7 +14,7 @@ public class Block_Collision_Ground : MonoBehaviour
     //*!----------------------------!*//
     #region Private Variables
     //*! Is the player touching an object that has the tag 'Ground'
-    private bool touching_ground;
+    private bool touching_up;
 
     //*! Player interaction Grounded
     private Player_Block_Interaction interaction;
@@ -25,7 +22,7 @@ public class Block_Collision_Ground : MonoBehaviour
     private Player_Block attached_player;
 
     private Player_Block player_ground_block;
- 
+
 
     #endregion
 
@@ -36,7 +33,7 @@ public class Block_Collision_Ground : MonoBehaviour
     #region Public Variables
 
     //*! Singleton for the Ground Checker
-    public static Block_Collision_Ground Instance;
+    public static Block_Collision_Up Instance;
 
 
 
@@ -70,22 +67,22 @@ public class Block_Collision_Ground : MonoBehaviour
 
 
         //*! Parent Player_Base Reference
-        attached_player = gameObject.transform.parent.GetComponent<Player_Block>();
+        attached_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Block>();
+
     }
 
     private void Update()
     {
-        //*! Is the player touching the ground
-        //Ground_Check();   //-! Player calles the Ground Check when its aligned with the grid.
+
     }
 
- 
+
     //*! When the player hits something, or something hits the player.
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Ground")
         {
-            touching_ground = true;
+            touching_up = true;
         }
     }
     //*! When the player leaves the ground
@@ -93,7 +90,7 @@ public class Block_Collision_Ground : MonoBehaviour
     {
         if (other.tag == "Ground")
         {
-            touching_ground = false;
+            touching_up = false;
         }
     }
 
@@ -109,25 +106,23 @@ public class Block_Collision_Ground : MonoBehaviour
     #region Public Functions
 
     //*! Is the player grounded
-    public bool Touching()
+    public void Touching()
     {
         if (attached_player == null)
         {
-            return false;
+            return;
         }
 
-        //*! When the player is Grounded
-        if (touching_ground)
+        if (touching_up)
         {
-            interaction.PLAYER_BLOCK_DATA.is_grounded = true;
-            return true;
+            interaction.PLAYER_BLOCK_DATA.Controls.can_move_up = false;
+            return;
         }
         else
         {
-            interaction.PLAYER_BLOCK_DATA.is_grounded = false;
-            interaction.PLAYER_BLOCK_DATA.Controls.can_move_up = false;
-            return false;
-            
+            interaction.PLAYER_BLOCK_DATA.Controls.can_move_up = true;
+            return;
+
         }
     }
 
@@ -148,6 +143,5 @@ public class Block_Collision_Ground : MonoBehaviour
 
     #endregion
 
-
-
 }
+ 
