@@ -54,7 +54,7 @@ public class Line_Player_Controller : MonoBehaviour
 
         
         //*! Line Player Position Update
-        transform.position = new Vector3(transform.position.x + 0.5f, transform.position.y + 0.5f, -0.5f);
+        transform.position = new Vector3(transform.position.x + 0.5f, transform.position.y + 0.5f, -1.0f);
 
         //*! Zero or less set it to the minimum value of one. 
         //*! Anything else is an override
@@ -81,7 +81,7 @@ public class Line_Player_Controller : MonoBehaviour
         if (Check_Player_Input())
         {
             //*! Move the player by the current input key code
-            Move_Player_In_Direction(controls.current_input);
+            Move_Player_In_Direction(controls.current_input, true);
         }
         else
         {
@@ -107,7 +107,7 @@ public class Line_Player_Controller : MonoBehaviour
    
     public void Run_Next()
     {
-        Move_Player_In_Direction(controls.next_input);
+        Move_Player_In_Direction(controls.next_input, false);
     }
 
     public KeyCode Get_Next_Input()
@@ -199,7 +199,7 @@ public class Line_Player_Controller : MonoBehaviour
     /// Set the new target position for the player to move towards.
     /// </summary>
     /// <param name="current_key">-KeyCode to move the player by-</param>
-    private void Move_Player_In_Direction(KeyCode current_key)
+    private void Move_Player_In_Direction(KeyCode current_key, bool is_first_input)
     {
         //*! Up Key
         if (current_key == controls.move_up_key)
@@ -212,9 +212,48 @@ public class Line_Player_Controller : MonoBehaviour
                 Vector3 old_mid_position = line_segments.Point_Position[1].position;
                 ///Vector3 old_tail_position = line_segments.Point_Position[2].position;
 
+                #region Orginal - No Validation
+
+                //*! Apply changes in target positions
                 line_segments.Target_Position[0] += new Vector3(0, movement_distance, 0);
                 line_segments.Target_Position[1] = line_segments.Target_Position[0];
                 line_segments.Target_Position[2] = old_mid_position;
+
+                #endregion
+
+
+                #region Double Buffer - Target Position Assign
+
+                //if (is_first_input)
+                //{
+                //    //*! Temperary head position
+                //    Vector3 t_head_position = line_segments.Target_Position[0];
+                //    //*! is the heads current X axis aligned after it moves up?
+                //    if (line_segments.Point_Position[0].position.x == (t_head_position += new Vector3(0, movement_distance, 0)).x)
+                //    {
+                //        //*! Apply changes in target positions
+                //        line_segments.Target_Position[0] += new Vector3(0, movement_distance, 0);
+                //        line_segments.Target_Position[1] = line_segments.Target_Position[0];
+                //        line_segments.Target_Position[2] = old_mid_position;
+                //    }
+
+                //}
+                //else
+                //{
+                //    //*! Temperary head position
+                //    Vector3 t_head_position = line_segments.Target_Position[3];
+                //    //*! is the heads current X axis aligned after it moves up?
+                //    if (line_segments.Point_Position[0].position.x == (t_head_position += (line_segments.Target_Position[0] += new Vector3(0, movement_distance, 0))).x)
+                //    {
+                //        //*! Apply changes in target positions
+                //        line_segments.Target_Position[3] += (line_segments.Target_Position[0] += new Vector3(0, movement_distance, 0));
+                //        line_segments.Target_Position[4] = line_segments.Target_Position[3];
+                //        line_segments.Target_Position[5] = line_segments.Target_Position[4];
+                //    }
+
+                //}
+
+                #endregion
             }
 
             //*! Clear current input

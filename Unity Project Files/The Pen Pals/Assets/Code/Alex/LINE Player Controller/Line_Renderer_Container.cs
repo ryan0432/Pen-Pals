@@ -37,6 +37,7 @@ public class Line_Renderer_Container : MonoBehaviour
     private bool can_move;
     private bool can_enter_second;
     
+
     //*! All points finished moving
     private bool finished_moving = false;
 
@@ -87,7 +88,7 @@ public class Line_Renderer_Container : MonoBehaviour
 
         line_segment = GetComponent<LineRenderer>();
         
-        target_position = new Vector3[points.Length];
+        target_position = new Vector3[points.Length *2];
 
         target_position[0] = points[0].position;
         target_position[1] = points[1].position;
@@ -111,7 +112,7 @@ public class Line_Renderer_Container : MonoBehaviour
 
         if (!line_moving && points[points.Length-1].position != Target_Position[points.Length-1])
         {
-            Debug.Log("::" + points[points.Length-1].position);
+            //Debug.Log("::" + points[points.Length-1].position);
             ///points[points.Length - 1].position = Target_Position[points.Length -1];//snap
             line_moving = true;
             can_move = false;
@@ -120,8 +121,83 @@ public class Line_Renderer_Container : MonoBehaviour
         //*! If the line is moving and the player can not enter input - move points towards target
         if (line_moving && !can_move)
         {
+
+            #region Diagonal Check
+
+            ////*! Head - is it horizontal or vertically alligned
+            //if (points[0].position.x == Target_Position[0].x || points[0].position.y == Target_Position[0].y)
+            //{
+            //    points[0].position = Vector3.MoveTowards(points[0].position, Target_Position[0], 4 * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    Debug.LogError("Head Target position possibly diagonally alligned from head.");
+            //}
+
+            ////*! Tail - is it horizontal or vertically alligned
+            //if (points[points.Length - 1].position.x == Target_Position[points.Length - 1].x || points[points.Length - 1].position.y == Target_Position[points.Length - 1].y)
+            //{
+            //    points[points.Length - 1].position = Vector3.MoveTowards(points[points.Length - 1].position, Target_Position[points.Length - 1], 4 * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    Debug.LogError("Tail Target position possibly diagonally alligned from tail.");
+            //}
+
+            #endregion
+
+
+            #region Double Target Buffer
+
+            ////*!-Head-!*//
+            ////*! While it hasn't reached the first position and or position values are not equal
+            //if (points[0].position != Target_Position[0])
+            //{
+            //    //*! Move the point towards its current target
+            //    points[0].position = Vector3.MoveTowards(points[0].position, Target_Position[0], 4 * Time.deltaTime);
+            //
+            //    //*! Check if it has arrived at the target location
+            //    if (points[0].position == Target_Position[0])
+            //    {
+            //        if (Target_Position[3] != Vector3.zero)
+            //        {
+            //            //*! Assign the target position to the first slot, then clear it
+            //            Target_Position[0] = Target_Position[3];
+            //            Target_Position[3] = Vector3.zero;
+            //        }
+            //    }
+            //}
+
+            ////*!-Tail-!*//
+            ////*! While it hasn't reached the first position and or position values are not equal
+            //if (points[points.Length - 1].position != Target_Position[points.Length - 1])
+            //{
+            //    //*! Move the point towards its current target
+            //    points[points.Length - 1].position = Vector3.MoveTowards(points[points.Length - 1].position, Target_Position[points.Length - 1], 4 * Time.deltaTime);
+            //
+            //    //*! Check if it has arrived at the target location
+            //    if (points[points.Length - 1].position == Target_Position[points.Length - 1])
+            //    {
+            //        if (Target_Position[Target_Position.Length -1] != Vector3.zero)
+            //        {
+            //            //*! Assign the target position to the first slot, then clear it
+            //            Target_Position[0] = Target_Position[Target_Position.Length - 1];
+            //            Target_Position[Target_Position.Length - 1] = Vector3.zero;
+            //        }
+            //    }
+            //}
+
+            #endregion
+
+
+            #region Original - No Validation
+
+            //*! Just move, no validation
             points[0].position = Vector3.MoveTowards(points[0].position, Target_Position[0], 4 * Time.deltaTime);
             points[points.Length -1].position = Vector3.MoveTowards(points[points.Length - 1].position, Target_Position[points.Length - 1], 4 * Time.deltaTime);
+
+            #endregion
+
         }
 
         //*! If either point reaches it's destination - target position allow the mid point to move
