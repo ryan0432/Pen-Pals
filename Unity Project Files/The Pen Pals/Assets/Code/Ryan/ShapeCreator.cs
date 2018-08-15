@@ -17,11 +17,9 @@ public class ShapeCreator : MonoBehaviour
     //*!    Private Variables
     //*!----------------------------!*//
     [HideInInspector]
-    private List<Vector3> nodes = new List<Vector3>();
+    private List<Vector3> m_nodes = new List<Vector3>();
     [HideInInspector]
-    private List<Vector3> edges = new List<Vector3>();
-    [HideInInspector]
-    private List<Vector3> edgeVecs = new List<Vector3>();
+    private List<Vector3> m_edges = new List<Vector3>();
     [HideInInspector]
     private List<Vector3> edgeNormals = new List<Vector3>();
 
@@ -37,25 +35,27 @@ public class ShapeCreator : MonoBehaviour
     //*! Public Access
     public List<Vector3> Nodes
     {
-        get { return nodes; }
-        set { nodes = value; }
+        get { return m_nodes; }
+        set { m_nodes = value; }
     }
 
     public List<Vector3> Edges
     {
-        get { return edges; }
-        set { edges = value; }
-    }
-
-    public List<Vector3> EdgeVecs
-    {
-        get { return edgeVecs; }
-        set { edgeVecs = value; }
+        get { return m_edges; }
+        set { m_edges = value; }
     }
 
     public List<Vector3> EdgeNormals
     {
         get { return edgeNormals; }
         set { edgeNormals = value; }
+    }
+
+
+    //*! Subclasses in [ShapeCreator]
+    class Node
+    {
+        private Vector3 m_position;
+        private float m_node_size;
     }
 }

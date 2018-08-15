@@ -51,15 +51,15 @@ public class ShapeEditor : Editor
         }
 
         //--- Boolean flags for checking mouse behaviors ---//
-        bool drawLineInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None && !selectionInfo.nodeHovered);
-        bool erasLineInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 1 && guiEvent.modifiers == EventModifiers.None);
+        bool drawGraphInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.None && !selectionInfo.nodeHovered);
+        bool erasGraphInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 1 && guiEvent.modifiers == EventModifiers.None);
 
         bool dragNodeStartInput = (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.Shift && selectionInfo.nodeHovered);
         bool dragNodeDraggingInput = (guiEvent.type == EventType.MouseDrag && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.Shift && selectionInfo.nodeSelected);
         bool dragNodeEndInput = (guiEvent.type == EventType.MouseUp && guiEvent.button == 0 && guiEvent.modifiers == EventModifiers.Shift && selectionInfo.nodeHovered);
 
         //--- Conditions for checking mouse behaviors ---//
-        if (drawLineInput)
+        if (drawGraphInput)
         {
             HandleDrawLine(mousePosRounded);
         }
@@ -79,7 +79,7 @@ public class ShapeEditor : Editor
             DragNodeEnd();
         }
 
-        if (erasLineInput)
+        if (erasGraphInput)
         {
             for (int i = 0; i < shapeCreator.Nodes.Count; ++i)
             {
@@ -269,7 +269,6 @@ public class ShapeEditor : Editor
                 }
 
                 shapeCreator.Edges.Add(edgePos);
-                shapeCreator.EdgeVecs.Add(edgeVec);
                 shapeCreator.EdgeNormals.Add(edgeNormal);
 
                 Debug.Log("Edge Position: " + edgePos);
