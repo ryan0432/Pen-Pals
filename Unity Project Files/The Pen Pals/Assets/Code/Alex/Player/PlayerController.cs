@@ -5,6 +5,7 @@
 
 //*! Using namespaces
 using APS;
+using UnityEngine;
 
 public class PlayerController : Abstract_Player
 {
@@ -14,6 +15,9 @@ public class PlayerController : Abstract_Player
     //*!----------------------------!*//
     #region Private Variables
 
+    [SerializeField]
+    private Controller Controller;
+
     #endregion
 
 
@@ -21,6 +25,8 @@ public class PlayerController : Abstract_Player
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
+
+    public Temp_Node_Map Level_Map;
 
     #endregion
 
@@ -31,7 +37,9 @@ public class PlayerController : Abstract_Player
     #region Unity Functions
     private void Start()
     {
-        Controller.Up_Key = UnityEngine.KeyCode.N;
+        //Controller.Up_Key = KeyCode.N;
+
+        
     }
 
     private void Update()

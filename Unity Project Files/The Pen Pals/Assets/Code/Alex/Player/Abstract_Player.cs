@@ -5,10 +5,12 @@
 
 //*! Using namespaces
 using UnityEngine;
+using System.Collections.Generic;
 
 //*! Initial Namespace
 namespace APS
 {
+ 
     /// <summary>
     /// Base Player Controller Class
     /// </summary>
@@ -18,10 +20,8 @@ namespace APS
         //*!    Private Variables
         //*!----------------------------!*//
         #region Private Variables
-
-        //*! Private Controls
-        private Controller controls;
-
+ 
+        
         #endregion
 
 
@@ -30,6 +30,7 @@ namespace APS
         //*!----------------------------!*//
         #region Public Variables
 
+
         #endregion
 
         //*!----------------------------!*//
@@ -37,11 +38,7 @@ namespace APS
         //*!----------------------------!*//
         #region Protected Variables
 
-        //*! Player Controls Access
-        [SerializeField]
-        protected Controller Controller
-        { get { return controls; } }
-
+        //*! Player Type
         protected enum Player_Type
         {
             BLOCK,
@@ -106,14 +103,15 @@ namespace APS
     public class Controller
     {
         //*! Input codes
-        KeyCode move_up_key;
-        KeyCode move_down_key;
-        KeyCode move_left_key;
-        KeyCode move_right_key;
+        [SerializeField] private KeyCode move_up_key;
+        [SerializeField] private KeyCode move_down_key;
+        [SerializeField] private KeyCode move_left_key;
+        [SerializeField] private KeyCode move_right_key;
+
         //*! Current Input
-        KeyCode current_input;
+        [SerializeField] private KeyCode current_input;
         //*! Next Input
-        KeyCode next_input;
+        [SerializeField] private KeyCode next_input;
 
         //*! Property Accessor(s)
         public KeyCode Up_Key
