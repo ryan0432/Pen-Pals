@@ -1,45 +1,12 @@
 ﻿//*!----------------------------!*//
-//*! Programmer: Alex Scicluna || Ryan Chung
+//*! Programmer: Alex Scicluna 
 //*!----------------------------!*//
+
 
 //*! Using namespaces
-using UnityEngine;
+using APS;
 
-
-//*!----------------------------!*//
-//*!    Commenting Style
-//*!----------------------------!*//
-#region Commenting style
-
-//*! Single Line
-
-/*-
-    *  Multi-line
-    * -*/
-
-// Temporary comment
-/// Side Notes, not really worth a proper single line comment, but something to take note of.
-
-//*! If you can't explain the function in 1 short sentence. 
-/// <summary>
-/// Above complex funtions, otherwise use a single line comment.
-/// </summary>
-/// <param name="argument_name"> One space before and after the comment on the argument </param>
-
-
-/// Seperated by 32 '-' Minus symbols
-/// Title of the Region 1 tab space
-//*!----------------------------!*//
-//*!    Private Variables
-//*!----------------------------!*//
-#region Areas of code
-
-#endregion
-
-#endregion
-
-
-public class TemplateCodeSheet : MonoBehaviour
+public class PlayerController : Abstract_Player
 {
 
     //*!----------------------------!*//
@@ -64,12 +31,13 @@ public class TemplateCodeSheet : MonoBehaviour
     #region Unity Functions
     private void Start()
     {
-      
+        Controller.Up_Key = UnityEngine.KeyCode.N;
     }
 
     private void Update()
     {
-
+        //*! Block Update
+        Check_Input(Player_Type.BLOCK);
     }
 
     #endregion
@@ -99,5 +67,5 @@ public class TemplateCodeSheet : MonoBehaviour
 
     #endregion
 
- 
+
 }
