@@ -14,10 +14,13 @@ public class PlayerController : Abstract_Player
     //*!    Private Variables
     //*!----------------------------!*//
     #region Private Variables
+        
+    [SerializeField]
+    private Player_Type type;
 
     [SerializeField]
     private Controller Controller;
-
+    
     #endregion
 
 
@@ -26,7 +29,7 @@ public class PlayerController : Abstract_Player
     //*!----------------------------!*//
     #region Public Variables
 
-    public Temp_Node_Map Level_Map;
+    public Temp_Node_Map Node_Graph;
 
     #endregion
 
@@ -39,7 +42,8 @@ public class PlayerController : Abstract_Player
     {
         //Controller.Up_Key = KeyCode.N;
 
-        
+        Player_Grid = Node_Graph;
+
     }
 
     private void Update()
@@ -72,6 +76,30 @@ public class PlayerController : Abstract_Player
 
     //*! Protected Access
     #region Protected Functions
+
+
+    protected override bool Check_Input(Player_Type player_Type)
+    {
+        switch (player_Type)
+        {
+            case Player_Type.BLOCK:
+                {
+                    Block_Input(Controller);
+                }
+                break;
+            case Player_Type.LINE:
+                {
+                    Line_Input(Controller);
+                }
+                break;
+            default:
+
+                break;
+        }
+
+        return base.Check_Input(player_Type);
+
+    }
 
     #endregion
 

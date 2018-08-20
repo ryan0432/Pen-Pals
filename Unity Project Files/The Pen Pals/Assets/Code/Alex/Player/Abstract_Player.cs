@@ -20,7 +20,8 @@ namespace APS
         //*!    Private Variables
         //*!----------------------------!*//
         #region Private Variables
- 
+
+        
         
         #endregion
 
@@ -45,7 +46,10 @@ namespace APS
             LINE
         }
 
+        protected Player_Type Type;
 
+        protected Temp_Node_Map Player_Grid;
+        
         #endregion
 
 
@@ -88,10 +92,25 @@ namespace APS
         //*! Protected Access
         #region Protected Functions
 
-        //*! Check for Input
-        protected bool Check_Input(Player_Type player_Type)
+        //*! Check for Input - Nothing to implement here
+        protected virtual bool Check_Input(Player_Type player_Type)
         {
             return false;
+        }
+
+
+        protected void Block_Input(Controller controller)
+        {
+            if (Input.GetKeyDown(controller.Up_Key))
+            {
+
+            }
+        }
+
+
+        protected void Line_Input(Controller controller)
+        {
+
         }
 
         #endregion
