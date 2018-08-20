@@ -84,11 +84,12 @@ public class Temp_Node_Map : MonoBehaviour
 
         //*! Iterate from the buttom left node of Block 2D array to check UP & RIGHT direction's traversability.
         //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
+        #region Setup Block Edges in UP & Right Direction
         for (int i = 0; i < bl_nodes.GetUpperBound(0); ++i)
         {
             for (int j = 0; j < bl_nodes.GetUpperBound(1); ++j)
             {
-                if (bl_nodes[i, j].Can_UP && bl_nodes[i, j + 1].Can_DN)
+                if (bl_nodes[i, j].Can_UP)
                 {
                     Edge new_edge = new Edge();
                     new_edge.Start_Node = bl_nodes[i, j];
@@ -96,7 +97,7 @@ public class Temp_Node_Map : MonoBehaviour
                     bl_edges.Add(new_edge);
                 }
 
-                if (bl_nodes[i, j].Can_RGT && bl_nodes[i + 1, j].Can_LFT)
+                if (bl_nodes[i, j].Can_RGT)
                 {
                     Edge new_edge = new Edge();
                     new_edge.Start_Node = bl_nodes[i, j];
@@ -106,22 +107,74 @@ public class Temp_Node_Map : MonoBehaviour
             }
         }
 
-        //for (int i = 0; i < bl_nodes.GetUpperBound(0); ++i)
-        //{
-        //    if (bl_nodes[i, bl_nodes.GetUpperBound(1)].Can_RGT && )
-        //}
+        for (int i = 0; i < bl_nodes.GetUpperBound(0); ++i)
+        {
+            if (bl_nodes[i, bl_nodes.GetUpperBound(1)].Can_RGT)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = bl_nodes[i, bl_nodes.GetUpperBound(1)];
+                new_edge.End_Node = bl_nodes[i + 1, bl_nodes.GetUpperBound(1)];
+                bl_edges.Add(new_edge);
+            }
+        }
 
+        for (int i = 0; i < bl_nodes.GetUpperBound(1); ++i)
+        {
+            if (bl_nodes[bl_nodes.GetUpperBound(0), i].Can_UP)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = bl_nodes[bl_nodes.GetUpperBound(0), i];
+                new_edge.End_Node = bl_nodes[bl_nodes.GetUpperBound(0), i + 1];
+                bl_edges.Add(new_edge);
+            }
+        }
+        #endregion
+        #region Setup Line Edges in UP & Right Direction
+        for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
+        {
+            for (int j = 0; j < li_nodes.GetUpperBound(1); ++j)
+            {
+                if (li_nodes[i, j].Can_UP)
+                {
+                    Edge new_edge = new Edge();
+                    new_edge.Start_Node = li_nodes[i, j];
+                    new_edge.End_Node = li_nodes[i, j + 1];
+                    li_edges.Add(new_edge);
+                }
 
-        Debug.Log("Block Row Count: " + bl_nodes.GetUpperBound(0));
-        Debug.Log("Block Col Count: " + bl_nodes.GetUpperBound(1));
-        Debug.Log("Line Row Count : " + li_nodes.GetUpperBound(0));
-        Debug.Log("Line Col Count : " + li_nodes.GetUpperBound(1));
-        Debug.Log("Line First Node Pos: " + li_nodes[li_nodes.GetLowerBound(0), li_nodes.GetLowerBound(1)].Position);
-        Debug.Log("Line Last Node Pos : " + li_nodes[li_nodes.GetUpperBound(0), li_nodes.GetUpperBound(1)].Position);
-        Debug.Log("Line Array X Length: " + li_nodes.GetLength(0));
-        Debug.Log("Line Array Y Length: " + li_nodes.GetLength(1));
-        Debug.Log("Block Array X Length: " + bl_nodes.GetLength(0));
-        Debug.Log("Block Array Y Length: " + bl_nodes.GetLength(1));
+                if (li_nodes[i, j].Can_RGT)
+                {
+                    Edge new_edge = new Edge();
+                    new_edge.Start_Node = li_nodes[i, j];
+                    new_edge.End_Node = li_nodes[i + 1, j];
+                    li_edges.Add(new_edge);
+                }
+            }
+        }
+
+        for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
+        {
+            if (li_nodes[i, li_nodes.GetUpperBound(1)].Can_RGT)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = li_nodes[i, li_nodes.GetUpperBound(1)];
+                new_edge.End_Node = li_nodes[i + 1, li_nodes.GetUpperBound(1)];
+                li_edges.Add(new_edge);
+            }
+        }
+
+        for (int i = 0; i < li_nodes.GetUpperBound(1); ++i)
+        {
+            if (li_nodes[li_nodes.GetUpperBound(0), i].Can_UP)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = li_nodes[li_nodes.GetUpperBound(0), i];
+                new_edge.End_Node = li_nodes[li_nodes.GetUpperBound(0), i + 1];
+                li_edges.Add(new_edge);
+            }
+        }
+        #endregion
+
     }
 
     //*!----------------------------!*//
@@ -159,6 +212,15 @@ public class Temp_Node_Map : MonoBehaviour
 
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(bl_edges[i].Start_Node.Position, endPos);
+        }
+
+        for (int i = 0; i < li_edges.Count; ++i)
+        {
+            Vector3 startPos = li_edges[i].Start_Node.Position;
+            Vector3 endPos = li_edges[i].End_Node.Position;
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(li_edges[i].Start_Node.Position, endPos);
         }
     }
 
