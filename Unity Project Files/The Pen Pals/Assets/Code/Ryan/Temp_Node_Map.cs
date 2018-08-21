@@ -19,8 +19,9 @@ public class Temp_Node_Map : MonoBehaviour
     public int col;
     [Range(0.1f, 1.0f)]
     public float handle_size;
-
+    [HideInInspector]
     public Node[,] BL_Nodes { get { return bl_nodes; } set { bl_nodes = value; } }
+    [HideInInspector]
     public Node[,] LI_Nodes { get { return li_nodes; } set { li_nodes = value; } }
 
     //*!----------------------------!*//
