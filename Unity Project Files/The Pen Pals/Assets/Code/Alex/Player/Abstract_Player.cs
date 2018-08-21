@@ -98,19 +98,85 @@ namespace APS
             return false;
         }
 
-
-        protected void Block_Input(Controller controller)
+        /// <summary>
+        /// Based on the players controller input keys and the current grid position of the 
+        /// Block Graph depends what node is returned as the target
+        /// </summary>
+        /// <param name="controller"> Player Controller Input Key Info of the current Player </param>
+        /// <param name="grid_position"> Grid position used to step into the 2D Array of the graph </param>
+        /// <returns> Returns the target node based on the direction of travel after stepping into the 2D node graph. </returns>
+        protected Temp_Node_Map.Node Block_Input(Controller controller, Vector2 grid_position)
         {
-            if (Input.GetKeyDown(controller.Up_Key))
+            //*! Up key was pressed and it can move up
+            if (Input.GetKeyDown(controller.Up_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_UP == true)
             {
-
+                //*! Return the target node - Vertically above the current node
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y + 1];
             }
+            else if (Input.GetKeyDown(controller.Down_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_DN == true)
+            {
+                //*! Return the target node - Vertically below the current node
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y - 1];
+            }
+            else if (Input.GetKeyDown(controller.Left_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_LFT == true)
+            {
+                //*! Return the target node - Horizontally to the Left of the current node
+                return Player_Grid.BL_Nodes[(int)grid_position.x - 1, (int)grid_position.y];
+            }
+            else if (Input.GetKeyDown(controller.Right_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_RGT == true)
+            {
+                //*! Return the target node - Horizontally to the Right of the current node
+                return Player_Grid.BL_Nodes[(int)grid_position.x + 1, (int)grid_position.y];
+            }
+            //*! Nothing was pressed, pass back the current node
+            else
+            {
+                //*! Return the target node
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+            }
+
         }
 
-
-        protected void Line_Input(Controller controller)
+        /// <summary>
+        /// Based on the players controller input keys and the current grid position of the 
+        /// Line Graph depends what node is returned as the target
+        /// </summary>
+        /// <param name="controller"> Player Controller Input Key Info of the current Player </param>
+        /// <param name="grid_position"> Grid position used to step into the 2D Array of the graph </param>
+        /// <returns> Returns the target node based on the direction of travel after stepping into the 2D node graph. </returns>
+        protected /*Temp_Node_Map.Node*/ void Line_Input(Controller controller, Vector2 grid_position)
         {
+            //*!--------------------------------------------------------!*//
+            //*!            Temporary - Not yet Implemented
+            //*!--------------------------------------------------------!*//
 
+            ////*! Up key was pressed and it can move up
+            //if (Input.GetKeyDown(controller.Up_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_UP == true)
+            //{
+            //    //*! Return the target node - Vertically above the current node
+            //    return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y + 1];
+            //}
+            //else if (Input.GetKeyDown(controller.Down_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_DN == true)
+            //{
+            //    //*! Return the target node - Vertically below the current node
+            //    return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y - 1];
+            //}
+            //else if (Input.GetKeyDown(controller.Left_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_LFT == true)
+            //{
+            //    //*! Return the target node - Horizontally to the Left of the current node
+            //    return Player_Grid.BL_Nodes[(int)grid_position.x - 1, (int)grid_position.y];
+            //}
+            //else if (Input.GetKeyDown(controller.Right_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_RGT == true)
+            //{
+            //    //*! Return the target node - Horizontally to the Right of the current node
+            //    return Player_Grid.BL_Nodes[(int)grid_position.x + 1, (int)grid_position.y];
+            //}
+            ////*! Nothing was pressed, pass back the current node
+            //else
+            //{
+            //    //*! Return the target node
+            //    return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+            //}
         }
 
         #endregion
