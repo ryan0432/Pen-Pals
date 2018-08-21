@@ -35,11 +35,6 @@ public class Temp_Node_Map : MonoBehaviour
     private Node[,] li_nodes;
     private List<Edge> li_edges;
 
-    [SerializeField]
-    private Mesh gizmos_arrow;
-
-
-
     // Use this for initialization
     void Awake ()
     {
@@ -53,6 +48,7 @@ public class Temp_Node_Map : MonoBehaviour
         
     }
 
+    
     //*!----------------------------!*//
     //*!    Custom Functions
     //*!----------------------------!*//
@@ -361,6 +357,7 @@ public class Temp_Node_Map : MonoBehaviour
         Debug.Log("Line Col Number: " + li_nodes.GetLength(1));
     }
 
+
     //*!----------------------------!/
     //*!    Unity Functions
     //*!----------------------------!/
@@ -369,42 +366,45 @@ public class Temp_Node_Map : MonoBehaviour
     {
         if (!Application.isPlaying) return;
 
+        float gizmos_spacing = 0.15f + handle_size * 0.5f;
+
         //*! Iterate through both Block and Line's node array and draw the nodes
         for (int i = 0; i < bl_nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < bl_nodes.GetLength(1); ++j)
             {
+                
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawSphere(bl_nodes[i, j].Position, handle_size);
 
-                //if (bl_nodes[i, j].Can_UP)
-                //{
-                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0f, 0.2f, 0);
-                //    Gizmos.DrawWireMesh(gizmos_arrow , arrowPos, Quaternion.AngleAxis(0, Vector3.forward));
-                //}
+                if (bl_nodes[i, j].Can_UP)
+                {
+                    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
+                }
 
-                //if (bl_nodes[i, j].Can_DN)
-                //{
-                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0f, -0.2f, 0);
-                //    Gizmos.DrawWireMesh(gizmos_arrow, arrowPos, Quaternion.AngleAxis(180, Vector3.forward));
+                if (bl_nodes[i, j].Can_DN)
+                {
+                    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0f, -gizmos_spacing, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
 
-                //}
+                }
 
-                //if (bl_nodes[i, j].Can_LFT)
-                //{
-                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(-0.2f, 0, 0);
-                //    Gizmos.DrawWireMesh(gizmos_arrow, arrowPos, Quaternion.AngleAxis(270, Vector3.forward));
-                //}
+                if (bl_nodes[i, j].Can_LFT)
+                {
+                    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
+                }
 
-                //if (bl_nodes[i, j].Can_RGT)
-                //{
-                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0.2f, 0, 0);
-                //    Gizmos.DrawWireMesh(gizmos_arrow, arrowPos, Quaternion.AngleAxis(90, Vector3.forward));
-                //}
+                if (bl_nodes[i, j].Can_RGT)
+                {
+                    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3((0.15f + handle_size * 0.5f), 0, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
+                }
             }
         }
 
-        //*!Iterate through both Block and Line's node array and draw the nodes
+        //*!Iterate through both Block and Line's node arrays and draw the nodes
         for (int i = 0; i < li_nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < li_nodes.GetLength(1); ++j)
@@ -412,36 +412,41 @@ public class Temp_Node_Map : MonoBehaviour
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawSphere(li_nodes[i, j].Position, handle_size);
 
-                //if (li_nodes[i, j].Can_UP)
-                //{
-                    
-                //}
+                if (li_nodes[i, j].Can_UP)
+                {
+                    Vector3 arrowPos = li_nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
+                }
 
-                //if (li_nodes[i, j].Can_DN)
-                //{
+                if (li_nodes[i, j].Can_DN)
+                {
+                    Vector3 arrowPos = li_nodes[i, j].Position + new Vector3(0f, -gizmos_spacing, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
 
-                //}
+                }
 
-                //if (li_nodes[i, j].Can_LFT)
-                //{
+                if (li_nodes[i, j].Can_LFT)
+                {
+                    Vector3 arrowPos = li_nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
+                }
 
-                //}
-
-                //if (li_nodes[i, j].Can_RGT)
-                //{
-
-                //}
+                if (li_nodes[i, j].Can_RGT)
+                {
+                    Vector3 arrowPos = li_nodes[i, j].Position + new Vector3((0.15f + handle_size * 0.5f), 0, 0);
+                    Gizmos.DrawSphere(arrowPos, handle_size * 0.35f);
+                }
             }
         }
 
-        //*! Iterate through both Block and Line's edge list and draw the nodes
+        //*! Iterate through both Block and Line's edge lists and draw the nodes
         for (int i = 0; i < bl_edges.Count; ++i)
         {
             Vector3 startPos = bl_edges[i].Start_Node.Position;
             Vector3 endPos = bl_edges[i].End_Node.Position;
 
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(bl_edges[i].Start_Node.Position, endPos);
+            Gizmos.DrawLine(startPos, endPos);
         }
 
         for (int i = 0; i < li_edges.Count; ++i)
@@ -450,7 +455,7 @@ public class Temp_Node_Map : MonoBehaviour
             Vector3 endPos = li_edges[i].End_Node.Position;
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(li_edges[i].Start_Node.Position, endPos);
+            Gizmos.DrawLine(startPos, endPos);
         }
     }
 
