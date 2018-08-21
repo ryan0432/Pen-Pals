@@ -36,9 +36,8 @@ public class Temp_Node_Map : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		
 
-	}
+    }
 
     //*!----------------------------!*//
     //*!    Custom Functions
@@ -60,14 +59,35 @@ public class Temp_Node_Map : MonoBehaviour
                 bl_nodes[i, j] = new Node();
                 bl_nodes[i, j].Position = new Vector3(i + 0.5f, j + 0.5f);
                 bl_nodes[i, j].Node_Size = handle_size;
+                
                 bl_nodes[i, j].Can_UP = true;
                 bl_nodes[i, j].Can_DN = true;
                 bl_nodes[i, j].Can_LFT = true;
                 bl_nodes[i, j].Can_RGT = true;
+
+                if (i == bl_nodes.GetLowerBound(0))
+                {
+                    bl_nodes[i, j].Can_LFT = false;
+                }
+
+                if (i == bl_nodes.GetUpperBound(0))
+                {
+                    bl_nodes[i, j].Can_RGT = false;
+                }
+
+                if (j == bl_nodes.GetLowerBound(1))
+                {
+                    bl_nodes[i, j].Can_DN = false;
+                }
+
+                if (j == bl_nodes.GetUpperBound(1))
+                {
+                    bl_nodes[i, j].Can_UP = false;
+                }
             }
         }
 
-        //*! Setup Line nodes by the number of row and col
+        // !Setup Line nodes by the number of row and col
         for (int i = 0; i < li_nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < li_nodes.GetLength(1); ++j)
@@ -79,6 +99,26 @@ public class Temp_Node_Map : MonoBehaviour
                 li_nodes[i, j].Can_DN = true;
                 li_nodes[i, j].Can_LFT = true;
                 li_nodes[i, j].Can_RGT = true;
+
+                if (i == li_nodes.GetLowerBound(0))
+                {
+                    li_nodes[i, j].Can_LFT = false;
+                }
+
+                if (i == li_nodes.GetUpperBound(0))
+                {
+                    li_nodes[i, j].Can_RGT = false;
+                }
+
+                if (j == li_nodes.GetLowerBound(1))
+                {
+                    li_nodes[i, j].Can_DN = false;
+                }
+
+                if (j == li_nodes.GetUpperBound(1))
+                {
+                    li_nodes[i, j].Can_UP = false;
+                }
             }
         }
 
@@ -177,7 +217,7 @@ public class Temp_Node_Map : MonoBehaviour
 
     }
 
-    //*!----------------------------!*//
+    //*!----------------------------!/
     //*!    Unity Functions
     //*!----------------------------!*//
 
