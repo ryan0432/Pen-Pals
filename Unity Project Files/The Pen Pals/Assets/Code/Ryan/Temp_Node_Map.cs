@@ -9,6 +9,10 @@ using UnityEngine;
 
 public class Temp_Node_Map : MonoBehaviour
 {
+    //*!----------------------------!*//
+    //*!    Public Variables
+    //*!----------------------------!*//
+
     [Range(1, 500)]
     public int row;
     [Range(1, 500)]
@@ -16,27 +20,34 @@ public class Temp_Node_Map : MonoBehaviour
     [Range(0.1f, 1.0f)]
     public float handle_size;
 
-    //*! Note: The reason to use 2D array for nodes is it is easier to find 
-    //*!       connections between neighbor nodes than a list. As for edges
-    //*!       only has two node refs, therefore using a list.
+    public Node[,] BL_Nodes { get { return bl_nodes; } set { bl_nodes = value; } }
+    public Node[,] LI_Nodes { get { return li_nodes; } set { li_nodes = value; } }
+
+    //*!----------------------------!*//
+    //*!    Private Variables
+    //*!----------------------------!*//
+
+    /*- Note: The reason to use 2D array for nodes is it is easier to find 
+              connections between neighbor nodes than a list. As for edges
+              only has two node refs, therefore using a list. -*/
     private Node[,] bl_nodes;
     private List<Edge> bl_edges;
     private Node[,] li_nodes;
     private List<Edge> li_edges;
 
-    public Node[,] BL_Nodes { get { return bl_nodes; } set { bl_nodes = value; } }
-    public Node[,] LI_Nodes { get { return li_nodes; } set { li_nodes = value; } }
+
 
     // Use this for initialization
     void Start ()
     {
         Initialize_Graph();
+        //Debug_Graph();
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
 
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 
     //*!----------------------------!*//
@@ -52,6 +63,7 @@ public class Temp_Node_Map : MonoBehaviour
         li_edges = new List<Edge>();
 
         //*! Setup Block nodes by the number of row and col
+        #region Setup [Block] Nodes and limit the boarders' Traversability
         for (int i = 0; i < bl_nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < bl_nodes.GetLength(1); ++j)
@@ -86,8 +98,10 @@ public class Temp_Node_Map : MonoBehaviour
                 }
             }
         }
+        #endregion
 
-        // !Setup Line nodes by the number of row and col
+        //*! Setup Line nodes by the number of row and col
+        #region Setup [Line] Nodes and limit the boarders' Traversability
         for (int i = 0; i < li_nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < li_nodes.GetLength(1); ++j)
@@ -121,10 +135,11 @@ public class Temp_Node_Map : MonoBehaviour
                 }
             }
         }
+        #endregion
 
         //*! Iterate from the buttom left node of Block 2D array to check UP & RIGHT direction's traversability.
         //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
-        #region Setup Block Edges in UP & Right Direction
+        #region Setup [Block] Edges in UP & RGT Direction
         for (int i = 0; i < bl_nodes.GetUpperBound(0); ++i)
         {
             for (int j = 0; j < bl_nodes.GetUpperBound(1); ++j)
@@ -169,7 +184,54 @@ public class Temp_Node_Map : MonoBehaviour
             }
         }
         #endregion
-        #region Setup Line Edges in UP & Right Direction
+
+        #region Setup [Block] Edges in DN & LFT Direction
+        for (int i = bl_nodes.GetUpperBound(0); i > 0; --i)
+        {
+            for (int j = bl_nodes.GetUpperBound(1); j > 0; --j)
+            {
+                if (bl_nodes[i, j].Can_DN)
+                {
+                    Edge new_edge = new Edge();
+                    new_edge.Start_Node = bl_nodes[i, j];
+                    new_edge.End_Node = bl_nodes[i, j - 1];
+                    bl_edges.Add(new_edge);
+                }
+
+                if (bl_nodes[i, j].Can_LFT)
+                {
+                    Edge new_edge = new Edge();
+                    new_edge.Start_Node = bl_nodes[i, j];
+                    new_edge.End_Node = bl_nodes[i - 1, j];
+                    bl_edges.Add(new_edge);
+                }
+            }
+        }
+
+        for (int i = bl_nodes.GetUpperBound(0); i > 0 ; --i)
+        {
+            if (bl_nodes[i, bl_nodes.GetLowerBound(1)].Can_LFT)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = bl_nodes[i, bl_nodes.GetLowerBound(1)];
+                new_edge.End_Node = bl_nodes[i - 1, bl_nodes.GetLowerBound(1)];
+                bl_edges.Add(new_edge);
+            }
+        }
+
+        for (int i = bl_nodes.GetUpperBound(1); i > 0; --i)
+        {
+            if (bl_nodes[bl_nodes.GetLowerBound(0), i].Can_DN)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = bl_nodes[bl_nodes.GetLowerBound(0), i];
+                new_edge.End_Node = bl_nodes[bl_nodes.GetLowerBound(0), i - 1];
+                bl_edges.Add(new_edge);
+            }
+        }
+        #endregion
+
+        #region Setup [Line] Edges in UP & Right Direction
         for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
         {
             for (int j = 0; j < li_nodes.GetUpperBound(1); ++j)
@@ -215,11 +277,90 @@ public class Temp_Node_Map : MonoBehaviour
         }
         #endregion
 
+        #region Setup [Line] Edges in DN & LFT Direction
+        for (int i = li_nodes.GetUpperBound(0); i > 0; --i)
+        {
+            for (int j = li_nodes.GetUpperBound(1); j > 0; --j)
+            {
+                if (li_nodes[i, j].Can_DN)
+                {
+                    Edge new_edge = new Edge();
+                    new_edge.Start_Node = li_nodes[i, j];
+                    new_edge.End_Node = li_nodes[i, j - 1];
+                    li_edges.Add(new_edge);
+                }
+
+                if (li_nodes[i, j].Can_LFT)
+                {
+                    Edge new_edge = new Edge();
+                    new_edge.Start_Node = li_nodes[i, j];
+                    new_edge.End_Node = li_nodes[i - 1, j];
+                    li_edges.Add(new_edge);
+                }
+            }
+        }
+
+        for (int i = li_nodes.GetUpperBound(0); i > 0; --i)
+        {
+            if (li_nodes[i, li_nodes.GetLowerBound(1)].Can_LFT)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = li_nodes[i, li_nodes.GetLowerBound(1)];
+                new_edge.End_Node = li_nodes[i - 1, li_nodes.GetLowerBound(1)];
+                li_edges.Add(new_edge);
+            }
+        }
+
+        for (int i = li_nodes.GetUpperBound(1); i > 0; --i)
+        {
+            if (li_nodes[li_nodes.GetLowerBound(0), i].Can_DN)
+            {
+                Edge new_edge = new Edge();
+                new_edge.Start_Node = li_nodes[li_nodes.GetLowerBound(0), i];
+                new_edge.End_Node = li_nodes[li_nodes.GetLowerBound(0), i - 1];
+                li_edges.Add(new_edge);
+            }
+        }
+        #endregion
+    }
+
+    //*! Debug the graph. Display all member values of nodes'
+    private void Debug_Graph()
+    {
+        for (int i = 0; i < bl_nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < bl_nodes.GetLength(1); ++j)
+            {
+                Debug.Log("Block Node" + "[" + i + " , " + j + "]" + " Pos  : " + "( " + bl_nodes[i, j].Position.x + " , " + bl_nodes[i, j].Position.y + " )");
+                Debug.Log("Block Node" + "[" + i + " , " + j + "]" + " C_UP : " + "( " + bl_nodes[i, j].Can_UP + " )");
+                Debug.Log("Block Node" + "[" + i + " , " + j + "]" + " C_DN : " + "( " + bl_nodes[i, j].Can_DN + " )");
+                Debug.Log("Block Node" + "[" + i + " , " + j + "]" + " C_LFT: " + "( " + bl_nodes[i, j].Can_LFT + " )");
+                Debug.Log("Block Node" + "[" + i + " , " + j + "]" + " C_RGT: " + "( " + bl_nodes[i, j].Can_RGT + " )");
+            }
+        }
+
+        Debug.Log("Block Row Number: " + bl_nodes.GetLength(0));
+        Debug.Log("Block Col Number: " + bl_nodes.GetLength(1));
+
+        for (int i = 0; i < li_nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < li_nodes.GetLength(1); ++j)
+            {
+                Debug.Log("Line Node" + "[" + i + " , " + j + "]" + " Pos  : " + "( " + li_nodes[i, j].Position.x + " , " + li_nodes[i, j].Position.y + " )");
+                Debug.Log("Line Node" + "[" + i + " , " + j + "]" + " C_UP : " + "( " + li_nodes[i, j].Can_UP + " )");
+                Debug.Log("Line Node" + "[" + i + " , " + j + "]" + " C_DN : " + "( " + li_nodes[i, j].Can_DN + " )");
+                Debug.Log("Line Node" + "[" + i + " , " + j + "]" + " C_LFT: " + "( " + li_nodes[i, j].Can_LFT + " )");
+                Debug.Log("Line Node" + "[" + i + " , " + j + "]" + " C_RGT: " + "( " + li_nodes[i, j].Can_RGT + " )");
+            }
+        }
+
+        Debug.Log("Line Row Number: " + li_nodes.GetLength(0));
+        Debug.Log("Line Col Number: " + li_nodes.GetLength(1));
     }
 
     //*!----------------------------!/
     //*!    Unity Functions
-    //*!----------------------------!*//
+    //*!----------------------------!/
 
     void OnDrawGizmos()
     {
@@ -231,10 +372,11 @@ public class Temp_Node_Map : MonoBehaviour
             for (int j = 0; j < bl_nodes.GetLength(1); ++j)
             {
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawSphere(bl_nodes[i,j].Position, handle_size);
+                Gizmos.DrawSphere(bl_nodes[i, j].Position, handle_size);
             }
         }
 
+        //*!Iterate through both Block and Line's node array and draw the nodes
         for (int i = 0; i < li_nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < li_nodes.GetLength(1); ++j)
@@ -266,7 +408,7 @@ public class Temp_Node_Map : MonoBehaviour
 
 
     //*!----------------------------!*//
-    //*!    Custom Subclass
+    //*!    Custom Subclasses
     //*!----------------------------!*//
 
     //*! Structs for map elements [Node] and [Edge] 
@@ -280,7 +422,6 @@ public class Temp_Node_Map : MonoBehaviour
         public bool Can_DN { get; set; }
         public bool Can_LFT { get; set; }
         public bool Can_RGT { get; set; }
-
     }
 
     [System.Serializable]
