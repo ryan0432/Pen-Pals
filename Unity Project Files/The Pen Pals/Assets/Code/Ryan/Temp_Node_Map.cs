@@ -35,10 +35,13 @@ public class Temp_Node_Map : MonoBehaviour
     private Node[,] li_nodes;
     private List<Edge> li_edges;
 
+    [SerializeField]
+    private Mesh gizmos_arrow;
+
 
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
         Initialize_Graph();
         //Debug_Graph();
@@ -373,6 +376,31 @@ public class Temp_Node_Map : MonoBehaviour
             {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawSphere(bl_nodes[i, j].Position, handle_size);
+
+                //if (bl_nodes[i, j].Can_UP)
+                //{
+                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0f, 0.2f, 0);
+                //    Gizmos.DrawWireMesh(gizmos_arrow , arrowPos, Quaternion.AngleAxis(0, Vector3.forward));
+                //}
+
+                //if (bl_nodes[i, j].Can_DN)
+                //{
+                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0f, -0.2f, 0);
+                //    Gizmos.DrawWireMesh(gizmos_arrow, arrowPos, Quaternion.AngleAxis(180, Vector3.forward));
+
+                //}
+
+                //if (bl_nodes[i, j].Can_LFT)
+                //{
+                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(-0.2f, 0, 0);
+                //    Gizmos.DrawWireMesh(gizmos_arrow, arrowPos, Quaternion.AngleAxis(270, Vector3.forward));
+                //}
+
+                //if (bl_nodes[i, j].Can_RGT)
+                //{
+                //    Vector3 arrowPos = bl_nodes[i, j].Position + new Vector3(0.2f, 0, 0);
+                //    Gizmos.DrawWireMesh(gizmos_arrow, arrowPos, Quaternion.AngleAxis(90, Vector3.forward));
+                //}
             }
         }
 
@@ -383,6 +411,26 @@ public class Temp_Node_Map : MonoBehaviour
             {
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawSphere(li_nodes[i, j].Position, handle_size);
+
+                //if (li_nodes[i, j].Can_UP)
+                //{
+                    
+                //}
+
+                //if (li_nodes[i, j].Can_DN)
+                //{
+
+                //}
+
+                //if (li_nodes[i, j].Can_LFT)
+                //{
+
+                //}
+
+                //if (li_nodes[i, j].Can_RGT)
+                //{
+
+                //}
             }
         }
 
