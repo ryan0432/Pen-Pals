@@ -7,6 +7,9 @@
 using APS;
 using UnityEngine;
 
+/// <summary>
+/// Main Player Controller
+/// </summary>
 public class PlayerController : Abstract_Player
 {
 
@@ -15,11 +18,14 @@ public class PlayerController : Abstract_Player
     //*!----------------------------!*//
     #region Private Variables
         
+    //*! What type the player is. BLOCK OR LINE
     [SerializeField]
     private Player_Type type;
 
+    //*! Used to pass the current players controller key information
     [SerializeField]
     private Controller Controller;
+
     
     #endregion
 
@@ -28,8 +34,13 @@ public class PlayerController : Abstract_Player
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
-
+    
+    //*! Handball the graph to the parent class
     public Temp_Node_Map Node_Graph;
+
+    //*! Current grid Position
+    public Vector2 grid_position;
+
 
     #endregion
 
@@ -40,16 +51,19 @@ public class PlayerController : Abstract_Player
     #region Unity Functions
     private void Start()
     {
-        //Controller.Up_Key = KeyCode.N;
-
+        //*! Handball
         Player_Grid = Node_Graph;
-
     }
+
 
     private void Update()
     {
-        //*! Block Update
-        Check_Input(Player_Type.BLOCK);
+        //*! Player Update, was something pressed.
+        if (Check_Input(type) == true)
+        {
+            
+        }
+        
     }
 
     #endregion
@@ -68,8 +82,12 @@ public class PlayerController : Abstract_Player
 
     //*! Private Access
     #region Private Functions
-
-
+    
+    private void Apply_New_Position(Temp_Node_Map.Node end_position)
+    {
+        // do it
+    }
+   
     #endregion
 
 
@@ -84,7 +102,7 @@ public class PlayerController : Abstract_Player
         {
             case Player_Type.BLOCK:
                 {
-                    Block_Input(Controller);
+                    Apply_New_Position(Block_Input(Controller, grid_position));
                 }
                 break;
             case Player_Type.LINE:
