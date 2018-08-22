@@ -13,9 +13,19 @@ using UnityEngine;
 
 //*! Single Line
 
+
+    /*--*/
 /*-
-    *  Multi-line
-    * -*/
+* Multi-line
+*  
+*  
+* -*/
+
+    /*!!*/
+/*!
+ * Multi-line
+ * 
+ * !*/
 
 // Temporary comment
 /// Side Notes, not really worth a proper single line comment, but something to take note of.

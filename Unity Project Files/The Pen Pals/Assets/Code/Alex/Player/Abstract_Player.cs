@@ -115,8 +115,8 @@ namespace APS
             }
             else
             {
-                //*! Return the current node
-                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+                //*! Return the current node - or null?
+                return /*Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y]*/ null;
             }
 
         }
@@ -155,8 +155,8 @@ namespace APS
             //*! Nothing was pressed, pass back the current node
             else
             {
-                //*! Return the current node
-                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+                //*! Return the current node - or null?
+                return /*Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y]*/null;
             }
 
         }
@@ -197,7 +197,7 @@ namespace APS
             else
             {
                 //*! Return the current node
-                return Player_Grid.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
+                return /*Player_Grid.LI_Nodes[(int)grid_position.x, (int)grid_position.y]*/null;
             }
         }
 
@@ -216,12 +216,13 @@ namespace APS
         [SerializeField] private KeyCode move_right_key;
 
         //*! Current Input
-        [SerializeField] public Temp_Node_Map.Node Previous_node = new Temp_Node_Map.Node();
+        public Temp_Node_Map.Node Previous_node = new Temp_Node_Map.Node();
         //*! Current Input
-        [SerializeField] public Temp_Node_Map.Node Current_node = new Temp_Node_Map.Node();
+        public Temp_Node_Map.Node Current_node = new Temp_Node_Map.Node();
         //*! Next Input
-        [SerializeField] public Temp_Node_Map.Node Next_node = new Temp_Node_Map.Node();
-
+        public Temp_Node_Map.Node Next_node = new Temp_Node_Map.Node();
+        //*! Queued Input
+        public Temp_Node_Map.Node Queued_node = new Temp_Node_Map.Node();
 
 
 
