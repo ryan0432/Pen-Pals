@@ -135,24 +135,24 @@ namespace APS
             //*! Up key was pressed and it can move up
             if (Input.GetKeyDown(controller.Up_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_UP == true)
             {
-                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y + 1];
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].UP_NODE;
             }
             else if (Input.GetKeyDown(controller.Down_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_DN == true)
             {
                 //*! Return the target node - Vertically below the current node
-                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y - 1];
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].DN_NODE;
             }
             else if (Input.GetKeyDown(controller.Left_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_LFT == true)
             {
                 //*! Return the target node - Horizontally to the Left of the current node
-                return Player_Grid.BL_Nodes[(int)grid_position.x - 1, (int)grid_position.y];
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].LFT_NODE;
             }
             else if (Input.GetKeyDown(controller.Right_Key) && Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_RGT == true)
             {
                 //*! Return the target node - Horizontally to the Right of the current node
-                return Player_Grid.BL_Nodes[(int)grid_position.x + 1, (int)grid_position.y];
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].RGT_NODE;
             }
-            //*! Nothing was pressed, pass back the current node
+            //*! Nothing was pressed, or they can not go in the direction they want
             else
             {
                 //*! Return the current node - or null?

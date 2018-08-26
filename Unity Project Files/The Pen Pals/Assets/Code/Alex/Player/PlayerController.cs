@@ -25,12 +25,14 @@ public class PlayerController : Abstract_Player
     //*! Used to pass the current players controller key information
     [SerializeField]
     private Controller Controller;
- 
-    
+
+
     //*! if the player is moving lock out the controls input
+    [SerializeField]
     private bool is_moving;
     private bool can_second;
-    private bool is_grounded = false;
+    [SerializeField]
+    private bool is_grounded;
 
     #endregion
 
@@ -67,12 +69,12 @@ public class PlayerController : Abstract_Player
         //*! Ground Check on the current grid position
         if (type == Player_Type.BLOCK)
         {
-            Controller.Current_node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
-            Ground_Check(grid_position);
+            Controller.Queued_node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+            //Ground_Check(grid_position);
         }
         else
         {
-            Controller.Current_node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
+            Controller.Queued_node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
         }
     }
 
@@ -95,36 +97,31 @@ public class PlayerController : Abstract_Player
 
     private void Update()
     {        
-        //*! The player is moving
-        if (is_moving)
+ 
+
+
+
+     
+
+
+        if (Check_Input(type) == true)
         {
-            //*! Move the player towards the next node
-            Apply_New_Position();
-        }
-        else
-        {
-            //*! Block Player Ground Check
-            if (type == Player_Type.BLOCK)
-            {
-                //*! Check if the Block player is grounded
-                Ground_Check(grid_position);
-            }
-        }
-        
-        
-        //*! Player Update, was something pressed.
-        if (!is_moving && Check_Input(type) == true)
-        {
-            //*! Player is moving
             is_moving = true;
         }
 
-        //*! Early Input check of input
-        else if (is_moving && Check_Input(type) == true && can_second)
+        if (is_moving == true)
         {
-            //*! Player is moving - continue
-            is_moving = true;
+            Apply_New_Position();
         }
+   
+        //*! Block Player Ground Check
+        if (type == Player_Type.BLOCK && !is_grounded)
+        {
+            //*! Check if the Block player is grounded
+            Ground_Check(grid_position);
+        }
+
+ 
     }
 
 
@@ -147,6 +144,86 @@ public class PlayerController : Abstract_Player
     //*!----------------------------!*//
     #region Private Functions
 
+    private void Check_Queued_Node()
+    {
+        //*! Queued node has data and next does not, assign queued node to next
+        if (Controller.Queued_node != null && Controller.Next_node == null)
+        {
+            //*! Assign next the queued node
+            Controller.Next_node = Controller.Queued_node;
+            //*! Clear the queued node
+            Controller.Queued_node = null;
+
+
+
+
+
+        }
+    }
+
+
+
+
+
+
+    private void Reached_Next_Node(float mag_distance)
+    {
+        //*! Reached the end node position
+        if (transform.position == new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0) || mag_distance < 0.05f)
+        {
+            #region old_code
+
+            //
+            ////*! Previous node is equal to the current
+            //Controller.Previous_node = Controller.Current_node;
+            ////*! Current node is equal to the next node
+            //Controller.Current_node = Controller.Next_node;
+            //
+            ////*! There is queued node, clear the next node if it is the same as the current node
+            //if (Controller.Queued_node != null)
+            //{
+            //    //*! Reached the target / next node and there was queued node information
+            //    Controller.Next_node = Controller.Queued_node;
+            //    //*! Clear queued node
+            //    Controller.Queued_node = null;
+            //
+            //    //*! Block player ground check
+            //    if (type == Player_Type.BLOCK)
+            //    {
+            //        Ground_Check(grid_position);
+            //    }
+            //}
+            //else
+            //{
+            //    //*! The was no queued node informtion
+            //    //*! Clear the next node.
+            //    Controller.Next_node = null;
+            //    //*! Finished moving. 
+            //
+            //    //*! Player is not moving
+            //    is_moving = false;
+            //}
+            //
+            ////*! Reset back to false
+            //can_second = false;
+
+            #endregion
+
+
+            //*! Shift the nodes across
+            Controller.Current_node = Controller.Next_node;
+            Controller.Previous_node = Controller.Current_node;
+
+            Controller.Next_node = null;
+
+
+            is_moving = false;
+
+        }
+    }
+
+
+
     /// <summary>
     /// Move player towards the next node
     /// </summary>
@@ -160,7 +237,7 @@ public class PlayerController : Abstract_Player
          * 
          * Queued node is not null pass it to next node if next node is null
          * Clear the queued node
-         * update the grid position of the next node
+         * 
          * 
          * move towards the next node
          * 
@@ -177,73 +254,42 @@ public class PlayerController : Abstract_Player
 
 
 
-        //*! Queued node has data and next does not, assign queued node to next
-        if (Controller.Queued_node != null && Controller.Next_node == null)
-        {
-            //*! Assign next the queued node
-            Controller.Next_node = Controller.Queued_node;
-            //*! Clear the queued node
-            Controller.Queued_node = null;
+        Check_Queued_Node();
+        
 
+
+        if (Controller.Next_node != null)
+        {
+            //*! Move towards next node
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0), 4 * Time.deltaTime);
+
+            //*! Get the distance between the two points
+            float mag_distance = (transform.position - new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0)).magnitude;
+
+            //*! Have I reached the next node
+            Reached_Next_Node(mag_distance);
+        }
+        else
+        {
             //*! Update the grid position - on next node
-            grid_position.x = Controller.Next_node.Position.x;
-            grid_position.y = Controller.Next_node.Position.y;
+            grid_position.x = Controller.Current_node.Position.x;
+            grid_position.y = Controller.Current_node.Position.y;
+            //*! Snap the player to the next nodes position minus the offset
+            transform.position = new Vector3(Controller.Current_node.Position.x - 0.5f, Controller.Current_node.Position.y - 0.5f, 0);
         }
 
 
-        //*! Move the players position
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0), 4 * Time.deltaTime);
 
-        //*! Get the distance between the two points
-        float mag_distance = (transform.position - new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0)).magnitude;
 
         //*! X% Distance remaining to end position
-        if (mag_distance < 0.25f)
-        {
-            can_second = true;
-        }
+        //if (mag_distance < 0.25f)
+        //{
+        //    can_second = true;
+        //}
 
 
-        //*! Reached the end node position - Adam says its risky... small distance check to allow for a slight inaccuacy 
-        if (transform.position == new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0) || mag_distance < 0.05f)
-        {
-            //*! Snap the player to the next nodes position minus the offset
-            transform.position = new Vector3(Controller.Next_node.Position.x - 0.5f, Controller.Next_node.Position.y - 0.5f, 0);
 
-            //*! Previous node is equal to the current
-            Controller.Previous_node = Controller.Current_node;
-            //*! Current node is equal to the next node
-            Controller.Current_node = Controller.Next_node;
 
-            //*! There is queued node, clear the next node if it is the same as the current node
-            if (Controller.Queued_node != null)
-            {
-                //*! Reached the target / next node and there was queued node information
-                Controller.Next_node = Controller.Queued_node;
-                //*! Clear queued node
-                Controller.Queued_node = null;
-
-                //*! Block player ground check
-                if (type == Player_Type.BLOCK)
-                {
-                    Ground_Check(grid_position);
-                }
-            }
-            else
-            {
-                //*! The was no queued node informtion
-                //*! Clear the next node.
-                Controller.Next_node = null;
-                //*! Finished moving. 
-
-                //*! Player is not moving
-                is_moving = false;
-            }
-
-            //*! Reset back to false
-            can_second = false;
-
-        }
     }
  
 
@@ -315,6 +361,7 @@ public class PlayerController : Abstract_Player
         }
         else
         {
+            Debug.Log("Queued Node set a value");
             return true;
         }
     }
