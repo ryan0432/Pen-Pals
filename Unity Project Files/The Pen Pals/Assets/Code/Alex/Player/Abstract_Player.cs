@@ -93,12 +93,7 @@ namespace APS
         //*! Protected Access
         #region Protected Functions
 
-        //*! Check for Input - Nothing to implement here
-        protected virtual bool Check_Input(Player_Type player_Type)
-        {
-            return false;
-        }
-
+ 
 
         /// <summary>
         /// This checks if the block is grounded and returns the current node or the node below it
@@ -111,7 +106,7 @@ namespace APS
             if (Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_DN == true)
             {
                 //*! Return the node below the current
-                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y - 1];
+                return Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].DN_NODE;
             }
             else
             {
@@ -215,16 +210,17 @@ namespace APS
         [SerializeField] private KeyCode move_left_key;
         [SerializeField] private KeyCode move_right_key;
 
-        //*! Current Input
-        public Temp_Node_Map.Node Previous_node = new Temp_Node_Map.Node();
-        //*! Current Input
-        public Temp_Node_Map.Node Current_node = new Temp_Node_Map.Node();
-        //*! Next Input
-        public Temp_Node_Map.Node Next_node = new Temp_Node_Map.Node();
-        //*! Queued Input
-        public Temp_Node_Map.Node Queued_node = new Temp_Node_Map.Node();
+        ////*! Current Input
+        //public Temp_Node_Map.Node Previous_node = new Temp_Node_Map.Node();
+        ////*! Current Input
+        //public Temp_Node_Map.Node Current_node = new Temp_Node_Map.Node();
+        ////*! Next Input
+        //public Temp_Node_Map.Node Next_node = new Temp_Node_Map.Node();
+        ////*! Queued Input
+        //public Temp_Node_Map.Node Queued_node = new Temp_Node_Map.Node();
 
-
+        //*! Actual queue of nodes 
+        public Queue<Temp_Node_Map.Node> node_queue = new Queue<Temp_Node_Map.Node>();
 
         //*! Property Accessor(s)
         public KeyCode Up_Key
@@ -248,5 +244,22 @@ namespace APS
             set { move_right_key = value; }
         }
     }
+
+    public struct Directional_Node
+    {
+        //*! Node in direction of travel
+        Temp_Node_Map.Node node;
+
+        //*! Bool Checks for what key was pressed
+        bool up_key_pressed;
+        bool left_key_pressed;
+        bool right_key_pressed;
+    }
+
+
+
+
+
+
 
 }
