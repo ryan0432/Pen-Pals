@@ -17,7 +17,7 @@ public class Graph_Editor : Editor
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
-    private SelectionInfo selectionInfo;
+    private Selection_Info selectionInfo;
     private Graph_Creator gC;
     private bool needRepaint;
 
@@ -345,21 +345,151 @@ public class Graph_Editor : Editor
             }
         }
         #endregion
+
+        //*! Request a repaint
+        needRepaint = true;
     }
 
+    private void Edit_Graph(Event guiEvent)
+    {
+        needRepaint = true;
+    }
+
+    //*! Renders handles in editor window
+    #region Render all nodes and edges in the graph
     private void PrintHandles()
     {
+        //*! Setup space between indicators and their parent node
+        float gizmos_spacing = 0.15f + gC.handle_size * 0.5f;
+
+        #region Setup defult colours for [Block] & [Line] handles
+        Color bl_colour = new Color(1.0f, 0.8f, 0.1f, 1.0f);
+        Color li_colour = new Color(0.4f, 0.75f, 1.0f, 1.0f);
+        #endregion
+
+        #region Render [Block] nodes
+        for (int i = 0; i < gC.BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < gC.BL_Nodes.GetLength(1); ++j)
+            {
+                Handles.color = bl_colour;
+                Handles.DrawSolidDisc(gC.BL_Nodes[i,j].Position, Vector3.forward, gC.handle_size);
+            }
+        }
+        #endregion
+
+        #region Render [Block] direction indications
+        for (int i = 0; i < gC.BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < gC.BL_Nodes.GetLength(1); ++j)
+            {
+                Handles.color = bl_colour;
+                if (gC.BL_Nodes[i, j].Can_UP)
+                {
+                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+
+                if (gC.BL_Nodes[i, j].Can_DN)
+                {
+                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(0f, -gizmos_spacing, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+                 
+                if (gC.BL_Nodes[i, j].Can_LFT)
+                {
+                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0f, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+
+                if (gC.BL_Nodes[i, j].Can_RGT)
+                {
+                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0f, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+            }
+        }
+        #endregion
+
+        #region Render [Line] nodes
+        for (int i = 0; i < gC.LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < gC.LI_Nodes.GetLength(1); ++j)
+            {
+                Handles.color = li_colour;
+                Handles.DrawSolidDisc(gC.LI_Nodes[i, j].Position, Vector3.forward, gC.handle_size);
+            }
+        }
+        #endregion
+
+        #region Render [Line] direction indications
+        for (int i = 0; i < gC.LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < gC.LI_Nodes.GetLength(1); ++j)
+            {
+                Handles.color = li_colour;
+                if (gC.LI_Nodes[i, j].Can_UP)
+                {
+                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+
+                if (gC.LI_Nodes[i, j].Can_DN)
+                {
+                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(0f, -gizmos_spacing, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+
+                if (gC.LI_Nodes[i, j].Can_LFT)
+                {
+                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0f, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+
+                if (gC.LI_Nodes[i, j].Can_RGT)
+                {
+                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0f, 0);
+                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                }
+            }
+        }
+        #endregion
+
+        //#region Render [Block] edges
+        //for (int i = 0; i < gC.BL_Edges.Count; ++i)
+        //{
+        //    Vector3 start_pos = gC.BL_Edges[i].Start_Node.Position;
+        //    Vector3 end_pos = gC.BL_Edges[i].End_Node.Position;
+
+        //    Handles.color = bl_colour;
+        //    Handles.DrawDottedLine(start_pos, end_pos, 0.2f);
+        //}
+        //#endregion
+
+        //#region Render [Line] edges
+        //for (int i = 0; i < gC.LI_Edges.Count; ++i)
+        //{
+        //    Vector3 start_pos = gC.LI_Edges[i].Start_Node.Position;
+        //    Vector3 end_pos = gC.LI_Edges[i].End_Node.Position;
+
+        //    Handles.color = li_colour;
+        //    Handles.DrawDottedLine(start_pos, end_pos, 0.2f);
+        //}
+        //#endregion
+
+        //*! Reset the repaint request
+        needRepaint = false;
 
     }
-
-
+    #endregion
 
     //*!----------------------------!*//
     //*!    Custom Subclasses
     //*!----------------------------!*//
 
-        //*! Subclass for storing temperary mouse behaviors
-    private class SelectionInfo
+    #region Selection_Info subclass for storing temperary mouse behaviors
+    //*! Subclass for storing temperary mouse behaviors
+    private class Selection_Info
     {
         // Stores node or edge hovered info
         public int hoveredNodeIndex = -1;
@@ -376,4 +506,48 @@ public class Graph_Editor : Editor
         // Stores mousedrag end position
         public Vector3 dragEndPos;
     }
+    #endregion
+
+
+    //*!----------------------------!*//
+    //*!    Unity Functions
+    //*!----------------------------!*//
+
+    #region Unity Function Section
+    //*! Operations on OnSceneGUI, get GUI event instance
+    private void OnSceneGUI()
+    {
+        //*! Get current event instance
+        Event guiEvent = Event.current;
+
+        if (guiEvent.type == EventType.Repaint)
+        {
+            PrintHandles();
+        }
+        else if (guiEvent.type == EventType.Layout)
+        {
+            HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+        }
+        else
+        {
+            Edit_Graph(guiEvent);
+
+            if (needRepaint == true)
+            {
+                HandleUtility.Repaint();
+            }
+        }
+    }
+
+    //!* Enable when launch
+    void OnEnable()
+    {
+        //*! Inspected target as shapeCreator instance
+        gC = target as Graph_Creator;
+        //*! New selection info instance when launch
+        selectionInfo = new Selection_Info();
+        //*! Initialize the graph once launch
+        Initialize_Graph();
+    }
+    #endregion
 }
