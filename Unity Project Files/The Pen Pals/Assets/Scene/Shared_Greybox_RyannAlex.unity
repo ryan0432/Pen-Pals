@@ -183,14 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c404e70306a697341a0726bfcbb512b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 0
   Controller:
     move_up_key: 119
     move_down_key: 115
     move_left_key: 97
     move_right_key: 100
   is_moving: 0
-  is_grounded: 0
   Node_Graph: {fileID: 454938660}
   grid_position: {x: 0, y: 0}
 --- !u!4 &1081585980

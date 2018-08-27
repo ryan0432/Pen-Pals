@@ -25,7 +25,7 @@ public class PlayerController : Abstract_Player
     //*! Used to pass the current players controller key information
     [SerializeField]
     private Controller Controller;
-
+    private Directional_Node button_state;
 
     //*! if the player is moving lock out the controls input
     [SerializeField]
@@ -57,6 +57,12 @@ public class PlayerController : Abstract_Player
 
     private void Start()
     {
+        if (is_grounded == false)
+        {
+            is_grounded = false;
+        }
+
+
         //*! Handball
         Player_Grid = Node_Graph;
 
@@ -65,14 +71,16 @@ public class PlayerController : Abstract_Player
         grid_position.y = transform.position.y;
 
         //*! Set the queued node
-        Temp_Node_Map.Node t_node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+        Controller.Current_node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
 
-        if (t_node != null)
+
+        if (Controller.Current_node != null)
         {
-            Controller.node_queue.Enqueue(t_node);
+            Controller.node_stack.Push(Controller.Current_node);
             Debug.Log("Node has been added to the node queue - via the start method, to initialise the position on the grid");
         }
 
+        button_state = new Directional_Node();
 
         ///Controller.node_queue.Dequeue();
         //*! Ground Check on the current grid position
@@ -134,22 +142,33 @@ public class PlayerController : Abstract_Player
     private bool Check_Input()
     {
         //*! Store the node that it returns, if null then no input as been made
-        Temp_Node_Map.Node t_node = Block_Input(Controller, grid_position);
+        button_state = Block_Input(Controller, grid_position, ref button_state);
 
-        if (t_node != null)
+        if (button_state.node != null)
         {
             //*! Default return of Block Input is the current nodes position
-            Controller.node_queue.Enqueue(t_node);
+            ///Controller.node_queue.Enqueue(button_state.node);
+
+            Controller.node_stack.Push(button_state.node);
+
 
             Debug.Log("Node has been added to the node queue");
             
             //*! Update the grid position - on the front node in the queue
-            grid_position.x = Controller.node_queue.Peek().Position.x;
-            grid_position.y = Controller.node_queue.Peek().Position.y;
+            ///grid_position.x = Controller.node_stack.Peek().Position.x;
+            ///grid_position.y = Controller.node_stack.Peek().Position.y;
+
+            //*! Update the grid position - on the front node in the queue
+            ///grid_position.x = Controller.Current_node.Position.x;
+            ///grid_position.y = Controller.Current_node.Position.y;
+
+            //*! Update the grid position - on the front node in the queue
+            grid_position.x = button_state.node.Position.x;
+            grid_position.y = button_state.node.Position.y;
         }
 
         //*! If the result is null they have not moved.
-        if (Controller.node_queue.Count != 0)
+        if (Controller.node_stack.Count != 0)
         {
             ///Debug.Log("Node added via user input");
             return true;
@@ -165,22 +184,98 @@ public class PlayerController : Abstract_Player
     private void Reached_Next_Node(float mag_distance)
     {
         //*! Reached the end node position
-        if (transform.position == new Vector3(Controller.node_queue.Peek().Position.x - 0.5f, Controller.node_queue.Peek().Position.y - 0.5f, 0) || mag_distance < 0.05f)
+        ///if (transform.position == new Vector3(Controller.node_stack.Peek().Position.x - 0.5f, Controller.node_stack.Peek().Position.y - 0.5f, 0) || mag_distance < 0.05f)
+        if (transform.position == new Vector3(Controller.Current_node.Position.x - 0.5f, Controller.Current_node.Position.y - 0.5f, 0) || mag_distance < 0.05f)
         {
-            //*! Update the grid position - on the front node in the queue
-            grid_position.x = Controller.node_queue.Peek().Position.x;
-            grid_position.y = Controller.node_queue.Peek().Position.y;
-
-            //*! Pop the front node off the queue
-            Controller.node_queue.Dequeue();
-
-            if (Controller.node_queue.Count == 0)
+            if (Controller.node_stack.Count == 0)
             {
                 //*! Finished moving
                 is_moving = false;
             }
 
-            Controller.node_queue[X].Position;
+
+            //*! Update the grid position - on the front node in the queue
+            ///grid_position.x = Controller.node_queue.Peek().Position.x;
+            ///grid_position.y = Controller.node_queue.Peek().Position.y;
+
+            //*! Update the grid position - on the front node in the queue
+            ///grid_position.x = Controller.node_stack.Peek().Position.x;
+            ///grid_position.y = Controller.node_stack.Peek().Position.y;
+
+
+            //*! Pop the front node off the queue
+            ///Controller.node_queue.Dequeue();
+            
+            //*! Get a copy of the node on top of the stack
+            button_state.node = Controller.node_stack.Peek();
+
+            //*! Assign the current node to the top node in the stack
+            ///Controller.Current_node = Controller.node_stack.Pop();
+
+
+            //*! Validate current node if it can move in that direction 
+            if (button_state.node != Controller.Current_node)
+            {
+                if (button_state.up_key_pressed == true)
+                {
+                    if (Controller.Current_node.UP_NODE == button_state.node)
+                    {
+                        //*! Current nodes up is the node on top of the stack
+                        Controller.Current_node = button_state.node;
+                    }
+                    else
+                    {
+                        Controller.Current_node = Controller.Current_node.DN_NODE;
+                    }
+                }
+                else if (button_state.down_key_pressed == true)
+                {
+                    if (Controller.Current_node.DN_NODE == button_state.node)
+                    {
+                        //*! Current nodes down is the node on top of the stack
+                        Controller.Current_node = button_state.node;
+                    }
+                    else
+                    {
+                        Controller.Current_node = Controller.Current_node.DN_NODE;
+                    }
+                }
+                else if (button_state.left_key_pressed == true)
+                {
+                    if (Controller.Current_node.LFT_NODE == button_state.node)
+                    {
+                        //*! Current nodes left is the node on top of the stack
+                        Controller.Current_node = button_state.node;
+                    }
+                    else
+                    {
+                        Controller.Current_node = Controller.Current_node.DN_NODE;
+                    }
+                }
+                else if (button_state.right_key_pressed == true)
+                {
+                    if (Controller.Current_node.RGT_NODE == button_state.node)
+                    {
+                        //*! Current nodes right is the node on top of the stack
+                        Controller.Current_node = button_state.node;
+                    }
+                    else
+                    {
+                        Controller.Current_node = Controller.Current_node.DN_NODE;
+                    }
+                }
+
+            }
+
+
+
+
+            //*! Update the grid position - on the front node in the queue
+            grid_position.x = Controller.Current_node.Position.x;
+            grid_position.y = Controller.Current_node.Position.y;
+
+            //*! Clear the stack after getting the top node
+            Controller.node_stack.Clear();           
 
         }
 
@@ -197,13 +292,28 @@ public class PlayerController : Abstract_Player
  
 
         //*! IF the count of nodes is more than 0, there is something there
-        if (Controller.node_queue.Count != 0)
+        ///if (Controller.node_queue.Count != 0)
+        if (Controller.node_stack.Count != 0)
         {
             //*! Move towards the front node in the node queue
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Controller.node_queue.Peek().Position.x - 0.5f, Controller.node_queue.Peek().Position.y - 0.5f, 0), 4 * Time.deltaTime);
+            ///transform.position = Vector3.MoveTowards(transform.position, new Vector3(Controller.node_queue.Peek().Position.x - 0.5f, Controller.node_queue.Peek().Position.y - 0.5f, 0), 4 * Time.deltaTime);
+
+            //*! Move towards the front node in the node queue
+            ///transform.position = Vector3.MoveTowards(transform.position, new Vector3(Controller.node_stack.Peek().Position.x - 0.5f, Controller.node_stack.Peek().Position.y - 0.5f, 0), 4 * Time.deltaTime);
+
+            //*! Move towards the current node
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Controller.Current_node.Position.x - 0.5f, Controller.Current_node.Position.y - 0.5f, 0), 4 * Time.deltaTime);
+
 
             //*! Get the distance between the two points
-            float mag_distance = (transform.position - new Vector3(Controller.node_queue.Peek().Position.x - 0.5f, Controller.node_queue.Peek().Position.y - 0.5f, 0)).magnitude;
+            ///float mag_distance = (transform.position - new Vector3(Controller.node_queue.Peek().Position.x - 0.5f, Controller.node_queue.Peek().Position.y - 0.5f, 0)).magnitude;
+
+            //*! Get the distance between the two points
+            ///float mag_distance = (transform.position - new Vector3(Controller.node_stack.Peek().Position.x - 0.5f, Controller.node_stack.Peek().Position.y - 0.5f, 0)).magnitude;
+
+            //*! Get the distance between the two points
+            float mag_distance = (transform.position - new Vector3(Controller.Current_node.Position.x - 0.5f, Controller.Current_node.Position.y - 0.5f, 0)).magnitude;
+
 
             //*! Have I reached the next node
             Reached_Next_Node(mag_distance);
@@ -227,20 +337,33 @@ public class PlayerController : Abstract_Player
     private void Ground_Check(Vector2 grid_position)
     {
         //*! Store the node that it returns, if null the player is grounded
-        Temp_Node_Map.Node t_node = Block_Ground_Check(grid_position);
-
+        button_state = Block_Ground_Check(grid_position, ref button_state);
         
 
-
-        if (t_node != null && !is_moving)
+        if (button_state.node != null && !is_moving)
         {
             //*! Add a node if it can fall
-            Controller.node_queue.Enqueue(t_node);
+            //Controller.node_queue.Enqueue(button_state.node);
+            Controller.node_stack.Push(button_state.node);
+
             Debug.Log("Node has been added to the node queue - via the ground check");
 
             //*! Update the grid position - on the front node in the queue
-            grid_position.x = Controller.node_queue.Peek().Position.x;
-            grid_position.y = Controller.node_queue.Peek().Position.y;
+            ///grid_position.x = Controller.node_queue.Peek().Position.x;
+            ///grid_position.y = Controller.node_queue.Peek().Position.y;
+
+            //*! Update the grid position - on the front node in the queue
+            ///grid_position.x = Controller.node_stack.Peek().Position.x;
+            ///grid_position.y = Controller.node_stack.Peek().Position.y;
+
+            //*! Update the grid position - on the front node in the queue
+            ///grid_position.x = Controller.Current_node.Position.x;
+            ///grid_position.y = Controller.Current_node.Position.y;
+
+            //*! Update the grid position - on the front node in the queue
+            grid_position.x = button_state.node.Position.x;
+            grid_position.y = button_state.node.Position.y;
+
 
             //*! Player is not grounded
             is_grounded = false;
@@ -250,7 +373,9 @@ public class PlayerController : Abstract_Player
         else
         {
             //*! Player is grounded
-            is_grounded = true; 
+            is_grounded = true;
+            //*! They are now moving
+            is_moving = false;
         }
     }
 
