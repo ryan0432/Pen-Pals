@@ -3,7 +3,7 @@
 //*!----------------------------!*//
 
 
-//*! Using namespaces
+//*! Using namespace(s)
 using APS;
 using UnityEngine;
 
