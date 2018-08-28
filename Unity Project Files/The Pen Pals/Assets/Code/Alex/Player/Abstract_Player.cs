@@ -141,14 +141,23 @@ namespace APS
             if (Input.GetKeyDown(controller.Up_Key) && /*button_state.up_key_pressed == false &&*/ Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_UP == true)
             {
                 button_state.node = Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].UP_NODE;
+
                 button_state.up_key_pressed = true;
+                //button_state.down_key_pressed = false;
+                //button_state.left_key_pressed = false;
+                //button_state.right_key_pressed = false;
+
 
                 return button_state;
             }
             else if (Input.GetKeyDown(controller.Down_Key) && /*button_state.down_key_pressed == false &&*/ Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_DN == true)
             {
                 button_state.node = Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].DN_NODE;
+
+                //button_state.up_key_pressed = false;
                 button_state.down_key_pressed = true;
+                //button_state.left_key_pressed = false;
+                //button_state.right_key_pressed = false;
 
                 return button_state;
             }
@@ -159,7 +168,11 @@ namespace APS
                 //{
                 //    button_state.right_key_pressed = true;
                 //}
-                 button_state.left_key_pressed = true;
+                //button_state.up_key_pressed = false;
+                //button_state.down_key_pressed = false;
+                button_state.left_key_pressed = true;
+                //button_state.right_key_pressed = false;
+                
                 //*! else, keep remaining false unless the above check sets it to true
 
                 button_state.node = Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].LFT_NODE;
@@ -173,7 +186,11 @@ namespace APS
                 //{
                 //    button_state.left_key_pressed = true;
                 //}
-                    button_state.right_key_pressed = true;
+                
+                //button_state.up_key_pressed = false;
+                //button_state.down_key_pressed = false;
+                //button_state.left_key_pressed = false;
+                button_state.right_key_pressed = true;
                 //*! else, keep remaining false unless the above check sets it to true
                 button_state.node = Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y].RGT_NODE;
                            
@@ -183,6 +200,11 @@ namespace APS
             else
             {
                 button_state.node = null;
+
+                //button_state.up_key_pressed = false;
+                //button_state.down_key_pressed = false;
+                //button_state.left_key_pressed = false;
+                //button_state.right_key_pressed = false;
                 //*! Return the current node - or null?
                 return /*Player_Grid.BL_Nodes[(int)grid_position.x, (int)grid_position.y]*/button_state;
             }
@@ -243,14 +265,14 @@ namespace APS
         [SerializeField] private KeyCode move_left_key;
         [SerializeField] private KeyCode move_right_key;
 
-        ////*! Current Input
-        //public Temp_Node_Map.Node Previous_node = new Temp_Node_Map.Node();
-        //*! Current Input
-        public Temp_Node_Map.Node Current_node = new Temp_Node_Map.Node();
-        ////*! Next Input
-        //public Temp_Node_Map.Node Next_node = new Temp_Node_Map.Node();
-        ////*! Queued Input
-        //public Temp_Node_Map.Node Queued_node = new Temp_Node_Map.Node();
+        ///*! Current Input
+        ///public Temp_Node_Map.Node Previous_node = new Temp_Node_Map.Node();
+        ///*! Current Input
+        ///public Temp_Node_Map.Node Current_node = new Temp_Node_Map.Node();
+        //*! Next Input
+        public Temp_Node_Map.Node Next_Node = new Temp_Node_Map.Node();
+        ///*! Queued Input
+        ///public Temp_Node_Map.Node Queued_node = new Temp_Node_Map.Node();
 
         //*! Actual queue of nodes 
         //public Queue<Temp_Node_Map.Node> node_queue = new Queue<Temp_Node_Map.Node>();
@@ -295,10 +317,19 @@ namespace APS
         public bool right_key_pressed;
     }
 
-
-
-
-
-
-
 }
+
+/*-
+ * 
+ * onNodeUpdate
+ *  - check gravity
+ *  - check input
+ *      - if right targetnode is = the node to the right (move towards on update) * not locking left or right
+ *      - if right targetnode is = the node to the right (move towards on update) * not locking left or right
+ *      - no double jump * no up twice
+ *      - one side step while in air * left or right once then let gravity kick in
+ *   
+ * -*/
+
+
+

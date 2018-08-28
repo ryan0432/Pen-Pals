@@ -180,18 +180,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1081585978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c404e70306a697341a0726bfcbb512b4, type: 3}
+  m_Script: {fileID: 11500000, guid: d36796ff64e4edb4a87e7a6fb33a0aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  Controller:
-    move_up_key: 119
-    move_down_key: 115
-    move_left_key: 97
-    move_right_key: 100
-  is_moving: 0
+  move_up_key: 119
+  move_down_key: 115
+  move_left_key: 97
+  move_right_key: 100
   Node_Graph: {fileID: 454938660}
-  grid_position: {x: 0, y: 0}
 --- !u!4 &1081585980
 Transform:
   m_ObjectHideFlags: 0
@@ -255,7 +251,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

@@ -256,6 +256,9 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>C:/Users/s163927/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -277,9 +280,6 @@
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/s163927/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
     </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Code\Alex\BLOCK Player Controller\Block_Collision_Ground.cs" />
@@ -292,6 +292,7 @@
     <Compile Include="Assets\Code\Alex\LINE Player Controller\Line_Renderer_Container.cs" />
     <Compile Include="Assets\Code\Alex\Player\Abstract_Player.cs" />
     <Compile Include="Assets\Code\Alex\Player\PlayerController.cs" />
+    <Compile Include="Assets\Code\Alex\State Machine\PlayerStateMachine.cs" />
     <Compile Include="Assets\Code\Alex\UI Manager\UI_Manager.cs" />
     <Compile Include="Assets\Code\Ryan\Graph_Creator.cs" />
     <Compile Include="Assets\Code\Ryan\ShapeCreator.cs" />
