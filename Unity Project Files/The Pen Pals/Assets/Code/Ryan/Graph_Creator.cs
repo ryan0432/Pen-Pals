@@ -3,8 +3,10 @@
 //*!
 //*! Description: A class storing graph infos such as [node positions],
 //*!              [edge positions], and [edge normals].
+//*!              This class in an experimental class to test using
+//*!              editor with Editor class combined with Node systme.
 //*!
-//*! Last edit  : 21/08/2018
+//*! Last edit  : 27/08/2018
 //*!-------------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -23,6 +25,11 @@ public class Graph_Creator : MonoBehaviour
     public int col;
     [Range(0.1f, 1.0f)]
     public float handle_size;
+
+    public Mesh node_giz;
+    public Mesh arrw_giz;
+    public Material bl_giz_mat;
+    public Material li_giz_mat;
 
     public Node[,] BL_Nodes { get { return bl_nodes; } set { bl_nodes = value; } }
     public Node[,] LI_Nodes { get { return li_nodes; } set { li_nodes = value; } }

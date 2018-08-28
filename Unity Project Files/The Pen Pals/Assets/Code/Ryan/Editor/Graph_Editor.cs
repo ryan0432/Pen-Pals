@@ -1,9 +1,11 @@
 ﻿//*!--------------------------------------------------------------!*//
 //*! Programmer : Ryan Chung
 //*!
-//*! Description: A class for operating Graph Editor in edit mode
+//*! Description: A class for operating Graph Editor in edit mode.
+//*!              This class in an experimental class to test using
+//*!              editor with Editor class combined with Node systme.
 //*!
-//*! Last edit  : 25/08/2018
+//*! Last edit  : 27/08/2018
 //*!--------------------------------------------------------------!*//
 
 using System.Collections;
@@ -17,7 +19,7 @@ public class Graph_Editor : Editor
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
-    private Selection_Info selectionInfo;
+    //private Selection_Info selectionInfo;
     private Graph_Creator gC;
     private bool needRepaint;
 
@@ -372,8 +374,14 @@ public class Graph_Editor : Editor
         {
             for (int j = 0; j < gC.BL_Nodes.GetLength(1); ++j)
             {
-                Handles.color = bl_colour;
-                Handles.DrawSolidDisc(gC.BL_Nodes[i,j].Position, Vector3.forward, gC.handle_size);
+
+                //Handles.color = bl_colour;
+                //Handles.DrawSolidDisc(gC.BL_Nodes[i,j].Position, Vector3.forward, gC.handle_size);
+
+                Matrix4x4 handleMatx = Matrix4x4.Translate(gC.BL_Nodes[i, j].Position) *
+                                       Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size) * 2);
+
+                Graphics.DrawMesh(gC.node_giz, handleMatx, gC.bl_giz_mat, 0);
             }
         }
         #endregion
@@ -383,29 +391,52 @@ public class Graph_Editor : Editor
         {
             for (int j = 0; j < gC.BL_Nodes.GetLength(1); ++j)
             {
-                Handles.color = bl_colour;
+                //Handles.color = bl_colour;
                 if (gC.BL_Nodes[i, j].Can_UP)
                 {
-                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
-                }
+                    //Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
 
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.bl_giz_mat, 0);
+                }
+                
                 if (gC.BL_Nodes[i, j].Can_DN)
                 {
-                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(0f, -gizmos_spacing, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                    //Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.bl_giz_mat, 0);
                 }
                  
                 if (gC.BL_Nodes[i, j].Can_LFT)
                 {
-                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0f, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
-                }
+                    //Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0f, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
 
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.bl_giz_mat, 0);
+                }
+                
                 if (gC.BL_Nodes[i, j].Can_RGT)
                 {
-                    Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0f, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                    //Vector3 arrowPos = gC.BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0f, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size))*
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.bl_giz_mat, 0);
                 }
             }
         }
@@ -416,8 +447,13 @@ public class Graph_Editor : Editor
         {
             for (int j = 0; j < gC.LI_Nodes.GetLength(1); ++j)
             {
-                Handles.color = li_colour;
-                Handles.DrawSolidDisc(gC.LI_Nodes[i, j].Position, Vector3.forward, gC.handle_size);
+                //Handles.color = li_colour;
+                //Handles.DrawSolidDisc(gC.LI_Nodes[i, j].Position, Vector3.forward, gC.handle_size);
+
+                Matrix4x4 handleMatx = Matrix4x4.Translate(gC.LI_Nodes[i, j].Position) *
+                                       Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size) * 2);
+
+                Graphics.DrawMesh(gC.node_giz, handleMatx, gC.li_giz_mat, 0);
             }
         }
         #endregion
@@ -427,29 +463,52 @@ public class Graph_Editor : Editor
         {
             for (int j = 0; j < gC.LI_Nodes.GetLength(1); ++j)
             {
-                Handles.color = li_colour;
+                //Handles.color = li_colour;
                 if (gC.LI_Nodes[i, j].Can_UP)
                 {
-                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                    //Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(0f, gizmos_spacing, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.li_giz_mat, 0);
                 }
 
                 if (gC.LI_Nodes[i, j].Can_DN)
                 {
-                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(0f, -gizmos_spacing, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                    //Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.LI_Nodes[i, j].Position + new Vector3(0, - gizmos_spacing, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.li_giz_mat, 0);
                 }
 
                 if (gC.LI_Nodes[i, j].Can_LFT)
                 {
-                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0f, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                    //Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.li_giz_mat, 0);
                 }
 
                 if (gC.LI_Nodes[i, j].Can_RGT)
                 {
-                    Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0f, 0);
-                    Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+                    //Vector3 arrowPos = gC.LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0);
+                    //Handles.DrawSolidDisc(arrowPos, Vector3.forward, gC.handle_size * 0.35f);
+
+                    Matrix4x4 handleMatx = Matrix4x4.Translate(gC.LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
+                                           Matrix4x4.Scale(new Vector3(gC.handle_size, gC.handle_size, gC.handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
+
+                    Graphics.DrawMesh(gC.arrw_giz, handleMatx, gC.li_giz_mat, 0);
                 }
             }
         }
@@ -489,23 +548,23 @@ public class Graph_Editor : Editor
 
     #region Selection_Info subclass for storing temperary mouse behaviors
     //*! Subclass for storing temperary mouse behaviors
-    private class Selection_Info
-    {
-        // Stores node or edge hovered info
-        public int hoveredNodeIndex = -1;
-        public int hoveredEdgeIndex = -1;
-        public bool nodeHovered;
-        public bool edgeHovered;
+    //private class Selection_Info
+    //{
+    //    // Stores node or edge hovered info
+    //    public int hoveredNodeIndex = -1;
+    //    public int hoveredEdgeIndex = -1;
+    //    public bool nodeHovered;
+    //    public bool edgeHovered;
 
-        // Stores node or edge selected info
-        public bool edgeSelected;
-        public bool nodeSelected;
+    //    // Stores node or edge selected info
+    //    public bool edgeSelected;
+    //    public bool nodeSelected;
 
-        // Stores mousedrag start position
-        public Vector3 dragStartPos;
-        // Stores mousedrag end position
-        public Vector3 dragEndPos;
-    }
+    //    // Stores mousedrag start position
+    //    public Vector3 dragStartPos;
+    //    // Stores mousedrag end position
+    //    public Vector3 dragEndPos;
+    //}
     #endregion
 
 
@@ -545,7 +604,7 @@ public class Graph_Editor : Editor
         //*! Inspected target as shapeCreator instance
         gC = target as Graph_Creator;
         //*! New selection info instance when launch
-        selectionInfo = new Selection_Info();
+        //selectionInfo = new Selection_Info();
         //*! Initialize the graph once launch
         Initialize_Graph();
     }

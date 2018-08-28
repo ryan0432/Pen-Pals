@@ -2,6 +2,8 @@
 //*! Programmer : Ryan Chung
 //*!
 //*! Description: A class for operating shape editor in edit mode
+//*!              This class in an experimental class to test using
+//*!              editor with Editor class.
 //*!
 //*! Last edit  : 01/08/2018
 //*!--------------------------------------------------------------!*//
