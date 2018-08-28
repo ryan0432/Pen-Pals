@@ -22,9 +22,9 @@ public class Pencil_Case : MonoBehaviour
 
     #region Public Vars
 
-    [Range(1, 500)]
+    [Range(2, 50)]
     public int row;
-    [Range(1, 500)]
+    [Range(2, 50)]
     public int col;
     [Range(0.1f, 1.0f)]
     public float handle_size;
@@ -57,11 +57,7 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     private GameObject bl_node_giz;
 
-    private float refreshRate = 0.05f;
-    private float nextRefresh = 0.0f;
-    private float timer;
     #endregion
-
 
 #if UNITY_EDITOR
     //*! This [Update] only runs in edit mode
@@ -77,16 +73,10 @@ public class Pencil_Case : MonoBehaviour
         #endregion
 
         /// Write your tools below. Only excuted in [Edit Mode] runtime ///
-        timer = Time.time;
 
+        Update_Graph();
         Layout_Graph();
         Render_Graph();
-
-        if (timer > nextRefresh)
-        {
-            nextRefresh = timer + refreshRate;
-            Update_Graph();
-        }
     }
 
 #else
@@ -444,7 +434,7 @@ public class Pencil_Case : MonoBehaviour
     //*! Destroys instantiated node prefabs
     private void Update_Graph()
     {
-        for (int i = transform.childCount; i > 0; --i)
+        for (int i = transform.childCount ; i > 0; --i)
         {
             DestroyImmediate(transform.GetChild(0).gameObject, true);
         }
