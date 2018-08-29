@@ -52,11 +52,11 @@ public class PlayerStateMachine : MonoBehaviour
 
 
     //*! Current Input
-    public Temp_Node_Map.Node Current_Node = new Temp_Node_Map.Node();
+    public Temp_Node_Map.Node Current_Node = null;
     //*! Next Input
-    public Temp_Node_Map.Node Next_Node = new Temp_Node_Map.Node();
+    public Temp_Node_Map.Node Next_Node = null;
     //*! Queued Input
-    public Temp_Node_Map.Node Queued_Node = new Temp_Node_Map.Node();
+    public Temp_Node_Map.Node Queued_Node = null;
 
 
     //*! Graph Container
@@ -82,14 +82,14 @@ public class PlayerStateMachine : MonoBehaviour
     //*!    Unity Functions
     //*!----------------------------!*//
     #region Unity Functions
-        
+
     /// <summary>
     /// 
     /// </summary>
     private void Start()
     {
         //*! Set the base state
-        player_state = PlayerState.FALLING;
+        player_state = PlayerState.NONE;
 
         //*! Assign the current grid position of the current world coodinates.
         grid_position.x = transform.position.x;
@@ -97,6 +97,20 @@ public class PlayerStateMachine : MonoBehaviour
 
         //*! Current node is alligned to where it was placed
         Current_Node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+
+        //*! Clear the next node
+        Next_Node = null;
+
+        //*! Check if the player is grounded
+        Ground_Check();
+
+        //*! if the player is not grounded
+        if (is_grounded == false)
+        {
+            //*! Start Moving
+            Move_Towards_Next_Node();
+        }
+        
     }
 
     /// <summary>
@@ -146,45 +160,52 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void None_State()
     {
+        //*! Check for input from the player
+        Check_Input();
+
         #region Update State
-        if (Check_Input() == true)
+        //*! When the player IS NOT grounded and not moving, they are FALLING
+        if (Ground_Check() == false && is_moving == false)
         {
-            //*! Change State
-            player_state = PlayerState.MOVING;
+            //*! Change state
+            player_state = PlayerState.FALLING;
             //*! Set the flag
             is_moving = true;
             //*! Get out
             return;
         }
-        else if (Check_Input() == false)
-        {
-            //*! Change State
-            player_state = PlayerState.NONE;
-            ///*! Set the flag
-            ///is_moving = true;
-            //*! Get out
-            return;
-        }
-        //*! When the player is grounded
-        else if (Ground_Check() == true)
-        {
-            //*! Change state
-            player_state = PlayerState.NONE;
-            //*! Get out
-            return;
-        }
-        else if (Ground_Check() == false)
+        //*! When they are NOT grounded but they are moving, they are FALLING
+        else if (Ground_Check() == false && is_moving == true)
         {
             //*! Change state
             player_state = PlayerState.FALLING;
             //*! Get out
             return;
         }
+        //*! When the player IS grounded and not moving, they are MOVING
+        else if ((Ground_Check() == true && is_moving == true))
+        {
+            //*! Change state
+            player_state = PlayerState.MOVING;
+            //*! Get out
+            return;
+        }
+        //*! When the player IS grounded and not moving, they are MOVING
+        else if ((Ground_Check() == true && is_moving == false))
+        {
+            //*! Change state
+            player_state = PlayerState.NONE;
+            //*! Get out
+            return;
+        }
         #endregion
     }
- 
+
     private void Moving_State()
     {
+        //*! Check for input from the player
+        Check_Input();
+
         //*! Start Moving
         Move_Towards_Next_Node();
 
@@ -194,8 +215,6 @@ public class PlayerStateMachine : MonoBehaviour
         {
             //*! Change state
             player_state = PlayerState.FALLING;
-            //*! Set the flag
-            is_grounded = false;
             //*! Get out
             return;
         }
@@ -204,8 +223,6 @@ public class PlayerStateMachine : MonoBehaviour
         {
             //*! Change state
             player_state = PlayerState.MOVING;
-            //*! Set the flag
-            is_grounded = false;
             //*! Get out
             return;
         }
@@ -214,8 +231,14 @@ public class PlayerStateMachine : MonoBehaviour
         {
             //*! Change state
             player_state = PlayerState.MOVING;
-            //*! Set the flag
-            is_grounded = true;
+            //*! Get out
+            return;
+        }
+        //*! When the player IS grounded and not moving, they are MOVING
+        else if ((Ground_Check() == true && is_moving == false))
+        {
+            //*! Change state
+            player_state = PlayerState.NONE;
             //*! Get out
             return;
         }
@@ -224,12 +247,28 @@ public class PlayerStateMachine : MonoBehaviour
     
     private void Falling_State()
     {
+
+        //*! Player is moving / falling
+        is_moving = true;
+
+        //*! Start Moving
+        Move_Towards_Next_Node();
+
         #region Update State
         //*! When the player is grounded
         if (Ground_Check() == true)
         {
             //*! Change state
             player_state = PlayerState.NONE;
+
+            //*! Get out
+            return;
+        }
+        //*! When the player is grounded
+        if (Ground_Check() == false)
+        {
+            //*! Change state
+            player_state = PlayerState.FALLING;
 
             //*! Get out
             return;
@@ -251,16 +290,38 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool Ground_Check()
     {
+        //*! Default State for Queued Node
+        Queued_Node = null;
+
         //*! Can go down from the current grid position
-        if (Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y].Can_DN)
+        if (Current_Node.Can_DN == true)
         {
             //*! Assign the current grid positions down node to the Queued Node
-            Queued_Node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y].DN_NODE;
+            Queued_Node = Current_Node.DN_NODE;
+
+            //*! Update State
+            player_state = PlayerState.FALLING;
+
+            //*! Is NOT Grounded
+            is_grounded = false;
         }
         else
         {
             //*! Can NOT go down from the current grid position
             Queued_Node = null;
+
+            //*! Reset the key pressed flags
+            up_key_pressed = false;
+            down_key_pressed = false;
+            left_key_pressed = false;
+            right_key_pressed = false;
+
+
+            //*! Update State
+            player_state = PlayerState.NONE;
+
+            //*! Is Grounded
+            is_grounded = true;
         }
 
         //*! Was a value assigned to the Queued Node
@@ -270,33 +331,56 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Move_Towards_Next_Node()
     {
+ 
+        ///*! if Next Node has a value, the above checks won't see it and it will move the player towards the next node
+        if (Next_Node == null)
+        {
+            Check_Node_Queue();
+        }
+        else
+        {
+            //*! Move towards the next node
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0), 4 * Time.deltaTime);
+        }
 
-        Check_Node_Queue();
-        //*! if Next Node has a value, the above checks won't see it and it will move the player towards the next node
-
-        //*! Move towards the next node
-        transform.position = Vector3.MoveTowards(transform.position, Next_Node.Position, 4 * Time.deltaTime);
+            
 
         //*! Has the player arrived at the next node?
-        if (transform.position == Next_Node.Position)
+        if (transform.position == new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0))
         {
+            //*! Stays not moving unless it is falling or player input was made
+            is_moving = false;
+
             //*! Shift the next node into the current node
             Current_Node = Next_Node;
 
-            //*! Before checking the nodes again, check for ground?
+            //*! Update the grid position
+            grid_position.x = Current_Node.Position.x;
+            grid_position.y = Current_Node.Position.y;
+             
+            //*! Clear the next node - stays null unless the player is falling
+            Next_Node = null;
+            //*! When the Next Node is null
+            if (Next_Node == null)
+            {
+                Check_Node_Queue();
+            }
 
+            //*! Check for if the player is on the ground
             if (Ground_Check() == true)
             {
-
+                //*! Player is grounded set to none state - waiting for input
+                player_state = PlayerState.NONE;
             }
             else if (Ground_Check() == false)
             {
-
+                //*! Player is not grounded set to falling state
+                player_state = PlayerState.FALLING;
             }
-
-            //*! Check the nodes in the queue
-            Check_Node_Queue();
         }
+ 
+
+
 
 
     }
@@ -370,6 +454,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Check_Node_Queue()
     {
+
         //*! Next and Queued Node are null
         if (Next_Node == null && Queued_Node == null)
         {
@@ -382,20 +467,23 @@ public class PlayerStateMachine : MonoBehaviour
         //*! Next Node is empty and Queued Node has a value
         else if (Next_Node == null && Queued_Node != null)
         {
-
-            if (Validated_Queued_Node() == true)
+            //*! Check to see if the Queued Node can be reached by the Next Node
+            if (Validated_Queued_Node() == true && player_state == PlayerState.MOVING)
             {
                 //*! Shift the node into the Next Node
                 Next_Node = Queued_Node;
+                //*! Clear
+                Queued_Node = null;
             }
-            else
+            else if (Validated_Queued_Node() == false && player_state == PlayerState.FALLING)
             {
-                //return?
+                //*! Shift the node into the Next Node
+                Next_Node = Queued_Node;
+                //*! Clear
+                Queued_Node = null;
             }
-
-            //*! Clear
-            Queued_Node = null;
         }
+  
     }
 
     /// <summary>
@@ -405,23 +493,23 @@ public class PlayerStateMachine : MonoBehaviour
     private Temp_Node_Map.Node Controller_Input()
     {
         //*! Up key was pressed
-        if (Input.GetKeyDown(Up_Key) == true && up_key_pressed == false)
+        if (Input.GetKeyDown(Up_Key) == true /*&& up_key_pressed == false*/)
         {
             //*! Set the flag for later use
             up_key_pressed = true;
 
             //*! Return the node UP to the current grid position
-            return Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y].UP_NODE;     //*! Up Node
+            return Current_Node.UP_NODE;     //*! Up Node
         }
-        else if (Input.GetKeyDown(Down_Key) == true && down_key_pressed == false)
+        else if (Input.GetKeyDown(Down_Key) == true /*&& down_key_pressed == false*/)
         {
             //*! Set the flag for later use
             down_key_pressed = true;
 
             //*! Return the node DOWN to the current grid position
-            return Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y].DN_NODE;     //*! Down Node
+            return Current_Node.DN_NODE;     //*! Down Node
         }
-        else if (Input.GetKeyDown(Left_Key) == true && left_key_pressed == false)
+        else if (Input.GetKeyDown(Left_Key) == true /*&& left_key_pressed == false*/)
         {
             //*! Has the player jumped
             if (up_key_pressed == true)
@@ -439,9 +527,9 @@ public class PlayerStateMachine : MonoBehaviour
             }
 
             //*! Return the node LEFT to the current grid position
-            return Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y].LFT_NODE;    //*! Left Node
+            return Current_Node.LFT_NODE;    //*! Left Node
         }
-        else if (Input.GetKeyDown(Right_Key) == true && right_key_pressed == false)
+        else if (Input.GetKeyDown(Right_Key) == true /*&& right_key_pressed == false*/)
         {
             //*! Has the player jumped
             if (up_key_pressed == true)
@@ -459,11 +547,11 @@ public class PlayerStateMachine : MonoBehaviour
             }
 
             //*! Return the node RIGHT to the current grid position
-            return Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y].RGT_NODE;    //*! Right Node
+            return Current_Node.RGT_NODE;    //*! Right Node
         }
         else
         {
-            return null;                                                                        //*! Nothing
+            return null;    //*! Nothing
         }
     }
 
