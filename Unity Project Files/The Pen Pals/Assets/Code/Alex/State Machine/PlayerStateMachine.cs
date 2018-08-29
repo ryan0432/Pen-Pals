@@ -167,6 +167,8 @@ public class PlayerStateMachine : MonoBehaviour
             player_state = PlayerState.MOVING;
             //*! Set the flag
             is_moving = true;
+            //*! Get out
+            return;
         }
         
 
@@ -211,7 +213,15 @@ public class PlayerStateMachine : MonoBehaviour
     private void Moving_State()
     {
         //*! Check for input from the player
-        Check_Input();
+        if (Check_Input() == true)
+        {
+            //*! Change the state
+            player_state = PlayerState.MOVING;
+            //*! Set the flag
+            is_moving = true;
+            //*! Get out
+            return;
+        }
 
         //*! Start Moving
         Move_Towards_Next_Node();
