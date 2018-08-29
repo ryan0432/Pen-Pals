@@ -161,7 +161,14 @@ public class PlayerStateMachine : MonoBehaviour
     private void None_State()
     {
         //*! Check for input from the player
-        Check_Input();
+        if (Check_Input() == true)
+        {
+            //*! Change the state
+            player_state = PlayerState.MOVING;
+            //*! Set the flag
+            is_moving = true;
+        }
+        
 
         #region Update State
         //*! When the player IS NOT grounded and not moving, they are FALLING
@@ -280,6 +287,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     private bool Check_Input()
     {
+        //*! Default State of Queued Node
+        Queued_Node = null;
+
         //*! Assign the input to Queued Node, returns null if there was none
         Queued_Node = Controller_Input();
 
@@ -474,6 +484,7 @@ public class PlayerStateMachine : MonoBehaviour
                 Next_Node = Queued_Node;
                 //*! Clear
                 Queued_Node = null;
+                
             }
             else if (Validated_Queued_Node() == false && player_state == PlayerState.FALLING)
             {
@@ -481,6 +492,7 @@ public class PlayerStateMachine : MonoBehaviour
                 Next_Node = Queued_Node;
                 //*! Clear
                 Queued_Node = null;
+                
             }
         }
   
