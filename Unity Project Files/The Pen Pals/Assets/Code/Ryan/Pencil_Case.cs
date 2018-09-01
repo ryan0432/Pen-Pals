@@ -34,41 +34,49 @@ public class Pencil_Case : MonoBehaviour
     [Range(0.1f, 1.0f)]
     public float handle_size;
     public Node[,] BL_Nodes { get; set; }
-    public Node[,] LI_Nodes { get { return li_nodes; } set { li_nodes = value; } }
+    public Node[,] LI_Nodes { get; set; }
     public List<Edge> BL_Edges { get; set; }
-    public List<Edge> LI_Edges { get { return li_edges; } set { li_edges = value; } }
+    public List<Edge> LI_Edges { get; set; }
 
     #endregion
+
+    //*!----------------------------!*//
+    //*!    Private Variables
+    //*!----------------------------!*//
+
     #region Private Vars
-
-    [HideInInspector]
-    private Node[,] li_nodes;
-    [HideInInspector]
-    private List<Edge> li_edges;
-
+    //!* Gizmos prefabs for [Instantiate] mode
     [SerializeField]
+    [HideInInspector]
     private GameObject bl_node_giz;
     [SerializeField]
+    [HideInInspector]
     private GameObject bl_arrw_giz;
     [SerializeField]
+    [HideInInspector]
     private GameObject li_node_giz;
     [SerializeField]
+    [HideInInspector]
     private GameObject li_arrw_giz;
 
+    //!* Gizmos meshes and materials for [DrawMesh] mode
     [SerializeField]
+    [HideInInspector]
     private Mesh node_giz;
     [SerializeField]
+    [HideInInspector]
     private Mesh arrw_giz;
     [SerializeField]
+    [HideInInspector]
     private Material bl_giz_mat;
     [SerializeField]
+    [HideInInspector]
     private Material li_giz_mat;
-
     #endregion
 
 #if UNITY_EDITOR
     //*! This [Update] only runs in edit mode
-    [ContextMenu("Update")]
+    [ContextMenu("Editor_Update")]
     private void Update()
     {
         #region Check if current state is in [Playing Mode] or [Edit Mode]
@@ -105,14 +113,15 @@ public class Pencil_Case : MonoBehaviour
     //*!----------------------------!*//
 
     //*! Setup [Block] and [Line] nodes by the number of row and col
+    [ContextMenu("Layout_Graph")]
     private void Layout_Graph()
     {
         //*! Populate the graph with [Node] default construction
         #region Setup instances for [Block] and [Line] Nodes and Edges
         BL_Nodes = new Node[row - 1, col - 1];
         BL_Edges = new List<Edge>();
-        li_nodes = new Node[row, col];
-        li_edges = new List<Edge>();
+        LI_Nodes = new Node[row, col];
+        LI_Edges = new List<Edge>();
         #endregion
 
         #region Setup [Block] Nodes and Preset Neighbor Nodes to Null
@@ -175,61 +184,61 @@ public class Pencil_Case : MonoBehaviour
         #endregion
 
         #region Setup [Line] Nodes and Preset Neighbor Nodes to Null
-        for (int i = 0; i < li_nodes.GetLength(0); ++i)
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
         {
-            for (int j = 0; j < li_nodes.GetLength(1); ++j)
+            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
                 Node new_node = new Node();
-                li_nodes[i, j] = new_node;
-                li_nodes[i, j].Position = new Vector3(i, j);
-                li_nodes[i, j].Node_Size = handle_size;
-                li_nodes[i, j].UP_NODE = null;
-                li_nodes[i, j].DN_NODE = null;
-                li_nodes[i, j].LFT_NODE = null;
-                li_nodes[i, j].RGT_NODE = null;
+                LI_Nodes[i, j] = new_node;
+                LI_Nodes[i, j].Position = new Vector3(i, j);
+                LI_Nodes[i, j].Node_Size = handle_size;
+                LI_Nodes[i, j].UP_NODE = null;
+                LI_Nodes[i, j].DN_NODE = null;
+                LI_Nodes[i, j].LFT_NODE = null;
+                LI_Nodes[i, j].RGT_NODE = null;
             }
         }
         #endregion
 
         #region Setup [Line] Nodes and Neighbor Nodes' linkage in UP & RGT Direction
-        for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
+        for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
         {
-            for (int j = 0; j < li_nodes.GetUpperBound(1); ++j)
+            for (int j = 0; j < LI_Nodes.GetUpperBound(1); ++j)
             {
-                li_nodes[i, j].UP_NODE = li_nodes[i, j + 1];
-                li_nodes[i, j].RGT_NODE = li_nodes[i + 1, j];
+                LI_Nodes[i, j].UP_NODE = LI_Nodes[i, j + 1];
+                LI_Nodes[i, j].RGT_NODE = LI_Nodes[i + 1, j];
             }
         }
 
-        for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
+        for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
         {
-            li_nodes[i, li_nodes.GetUpperBound(1)].RGT_NODE = li_nodes[i + 1, li_nodes.GetUpperBound(1)];
+            LI_Nodes[i, LI_Nodes.GetUpperBound(1)].RGT_NODE = LI_Nodes[i + 1, LI_Nodes.GetUpperBound(1)];
         }
 
-        for (int i = 0; i < li_nodes.GetUpperBound(1); ++i)
+        for (int i = 0; i < LI_Nodes.GetUpperBound(1); ++i)
         {
-            li_nodes[li_nodes.GetUpperBound(0), i].UP_NODE = li_nodes[li_nodes.GetUpperBound(0), i + 1];
+            LI_Nodes[LI_Nodes.GetUpperBound(0), i].UP_NODE = LI_Nodes[LI_Nodes.GetUpperBound(0), i + 1];
         }
         #endregion
 
         #region Setup [Line] Nodes and Neighbor Nodes' linkage in DN & LFT Direction
-        for (int i = li_nodes.GetUpperBound(0); i > 0; --i)
+        for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
         {
-            for (int j = li_nodes.GetUpperBound(1); j > 0; --j)
+            for (int j = LI_Nodes.GetUpperBound(1); j > 0; --j)
             {
-                li_nodes[i, j].DN_NODE = li_nodes[i, j - 1];
-                li_nodes[i, j].LFT_NODE = li_nodes[i - 1, j];
+                LI_Nodes[i, j].DN_NODE = LI_Nodes[i, j - 1];
+                LI_Nodes[i, j].LFT_NODE = LI_Nodes[i - 1, j];
             }
         }
 
-        for (int i = li_nodes.GetUpperBound(0); i > 0; --i)
+        for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
         {
-            li_nodes[i, li_nodes.GetLowerBound(1)].LFT_NODE = li_nodes[i - 1, li_nodes.GetLowerBound(1)];
+            LI_Nodes[i, LI_Nodes.GetLowerBound(1)].LFT_NODE = LI_Nodes[i - 1, LI_Nodes.GetLowerBound(1)];
         }
 
-        for (int i = li_nodes.GetUpperBound(1); i > 0; --i)
+        for (int i = LI_Nodes.GetUpperBound(1); i > 0; --i)
         {
-            li_nodes[li_nodes.GetLowerBound(0), i].DN_NODE = li_nodes[li_nodes.GetLowerBound(0), i - 1];
+            LI_Nodes[LI_Nodes.GetLowerBound(0), i].DN_NODE = LI_Nodes[LI_Nodes.GetLowerBound(0), i - 1];
         }
         #endregion
 
@@ -332,47 +341,47 @@ public class Pencil_Case : MonoBehaviour
         //*! Iterate from the upper right node of [Line] 2D array to check [UP] & [RGT] direction's traversability.
         //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
         #region Setup [Line] Edges in UP & Right Direction
-        for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
+        for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
         {
-            for (int j = 0; j < li_nodes.GetUpperBound(1); ++j)
+            for (int j = 0; j < LI_Nodes.GetUpperBound(1); ++j)
             {
-                if (li_nodes[i, j].Can_UP)
+                if (LI_Nodes[i, j].Can_UP)
                 {
                     Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i, j + 1];
-                    li_edges.Add(new_edge);
+                    new_edge.Start_Node = LI_Nodes[i, j];
+                    new_edge.End_Node = LI_Nodes[i, j + 1];
+                    LI_Edges.Add(new_edge);
                 }
 
-                if (li_nodes[i, j].Can_RGT)
+                if (LI_Nodes[i, j].Can_RGT)
                 {
                     Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i + 1, j];
-                    li_edges.Add(new_edge);
+                    new_edge.Start_Node = LI_Nodes[i, j];
+                    new_edge.End_Node = LI_Nodes[i + 1, j];
+                    LI_Edges.Add(new_edge);
                 }
             }
         }
 
-        for (int i = 0; i < li_nodes.GetUpperBound(0); ++i)
+        for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
         {
-            if (li_nodes[i, li_nodes.GetUpperBound(1)].Can_RGT)
+            if (LI_Nodes[i, LI_Nodes.GetUpperBound(1)].Can_RGT)
             {
                 Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[i, li_nodes.GetUpperBound(1)];
-                new_edge.End_Node = li_nodes[i + 1, li_nodes.GetUpperBound(1)];
-                li_edges.Add(new_edge);
+                new_edge.Start_Node = LI_Nodes[i, LI_Nodes.GetUpperBound(1)];
+                new_edge.End_Node = LI_Nodes[i + 1, LI_Nodes.GetUpperBound(1)];
+                LI_Edges.Add(new_edge);
             }
         }
 
-        for (int i = 0; i < li_nodes.GetUpperBound(1); ++i)
+        for (int i = 0; i < LI_Nodes.GetUpperBound(1); ++i)
         {
-            if (li_nodes[li_nodes.GetUpperBound(0), i].Can_UP)
+            if (LI_Nodes[LI_Nodes.GetUpperBound(0), i].Can_UP)
             {
                 Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[li_nodes.GetUpperBound(0), i];
-                new_edge.End_Node = li_nodes[li_nodes.GetUpperBound(0), i + 1];
-                li_edges.Add(new_edge);
+                new_edge.Start_Node = LI_Nodes[LI_Nodes.GetUpperBound(0), i];
+                new_edge.End_Node = LI_Nodes[LI_Nodes.GetUpperBound(0), i + 1];
+                LI_Edges.Add(new_edge);
             }
         }
         #endregion
@@ -380,86 +389,119 @@ public class Pencil_Case : MonoBehaviour
         //*! Iterate from the upper right node of [Line] 2D array to check [DN] & [LFT] direction's traversability.
         //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
         #region Setup [Line] Edges in DN & LFT Direction
-        for (int i = li_nodes.GetUpperBound(0); i > 0; --i)
+        for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
         {
-            for (int j = li_nodes.GetUpperBound(1); j > 0; --j)
+            for (int j = LI_Nodes.GetUpperBound(1); j > 0; --j)
             {
-                if (li_nodes[i, j].Can_DN)
+                if (LI_Nodes[i, j].Can_DN)
                 {
                     Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i, j - 1];
-                    li_edges.Add(new_edge);
+                    new_edge.Start_Node = LI_Nodes[i, j];
+                    new_edge.End_Node = LI_Nodes[i, j - 1];
+                    LI_Edges.Add(new_edge);
                 }
 
-                if (li_nodes[i, j].Can_LFT)
+                if (LI_Nodes[i, j].Can_LFT)
                 {
                     Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i - 1, j];
-                    li_edges.Add(new_edge);
+                    new_edge.Start_Node = LI_Nodes[i, j];
+                    new_edge.End_Node = LI_Nodes[i - 1, j];
+                    LI_Edges.Add(new_edge);
                 }
             }
         }
 
-        for (int i = li_nodes.GetUpperBound(0); i > 0; --i)
+        for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
         {
-            if (li_nodes[i, li_nodes.GetLowerBound(1)].Can_LFT)
+            if (LI_Nodes[i, LI_Nodes.GetLowerBound(1)].Can_LFT)
             {
                 Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[i, li_nodes.GetLowerBound(1)];
-                new_edge.End_Node = li_nodes[i - 1, li_nodes.GetLowerBound(1)];
-                li_edges.Add(new_edge);
+                new_edge.Start_Node = LI_Nodes[i, LI_Nodes.GetLowerBound(1)];
+                new_edge.End_Node = LI_Nodes[i - 1, LI_Nodes.GetLowerBound(1)];
+                LI_Edges.Add(new_edge);
             }
         }
 
-        for (int i = li_nodes.GetUpperBound(1); i > 0; --i)
+        for (int i = LI_Nodes.GetUpperBound(1); i > 0; --i)
         {
-            if (li_nodes[li_nodes.GetLowerBound(0), i].Can_DN)
+            if (LI_Nodes[LI_Nodes.GetLowerBound(0), i].Can_DN)
             {
                 Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[li_nodes.GetLowerBound(0), i];
-                new_edge.End_Node = li_nodes[li_nodes.GetLowerBound(0), i - 1];
-                li_edges.Add(new_edge);
+                new_edge.Start_Node = LI_Nodes[LI_Nodes.GetLowerBound(0), i];
+                new_edge.End_Node = LI_Nodes[LI_Nodes.GetLowerBound(0), i - 1];
+                LI_Edges.Add(new_edge);
             }
         }
         #endregion
     }
 
     //*! Render the graph by instantiating [GameObjects]
+    [ContextMenu("Render_Graph")]
     private void Render_Graph()
     {
-        float gizmos_spacing = handle_size * 0.5f;
+        //!* Gizmos Spacing for [Instantiate] method
+        //float gizmos_spacing = handle_size * 0.5f;
+
+        //!* Gizmos Spacing for [DrawMesh] method
+        float gizmos_spacing = handle_size * 0.8f;
 
         for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
             {
-                GameObject newNodeGiz = Instantiate(bl_node_giz, BL_Nodes[i, j].Position, Quaternion.identity, transform.GetChild(0));
-                newNodeGiz.transform.localScale *= handle_size;
+                //GameObject newNodeGiz = Instantiate(bl_node_giz, BL_Nodes[i, j].Position, Quaternion.identity, transform.GetChild(0));
+                //newNodeGiz.transform.localScale *= handle_size;
+
+                Matrix4x4 handleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position) *
+                Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
+
+                Graphics.DrawMesh(node_giz, handleMatx, bl_giz_mat, 0);
 
                 if (BL_Nodes[i, j].Can_UP)
                 {
-                    Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0);
-                    GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.identity, newNodeGiz.transform);
+                    //Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.identity, newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_DN)
                 {
-                    Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0);
-                    GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.AngleAxis(180f, Vector3.forward), newNodeGiz.transform);
+                    //Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.AngleAxis(180f, Vector3.forward), newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_LFT)
                 {
-                    Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
-                    GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.AngleAxis(90f, Vector3.forward), newNodeGiz.transform);
+                    //Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.AngleAxis(90f, Vector3.forward), newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_RGT)
                 {
-                    Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0);
-                    GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.AngleAxis(270f, Vector3.forward), newNodeGiz.transform);
+                    //Vector3 arrowPos = BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(bl_arrw_giz, arrowPos, Quaternion.AngleAxis(270f, Vector3.forward), newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
+                                           Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
                 }
             }
         }
@@ -468,37 +510,66 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
-                GameObject newNodeGiz = Instantiate(li_node_giz, LI_Nodes[i, j].Position, Quaternion.identity, transform.GetChild(1));
-                newNodeGiz.transform.localScale *= handle_size;
+                //GameObject newNodeGiz = Instantiate(li_node_giz, LI_Nodes[i, j].Position, Quaternion.identity, transform.GetChild(1));
+                //newNodeGiz.transform.localScale *= handle_size;
+
+                Matrix4x4 handleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position) *
+                Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
+
+                Graphics.DrawMesh(node_giz, handleMatx, li_giz_mat, 0);
 
                 if (LI_Nodes[i, j].Can_UP)
                 {
-                    Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0);
-                    GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.identity, newNodeGiz.transform);
+                    //Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.identity, newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_DN)
                 {
-                    Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0);
-                    GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.AngleAxis(180f, Vector3.forward), newNodeGiz.transform);
+                    //Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.AngleAxis(180f, Vector3.forward), newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_LFT)
                 {
-                    Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
-                    GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.AngleAxis(90f, Vector3.forward), newNodeGiz.transform);
+                    //Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.AngleAxis(90f, Vector3.forward), newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_RGT)
                 {
-                    Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0);
-                    GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.AngleAxis(270f, Vector3.forward), newNodeGiz.transform);
+                    //Vector3 arrowPos = LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0);
+                    //GameObject newNodeArrwGiz = Instantiate(li_arrw_giz, arrowPos, Quaternion.AngleAxis(270f, Vector3.forward), newNodeGiz.transform);
+
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
                 }
             }
         }
     }
 
     //*! Destroys instantiated node prefabs
+    [ContextMenu("Update_Graph")]
     private void Update_Graph()
     {
         bool is_BL_Node_Gizmos_List_Empty = (transform.GetChild(0).childCount < 1);
@@ -508,8 +579,7 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int i = transform.GetChild(0).childCount; i > 0; --i)
             {
-                DestroyImmediate(transform.GetChild(0).GetChild(0).gameObject, true);
-                
+                DestroyImmediate(transform.GetChild(0).GetChild(0).gameObject, true); 
             }
             Debug.Log("Clear [Block] Node Gizmos");
         }
@@ -519,7 +589,6 @@ public class Pencil_Case : MonoBehaviour
             for (int i = transform.GetChild(1).childCount; i > 0; --i)
             {
                 DestroyImmediate(transform.GetChild(1).GetChild(0).gameObject, true);
-
             }
             Debug.Log("Clear [Line] Node Gizmos");
         }
