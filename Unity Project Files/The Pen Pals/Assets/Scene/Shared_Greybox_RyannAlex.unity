@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 1081585980}
   - component: {fileID: 1081585979}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BLOCK PLAYER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

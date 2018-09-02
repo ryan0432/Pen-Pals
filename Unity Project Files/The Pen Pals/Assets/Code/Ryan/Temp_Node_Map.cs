@@ -597,7 +597,7 @@ public class Temp_Node_Map : MonoBehaviour
     //*!----------------------------!*//
 
     //*! Structs for map elements [Node] and [Edge] 
-    [System.Serializable]
+    //[System.Serializable]
     public class Node
     {
         //*! Getter, Setter of Node members
