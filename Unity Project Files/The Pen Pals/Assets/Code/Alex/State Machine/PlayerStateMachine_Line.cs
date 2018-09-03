@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerStateMachine_Line : MonoBehaviour
 {
 
     //*!----------------------------!*//
