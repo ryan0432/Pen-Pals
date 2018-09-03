@@ -46,7 +46,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     //*! Current Head Position
     private Vector2 grid_position;
- 
+
+
+    private LineRenderer line_renderer;
+
     #endregion
 
 
@@ -54,6 +57,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
+    //*! Graph Container
+    public Temp_Node_Map Node_Graph;
+
 
     [System.Serializable]
     public struct Line_Point
@@ -75,8 +81,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
     public Temp_Node_Map.Node Queued_Node = null;
 
 
-    //*! Graph Container
-    public Temp_Node_Map Node_Graph;
 
     //*! Property Accessor(s)
     public KeyCode Up_Key
@@ -104,22 +108,35 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        line_renderer = GetComponent<LineRenderer>();
+
+
+
         //*! Set the size of the array
-        List<Line_Point> lp = new List<Line_Point>();
+        List<Line_Point> point_list = new List<Line_Point>();
         //Line_Points = new Line_Point[transform.childCount];
 
         //*! Fill the array with the children
         for (int index = 0; index < transform.childCount; index++)
         {
-            if (transform.GetChild(index).gameObject.name == "PIVOT")
-            {
+            //if (transform.GetChild(index).gameObject.name == "PIVOT")
+            //{
                 Line_Point temp;
                 temp.segment = transform.GetChild(index).gameObject;
                 temp.target = transform.GetChild(index).position;
-                lp.Add(temp);
-            }
+                point_list.Add(temp);
+            //}
         }
-        Line_Points = lp.ToArray();
+        Line_Points = point_list.ToArray();
+
+        line_renderer.positionCount = Line_Points.Length;
+
+        for (int index = 0; index < Line_Points.Length; index++)
+        {
+            line_renderer.SetPosition(index, Line_Points[index].segment.transform.position);
+        }
+
+       
 
         head_at_tail = false;
 
@@ -152,6 +169,12 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //}
 
         Just_Move_Input();
+
+        //*! Update the positions of the lines
+        for (int index = 0; index < Line_Points.Length; index++)
+        {
+            line_renderer.SetPosition(index, Line_Points[index].segment.transform.position);
+        }
     }
 
     #endregion
@@ -212,7 +235,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Iterate over all the Line Points
             for (int index = 0; index < Line_Points.Length; index++)
             {
-                Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, 4 * Time.deltaTime);
+                if (Line_Points[index].segment.name != "PIVOT")
+                {
+                    Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, 4 * Time.deltaTime);
+                }
             }
  
 
@@ -229,11 +255,22 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Reached the next node
             if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
             {
+                Line_Points[0].segment.transform.position = Line_Points[0].target;
+                Line_Points[1].segment.transform.position = Line_Points[1].target;
+                
+
                 //*! Snap all
-                for (int index = 0; index < Line_Points.Length; index++)
+                for (int index = Line_Points.Length -1; index >= 0; index--)
                 {
-                    Line_Points[index].segment.transform.position = Line_Points[index].target;
+
+                    if (Line_Points[index].segment.name == "PIVOT")
+                    {
+                        Line_Points[index].segment.transform.position = Line_Points[index -1].segment.transform.position;
+                    }
+
                 }
+                //*! Tail update
+                Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
 
 
                 //*! Finished moving, unless the below checks override that
@@ -251,6 +288,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! Update the grid position
                 grid_position.x = Current_Node.Position.x;
                 grid_position.y = Current_Node.Position.y;
+
 
 
                 //*! Does Queued node have a value
@@ -304,12 +342,31 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Clear the Queued node
         Queued_Node = null;
 
-        //*! Heads target position is equal to the next node
-        Line_Points[0].target = Next_Node.Position;
         //*! Set the target positions
-        for (int index = 0; index < Line_Points.Length - 1; index++)
+        for (int index = 0; index < Line_Points.Length; index++)
         {
-            Line_Points[index + 1].target = Line_Points[index].segment.transform.position;
+            //*! Heads target position is equal to the next node
+            if (Line_Points[index].segment.name == "HEAD")
+            {
+                Line_Points[index].target = Next_Node.Position;
+            }
+
+            if (Line_Points[index].segment.name == "HEAD_CAP" && head_at_tail == false)
+            {
+                Line_Points[index].target = Next_Node.Position;
+            }
+
+            //*! Stays where it is until the player has reached the next node
+            //if (Line_Points[index].segment.name == "PIVOT")
+            //{
+            //    Line_Points[index].target = Line_Points[index - 1].segment.transform.position;
+            //}
+
+            if (Line_Points[index].segment.name == "TAIL_CAP")
+            {
+                Line_Points[index].target = Line_Points[index - 1].segment.transform.position;
+            }
+
         }
     }
 
@@ -344,12 +401,11 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
         else if (is_moving == true && can_second == false)
         {
-            //?
             //*! Player Input checks - based on Current Node position.
             Queued_Node = Controller_Input();
-
         }
     }
+
 
     /// <summary>
     /// Checks the current key pressed and sets the appropirate flag
