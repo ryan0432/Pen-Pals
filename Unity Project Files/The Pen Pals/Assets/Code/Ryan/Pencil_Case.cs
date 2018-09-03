@@ -21,14 +21,22 @@ public class Pencil_Case : MonoBehaviour
     //*!----------------------------!*//
 
     #region Public Vars
+    public bool startEditing = false;
+    public bool showBlockGraph = true;
+    public bool showLineGraph = true;
+
     [Range(2, 50)]
+    [HideInInspector]
     public int initialRow;
     [Range(2, 50)]
+    [HideInInspector]
     public int initialCol;
 
     [Range(2, 50)]
+    [HideInInspector]
     public int row;
     [Range(2, 50)]
+    [HideInInspector]
     public int col;
 
     [Range(0.1f, 1.0f)]
@@ -37,10 +45,19 @@ public class Pencil_Case : MonoBehaviour
     public Node[,] BL_Nodes { get; set; }
     public Node[,] LI_Nodes { get; set; }
 
-    public List<Edge> BL_Edges { get; set; }
-    public List<Edge> LI_Edges { get; set; }
+    public Edge[,] BL_U_Edges { get; set; }
+    public Edge[,] BL_V_Edges { get; set; }
+    public Edge[,] LI_U_Edges { get; set; }
+    public Edge[,] LI_V_Edges { get; set; }
+
+
+
 
     /// [Deprecated] varibles in this section ///
+    #region Edge list vars for [List] method [Deprecated] 
+    //public List<Edge> BL_Edges { get; set; }
+    //public List<Edge> LI_Edges { get; set; }
+    #endregion
     /// ------------------------------------- ///
     #endregion
 
@@ -64,7 +81,7 @@ public class Pencil_Case : MonoBehaviour
     private GameObject li_arrw_giz;
 
     [SerializeField]
-    [HideInInspector]
+    //[HideInInspector]
     private GameObject edge_giz;
 
 
@@ -81,6 +98,7 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private Material li_giz_mat;
+
     #endregion
 
 
@@ -99,15 +117,39 @@ public class Pencil_Case : MonoBehaviour
 
         /// Write your tools below. Only excuted in [Edit Mode] runtime ///
 
-        Update_Graph();
-        Layout_Graph();
-        Render_Graph();
+        if (!startEditing)
+        {
+            //*! Update with [DestroyImmidiate()] method
+            Update_Graph_Init_Mode();
+
+            //*! Initialize Graph here
+            Layout_Graph_Init_Mode();
+
+            //*! Render Node Gizmos
+            Render_Node_Gizmos_Init_Mode();
+
+            //*! Rebder Edge Handles
+            Render_Edges_Handles_Init_Mode();
+        }
+        else
+        {
+            //Edit Graph using
+            //Update with [SetActive(true/false)] method
+        }
+
     }
 
     //*! [OnValidate] only works in [Editor Mode] changing related varibles in realtime
     [ContextMenu("OnValidate")]
     private void OnValidate()
     {
+        //*! Lock up [Initial Row] and [Initial Col] in [Editiong Mode]
+        //if (startEditing)
+        //{
+        //    initialRow = initialRow;
+        //    initialCol = initialCol;
+        //}
+
         //*! Limit the max number of [Row] and [Col] bound to [initialRow] and [initialCol]
         if (row > initialRow)
         {
@@ -140,16 +182,24 @@ public class Pencil_Case : MonoBehaviour
 
     //*! Setup [Block] and [Line] nodes by the number of row and col
     [ContextMenu("Layout_Graph")]
-    private void Layout_Graph()
+    private void Layout_Graph_Init_Mode()
     {
         //*! Populate the graph with [Node] default construction
         #region Setup instances for [Block] and [Line] Nodes and Edges
         BL_Nodes = new Node[row - 1, col - 1];
         LI_Nodes = new Node[row, col];
-        BL_Edges = new List<Edge>();
-        LI_Edges = new List<Edge>();
+
+        BL_U_Edges = new Edge[row - 2, col - 1];
+        BL_V_Edges = new Edge[row - 1, col - 2];
+        LI_U_Edges = new Edge[row - 1, col];
+        LI_V_Edges = new Edge[row, col - 1];
+
 
         /// [Deprecated] varibles in this section ///
+        #region Edge list vars for [List] method [Deprecated]
+        //BL_Edges = new List<Edge>();
+        //LI_Edges = new List<Edge>();
+        #endregion
         /// ------------------------------------- ///
 
         #endregion
@@ -272,54 +322,35 @@ public class Pencil_Case : MonoBehaviour
         }
         #endregion
 
-        #region Setup Edges for [Block] Nodes
-        for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
+        #region Setup [Line] - [U] direction edges for [Block]
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
         {
-            for (int j = 0; j < BL_Nodes.GetUpperBound(1); ++j)
+            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
             {
-                //*! Setup [Up] edge for Block Nodes
                 Edge new_edge_U = new Edge();
                 new_edge_U.Type = Edge_Type.NONE;
-                new_edge_U.Start_Node = BL_Nodes[i, j];
-                new_edge_U.End_Node = BL_Nodes[i, j + 1];
-                new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position)/2);
+                new_edge_U.Start_Node = LI_Nodes[i, j];
+                new_edge_U.End_Node = LI_Nodes[i + 1, j];
+                new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
                 new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
-                BL_Edges.Add(new_edge_U);
-
-                //*! Setup [RGT] edge for Block Nodes
-                Edge new_edge_R = new Edge();
-                new_edge_R.Type = Edge_Type.NONE;
-                new_edge_R.Start_Node = BL_Nodes[i, j];
-                new_edge_R.End_Node = BL_Nodes[i + 1, j];
-                new_edge_R.Position = new_edge_R.Start_Node.Position + ((new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position) / 2);
-                new_edge_R.Normal = Vector3.Cross(Vector3.Normalize(new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position), Vector3.forward);
-                BL_Edges.Add(new_edge_R);
+                LI_U_Edges[i, j] = new_edge_U;
             }
         }
+        #endregion
 
-        for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
+        #region Setup [Line] - [V] direction edges for [Block]
+        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
         {
-            int arrayYBound = BL_Nodes.GetUpperBound(1);
-            Edge new_edge_R = new Edge();
-            new_edge_R.Type = Edge_Type.NONE;
-            new_edge_R.Start_Node = BL_Nodes[i, arrayYBound];
-            new_edge_R.End_Node = BL_Nodes[i + 1, arrayYBound];
-            new_edge_R.Position = new_edge_R.Start_Node.Position + ((new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position) / 2);
-            new_edge_R.Normal = Vector3.Cross(Vector3.Normalize(new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position), Vector3.forward);
-            BL_Edges.Add(new_edge_R);
-
-        }
-
-        for (int i = 0; i < BL_Nodes.GetUpperBound(1); ++i)
-        {
-            int arrayXBound = BL_Nodes.GetUpperBound(0);
-            Edge new_edge_U = new Edge();
-            new_edge_U.Type = Edge_Type.NONE;
-            new_edge_U.Start_Node = BL_Nodes[arrayXBound, i];
-            new_edge_U.End_Node = BL_Nodes[arrayXBound, i + 1];
-            new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
-            new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
-            BL_Edges.Add(new_edge_U);
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+                Edge new_edge_V = new Edge();
+                new_edge_V.Type = Edge_Type.NONE;
+                new_edge_V.Start_Node = LI_Nodes[i, j];
+                new_edge_V.End_Node = LI_Nodes[i, j + 1];
+                new_edge_V.Position = new_edge_V.Start_Node.Position + ((new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position) / 2);
+                new_edge_V.Normal = Vector3.Cross(Vector3.Normalize(new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position), Vector3.forward);
+                LI_V_Edges[i, j] = new_edge_V;
+            }
         }
         #endregion
 
@@ -517,12 +548,63 @@ public class Pencil_Case : MonoBehaviour
         //}
         #endregion
         #endregion
+
+        #region Setup Edges for [Block] Nodes with [List] method ([Deprecated])
+        //for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
+        //{
+        //    for (int j = 0; j < BL_Nodes.GetUpperBound(1); ++j)
+        //    {
+        //        //*! Setup [Up] edge for Block Nodes
+        //        Edge new_edge_U = new Edge();
+        //        new_edge_U.Type = Edge_Type.NONE;
+        //        new_edge_U.Start_Node = BL_Nodes[i, j];
+        //        new_edge_U.End_Node = BL_Nodes[i, j + 1];
+        //        new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position)/2);
+        //        new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
+        //        BL_Edges.Add(new_edge_U);
+
+        //        //*! Setup [RGT] edge for Block Nodes
+        //        Edge new_edge_R = new Edge();
+        //        new_edge_R.Type = Edge_Type.NONE;
+        //        new_edge_R.Start_Node = BL_Nodes[i, j];
+        //        new_edge_R.End_Node = BL_Nodes[i + 1, j];
+        //        new_edge_R.Position = new_edge_R.Start_Node.Position + ((new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position) / 2);
+        //        new_edge_R.Normal = Vector3.Cross(Vector3.Normalize(new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position), Vector3.forward);
+        //        BL_Edges.Add(new_edge_R);
+        //    }
+        //}
+
+        //for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
+        //{
+        //    int arrayYBound = BL_Nodes.GetUpperBound(1);
+        //    Edge new_edge_R = new Edge();
+        //    new_edge_R.Type = Edge_Type.NONE;
+        //    new_edge_R.Start_Node = BL_Nodes[i, arrayYBound];
+        //    new_edge_R.End_Node = BL_Nodes[i + 1, arrayYBound];
+        //    new_edge_R.Position = new_edge_R.Start_Node.Position + ((new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position) / 2);
+        //    new_edge_R.Normal = Vector3.Cross(Vector3.Normalize(new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position), Vector3.forward);
+        //    BL_Edges.Add(new_edge_R);
+
+        //}
+
+        //for (int i = 0; i < BL_Nodes.GetUpperBound(1); ++i)
+        //{
+        //    int arrayXBound = BL_Nodes.GetUpperBound(0);
+        //    Edge new_edge_U = new Edge();
+        //    new_edge_U.Type = Edge_Type.NONE;
+        //    new_edge_U.Start_Node = BL_Nodes[arrayXBound, i];
+        //    new_edge_U.End_Node = BL_Nodes[arrayXBound, i + 1];
+        //    new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
+        //    new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
+        //    BL_Edges.Add(new_edge_U);
+        //}
+        #endregion
         /// --------------------------------- ///
     }
 
     //*! Render the graph by instantiating [GameObjects]
     [ContextMenu("Render_Graph")]
-    private void Render_Graph()
+    private void Render_Node_Gizmos_Init_Mode()
     {
         #region Setup gizmos' spacing based on handle size
         //!* Gizmos Spacing for [Instantiate] method
@@ -659,38 +741,73 @@ public class Pencil_Case : MonoBehaviour
         #endregion
     }
 
-    [ContextMenu("Render_Edges")]
-    private void Render_Edges()
+    [ContextMenu("Render_Edges_Handles")]
+    private void Render_Edges_Handles_Init_Mode()
     {
-        for (int i = 0; i < BL_Edges.Count; ++i)
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
         {
-            
+            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = LI_U_Edges[i, j].Position;
+                Quaternion rot = Quaternion.AngleAxis(90, Vector3.forward);
+                GameObject go = Instantiate(edge_giz, pos, rot, transform.Find("LI_Edges"));
+            }
+        }
+
+        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = LI_V_Edges[i, j].Position;
+                Quaternion rot = Quaternion.identity;
+                GameObject go = Instantiate(edge_giz, pos, rot, transform.Find("LI_Edges"));
+            }
         }
     }
 
-    //*! Destroys instantiated node prefabs
+    //*! Destroys instantiated node prefabs in [Initialization Mode]
     [ContextMenu("Update_Graph")]
-    private void Update_Graph()
+    private void Update_Graph_Init_Mode()
     {
-        bool is_BL_Node_Gizmos_List_Empty = (transform.GetChild(0).childCount < 1);
-        bool is_LI_Node_Gizmos_List_Empty = (transform.GetChild(1).childCount < 1);
+        bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
+        bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
+        bool is_BL_Edges_List_Empty = (transform.Find("BL_Edges").childCount < 1);
+        bool is_LI_Edges_List_Empty = (transform.Find("LI_Edges").childCount < 1);
 
         if (!is_BL_Node_Gizmos_List_Empty)
         {
-            for (int i = transform.GetChild(0).childCount; i > 0; --i)
+            for (int i = transform.Find("BL_Node_Gizmos").childCount; i > 0; --i)
             {
-                DestroyImmediate(transform.GetChild(0).GetChild(0).gameObject, true); 
+                DestroyImmediate(transform.Find("BL_Node_Gizmos").GetChild(0).gameObject, true); 
             }
             Debug.Log("Clear [Block] Node Gizmos");
         }
 
         if (!is_LI_Node_Gizmos_List_Empty)
         {
-            for (int i = transform.GetChild(1).childCount; i > 0; --i)
+            for (int i = transform.Find("LI_Node_Gizmos").childCount; i > 0; --i)
             {
                 DestroyImmediate(transform.GetChild(1).GetChild(0).gameObject, true);
             }
             Debug.Log("Clear [Line] Node Gizmos");
+        }
+
+        if (!is_BL_Edges_List_Empty)
+        {
+            for (int i = transform.Find("BL_Edges").childCount; i > 0; --i)
+            {
+                DestroyImmediate(transform.Find("BL_Edges").GetChild(0).gameObject, true);
+            }
+            Debug.Log("Clear [Block] Edge Handles");
+        }
+
+        if (!is_LI_Edges_List_Empty)
+        {
+            for (int i = transform.Find("LI_Edges").childCount; i > 0; --i)
+            {
+                DestroyImmediate(transform.Find("LI_Edges").GetChild(0).gameObject, true);
+            }
+            Debug.Log("Clear [Line] Edge Handles");
         }
     }
 
@@ -708,6 +825,7 @@ public class Pencil_Case : MonoBehaviour
     #region [Node] and [Edge] classes
 
     //*! Classes for map elements [Node] and [Edge] 
+    [System.Serializable]
     public class Node
     {
         //*! Getter, Setter of Node members
@@ -727,6 +845,7 @@ public class Pencil_Case : MonoBehaviour
         public Node RGT_NODE { get; set; }
     }
 
+    [System.Serializable]
     public class Edge
     {
         //*! Getter, Setter of Edge members
