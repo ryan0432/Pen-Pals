@@ -157,6 +157,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
     #endregion
 
 
+
+
     void Just_Move_Input()
     {
         //*! Check for the players input
@@ -168,19 +170,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Shift nodes if next is empty
             if (Next_Node == null && Queued_Node != null)
             {
-                //*! Shift Queued into the next node
-                Next_Node = Queued_Node;
-
-                //*! Clear the Queued node
-                Queued_Node = null;
-
-                //*! Heads target position is equal to the next node
-                Line_Points[0].target = Next_Node.Position;
-                //*! Set the target positions
-                for (int index = 0; index < Line_Points.Length - 1; index++)
-                {
-                    Line_Points[index + 1].target = Line_Points[index].segment.transform.position;
-                }
+                Shift_Nodes();
             }
       
         }
@@ -270,13 +260,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     //*! Shift nodes if next is empty
                     if (Next_Node == null && Queued_Node != null)
                     {
-                        ///Debug.Log("N: null" + Next_Node);
-                        //*! Shift Queued into the next node
-                        Next_Node = Queued_Node;
-                        ///Debug.Log("N: not null" + Next_Node.Position);
-                        //*! Clear the Queued node
-                        Queued_Node = null;
-                        ///Debug.Log("Q: null" + Queued_Node);
+                        Shift_Nodes();
                     }
                 }
  
@@ -312,6 +296,22 @@ public class PlayerStateMachine_Line : MonoBehaviour
         return null;
     }
  
+    private void Shift_Nodes()
+    {
+        //*! Shift Queued into the next node
+        Next_Node = Queued_Node;
+
+        //*! Clear the Queued node
+        Queued_Node = null;
+
+        //*! Heads target position is equal to the next node
+        Line_Points[0].target = Next_Node.Position;
+        //*! Set the target positions
+        for (int index = 0; index < Line_Points.Length - 1; index++)
+        {
+            Line_Points[index + 1].target = Line_Points[index].segment.transform.position;
+        }
+    }
 
     private void Check_Input()
     {
