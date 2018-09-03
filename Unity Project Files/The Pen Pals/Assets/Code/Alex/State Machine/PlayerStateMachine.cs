@@ -55,13 +55,7 @@ public class PlayerStateMachine : MonoBehaviour
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
-    public enum PlayerState
-    {
-        NONE,
-        MOVING,
-        FALLING
-    }
-
+ 
 
     //*! Previous Input
     public Temp_Node_Map.Node Previous_Node = null;
@@ -178,7 +172,7 @@ public class PlayerStateMachine : MonoBehaviour
                 Next_Node = Queued_Node;
 
                 //*! Clear the Queued node
-                //Queued_Node = null;
+                Queued_Node = null;
             }
         }
  
@@ -224,22 +218,22 @@ public class PlayerStateMachine : MonoBehaviour
                 //*! Does Queued node have a value
                 if (Queued_Node != null)
                 {
-                    Debug.Log("Q: Not null" + Queued_Node.Position);
+                    ///Debug.Log("Q: Not null" + Queued_Node.Position);
                     //*! Shift nodes if next is empty
                     if (Next_Node == null && Queued_Node != null)
                     {
-                        Debug.Log("N: null" + Next_Node);
+                        ///Debug.Log("N: null" + Next_Node);
                         //*! Shift Queued into the next node
                         Next_Node = Queued_Node;
-                        Debug.Log("N: not null" + Next_Node.Position);
+                        ///Debug.Log("N: not null" + Next_Node.Position);
                         //*! Clear the Queued node
                         Queued_Node = null;
-                        Debug.Log("Q: null" + Queued_Node);
+                        ///Debug.Log("Q: null" + Queued_Node);
                     }
                 }
                 else
                 {
-                    Debug.Log("Q: null - Ground Check!");
+                    ///Debug.Log("Q: null - Ground Check!");
                     Ground_Check();
                 }
 

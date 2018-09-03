@@ -4,7 +4,7 @@
 
 //*! Using namespaces
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 
 public class PlayerStateMachine_Line : MonoBehaviour
@@ -40,14 +40,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
     private bool right_key_pressed;
 
 
-    private bool is_grounded;
     private bool is_moving;
     private bool can_second;
-    private bool is_falling;
+    private bool head_at_tail;
 
-
+    //*! Current Head Position
     private Vector2 grid_position;
-    
+ 
     #endregion
 
 
@@ -55,12 +54,15 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
-    public enum PlayerState
+
+    [System.Serializable]
+    public struct Line_Point
     {
-        NONE,
-        MOVING,
-        FALLING
+        public Vector3 target;
+        public GameObject segment;
     }
+
+    public Line_Point[] Line_Points;
 
 
     //*! Previous Input
@@ -102,17 +104,38 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        //*! Set the size of the array
+        List<Line_Point> lp = new List<Line_Point>();
+        //Line_Points = new Line_Point[transform.childCount];
+
+        //*! Fill the array with the children
+        for (int index = 0; index < transform.childCount; index++)
+        {
+            if (transform.GetChild(index).gameObject.name == "PIVOT")
+            {
+                Line_Point temp;
+                temp.segment = transform.GetChild(index).gameObject;
+                temp.target = transform.GetChild(index).position;
+                lp.Add(temp);
+            }
+        }
+        Line_Points = lp.ToArray();
+
+        head_at_tail = false;
+
 
         //*! Assign the current grid position of the current world coodinates.
         grid_position.x = transform.position.x;
         grid_position.y = transform.position.y;
 
         //*! Current node is alligned to where it was placed
-        Current_Node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
-
-        is_grounded = Ground_Check();
+        Current_Node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
+ 
 
     }
+
+         
+
         
 
     /// <summary>
@@ -136,37 +159,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     void Just_Move_Input()
     {
-        //*! Only when the player is not moving but are grounded
-        if (is_moving == false && is_grounded == true && is_falling == false)
-        {
-            //*! Player Input checks - based on Current Node position.
-            Queued_Node = Controller_Input();
-
-            //*! Does it have a value, did the player input something?
-            if (Queued_Node != null)
-            {
-                is_moving = true;
-            }
-
-        }
-
-
-
-        /*-can second input to override the current Queued node-*/
-        /*-when X% distance remaining of current to next -*/
-        if (is_moving == true && can_second == true && is_falling == false)
-        {
-            //*! Player Input checks - based on Current Node position.
-            Queued_Node = Controller_Input();
-
-            //*! Does it have a value, did the player input something?
-            if (Queued_Node != null)
-            {
-                //*! Reset the second input flag
-                can_second = false;
-            }
-        }
-            
+        //*! Check for the players input
+        Check_Input();
 
         //*! Does Queued node have a value
         if (Queued_Node != null)
@@ -178,8 +172,17 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 Next_Node = Queued_Node;
 
                 //*! Clear the Queued node
-                //Queued_Node = null;
+                Queued_Node = null;
+
+                //*! Heads target position is equal to the next node
+                Line_Points[0].target = Next_Node.Position;
+                //*! Set the target positions
+                for (int index = 0; index < Line_Points.Length - 1; index++)
+                {
+                    Line_Points[index + 1].target = Line_Points[index].segment.transform.position;
+                }
             }
+      
         }
  
 
@@ -187,23 +190,62 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Move player next node is not null
         if (Next_Node != null)
         {
-            //*! Move towards with precision to have the player exactly reach the next node
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0), 4 * Time.deltaTime);
 
+            #region head to tail
+            //if (Line_Points[2].segment.transform.position == Next_Node.Position)
+            //{
+            //    Debug.Log("Moved back on it self");
+            //    //*! Assign the next node the one before it in the array until at the tail - when at tail return null
+            //    //Next_Node = Move_Head_To_Tail();
+            //
+            //
+            //    //if (Next_Node != null)
+            //    //{
+            //    //    //*! Move towards with precision to have the player exactly reach the next node
+            //    //    Line_Segments[0].transform.position = Vector3.MoveTowards(transform.position, Next_Node.Position, 4 * Time.deltaTime);
+            //    //}
+            //
+            //    ////*! Reached the next node
+            //    //if (Line_Segments[0].transform.position == Next_Node.Position)
+            //    //{
+            //    //    //*! Assign the next node the one before it in the array until at the tail - when at tail return null
+            //    //    ///Next_Node = Move_Head_To_Tail();
+            //    //
+            //    //    return;
+            //    //}
+            //
+            //}
+            #endregion
+
+
+
+            //*! Iterate over all the Line Points
+            for (int index = 0; index < Line_Points.Length; index++)
+            {
+                Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, 4 * Time.deltaTime);
+            }
+ 
 
             //*! Get the distance from the player to the next node
-            float mag_distance = (transform.position - new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0)).magnitude;
+            float mag_distance = (Line_Points[0].segment.transform.position - Next_Node.Position).magnitude;
            
             //*! If distance is less then the threshhold - allow player to override the Queued node
-            if (mag_distance < 1.0f)
+            if (mag_distance < 0.75f)
             {
                 can_second = true;
             }
 
 
             //*! Reached the next node
-            if (transform.position == new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0))
+            if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
             {
+                //*! Snap all
+                for (int index = 0; index < Line_Points.Length; index++)
+                {
+                    Line_Points[index].segment.transform.position = Line_Points[index].target;
+                }
+
+
                 //*! Finished moving, unless the below checks override that
                 is_moving = false;
 
@@ -224,24 +266,20 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! Does Queued node have a value
                 if (Queued_Node != null)
                 {
-                    Debug.Log("Q: Not null" + Queued_Node.Position);
+                    ///Debug.Log("Q: Not null" + Queued_Node.Position);
                     //*! Shift nodes if next is empty
                     if (Next_Node == null && Queued_Node != null)
                     {
-                        Debug.Log("N: null" + Next_Node);
+                        ///Debug.Log("N: null" + Next_Node);
                         //*! Shift Queued into the next node
                         Next_Node = Queued_Node;
-                        Debug.Log("N: not null" + Next_Node.Position);
+                        ///Debug.Log("N: not null" + Next_Node.Position);
                         //*! Clear the Queued node
                         Queued_Node = null;
-                        Debug.Log("Q: null" + Queued_Node);
+                        ///Debug.Log("Q: null" + Queued_Node);
                     }
                 }
-                else
-                {
-                    Debug.Log("Q: null - Ground Check!");
-                    Ground_Check();
-                }
+ 
 
             }
         }
@@ -264,128 +302,55 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*! Private Access
     #region Private Functions
 
-
- 
     /// <summary>
-    /// Returns false if the player is not grounded
+    /// Lock controlls until head is at tail
     /// </summary>
-    /// <returns></returns>
-    private bool Ground_Check()
+    private Temp_Node_Map.Node Move_Head_To_Tail()
     {
-        //*! Can go down from the current grid position
-        if (Current_Node.Can_DN == true)
-        {               
-            //*! Assign the current grid positions down node to the Queued Node
-            Queued_Node = Current_Node.DN_NODE;
+     
 
-            //*! Is NOT Grounded
-            is_grounded = false;
-
-            //*! Player is now falling - lock out controlls until grounded
-            is_falling = true;
-
-            //*! Not grounded, so they must be moving / falling
-            is_moving = true;
-        }
-        else
-        {
-            //*! Can not go down from current node
-
-            Next_Node = null;
-            Queued_Node = null;
-
-            //*! Reset the key pressed flags
-            up_key_pressed = false;
-            down_key_pressed = false;
-            left_key_pressed = false;
-            right_key_pressed = false;
-
-            //*! Is Grounded
-            is_grounded = true;
-
-            //*! Player is not falling as it is grounded - re-enable the controlls
-            is_falling = false;
-
-            //*! Stopped moving
-            is_moving = false;
-        }
-
-        //*! Was a value assigned to the Queued Node
-        return (Queued_Node != null) ? false : true;
+        return null;
     }
-
  
-    /// <summary>
-    /// Can the Queued node be reached by the Current node
-    /// </summary>
-    /// <returns> if the current can reach the Queued node </returns>
-    private bool Validated_Queued_Node()
+
+    private void Check_Input()
     {
-        //*! What key was pressed
-        if (up_key_pressed == true)
+        //*! Only when the player is not moving
+        if (is_moving == false)
         {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.UP_NODE == Queued_Node.DN_NODE)
+            //*! Player Input checks - based on Current Node position.
+            Queued_Node = Controller_Input();
+
+            //*! Does it have a value, did the player input something?
+            if (Queued_Node != null)
             {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
+                is_moving = true;
             }
         }
-        //*! What key was pressed
-        else if (down_key_pressed == true)
+
+
+        //*! Is moving and can enter for queued input
+        if (is_moving == true && can_second == true)
         {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.DN_NODE == Queued_Node.UP_NODE)
+            //*! Player Input checks - based on Current Node position.
+            Queued_Node = Controller_Input();
+
+            //*! Does it have a value, did the player input something?
+            if (Queued_Node != null)
             {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
+                //*! Reset the second input flag
+                can_second = false;
             }
         }
-        //*! What key was pressed
-        else if (left_key_pressed == true)
+        else if (is_moving == true && can_second == false)
         {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.LFT_NODE == Queued_Node.RGT_NODE)
-            {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //*! What key was pressed
-        else if (right_key_pressed == true)
-        {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.RGT_NODE == Queued_Node.LFT_NODE)
-            {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
+            //?
+            //*! Player Input checks - based on Current Node position.
+            Queued_Node = Controller_Input();
+
         }
     }
 
-
-
- 
     /// <summary>
     /// Checks the current key pressed and sets the appropirate flag
     /// </summary>
@@ -393,68 +358,26 @@ public class PlayerStateMachine_Line : MonoBehaviour
     private Temp_Node_Map.Node Controller_Input()
     {
         //*! Up key was pressed
-        if (Input.GetKeyDown(Up_Key) == true && up_key_pressed == false)
+        if (Input.GetKeyDown(Up_Key) == true /*&& up_key_pressed == false*/)
         {
-            //*! Set the flag for later use
-            up_key_pressed = true;
-
-            //*! Not grounded
-            is_grounded = false;
-
             //*! Return the node UP to the current grid position BUT if the next node is not null assign the node adacent to next
             return (Next_Node != null) ? Next_Node.UP_NODE : Current_Node.UP_NODE;     //*! Up Node
         }
-        else if (Input.GetKeyDown(Down_Key) == true && down_key_pressed == false)
+        else if (Input.GetKeyDown(Down_Key) == true /*&& down_key_pressed == false*/)
         {
-            //*! Set the flag for later use
-            down_key_pressed = true;
-
-            //*! Return the node DOWN to the current grid position
+             //*! Return the node DOWN to the current grid position
             return (Next_Node != null) ? Next_Node.DN_NODE : Current_Node.DN_NODE;     //*! Down Node
         }
-        else if (Input.GetKeyDown(Left_Key) == true && left_key_pressed == false)
+        else if (Input.GetKeyDown(Left_Key) == true /*&& left_key_pressed == false*/)
         {
-            //*! Has the player jumped
-            if (up_key_pressed == true)
-            {
-                //*! Set the flag for later use
-                left_key_pressed = true;
-
-                //*! Set the flag for later use
-                right_key_pressed = true;
-            }
-            //*! Move along ground
-            else if (is_grounded == true)
-            {
-                //*! Set the flag for later use
-                left_key_pressed = true;
-            }
-
 
             //*! Return the node LEFT to the current grid position
             //*! If the next node doesnt have a value, current node's left
             //*! If the next node has a value then it hasn't being cleared being that it has not reached the next node, return the next nodes left
             return (Next_Node != null) ? Next_Node.LFT_NODE : Current_Node.LFT_NODE;    //*! Left Node
         }
-        else if (Input.GetKeyDown(Right_Key) == true && right_key_pressed == false)
+        else if (Input.GetKeyDown(Right_Key) == true /*&& right_key_pressed == false*/)
         {
-            //*! Has the player jumped
-            if (up_key_pressed == true)
-            {
-                //*! Set the flag for later use
-                left_key_pressed = true;
-
-                //*! Set the flag for later use
-                right_key_pressed = true;
-            }
-            //*! Move along ground
-            else if (is_grounded == true)
-            {
-                //*! Set the flag for later use
-                right_key_pressed = true;
-            }
-
-
             //*! Return the node RIGHT to the current grid position
             //*! If the next node doesnt have a value, current node's right
             //*! If the next node has a value then it hasn't being cleared being that it has not reached the next node, return the next nodes right

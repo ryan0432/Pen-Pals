@@ -14,12 +14,12 @@ public class Player_Block_Interaction : MonoBehaviour
     //*!    Private Variables
     //*!----------------------------!*//
     #region Private Variables
-    
+
     [SerializeField]
     //*! Block Player
     private Player_Data BLOCK = new Player_Data();
 
- 
+
     //*! Directions of movement used to determin where the player is going
     private enum Movement_Direction
     {
@@ -45,12 +45,12 @@ public class Player_Block_Interaction : MonoBehaviour
     //*! Singeton reference
     public static Player_Block_Interaction Instance;
 
- 
+
 
     public Player_Data PLAYER_BLOCK_DATA
     { get { return BLOCK; } }
 
- 
+
 
     #endregion
 
@@ -75,7 +75,7 @@ public class Player_Block_Interaction : MonoBehaviour
         BLOCK.player_block_interaction = Player_Block.player_block;
 
 
-   
+
 
     }
 
@@ -181,7 +181,7 @@ public class Player_Block_Interaction : MonoBehaviour
         BLOCK.Controls.next_input = KeyCode.None;
 
         Move_Player_In_Direction(Movement_Direction.OVERRIDE, a_next_input_key);
-        
+
 
 
     }
@@ -226,7 +226,7 @@ public class Player_Block_Interaction : MonoBehaviour
             //*! Jumping when grounded
             BLOCK.Controls.is_jumping = false;
         }
-           
+
 
         //*! When is the player in the air
         if (!BLOCK.is_grounded)
@@ -338,7 +338,7 @@ public class Player_Block_Interaction : MonoBehaviour
             }
             else if (Input.GetKeyDown(BLOCK.Controls.move_right_key) && BLOCK.Controls.can_move_right)
             {
- 
+
                 //*! Disable Left and Right
                 BLOCK.Controls.can_move_left = false;
                 BLOCK.Controls.can_move_right = false;
@@ -346,7 +346,7 @@ public class Player_Block_Interaction : MonoBehaviour
 
                 //*! Set the current input
                 BLOCK.Controls.current_input = BLOCK.Controls.move_right_key;
-                
+
                 //*! Move the player down
                 Move_Player_In_Direction(Movement_Direction.RIGHT, BLOCK.Controls.move_right_key);
                 return true;
@@ -498,7 +498,7 @@ public class Player_Block_Interaction : MonoBehaviour
 
     }
 
- 
+
     #endregion
 
     #region Move Player By Direction
@@ -508,7 +508,7 @@ public class Player_Block_Interaction : MonoBehaviour
     {
         //*! Re-get the reference for the players
         BLOCK.player_block_interaction = Player_Block.player_block;
- 
+
 
         //*! If the player is not grounded and the player wants to move, allow them to move but then set the next input to down
         if (!BLOCK.is_grounded)
@@ -544,7 +544,7 @@ public class Player_Block_Interaction : MonoBehaviour
                 {
                     if (!BLOCK.is_grounded)
                     {
-                         BLOCK.player_block_interaction.current_position -= new Vector2(0, BLOCK.player_block_interaction.movement_distance);
+                        BLOCK.player_block_interaction.current_position -= new Vector2(0, BLOCK.player_block_interaction.movement_distance);
                     }
                 }
                 else if (BLOCK.Controls.move_left_key == a_directional_key)
@@ -566,13 +566,13 @@ public class Player_Block_Interaction : MonoBehaviour
             default:
                 break;
         }
-     }
+    }
 
 
     #endregion
-    
+
     #endregion
-    
+
     //*! Protected Access
     #region Protected Functions
 
@@ -589,15 +589,15 @@ public class Player_Data
     [HideInInspector]
     //*! Player Reference - Careful with this one.
     public Player_Block player_block_interaction = Player_Block.player_block;
- 
-     
+
+
     [Header("Percentage of distance remaining before the next point")]
     [Tooltip("How much is left to travel for the player between the two points")]
     [Range(1, 100)]
     //*! Default value of 1% remaining
     public int distance_remaining = 1;
-    
-  
+
+
     //*! Controls
     public Movement_Data Controls;
 
@@ -605,7 +605,7 @@ public class Player_Data
     [Range(0.01f, 0.99f)]
     public float air_time;
 
-    
+
     public bool in_air;
 
     //*! Is the player grounded - bool
