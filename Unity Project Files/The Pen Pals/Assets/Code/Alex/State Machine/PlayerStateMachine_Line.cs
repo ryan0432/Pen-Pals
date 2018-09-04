@@ -69,6 +69,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
     }
 
     public Line_Point[] Line_Points;
+ 
+    ///List<Line_Point> tempStore = new List<Line_Point>();
 
 
     //*! Previous Input
@@ -79,7 +81,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
     public Temp_Node_Map.Node Next_Node = null;
     //*! Queued Input
     public Temp_Node_Map.Node Queued_Node = null;
-
 
 
     //*! Property Accessor(s)
@@ -122,15 +123,21 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         
         //*! Set the count of positions to use in the line renderer based on the length of the array
-        line_renderer.positionCount = Line_Points.Length;
+        line_renderer.positionCount = Line_Points.Length-1;
+ 
+            
 
-        //*! Add those positions into the array for the line renderer
-        for (int index = 0; index < Line_Points.Length; index++)
-        {
-            line_renderer.SetPosition(index, Line_Points[index].segment.transform.position);
-        }
 
-       
+ 
+        
+        
+        ////*! Add those positions into the array for the line renderer
+        //for (int index = 0; index < Line_Points.Length; index++)
+        //{
+        //    line_renderer.SetPosition(index, Line_Points[index].segment.transform.position);
+        //}
+
+
         //*! Default condistion, game starts with the head where it should be.
         head_at_tail = false;
         
@@ -166,10 +173,11 @@ public class PlayerStateMachine_Line : MonoBehaviour
         Just_Move_Input();
 
         //*! Update the positions of the lines
-        for (int index = 0; index < Line_Points.Length; index++)
+        for (int index = 1; index < Line_Points.Length; index++)
         {
-            line_renderer.SetPosition(index, Line_Points[index].segment.transform.position);
+            line_renderer.SetPosition(index-1, Line_Points[index].segment.transform.position);
         }
+         
     }
 
     #endregion
@@ -182,6 +190,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
         ///LOCK THE PLAYER OUT WHILE TRAVERSING THROUGH THE LINE
         //*! Check for the players input
         Check_Input();
+        
+
 
         //*! Does Queued node have a value
         if (Queued_Node != null)
@@ -198,6 +208,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //else
                 //{
                 //    //head moves from the head to the tail - foward though the array
+                //      
                 //}
 
                 Queued_Node = null;
