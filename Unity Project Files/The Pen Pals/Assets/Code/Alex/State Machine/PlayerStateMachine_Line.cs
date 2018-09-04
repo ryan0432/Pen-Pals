@@ -156,14 +156,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
 
     }
-                
-            
 
-
- 
-         
-
-        
 
     /// <summary>
     ///  Main Update loop for the state machine
@@ -196,16 +189,16 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //Update the pivot node
 
             //*! If the updated pivot node equals the queued node
-            if (Queued_Node == Pivot_Node)
+            if (Queued_Node == Current_Node)
             {
-                if (head_at_tail == true)
-                {
-                    //head moves from the tail to the head - backwards through the array
-                }
-                else
-                {
-                    //head moves from the head to the tail - foward though the array
-                }
+                //if (head_at_tail == true)
+                //{
+                //    //head moves from the tail to the head - backwards through the array
+                //}
+                //else
+                //{
+                //    //head moves from the head to the tail - foward though the array
+                //}
 
                 Queued_Node = null;
                 return;
@@ -223,31 +216,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
         if (Next_Node != null)
         {
 
-            #region head to tail?
-            //if (Line_Points[2].segment.transform.position == Next_Node.Position)
-            //{
-            //    Debug.Log("Moved back on it self");
-            //    //*! Assign the next node the one before it in the array until at the tail - when at tail return null
-            //    //Next_Node = Move_Head_To_Tail();
-            //
-            //
-            //    //if (Next_Node != null)
-            //    //{
-            //    //    //*! Move towards with precision to have the player exactly reach the next node
-            //    //    Line_Segments[0].transform.position = Vector3.MoveTowards(transform.position, Next_Node.Position, 4 * Time.deltaTime);
-            //    //}
-            //
-            //    ////*! Reached the next node
-            //    //if (Line_Segments[0].transform.position == Next_Node.Position)
-            //    //{
-            //    //    //*! Assign the next node the one before it in the array until at the tail - when at tail return null
-            //    //    ///Next_Node = Move_Head_To_Tail();
-            //    //
-            //    //    return;
-            //    //}
-            //
-            //}
-            #endregion
 
 
             //*! Forward motion
@@ -474,20 +442,20 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        if (head_at_tail)
-                        {
-                            if (index == Line_Points.Length - 2)
-                            {
-                                // DO the go back thing - head was at tail go through the array forwards
-                            }
-                        }
-                        else
-                        {
-                            if (index == 3)
-                            {
-                                // DO the go back thing - head was at tail go through the array backwards
-                            }
-                        }
+                        //if (head_at_tail)
+                        //{
+                        //    if (index == Line_Points.Length - 2)
+                        //    {
+                        //        // DO the go back thing - head was at tail go through the array forwards
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    if (index == 3)
+                        //    {
+                        //        // DO the go back thing - head was at tail go through the array backwards
+                        //    }
+                        //}
                         break;
                     }
                 }
