@@ -82,7 +82,10 @@ public class Pencil_Case : MonoBehaviour
 
     [SerializeField]
     //[HideInInspector]
-    private GameObject edge_giz;
+    private GameObject li_edge_giz;
+    [SerializeField]
+    //[HideInInspector]
+    private GameObject bl_edge_giz;
 
 
     //!* Gizmos meshes and materials for [DrawMesh] mode
@@ -143,13 +146,6 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("OnValidate")]
     private void OnValidate()
     {
-        //*! Lock up [Initial Row] and [Initial Col] in [Editiong Mode]
-        //if (startEditing)
-        //{
-        //    initialRow = initialRow;
-        //    initialCol = initialCol;
-        //}
-
         //*! Limit the max number of [Row] and [Col] bound to [initialRow] and [initialCol]
         if (row > initialRow)
         {
@@ -319,6 +315,38 @@ public class Pencil_Case : MonoBehaviour
         for (int i = LI_Nodes.GetUpperBound(1); i > 0; --i)
         {
             LI_Nodes[LI_Nodes.GetLowerBound(0), i].DN_NODE = LI_Nodes[LI_Nodes.GetLowerBound(0), i - 1];
+        }
+        #endregion
+
+        #region Setup [Block] - [U] direction edges for [Line]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+                Edge new_edge_U = new Edge();
+                new_edge_U.Type = Edge_Type.NONE;
+                new_edge_U.Start_Node = BL_Nodes[i, j];
+                new_edge_U.End_Node = BL_Nodes[i + 1, j];
+                new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
+                new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
+                BL_U_Edges[i, j] = new_edge_U;
+            }
+        }
+        #endregion
+
+        #region Setup [Block] - [V] direction edges for [Line]
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+                Edge new_edge_V = new Edge();
+                new_edge_V.Type = Edge_Type.NONE;
+                new_edge_V.Start_Node = BL_Nodes[i, j];
+                new_edge_V.End_Node = BL_Nodes[i, j + 1];
+                new_edge_V.Position = new_edge_V.Start_Node.Position + ((new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position) / 2);
+                new_edge_V.Normal = Vector3.Cross(Vector3.Normalize(new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position), Vector3.forward);
+                BL_V_Edges[i, j] = new_edge_V;
+            }
         }
         #endregion
 
@@ -744,13 +772,24 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Render_Edges_Handles")]
     private void Render_Edges_Handles_Init_Mode()
     {
+        //*! Render [Line] [Edge] handles for [Block]
+        #region Instantiate [Line] - [Edge] for [Block]
         for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
         {
             for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
             {
                 Vector3 pos = LI_U_Edges[i, j].Position;
                 Quaternion rot = Quaternion.AngleAxis(90, Vector3.forward);
-                GameObject go = Instantiate(edge_giz, pos, rot, transform.Find("LI_Edges"));
+                GameObject go = Instantiate(li_edge_giz, pos, rot, transform.Find("LI_Edges"));
+
+                if (!showLineGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
             }
         }
 
@@ -760,9 +799,60 @@ public class Pencil_Case : MonoBehaviour
             {
                 Vector3 pos = LI_V_Edges[i, j].Position;
                 Quaternion rot = Quaternion.identity;
-                GameObject go = Instantiate(edge_giz, pos, rot, transform.Find("LI_Edges"));
+                GameObject go = Instantiate(li_edge_giz, pos, rot, transform.Find("LI_Edges"));
+
+                if (!showLineGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
             }
         }
+        #endregion
+
+        //*! Render [Block] [Edge] handles for [Line]
+        #region Instantiate [Block] - [Edge] for [Line]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = BL_U_Edges[i, j].Position;
+                Quaternion rot = Quaternion.AngleAxis(90, Vector3.forward);
+                GameObject go = Instantiate(bl_edge_giz, pos, rot, transform.Find("BL_Edges"));
+
+                if (!showBlockGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = BL_V_Edges[i, j].Position;
+                Quaternion rot = Quaternion.identity;
+                GameObject go = Instantiate(bl_edge_giz, pos, rot, transform.Find("BL_Edges"));
+
+                if (!showBlockGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
+            }
+        }
+        #endregion
     }
 
     //*! Destroys instantiated node prefabs in [Initialization Mode]
@@ -825,7 +915,6 @@ public class Pencil_Case : MonoBehaviour
     #region [Node] and [Edge] classes
 
     //*! Classes for map elements [Node] and [Edge] 
-    [System.Serializable]
     public class Node
     {
         //*! Getter, Setter of Node members
@@ -845,7 +934,6 @@ public class Pencil_Case : MonoBehaviour
         public Node RGT_NODE { get; set; }
     }
 
-    [System.Serializable]
     public class Edge
     {
         //*! Getter, Setter of Edge members

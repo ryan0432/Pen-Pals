@@ -1,18 +1,28 @@
 fileFormatVersion: 2
 guid: a1ee45e7e0b3faa44946533a9e69b350
-timeCreated: 1535945676
-licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: default
     100002: //RootNode
+    100004: Edge_Gizmos
+    100006: Edge_Gizmos_Mesh
     400000: default
     400002: //RootNode
+    400004: Edge_Gizmos
+    400006: Edge_Gizmos_Mesh
     2100000: defaultMat
+    2100002: Edge_GizmosMat
+    2100004: Edge_Gizmos_MeshMat
     2300000: default
+    2300002: Edge_Gizmos
+    2300004: Edge_Gizmos_Mesh
     3300000: default
+    3300002: Edge_Gizmos
+    3300004: Edge_Gizmos_Mesh
     4300000: default
+    4300002: Edge_Gizmos
+    4300004: Edge_Gizmos_Mesh
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -32,6 +42,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5

@@ -37,7 +37,7 @@ public class Pencil_CaseEditor : Editor
             }
             else
             {
-                initialRow.intValue = EditorGUILayout.IntSlider(initialRow.intValue, 0, 50);
+                initialRow.intValue = EditorGUILayout.IntSlider(initialRow.intValue, 2, 50);
             }
         }
         GUILayout.EndHorizontal();
@@ -51,23 +51,23 @@ public class Pencil_CaseEditor : Editor
             }
             else
             {
-                initialCol.intValue = EditorGUILayout.IntSlider(initialCol.intValue, 0, 50);
+                initialCol.intValue = EditorGUILayout.IntSlider(initialCol.intValue, 2, 50);
             }
         }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
         {
-            GUILayout.Label("Col");
-            col.intValue = EditorGUILayout.IntSlider(col.intValue, 0, initialCol.intValue);
+            GUILayout.Label("Row");
+            row.intValue = EditorGUILayout.IntSlider(row.intValue, 2, initialRow.intValue);
 
         }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
         {
-            GUILayout.Label("Row");
-            row.intValue = EditorGUILayout.IntSlider(row.intValue, 0, initialRow.intValue);
+            GUILayout.Label("Col");
+            col.intValue = EditorGUILayout.IntSlider(col.intValue, 2, initialCol.intValue);
 
         }
         GUILayout.EndHorizontal();
