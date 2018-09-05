@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
+
 public class Pencil_Case : MonoBehaviour
 {
     //*!----------------------------!*//
@@ -137,9 +138,16 @@ public class Pencil_Case : MonoBehaviour
             //Edit Graph with [SetActive(true/false)] method
             //Update with [SetActive(true/false)] method
 
-            Render_Node_Gizmos_Edit_Mode();
-
+            //*! Layout Graph by row col number
             Layout_Graph_Edit_Mode();
+
+            //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
+
+            //*! Render [Edges] handles, change colours or change Gizmos_GO the [Edge] holds
+            //*! At the same time switch ON/OFF visability of [Block] or [Line] graph base on [Show Block Graph] & [Show Line Graph] flag 
+
+            //*! Render all nodes according to the [Edge] check result
+            Render_Node_Gizmos_Edit_Mode();
         }
 
     }
@@ -1087,11 +1095,9 @@ public class Pencil_Case : MonoBehaviour
         #endregion
 
         //*! Switch ON [Edge] in both [Block] & [Line] according to row & col number
-        #region Switch ON [Edge] of [Block] & [Line] base on row & col number
+        #region Switch ON [Edge] of [Line] base on row & col number
         for (int i = 0; i < row - 1; ++i)
         {
-            //BL_Nodes[i, col - 2].UP_NODE = null;
-
             for (int j = 0; j < col; ++j)
             {
                 LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
@@ -1102,11 +1108,12 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col - 1; ++j)
             {
-                //BL_Nodes[row - 2, j].RGT_NODE = null;
                 LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
             }
         }
+        #endregion
 
+        #region Switch ON [Edge] of [Block] base on row & col number
         for (int i = 0; i < row - 2; ++i)
         {
             for (int j = 0; j < col - 1; ++j)
@@ -1123,6 +1130,12 @@ public class Pencil_Case : MonoBehaviour
             }
         }
         #endregion
+    }
+
+    //*! Check [Edge] Enums flags by boarders to switch ON/OFF board nodes
+    private void Update_Graph_Boarder_Edited_Mode()
+    {
+
     }
 
     //*! Only running this function when game runtime
