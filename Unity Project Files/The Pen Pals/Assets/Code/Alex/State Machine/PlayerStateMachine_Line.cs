@@ -5,7 +5,7 @@
 //*! Using namespaces
 using UnityEngine;
 using System.Collections.Generic;
-
+using System.Collections;
 
 public class PlayerStateMachine_Line : MonoBehaviour
 {
@@ -15,11 +15,16 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!----------------------------!*//
     #region Private Variables
 
-    //*! Input codes
-    [SerializeField] private KeyCode move_up_key;
-    [SerializeField] private KeyCode move_down_key;
-    [SerializeField] private KeyCode move_left_key;
-    [SerializeField] private KeyCode move_right_key;
+
+    #region Input codes
+    [SerializeField]
+    private KeyCode move_up_key;
+    [SerializeField]
+    private KeyCode move_down_key;
+    [SerializeField]
+    private KeyCode move_left_key;
+    [SerializeField]
+    private KeyCode move_right_key;
 
 
     /// <summary>
@@ -38,16 +43,23 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// As these are worded with past tense. In the action of doing so you set it to true, otherwise you have not done it, false
     /// </summary>
     private bool right_key_pressed;
+    #endregion
 
 
+
+
+    #region Boolean State Controls
     private bool is_moving;
     private bool can_second;
     private bool head_at_tail;
+    private bool head_traversing_body;
+    #endregion
+
+
 
     //*! Current Head Position
     private Vector2 grid_position;
-
-
+    //*! Line Renderer component - set in awake
     private LineRenderer line_renderer;
 
     #endregion
@@ -69,9 +81,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
     }
 
     public Line_Point[] Line_Points;
- 
-    ///List<Line_Point> tempStore = new List<Line_Point>();
-
 
     //*! Previous Input
     public Temp_Node_Map.Node Pivot_Node = null;
@@ -103,8 +112,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!    Unity Functions
     //*!----------------------------!*//
     #region Unity Functions
- 
-    private void Start()
+
+    private void Awake()
     {
         //*! Line Render component
         line_renderer = GetComponent<LineRenderer>();
@@ -121,27 +130,15 @@ public class PlayerStateMachine_Line : MonoBehaviour
             Line_Points[index].target = transform.GetChild(index).position;
         }
 
-        
+
         //*! Set the count of positions to use in the line renderer based on the length of the array
-        line_renderer.positionCount = Line_Points.Length-1;
- 
-            
+        line_renderer.positionCount = Line_Points.Length - 1;
+
+    }
 
 
- 
-        
-        
-        ////*! Add those positions into the array for the line renderer
-        //for (int index = 0; index < Line_Points.Length; index++)
-        //{
-        //    line_renderer.SetPosition(index, Line_Points[index].segment.transform.position);
-        //}
-
-
-        //*! Default condistion, game starts with the head where it should be.
-        head_at_tail = false;
-        
-
+    private void Start()
+    {
         //*! Assign the current grid position of the current world coodinates.
         grid_position.x = transform.position.x;
         grid_position.y = transform.position.y;
@@ -149,21 +146,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Current node is alligned to where it was placed
         Current_Node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
 
-        //*! default value at the start of the game... not updating
-        Pivot_Node = Current_Node.RGT_NODE;
+        //*! Default condistion, game starts with the head where it should be.
+        head_at_tail = false;
+        Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x, (int)Line_Points[3].segment.transform.position.y];
 
-
-        if (head_at_tail == false)
-        {
-            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x, (int)Line_Points[3].segment.transform.position.y];
-        }
-        else
-        {
-            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length -2].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
-        }
-
+        //*! Default value at the start of the game... not updating Do not use
+        ///Pivot_Node = Current_Node.RGT_NODE;
     }
-
 
     /// <summary>
     ///  Main Update loop for the state machine
@@ -175,60 +164,84 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Update the positions of the lines
         for (int index = 1; index < Line_Points.Length; index++)
         {
-            line_renderer.SetPosition(index-1, Line_Points[index].segment.transform.position);
+            line_renderer.SetPosition(index - 1, Line_Points[index].segment.transform.position);
         }
-         
-    }
 
+    }
     #endregion
 
 
 
 
-    void Just_Move_Input()
+    //*!----------------------------!*//
+    //*!    Custom Functions
+    //*!----------------------------!*//
+
+    //*! Public Access
+    #region Public Functions
+    #endregion
+
+
+    //*! Private Access
+    #region Private Functions
+
+    /// <summary>
+    /// Main Movement controller for the line player
+    /// </summary>
+    private void Just_Move_Input()
     {
         ///LOCK THE PLAYER OUT WHILE TRAVERSING THROUGH THE LINE
         //*! Check for the players input
-        Check_Input();
-        
+        if (head_traversing_body == false)
+        {
+            Check_Input();
+
+            //*! Update the pivot nodes position
+            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x, (int)Line_Points[3].segment.transform.position.y];
+        }
 
 
         //*! Does Queued node have a value
         if (Queued_Node != null)
         {
-            //Update the pivot node
-
-            //*! If the updated pivot node equals the queued node
+            //*! Do nothing if equal 
             if (Queued_Node == Current_Node)
             {
-                //if (head_at_tail == true)
-                //{
-                //    //head moves from the tail to the head - backwards through the array
-                //}
-                //else
-                //{
-                //    //head moves from the head to the tail - foward though the array
-                //      
-                //}
-
                 Queued_Node = null;
                 return;
             }
+            //*! Was it the Pivot node
+            else if (Queued_Node == Pivot_Node)
+            {
+                ///*! Start the coroutine for moving the head along the tail
+                StartCoroutine(Move_Head_To_Tail());
 
+                //*! When the above coroutine is finished
+
+                ///*! Then flip the array so that index 3 is always behind the head.
+                /*- Below is theory, un tested and not sure if it would work as intended -*/
+                ///*! REVERSE THE VALUES OF EACH ITEM IN THE ARRAY
+                //List<Line_Point> lp = new List<Line_Point>();
+                //lp.AddRange(Line_Points);
+                //lp.Reverse();
+                //Line_Points = lp.ToArray();
+
+                //*! Clear the node
+                Queued_Node = null;
+
+            }
             //*! Shift nodes if next is empty
-            if (Next_Node == null && Queued_Node != null)
+            else if (Next_Node == null && Queued_Node != null)
             {
                 Shift_Nodes();
             }
+
         }
-      
+
 
         //*! Move player next node is not null
         if (Next_Node != null)
         {
-
-
-
             //*! Forward motion
             //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
             for (int index = 0; index < Line_Points.Length; index++)
@@ -241,7 +254,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
             //*! Get the distance from the player to the next node
             float mag_distance = (Line_Points[0].segment.transform.position - Next_Node.Position).magnitude;
-           
+
             //*! If distance is less then the threshhold - allow player to override the Queued node
             if (mag_distance < 0.5f)
             {
@@ -249,20 +262,21 @@ public class PlayerStateMachine_Line : MonoBehaviour
             }
 
 
-            //*! Reached the next node
+            //*! Reached the next node within a slight tollerence
             if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
             {
+
 
                 //*! Snap the head and head cap
                 Line_Points[0].segment.transform.position = Line_Points[0].target;
                 Line_Points[1].segment.transform.position = Line_Points[1].target;
 
                 //*! Snap all pivot points
-                for (int index = Line_Points.Length -1; index >= 0; index--)
+                for (int index = Line_Points.Length - 1; index >= 0; index--)
                 {
                     if (Line_Points[index].segment.name == "PIVOT")
                     {
-                        Line_Points[index].segment.transform.position = Line_Points[index -1].segment.transform.position;
+                        Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
                     }
                 }
 
@@ -270,9 +284,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
 
 
-
                 //*! Finished moving, unless the below checks override that
                 is_moving = false;
+
+                up_key_pressed = false;
+                down_key_pressed = false;
+                left_key_pressed = false;
+                right_key_pressed = false;
 
                 //*! Reset the seond input permission
                 can_second = false;
@@ -282,7 +300,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 //*! Clear the next node
                 Next_Node = null;
-               
+
                 //*! Update the grid position
                 grid_position.x = Current_Node.Position.x;
                 grid_position.y = Current_Node.Position.y;
@@ -306,32 +324,75 @@ public class PlayerStateMachine_Line : MonoBehaviour
     ///*! End of just move
 
 
-
-    //*!----------------------------!*//
-    //*!    Custom Functions
-    //*!----------------------------!*//
-
-    //*! Public Access
-    #region Public Functions
-
- 
- 
-
-    #endregion
-    
-
-    //*! Private Access
-    #region Private Functions
-
     /// <summary>
     /// Lock controlls until head is at tail
     /// </summary>
-    private Temp_Node_Map.Node Move_Head_To_Tail()
+    IEnumerator Move_Head_To_Tail()
     {
-        return null;
-    }
- 
+        //*! Initialise the current target to 3 - First main pivot
+        int current_target = 3;
 
+        //*! Set the heads target to be of the pivot 
+        Line_Points[0].target = Line_Points[current_target].segment.transform.position;
+
+
+        //*! Coroutine Loop
+        while (head_traversing_body == false)
+        {
+            //*! Move the head towards its target
+            Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, 6 * Time.deltaTime);
+
+            //*! Distance calculation
+            float mag_distance = (Line_Points[0].target - Line_Points[0].segment.transform.position).magnitude;
+
+            //*! Casting to int vectors
+            Vector3Int t_head_position = new Vector3Int(Mathf.RoundToInt(Line_Points[0].segment.transform.position.x), Mathf.RoundToInt(Line_Points[0].segment.transform.position.y), Mathf.RoundToInt(Line_Points[0].segment.transform.position.z));
+            Vector3Int t_head_target_position = new Vector3Int(Mathf.RoundToInt(Line_Points[0].target.x), Mathf.RoundToInt(Line_Points[0].target.y), Mathf.RoundToInt(Line_Points[0].target.z));
+
+
+            //*! Reached the target position
+            if (t_head_position == t_head_target_position || mag_distance < 0.01f)
+            {
+                //*! Snap the head to its target
+                Line_Points[0].segment.transform.position = Line_Points[0].target;
+
+                //*! Cast the tail position to an int vector
+                Vector3Int t_tail_position = new Vector3Int(Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.z));
+                if (t_head_position != t_tail_position)
+                {
+                    //*! Increment the current target to index into the line points[]
+                    if (current_target <= Line_Points.Length - 1)
+                    {
+                        current_target++;
+                    }
+                    else
+                    {
+                        Debug.LogError("NOPE (>.<)");
+                    }
+                    //*! Assign the new target
+                    Line_Points[0].target = Line_Points[current_target].target;
+                }
+                else
+                {
+                    //*! At the tail position
+                    head_traversing_body = true;
+                }
+            }
+
+            //*! Keep returning null until the head is at the tail positon
+            yield return null;
+        }
+
+        //*! Head traversing body reset, so the check input is now unlocked
+        head_traversing_body = false;
+    }
+
+
+
+
+    /// <summary>
+    /// Set the target positions of the HEAD, HEAD_CAP, TAIL_CAP
+    /// </summary>
     private void Shift_Nodes()
     {
         //*! Shift Queued into the next node
@@ -368,6 +429,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Check for players input, sets the Queued node to a value of the direction choosen
+    /// </summary>
     private void Check_Input()
     {
         //*! Only when the player is not moving
@@ -419,6 +484,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Up key was pressed
         if (Input.GetKeyDown(Up_Key) == true /*&& up_key_pressed == false*/)
         {
+            up_key_pressed = true;
             //*! Does next node already have a value, it is currently moving, but another input was made
             if (Next_Node != null)
             {
@@ -438,11 +504,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
-       
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
-                    
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_next_position != t_line_point_position)
                     {
@@ -453,21 +518,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        //if (head_at_tail)
-                        //{
-                        //    if (index == Line_Points.Length - 2)
-                        //    {
-                        //        // DO the go back thing - head was at tail go through the array forwards
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    if (index == 3)
-                        //    {
-                        //        // DO the go back thing - head was at tail go through the array backwards
-                        //    }
-                        //}
-                        break;
+
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -491,7 +553,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
 
                     Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
@@ -506,7 +568,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -517,6 +590,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
         else if (Input.GetKeyDown(Down_Key) == true /*&& down_key_pressed == false*/)
         {
+            down_key_pressed = true;
             //*! Does next node already have a value, it is currently moving, but another input was made
             if (Next_Node != null)
             {
@@ -536,10 +610,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
-                        
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
 
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_next_position != t_line_point_position)
@@ -551,7 +625,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -575,10 +660,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
 
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
 
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_current_position != t_line_point_position)
@@ -590,7 +675,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -601,12 +697,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
         else if (Input.GetKeyDown(Left_Key) == true /*&& left_key_pressed == false*/)
         {
+            left_key_pressed = true;
             //*! Does next node already have a value, it is currently moving, but another input was made
             if (Next_Node != null)
             {
                 ///*! Default Value for the current position
                 Vector3Int t_next_position = Vector3Int.zero;
-                    
+
                 if (Next_Node.Can_LFT == true)
                 {
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.LFT_NODE.Position.x), Mathf.RoundToInt(Next_Node.LFT_NODE.Position.y), Mathf.RoundToInt(Next_Node.LFT_NODE.Position.z));
@@ -619,9 +716,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
 
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_next_position != t_line_point_position)
@@ -633,7 +730,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -644,7 +752,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 ///*! Default Value for the current position
                 Vector3Int t_current_position = Vector3Int.zero;
-                    
+
                 if (Current_Node.Can_LFT == true)
                 {
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.LFT_NODE.Position.x), Mathf.RoundToInt(Current_Node.LFT_NODE.Position.y), Mathf.RoundToInt(Current_Node.LFT_NODE.Position.z));
@@ -657,9 +765,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
 
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_current_position != t_line_point_position)
@@ -671,7 +779,17 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -682,6 +800,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
         else if (Input.GetKeyDown(Right_Key) == true /*&& right_key_pressed == false*/)
         {
+            right_key_pressed = true;
             //*! Does next node already have a value, it is currently moving, but another input was made
             if (Next_Node != null)
             {
@@ -700,9 +819,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
 
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_next_position != t_line_point_position)
@@ -714,7 +833,17 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -728,7 +857,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Current_Node.Can_RGT == true)
                 {
-                   t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.RGT_NODE.Position.x), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.y), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.z));
+                    t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.RGT_NODE.Position.x), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.y), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.z));
                 }
                 else
                 {
@@ -738,9 +867,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    /*-#Blame Adam Clarke-*/
+
                     //*! To ensure the following comparison does not fall victim of the floating point error
-                    Vector3Int t_line_point_position  = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
+                    Vector3Int t_line_point_position = new Vector3Int(Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y), Mathf.RoundToInt(Line_Points[index].segment.transform.position.z));
 
                     //*! Compares the next nodes position against the current line point in the array's position
                     if (t_current_position != t_line_point_position)
@@ -752,7 +881,17 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        break;
+                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
+                        if (index == 3)
+                        {
+                            //*! The Pivot node behind the head
+                            return Pivot_Node;
+                        }
+                        else
+                        {
+                            //*! No movement
+                            return Current_Node;
+                        }
                     }
                 }
 
@@ -764,11 +903,11 @@ public class PlayerStateMachine_Line : MonoBehaviour
         ///*! Nothing was pressed, return what ever value is sitting in Queued Node
         else
         {
-            return Queued_Node;   
+            return Queued_Node;
         }
-        
+
     }
- 
+
 
     #endregion //*! End of Private functions
 
@@ -779,4 +918,3 @@ public class PlayerStateMachine_Line : MonoBehaviour
     #endregion
 
 }
- 
