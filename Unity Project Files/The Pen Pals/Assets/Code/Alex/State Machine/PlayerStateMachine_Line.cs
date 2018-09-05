@@ -45,9 +45,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
     private bool right_key_pressed;
     #endregion
 
-
-
-
     #region Boolean State Controls
     private bool is_moving;
     private bool can_second;
@@ -69,6 +66,12 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
+
+
+    [Header("Speed that the player moves at.")]
+    [Range(1, 6)]
+    public int movement_speed = 1;
+
     //*! Graph Container
     public Temp_Node_Map Node_Graph;
 
@@ -134,6 +137,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Set the count of positions to use in the line renderer based on the length of the array
         line_renderer.positionCount = Line_Points.Length - 1;
 
+
+
     }
 
 
@@ -164,8 +169,23 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Update the positions of the lines
         for (int index = 1; index < Line_Points.Length; index++)
         {
+            //*! Set the line segments to equal the linepoints segment positions
             line_renderer.SetPosition(index - 1, Line_Points[index].segment.transform.position);
         }
+
+        //*! Update all the pivot positions to where they are in the game world
+        for (int index = 0; index < transform.childCount; index++)
+        {
+            //*! *-Expected-* Only pivots elements [2] through [Length -2]
+            if (Line_Points[index].segment.name == "PIVOT")
+            {
+                //*! Points, alligned to the grid corners
+                Line_Points[index].segment = transform.GetChild(index).gameObject;
+                //*! Target Positions for the above points
+                Line_Points[index].target = transform.GetChild(index).position;
+            }
+        }
+
 
     }
     #endregion
@@ -218,13 +238,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 //*! When the above coroutine is finished
 
-                ///*! Then flip the array so that index 3 is always behind the head.
-                /*- Below is theory, un tested and not sure if it would work as intended -*/
-                ///*! REVERSE THE VALUES OF EACH ITEM IN THE ARRAY
-                //List<Line_Point> lp = new List<Line_Point>();
-                //lp.AddRange(Line_Points);
-                //lp.Reverse();
-                //Line_Points = lp.ToArray();
 
                 //*! Clear the node
                 Queued_Node = null;
@@ -248,7 +261,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 if (Line_Points[index].segment.name != "PIVOT")
                 {
-                    Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, 6 * Time.deltaTime);
+                    Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
                 }
             }
 
@@ -278,10 +291,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
                     }
+
                 }
 
                 //*! Tail update
                 Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+
+
 
 
                 //*! Finished moving, unless the below checks override that
@@ -335,47 +351,46 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Set the heads target to be of the pivot 
         Line_Points[0].target = Line_Points[current_target].segment.transform.position;
 
+        //*! Head traversing body starting condition as it is now correct
+        head_traversing_body = true;
 
-        //*! Coroutine Loop
-        while (head_traversing_body == false)
+        //*! Coroutine Loop - Keep looping until it results to false
+        while (head_traversing_body == true)
         {
             //*! Move the head towards its target
-            Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, 6 * Time.deltaTime);
+            Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, movement_speed * Time.deltaTime);
 
             //*! Distance calculation
             float mag_distance = (Line_Points[0].target - Line_Points[0].segment.transform.position).magnitude;
 
-            //*! Casting to int vectors
-            Vector3Int t_head_position = new Vector3Int(Mathf.RoundToInt(Line_Points[0].segment.transform.position.x), Mathf.RoundToInt(Line_Points[0].segment.transform.position.y), Mathf.RoundToInt(Line_Points[0].segment.transform.position.z));
-            Vector3Int t_head_target_position = new Vector3Int(Mathf.RoundToInt(Line_Points[0].target.x), Mathf.RoundToInt(Line_Points[0].target.y), Mathf.RoundToInt(Line_Points[0].target.z));
-
-
             //*! Reached the target position
-            if (t_head_position == t_head_target_position || mag_distance < 0.01f)
+            if (Line_Points[0].segment.transform.position == Line_Points[0].target || mag_distance < 0.01f)
             {
                 //*! Snap the head to its target
                 Line_Points[0].segment.transform.position = Line_Points[0].target;
 
-                //*! Cast the tail position to an int vector
-                Vector3Int t_tail_position = new Vector3Int(Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.z));
-                if (t_head_position != t_tail_position)
+                if (Line_Points[0].segment.transform.position != Line_Points[Line_Points.Length - 1].segment.transform.position)
                 {
                     //*! Increment the current target to index into the line points[]
-                    if (current_target <= Line_Points.Length - 1)
+                    if (current_target < Line_Points.Length - 1)
                     {
                         current_target++;
+                        //*! Assign the new target
+                        Line_Points[0].target = Line_Points[current_target].target;
                     }
                     else
                     {
-                        Debug.LogError("NOPE (>.<)");
+                        //*! Never should happen, but just in case haha.
+                        Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
+                        //*! Decreament it?
+                        current_target--;
                     }
-                    //*! Assign the new target
-                    Line_Points[0].target = Line_Points[current_target].target;
                 }
                 else
                 {
+                    //*! Used to excape the while loop
                     //*! At the tail position
-                    head_traversing_body = true;
+                    head_traversing_body = false;
                 }
             }
 
@@ -383,8 +398,22 @@ public class PlayerStateMachine_Line : MonoBehaviour
             yield return null;
         }
 
-        //*! Head traversing body reset, so the check input is now unlocked
-        head_traversing_body = false;
+
+        /////*! Then flip the array so that index 3 is always behind the head.
+        ///*- Below is theory, un tested and not sure if it would work as intended -*/
+        /////*! REVERSE THE VALUES OF EACH ITEM IN THE ARRAY
+        //List<Line_Point> lp = new List<Line_Point>();
+
+        //for (int index = 0; index < Line_Points.Length; index++)
+        //{
+        //    lp.Add(Line_Points[index]);
+        //}
+
+        //lp.Reverse();
+
+
+        //Line_Points = lp.ToArray();
+
     }
 
 
