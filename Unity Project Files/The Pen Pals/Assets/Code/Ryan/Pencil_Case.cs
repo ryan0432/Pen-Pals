@@ -670,8 +670,6 @@ public class Pencil_Case : MonoBehaviour
         #endregion
     }
 
-
-
     //*! Destroys instantiated node prefabs in [Initialization Mode]
     [ContextMenu("Update_Graph_Init_Mode")]
     private void Update_Graph_Init_Mode()
@@ -729,22 +727,34 @@ public class Pencil_Case : MonoBehaviour
         #region Switch OFF all [Edge] of [Block] & [Line] for refreshing purpose
         for (int i = 0; i < bl_edge_Count; ++i)
         {
-            transform.Find("BL_Edges").GetChild(i).gameObject.SetActive(false);
+            transform.Find("BL_Edges_Handles").GetChild(i).gameObject.SetActive(false);
         }
 
         for (int i = 0; i < li_edge_Count; ++i)
         {
-            transform.Find("LI_Edges").GetChild(i).gameObject.SetActive(false);
+            transform.Find("LI_Edges_Handles").GetChild(i).gameObject.SetActive(false);
         }
         #endregion
 
         //*! Switch ON [Edge] in both [Block] & [Line] according to row & col number
-        #region Switch ON [Edge] of [Line] base on row & col number
+        #region Switch ON [Edge] of [Line] and set [Board] + [Board Type] base on row & col number 
         for (int i = 0; i < row - 1; ++i)
         {
             for (int j = 0; j < col; ++j)
             {
                 LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
+
+                if (j == 0)
+                {
+                    LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
+                    LI_U_Edges[i, j].Boarder_Type = Boarder_Type.DN;
+                }
+
+                if (j == col - 1)
+                {
+                    LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
+                    LI_U_Edges[i, j].Boarder_Type = Boarder_Type.UP;
+                }
             }
         }
 
@@ -753,12 +763,24 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < col - 1; ++j)
             {
                 LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
+
+                if (i == 0)
+                {
+                    LI_V_Edges[i, j].Edge_Type = Edge_Type.Boarder;
+                    LI_V_Edges[i, j].Boarder_Type = Boarder_Type.LFT;
+                }
+
+                if (i == row - 1)
+                {
+                    LI_V_Edges[i, j].Edge_Type = Edge_Type.Boarder;
+                    LI_V_Edges[i, j].Boarder_Type = Boarder_Type.RGT;
+                }
             }
         }
         #endregion
 
         #region Switch ON [Edge] of [Block] base on row & col number
-        for (int i = 0; i < row - 2; ++i)
+        for (int i = 0; i < row; ++i)
         {
             for (int j = 0; j < col - 1; ++j)
             {
@@ -768,12 +790,19 @@ public class Pencil_Case : MonoBehaviour
 
         for (int i = 0; i < row - 1; ++i)
         {
-            for (int j = 0; j < col - 2; ++j)
+            for (int j = 0; j < col; ++j)
             {
                 BL_V_Edges[i, j].Gizmos_GO.SetActive(true);
             }
         }
         #endregion
+    }
+
+    //*! Check [Edge] Enums flags to decide every [Node] tracersability to neighbor
+    [ContextMenu("Update_Graph_Boarder_Edited_Mode")]
+    private void Update_Graph_Boarder_Edited_Mode()
+    {
+
     }
 
     [ContextMenu("Render_Node_Gizmos_Edit_Mode")]
@@ -919,13 +948,6 @@ public class Pencil_Case : MonoBehaviour
             }
         }
         #endregion
-    }
-
-    //*! Check [Edge] Enums flags by boarders to switch ON/OFF board nodes
-    [ContextMenu("Update_Graph_Boarder_Edited_Mode")]
-    private void Update_Graph_Boarder_Edited_Mode()
-    {
-
     }
 
     //*! Only running this function when game runtime
