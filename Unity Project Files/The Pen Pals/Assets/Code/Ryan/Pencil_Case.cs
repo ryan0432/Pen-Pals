@@ -52,12 +52,6 @@ public class Pencil_Case : MonoBehaviour
     public Edge[,] LI_U_Edges { get; set; }
     public Edge[,] LI_V_Edges { get; set; }
 
-    /// [Deprecated] varibles in this section ///
-    #region Edge list vars for [List] method [Deprecated] 
-    //public List<Edge> BL_Edges { get; set; }
-    //public List<Edge> LI_Edges { get; set; }
-    #endregion
-    /// ------------------------------------- ///
     #endregion
 
     //*!----------------------------!*//
@@ -200,24 +194,18 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Layout_Graph_Init_Mode")]
     private void Layout_Graph_Init_Mode()
     {
-        //*! Setup instances for the graph data with [Node] & [Edge] default construction
+        //*! Setup instances and references for the graph data with [Node] & [Edge] default construction
         #region Setup instances for [Block] and [Line] Nodes and Edges
         BL_Nodes = new Node[initialRow - 1, initialCol - 1];
         LI_Nodes = new Node[initialRow, initialCol];
 
-        BL_U_Edges = new Edge[initialRow - 2, initialCol - 1];
-        BL_V_Edges = new Edge[initialRow - 1, initialCol - 2];
+        BL_U_Edges = new Edge[initialRow, initialCol - 1];
+        BL_V_Edges = new Edge[initialRow - 1, initialCol];
         LI_U_Edges = new Edge[initialRow - 1, initialCol];
         LI_V_Edges = new Edge[initialRow, initialCol - 1];
 
-
-        /// [Deprecated] varibles in this section ///
-        #region Edge list vars for [List] method [Deprecated]
-        //BL_Edges = new List<Edge>();
-        //LI_Edges = new List<Edge>();
-        #endregion
-        /// ------------------------------------- ///
-
+        Quaternion rot_U = Quaternion.AngleAxis(90, Vector3.forward);
+        Quaternion rot_V = Quaternion.AngleAxis(0, Vector3.forward);
         #endregion
 
         //*! Setup [Block] - [Node] data
@@ -340,39 +328,6 @@ public class Pencil_Case : MonoBehaviour
         }
         #endregion
 
-        //*! Setup [Block] - [Edge] data for [Line]
-        #region Setup [Block] - [U] direction [Edge] for [Line]
-        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
-        {
-            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
-            {
-                Edge new_edge_U = new Edge();
-                new_edge_U.Type = Edge_Type.NONE;
-                new_edge_U.Start_Node = BL_Nodes[i, j];
-                new_edge_U.End_Node = BL_Nodes[i + 1, j];
-                new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
-                new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
-                BL_U_Edges[i, j] = new_edge_U;
-            }
-        }
-        #endregion
-
-        #region Setup [Block] - [V] direction [Edge] for [Line]
-        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
-        {
-            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
-            {
-                Edge new_edge_V = new Edge();
-                new_edge_V.Type = Edge_Type.NONE;
-                new_edge_V.Start_Node = BL_Nodes[i, j];
-                new_edge_V.End_Node = BL_Nodes[i, j + 1];
-                new_edge_V.Position = new_edge_V.Start_Node.Position + ((new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position) / 2);
-                new_edge_V.Normal = Vector3.Cross(Vector3.Normalize(new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position), Vector3.forward);
-                BL_V_Edges[i, j] = new_edge_V;
-            }
-        }
-        #endregion
-
         //*! Setup [Line] - [Edge] data for [Block]
         #region Setup [Line] - [U] direction [Edge] for [Block]
         for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
@@ -380,11 +335,29 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
             {
                 Edge new_edge_U = new Edge();
-                new_edge_U.Type = Edge_Type.NONE;
-                new_edge_U.Start_Node = LI_Nodes[i, j];
-                new_edge_U.End_Node = LI_Nodes[i + 1, j];
-                new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
-                new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
+                new_edge_U.Edge_Type = Edge_Type.NONE;
+                new_edge_U.Boarder_Type = Boarder_Type.NONE;
+                new_edge_U.LFT_Node = LI_Nodes[i, j];
+                new_edge_U.RGT_Node = LI_Nodes[i + 1, j];
+
+                if (j == 0)
+                {
+                    new_edge_U.Edge_Type = Edge_Type.Boarder;
+                    new_edge_U.Boarder_Type = Boarder_Type.DN;
+                    new_edge_U.UP_Node = BL_Nodes[i, j];
+                    new_edge_U.DN_Node = null;
+                }
+
+                if (j == LI_U_Edges.GetLength(0) - 1)
+                {
+                    new_edge_U.Edge_Type = Edge_Type.Boarder;
+                    new_edge_U.Boarder_Type = Boarder_Type.UP;
+                    new_edge_U.UP_Node = null;
+                    new_edge_U.DN_Node = BL_Nodes[i, j - 1];
+                }
+
+                new_edge_U.Position = new_edge_U.LFT_Node.Position + ((new_edge_U.RGT_Node.Position - new_edge_U.LFT_Node.Position) / 2);
+                new_edge_U.Rotation = rot_U;
                 LI_U_Edges[i, j] = new_edge_U;
             }
         }
@@ -396,262 +369,72 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
             {
                 Edge new_edge_V = new Edge();
-                new_edge_V.Type = Edge_Type.NONE;
-                new_edge_V.Start_Node = LI_Nodes[i, j];
-                new_edge_V.End_Node = LI_Nodes[i, j + 1];
-                new_edge_V.Position = new_edge_V.Start_Node.Position + ((new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position) / 2);
-                new_edge_V.Normal = Vector3.Cross(Vector3.Normalize(new_edge_V.End_Node.Position - new_edge_V.Start_Node.Position), Vector3.forward);
+                new_edge_V.Edge_Type = Edge_Type.NONE;
+                new_edge_V.Boarder_Type = Boarder_Type.NONE;
+                new_edge_V.DN_Node = LI_Nodes[i, j];
+                new_edge_V.UP_Node = LI_Nodes[i, j + 1];
+
+                if (i == 0)
+                {
+                    new_edge_V.Edge_Type = Edge_Type.Boarder;
+                    new_edge_V.Boarder_Type = Boarder_Type.LFT;
+                    new_edge_V.LFT_Node = null;
+                    new_edge_V.RGT_Node = BL_Nodes[i, j];
+                }
+
+                if (i == LI_V_Edges.GetLength(0) - 1)
+                {
+                    new_edge_V.Edge_Type = Edge_Type.Boarder;
+                    new_edge_V.Boarder_Type = Boarder_Type.RGT;
+                    new_edge_V.LFT_Node = BL_Nodes[i - 1, j];
+                    new_edge_V.RGT_Node = null;
+                }
+
+                new_edge_V.Position = new_edge_V.DN_Node.Position + ((new_edge_V.UP_Node.Position - new_edge_V.DN_Node.Position) / 2);
+                new_edge_V.Rotation = rot_V;
                 LI_V_Edges[i, j] = new_edge_V;
             }
         }
         #endregion
 
-        /// [Deprecated] code in this section ///
-        #region Layout [Edge] in graph (Two Direction Old Way [Deprecated])
-        //*! Iterate from the buttom left node of [Block] 2D array to check [UP] & [RGT] direction's traversability.
-        //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
-        #region Setup [Block] Edges in UP & RGT Direction
-        //for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
-        //{
-        //    for (int j = 0; j < BL_Nodes.GetUpperBound(1); ++j)
-        //    {
-        //        if (BL_Nodes[i, j].Can_UP)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = BL_Nodes[i, j];
-        //            new_edge.End_Node = BL_Nodes[i, j + 1];
-        //            BL_Edges.Add(new_edge);
-        //        }
-
-        //        if (BL_Nodes[i, j].Can_RGT)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = BL_Nodes[i, j];
-        //            new_edge.End_Node = BL_Nodes[i + 1, j];
-        //            BL_Edges.Add(new_edge);
-        //        }
-        //    }
-        //}
-
-        //for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
-        //{
-        //    if (BL_Nodes[i, BL_Nodes.GetUpperBound(1)].Can_RGT)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = BL_Nodes[i, BL_Nodes.GetUpperBound(1)];
-        //        new_edge.End_Node = BL_Nodes[i + 1, BL_Nodes.GetUpperBound(1)];
-        //        BL_Edges.Add(new_edge);
-        //    }
-        //}
-
-        //for (int i = 0; i < BL_Nodes.GetUpperBound(1); ++i)
-        //{
-        //    if (BL_Nodes[BL_Nodes.GetUpperBound(0), i].Can_UP)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = BL_Nodes[BL_Nodes.GetUpperBound(0), i];
-        //        new_edge.End_Node = BL_Nodes[BL_Nodes.GetUpperBound(0), i + 1];
-        //        BL_Edges.Add(new_edge);
-        //    }
-        //}
+        //*! Setup [Block] - [Edge] data for [Line]
+        #region Setup [Block] - [U] direction [Edge] for [Line]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+                Edge new_edge_U = new Edge();
+                new_edge_U.UP_Node = LI_V_Edges[i, j].UP_Node;
+                new_edge_U.DN_Node = LI_V_Edges[i, j].DN_Node;
+                new_edge_U.LFT_Node = LI_V_Edges[i, j].LFT_Node;
+                new_edge_U.RGT_Node = LI_V_Edges[i, j].RGT_Node;
+                new_edge_U.Position = LI_V_Edges[i, j].Position;
+                new_edge_U.Rotation = rot_U;
+                new_edge_U.Edge_Type = Edge_Type.NONE;
+                new_edge_U.Boarder_Type = Boarder_Type.NONE;
+                BL_U_Edges[i, j] = new_edge_U;
+            }
+        }
         #endregion
 
-        //*! Iterate from the upper right node of [Block] 2D array to check [DN] & [LFT] direction's traversability.
-        //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
-        #region Setup [Block] Edges in DN & LFT Direction (Two Direction Old Way [Deprecated])
-        //for (int i = BL_Nodes.GetUpperBound(0); i > 0; --i)
-        //{
-        //    for (int j = BL_Nodes.GetUpperBound(1); j > 0; --j)
-        //    {
-        //        if (BL_Nodes[i, j].Can_DN)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = BL_Nodes[i, j];
-        //            new_edge.End_Node = BL_Nodes[i, j - 1];
-        //            BL_Edges.Add(new_edge);
-        //        }
-
-        //        if (BL_Nodes[i, j].Can_LFT)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = BL_Nodes[i, j];
-        //            new_edge.End_Node = BL_Nodes[i - 1, j];
-        //            BL_Edges.Add(new_edge);
-        //        }
-        //    }
-        //}
-
-        //for (int i = BL_Nodes.GetUpperBound(0); i > 0; --i)
-        //{
-        //    if (BL_Nodes[i, BL_Nodes.GetLowerBound(1)].Can_LFT)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = BL_Nodes[i, BL_Nodes.GetLowerBound(1)];
-        //        new_edge.End_Node = BL_Nodes[i - 1, BL_Nodes.GetLowerBound(1)];
-        //        BL_Edges.Add(new_edge);
-        //    }
-        //}
-
-        //for (int i = BL_Nodes.GetUpperBound(1); i > 0; --i)
-        //{
-        //    if (BL_Nodes[BL_Nodes.GetLowerBound(0), i].Can_DN)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = BL_Nodes[BL_Nodes.GetLowerBound(0), i];
-        //        new_edge.End_Node = BL_Nodes[BL_Nodes.GetLowerBound(0), i - 1];
-        //        BL_Edges.Add(new_edge);
-        //    }
-        //}
+        #region Setup [Block] - [V] direction [Edge] for [Line]
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+                Edge new_edge_V = new Edge();
+                new_edge_V.UP_Node = LI_U_Edges[i, j].UP_Node;
+                new_edge_V.UP_Node = LI_U_Edges[i, j].DN_Node;
+                new_edge_V.UP_Node = LI_U_Edges[i, j].LFT_Node;
+                new_edge_V.UP_Node = LI_U_Edges[i, j].RGT_Node;
+                new_edge_V.Position = LI_U_Edges[i, j].Position;
+                new_edge_V.Rotation = rot_V;
+                new_edge_V.Edge_Type = Edge_Type.NONE;
+                new_edge_V.Boarder_Type = Boarder_Type.NONE;
+                BL_V_Edges[i, j] = new_edge_V;
+            }
+        }
         #endregion
-
-        //*! Iterate from the upper right node of [Line] 2D array to check [UP] & [RGT] direction's traversability.
-        //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
-        #region Setup [Line] Edges in UP & Right Direction (Two Direction Old Way [Deprecated])
-        //for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
-        //{
-        //    for (int j = 0; j < LI_Nodes.GetUpperBound(1); ++j)
-        //    {
-        //        if (LI_Nodes[i, j].Can_UP)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = LI_Nodes[i, j];
-        //            new_edge.End_Node = LI_Nodes[i, j + 1];
-        //            LI_Edges.Add(new_edge);
-        //        }
-
-        //        if (LI_Nodes[i, j].Can_RGT)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = LI_Nodes[i, j];
-        //            new_edge.End_Node = LI_Nodes[i + 1, j];
-        //            LI_Edges.Add(new_edge);
-        //        }
-        //    }
-        //}
-
-        //for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
-        //{
-        //    if (LI_Nodes[i, LI_Nodes.GetUpperBound(1)].Can_RGT)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = LI_Nodes[i, LI_Nodes.GetUpperBound(1)];
-        //        new_edge.End_Node = LI_Nodes[i + 1, LI_Nodes.GetUpperBound(1)];
-        //        LI_Edges.Add(new_edge);
-        //    }
-        //}
-
-        //for (int i = 0; i < LI_Nodes.GetUpperBound(1); ++i)
-        //{
-        //    if (LI_Nodes[LI_Nodes.GetUpperBound(0), i].Can_UP)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = LI_Nodes[LI_Nodes.GetUpperBound(0), i];
-        //        new_edge.End_Node = LI_Nodes[LI_Nodes.GetUpperBound(0), i + 1];
-        //        LI_Edges.Add(new_edge);
-        //    }
-        //}
-        #endregion
-
-        //*! Iterate from the upper right node of [Line] 2D array to check [DN] & [LFT] direction's traversability.
-        //*! If a direction's traversability is true, create an edge between them. Otherwise don't.
-        #region Setup [Line] Edges in DN & LFT Direction (Two Direction Old Way [Deprecated])
-        //for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
-        //{
-        //    for (int j = LI_Nodes.GetUpperBound(1); j > 0; --j)
-        //    {
-        //        if (LI_Nodes[i, j].Can_DN)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = LI_Nodes[i, j];
-        //            new_edge.End_Node = LI_Nodes[i, j - 1];
-        //            LI_Edges.Add(new_edge);
-        //        }
-
-        //        if (LI_Nodes[i, j].Can_LFT)
-        //        {
-        //            Edge new_edge = new Edge();
-        //            new_edge.Start_Node = LI_Nodes[i, j];
-        //            new_edge.End_Node = LI_Nodes[i - 1, j];
-        //            LI_Edges.Add(new_edge);
-        //        }
-        //    }
-        //}
-
-        //for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
-        //{
-        //    if (LI_Nodes[i, LI_Nodes.GetLowerBound(1)].Can_LFT)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = LI_Nodes[i, LI_Nodes.GetLowerBound(1)];
-        //        new_edge.End_Node = LI_Nodes[i - 1, LI_Nodes.GetLowerBound(1)];
-        //        LI_Edges.Add(new_edge);
-        //    }
-        //}
-
-        //for (int i = LI_Nodes.GetUpperBound(1); i > 0; --i)
-        //{
-        //    if (LI_Nodes[LI_Nodes.GetLowerBound(0), i].Can_DN)
-        //    {
-        //        Edge new_edge = new Edge();
-        //        new_edge.Start_Node = LI_Nodes[LI_Nodes.GetLowerBound(0), i];
-        //        new_edge.End_Node = LI_Nodes[LI_Nodes.GetLowerBound(0), i - 1];
-        //        LI_Edges.Add(new_edge);
-        //    }
-        //}
-        #endregion
-        #endregion
-
-        #region Setup Edges for [Block] Nodes with [List] method ([Deprecated])
-        //for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
-        //{
-        //    for (int j = 0; j < BL_Nodes.GetUpperBound(1); ++j)
-        //    {
-        //        //*! Setup [Up] edge for Block Nodes
-        //        Edge new_edge_U = new Edge();
-        //        new_edge_U.Type = Edge_Type.NONE;
-        //        new_edge_U.Start_Node = BL_Nodes[i, j];
-        //        new_edge_U.End_Node = BL_Nodes[i, j + 1];
-        //        new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position)/2);
-        //        new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
-        //        BL_Edges.Add(new_edge_U);
-
-        //        //*! Setup [RGT] edge for Block Nodes
-        //        Edge new_edge_R = new Edge();
-        //        new_edge_R.Type = Edge_Type.NONE;
-        //        new_edge_R.Start_Node = BL_Nodes[i, j];
-        //        new_edge_R.End_Node = BL_Nodes[i + 1, j];
-        //        new_edge_R.Position = new_edge_R.Start_Node.Position + ((new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position) / 2);
-        //        new_edge_R.Normal = Vector3.Cross(Vector3.Normalize(new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position), Vector3.forward);
-        //        BL_Edges.Add(new_edge_R);
-        //    }
-        //}
-
-        //for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
-        //{
-        //    int arrayYBound = BL_Nodes.GetUpperBound(1);
-        //    Edge new_edge_R = new Edge();
-        //    new_edge_R.Type = Edge_Type.NONE;
-        //    new_edge_R.Start_Node = BL_Nodes[i, arrayYBound];
-        //    new_edge_R.End_Node = BL_Nodes[i + 1, arrayYBound];
-        //    new_edge_R.Position = new_edge_R.Start_Node.Position + ((new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position) / 2);
-        //    new_edge_R.Normal = Vector3.Cross(Vector3.Normalize(new_edge_R.End_Node.Position - new_edge_R.Start_Node.Position), Vector3.forward);
-        //    BL_Edges.Add(new_edge_R);
-
-        //}
-
-        //for (int i = 0; i < BL_Nodes.GetUpperBound(1); ++i)
-        //{
-        //    int arrayXBound = BL_Nodes.GetUpperBound(0);
-        //    Edge new_edge_U = new Edge();
-        //    new_edge_U.Type = Edge_Type.NONE;
-        //    new_edge_U.Start_Node = BL_Nodes[arrayXBound, i];
-        //    new_edge_U.End_Node = BL_Nodes[arrayXBound, i + 1];
-        //    new_edge_U.Position = new_edge_U.Start_Node.Position + ((new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position) / 2);
-        //    new_edge_U.Normal = Vector3.Cross(Vector3.Normalize(new_edge_U.End_Node.Position - new_edge_U.Start_Node.Position), Vector3.forward);
-        //    BL_Edges.Add(new_edge_U);
-        //}
-        #endregion
-        /// --------------------------------- ///
     }
 
     //*! Render the graph by instantiating [GameObjects]
@@ -788,6 +571,206 @@ public class Pencil_Case : MonoBehaviour
 
                     Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
                 }
+            }
+        }
+        #endregion
+    }
+
+    [ContextMenu("Render_Edges_Handles_Init_Mode")]
+    private void Render_Edges_Handles_Init_Mode()
+    {
+        //*! Render [Line] [Edge] handles for [Block]
+        #region Instantiate [Line] - [U_Edge] handles for [Block]
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = LI_U_Edges[i, j].Position;
+                Quaternion rot = LI_U_Edges[i, j].Rotation;
+                GameObject go = Instantiate(li_edge_giz, pos, rot, transform.Find("LI_Edges_Handles"));
+                LI_U_Edges[i, j].Gizmos_GO = go;
+
+                if (!showLineGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
+            }
+        }
+        #endregion
+
+        #region Instantiate [Line] - [V_Edge] handles for [Block]
+        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = LI_V_Edges[i, j].Position;
+                Quaternion rot = LI_V_Edges[i, j].Rotation;
+                GameObject go = Instantiate(li_edge_giz, pos, rot, transform.Find("LI_Edges_Handles"));
+                LI_V_Edges[i, j].Gizmos_GO = go;
+
+                if (!showLineGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
+            }
+        }
+        #endregion
+
+        //*! Render [Block] [Edge] handles for [Line]
+        #region Instantiate [Block] - [Edge] handles for [Line]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = BL_U_Edges[i, j].Position;
+                Quaternion rot = BL_U_Edges[i, j].Rotation;
+                GameObject go = Instantiate(bl_edge_giz, pos, rot, transform.Find("BL_Edges_Handles"));
+                BL_U_Edges[i, j].Gizmos_GO = go;
+
+                if (!showBlockGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
+            }
+        }
+        #endregion
+
+        #region Instantiate [Block] - [Edge] handles for [Line]
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+                Vector3 pos = BL_V_Edges[i, j].Position;
+                Quaternion rot = BL_V_Edges[i, j].Rotation;
+                GameObject go = Instantiate(bl_edge_giz, pos, rot, transform.Find("BL_Edges_Handles"));
+                BL_V_Edges[i, j].Gizmos_GO = go;
+
+                if (!showBlockGraph)
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+                else
+                {
+                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
+                }
+            }
+        }
+        #endregion
+    }
+
+
+
+    //*! Destroys instantiated node prefabs in [Initialization Mode]
+    [ContextMenu("Update_Graph_Init_Mode")]
+    private void Update_Graph_Init_Mode()
+    {
+        bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
+        bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
+        bool is_BL_Edges_List_Empty = (transform.Find("BL_Edges_Handles").childCount < 1);
+        bool is_LI_Edges_List_Empty = (transform.Find("LI_Edges_Handles").childCount < 1);
+
+        if (!is_BL_Node_Gizmos_List_Empty)
+        {
+            for (int i = transform.Find("BL_Node_Gizmos").childCount; i > 0; --i)
+            {
+                DestroyImmediate(transform.Find("BL_Node_Gizmos").GetChild(0).gameObject, true); 
+            }
+            Debug.Log("Clear [Block] Node Gizmos");
+        }
+
+        if (!is_LI_Node_Gizmos_List_Empty)
+        {
+            for (int i = transform.Find("LI_Node_Gizmos").childCount; i > 0; --i)
+            {
+                DestroyImmediate(transform.GetChild(1).GetChild(0).gameObject, true);
+            }
+            Debug.Log("Clear [Line] Node Gizmos");
+        }
+
+        if (!is_BL_Edges_List_Empty)
+        {
+            for (int i = transform.Find("BL_Edges_Handles").childCount; i > 0; --i)
+            {
+                DestroyImmediate(transform.Find("BL_Edges_Handles").GetChild(0).gameObject, true);
+            }
+            Debug.Log("Clear [Block] Edge Handles");
+        }
+
+        if (!is_LI_Edges_List_Empty)
+        {
+            for (int i = transform.Find("LI_Edges_Handles").childCount; i > 0; --i)
+            {
+                DestroyImmediate(transform.Find("LI_Edges_Handles").GetChild(0).gameObject, true);
+            }
+            Debug.Log("Clear [Line] Edge Handles");
+        }
+    }
+
+    //*! Update the Graph size in Edit Mode with [SetActive Method]
+    [ContextMenu("Layout_Graph_Edit_Mode")]
+    private void Layout_Graph_Edit_Mode()
+    {
+        int bl_edge_Count = transform.Find("BL_Edges_Handles").childCount;
+        int li_edge_Count = transform.Find("LI_Edges_Handles").childCount;
+
+        //*! Switch OFF the whole list of [Edge] in both [Block] & [Line] for refresh purpose
+        #region Switch OFF all [Edge] of [Block] & [Line] for refreshing purpose
+        for (int i = 0; i < bl_edge_Count; ++i)
+        {
+            transform.Find("BL_Edges").GetChild(i).gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < li_edge_Count; ++i)
+        {
+            transform.Find("LI_Edges").GetChild(i).gameObject.SetActive(false);
+        }
+        #endregion
+
+        //*! Switch ON [Edge] in both [Block] & [Line] according to row & col number
+        #region Switch ON [Edge] of [Line] base on row & col number
+        for (int i = 0; i < row - 1; ++i)
+        {
+            for (int j = 0; j < col; ++j)
+            {
+                LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
+            }
+        }
+
+        for (int i = 0; i < row; ++i)
+        {
+            for (int j = 0; j < col - 1; ++j)
+            {
+                LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
+            }
+        }
+        #endregion
+
+        #region Switch ON [Edge] of [Block] base on row & col number
+        for (int i = 0; i < row - 2; ++i)
+        {
+            for (int j = 0; j < col - 1; ++j)
+            {
+                BL_U_Edges[i, j].Gizmos_GO.SetActive(true);
+            }
+        }
+
+        for (int i = 0; i < row - 1; ++i)
+        {
+            for (int j = 0; j < col - 2; ++j)
+            {
+                BL_V_Edges[i, j].Gizmos_GO.SetActive(true);
             }
         }
         #endregion
@@ -938,201 +921,8 @@ public class Pencil_Case : MonoBehaviour
         #endregion
     }
 
-    [ContextMenu("Render_Edges_Handles_Init_Mode")]
-    private void Render_Edges_Handles_Init_Mode()
-    {
-        //*! Render [Line] [Edge] handles for [Block]
-        #region Instantiate [Line] - [Edge] handles for [Block]
-        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
-        {
-            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
-            {
-                Vector3 pos = LI_U_Edges[i, j].Position;
-                Quaternion rot = Quaternion.AngleAxis(90, Vector3.forward);
-                GameObject go = Instantiate(li_edge_giz, pos, rot, transform.Find("LI_Edges"));
-                LI_U_Edges[i, j].Gizmos_GO = go;
-
-                if (!showLineGraph)
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
-                }
-                else
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
-                }
-            }
-        }
-
-        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
-        {
-            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
-            {
-                Vector3 pos = LI_V_Edges[i, j].Position;
-                Quaternion rot = Quaternion.identity;
-                GameObject go = Instantiate(li_edge_giz, pos, rot, transform.Find("LI_Edges"));
-                LI_V_Edges[i, j].Gizmos_GO = go;
-
-                if (!showLineGraph)
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
-                }
-                else
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
-                }
-            }
-        }
-        #endregion
-
-        //*! Render [Block] [Edge] handles for [Line]
-        #region Instantiate [Block] - [Edge] handles for [Line]
-        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
-        {
-            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
-            {
-                Vector3 pos = BL_U_Edges[i, j].Position;
-                Quaternion rot = Quaternion.AngleAxis(90, Vector3.forward);
-                GameObject go = Instantiate(bl_edge_giz, pos, rot, transform.Find("BL_Edges"));
-                BL_U_Edges[i, j].Gizmos_GO = go;
-
-                if (!showBlockGraph)
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
-                }
-                else
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
-                }
-            }
-        }
-
-        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
-        {
-            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
-            {
-                Vector3 pos = BL_V_Edges[i, j].Position;
-                Quaternion rot = Quaternion.identity;
-                GameObject go = Instantiate(bl_edge_giz, pos, rot, transform.Find("BL_Edges"));
-                BL_V_Edges[i, j].Gizmos_GO = go;
-
-                if (!showBlockGraph)
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = false;
-                }
-                else
-                {
-                    go.GetComponentInChildren<MeshRenderer>().enabled = true;
-                }
-            }
-        }
-        #endregion
-    }
-
-    //*! Destroys instantiated node prefabs in [Initialization Mode]
-    [ContextMenu("Update_Graph_Init_Mode")]
-    private void Update_Graph_Init_Mode()
-    {
-        bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
-        bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
-        bool is_BL_Edges_List_Empty = (transform.Find("BL_Edges").childCount < 1);
-        bool is_LI_Edges_List_Empty = (transform.Find("LI_Edges").childCount < 1);
-
-        if (!is_BL_Node_Gizmos_List_Empty)
-        {
-            for (int i = transform.Find("BL_Node_Gizmos").childCount; i > 0; --i)
-            {
-                DestroyImmediate(transform.Find("BL_Node_Gizmos").GetChild(0).gameObject, true); 
-            }
-            Debug.Log("Clear [Block] Node Gizmos");
-        }
-
-        if (!is_LI_Node_Gizmos_List_Empty)
-        {
-            for (int i = transform.Find("LI_Node_Gizmos").childCount; i > 0; --i)
-            {
-                DestroyImmediate(transform.GetChild(1).GetChild(0).gameObject, true);
-            }
-            Debug.Log("Clear [Line] Node Gizmos");
-        }
-
-        if (!is_BL_Edges_List_Empty)
-        {
-            for (int i = transform.Find("BL_Edges").childCount; i > 0; --i)
-            {
-                DestroyImmediate(transform.Find("BL_Edges").GetChild(0).gameObject, true);
-            }
-            Debug.Log("Clear [Block] Edge Handles");
-        }
-
-        if (!is_LI_Edges_List_Empty)
-        {
-            for (int i = transform.Find("LI_Edges").childCount; i > 0; --i)
-            {
-                DestroyImmediate(transform.Find("LI_Edges").GetChild(0).gameObject, true);
-            }
-            Debug.Log("Clear [Line] Edge Handles");
-        }
-    }
-
-    //*! Update the Graph size in Edit Mode with [SetActive Method]
-    [ContextMenu("Layout_Graph_Edit_Mode")]
-    private void Layout_Graph_Edit_Mode()
-    {
-        int bl_edge_Count = transform.Find("BL_Edges").childCount;
-        int li_edge_Count = transform.Find("LI_Edges").childCount;
-
-        //*! Switch OFF the whole list of [Edge] in both [Block] & [Line] for refresh purpose
-        #region Switch OFF all [Edge] of [Block] & [Line] for refreshing purpose
-        for (int i = 0; i < bl_edge_Count; ++i)
-        {
-            transform.Find("BL_Edges").GetChild(i).gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < li_edge_Count; ++i)
-        {
-            transform.Find("LI_Edges").GetChild(i).gameObject.SetActive(false);
-        }
-        #endregion
-
-        //*! Switch ON [Edge] in both [Block] & [Line] according to row & col number
-        #region Switch ON [Edge] of [Line] base on row & col number
-        for (int i = 0; i < row - 1; ++i)
-        {
-            for (int j = 0; j < col; ++j)
-            {
-                LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
-            }
-        }
-
-        for (int i = 0; i < row; ++i)
-        {
-            for (int j = 0; j < col - 1; ++j)
-            {
-                LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
-            }
-        }
-        #endregion
-
-        #region Switch ON [Edge] of [Block] base on row & col number
-        for (int i = 0; i < row - 2; ++i)
-        {
-            for (int j = 0; j < col - 1; ++j)
-            {
-                BL_U_Edges[i, j].Gizmos_GO.SetActive(true);
-            }
-        }
-
-        for (int i = 0; i < row - 1; ++i)
-        {
-            for (int j = 0; j < col - 2; ++j)
-            {
-                BL_V_Edges[i, j].Gizmos_GO.SetActive(true);
-            }
-        }
-        #endregion
-    }
-
     //*! Check [Edge] Enums flags by boarders to switch ON/OFF board nodes
+    [ContextMenu("Update_Graph_Boarder_Edited_Mode")]
     private void Update_Graph_Boarder_Edited_Mode()
     {
 
@@ -1174,13 +964,15 @@ public class Pencil_Case : MonoBehaviour
     public class Edge
     {
         //*! Getter, Setter of Edge members
-        public Node Start_Node { get; set; }
-        public Node End_Node { get; set; }
+        public Node UP_Node { get; set; }
+        public Node DN_Node { get; set; }
+        public Node LFT_Node { get; set; }
+        public Node RGT_Node { get; set; }
         public Vector3 Position { get; set; }
-        public Vector3 Normal { get; set; }
+        public Quaternion Rotation { get; set; }
         public GameObject Gizmos_GO { get; set; }
-        public Edge_Type Type { get; set; }
-
+        public Edge_Type Edge_Type { get; set; }
+        public Boarder_Type Boarder_Type { get; set; }
     }
 
     #endregion
@@ -1188,11 +980,25 @@ public class Pencil_Case : MonoBehaviour
     #region [Edge_Type] Enum class
     public enum Edge_Type
     {
-        NONE = 0,
+        NONE,
+        Terrain,
         Pencil,
         HighLighter_Blue,
         HighLighter_Red,
-        Colour_Pencil
+        Colour_Pencil,
+        Boarder
+    }
+    #endregion
+
+    #region [Boarder_Type] Enum class
+    public enum Boarder_Type
+    {
+        NONE,
+        UP,
+        DN,
+        LFT,
+        RGT
+
     }
     #endregion
 }
