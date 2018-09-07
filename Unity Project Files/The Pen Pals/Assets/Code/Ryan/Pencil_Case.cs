@@ -348,7 +348,7 @@ public class Pencil_Case : MonoBehaviour
                     new_edge_U.DN_Node = null;
                 }
 
-                if (j == LI_U_Edges.GetLength(0) - 1)
+                if (j == LI_U_Edges.GetLength(1) - 1)
                 {
                     new_edge_U.Edge_Type = Edge_Type.Boarder;
                     new_edge_U.Boarder_Type = Boarder_Type.UP;
@@ -393,6 +393,38 @@ public class Pencil_Case : MonoBehaviour
                 new_edge_V.Position = new_edge_V.DN_Node.Position + ((new_edge_V.UP_Node.Position - new_edge_V.DN_Node.Position) / 2);
                 new_edge_V.Rotation = rot_V;
                 LI_V_Edges[i, j] = new_edge_V;
+            }
+        }
+        #endregion
+
+        //*! Refresh (rebuild) [Line] - [Edge]'s for direction [Node] reference linkages
+        //*! Otherwise the empty [Node] reference spot will remain [null] after changing the graph size
+        #region Rebuild [Line] - non-boarder [U] direction [Edge]'s [Node] references
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 1; j < LI_U_Edges.GetLength(1) - 1; ++j)
+            {
+                LI_U_Edges[i, j].Edge_Type = Edge_Type.NONE;
+                LI_U_Edges[i, j].Boarder_Type = Boarder_Type.NONE;
+                LI_U_Edges[i, j].UP_Node = BL_Nodes[i, j];
+                LI_U_Edges[i, j].DN_Node = BL_Nodes[i, j - 1];
+                LI_U_Edges[i, j].LFT_Node = LI_Nodes[i, j];
+                LI_U_Edges[i, j].RGT_Node = LI_Nodes[i + 1, j];
+            }
+        }
+        #endregion
+
+        #region Rebuild [Line] - non-boarder [V] direction [Edge]'s [Node] references
+        for (int i = 1; i < LI_V_Edges.GetLength(0) - 1; ++i)
+        {
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+                LI_V_Edges[i, j].Edge_Type = Edge_Type.NONE;
+                LI_V_Edges[i, j].Boarder_Type = Boarder_Type.NONE;
+                LI_V_Edges[i, j].UP_Node = LI_Nodes[i, j + 1];
+                LI_V_Edges[i, j].DN_Node = LI_Nodes[i, j];
+                LI_V_Edges[i, j].LFT_Node = BL_Nodes[i - 1, j];
+                LI_V_Edges[i, j].RGT_Node = BL_Nodes[i, j];
             }
         }
         #endregion
@@ -720,8 +752,11 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Layout_Graph_Edit_Mode")]
     private void Layout_Graph_Edit_Mode()
     {
+        //*! Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
+        #region Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
         int bl_edge_Count = transform.Find("BL_Edges_Handles").childCount;
         int li_edge_Count = transform.Find("LI_Edges_Handles").childCount;
+        #endregion
 
         //*! Switch OFF the whole list of [Edge] in both [Block] & [Line] for refresh purpose
         #region Switch OFF all [Edge] of [Block] & [Line] for refreshing purpose
@@ -809,7 +844,8 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge curEdge = LI_U_Edges[i, j];
 
-                //* Check if [Edge] is [UP] or [Dn] Board
+                //* Check if [Edge] is [UP] or [Dn] [Boarder]
+                #region Check if [Line] - [U-Edge] is a [Boarder]
                 if (curEdge.Edge_Type == Edge_Type.Boarder)
                 {
                     if (curEdge.Boarder_Type == Boarder_Type.UP)
@@ -821,7 +857,7 @@ public class Pencil_Case : MonoBehaviour
                         }
                         else
                         {
-                            continue;
+                            curEdge.DN_Node.UP_NODE = null;
                         }
                     }
 
@@ -834,10 +870,11 @@ public class Pencil_Case : MonoBehaviour
                         }
                         else
                         {
-                            continue;
+                            curEdge.UP_Node.DN_NODE = null;
                         }
                     }
                 }
+                #endregion
             }
         }
         #endregion
@@ -849,7 +886,8 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge curEdge = LI_V_Edges[i, j];
 
-                //* Check if [Edge] is [LFT] or RGT] Board
+                //* Check if [Edge] is [LFT] or RGT] [Boarder]
+                #region Check if [Line] - [V-Edge] is a [Boarder]
                 if (curEdge.Edge_Type == Edge_Type.Boarder)
                 {
                     if (curEdge.Boarder_Type == Boarder_Type.LFT)
@@ -861,7 +899,7 @@ public class Pencil_Case : MonoBehaviour
                         }
                         else
                         {
-                            continue;
+                            curEdge.RGT_Node.LFT_NODE = null;
                         }
                     }
 
@@ -869,15 +907,16 @@ public class Pencil_Case : MonoBehaviour
                     {
                         if (curEdge.RGT_Node != null)
                         {
-                            curEdge.RGT_Node.LFT_NODE = null;
                             curEdge.LFT_Node.RGT_NODE = null;
+                            curEdge.RGT_Node.LFT_NODE = null;
                         }
                         else
                         {
-                            continue;
+                            curEdge.LFT_Node.RGT_NODE = null;
                         }
                     }
                 }
+                #endregion
             }
         }
         #endregion
