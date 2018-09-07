@@ -136,7 +136,7 @@ public class Pencil_Case : MonoBehaviour
             Layout_Graph_Edit_Mode();
 
             //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
-
+            Update_Graph_Boarder_Edited_Mode();
             //*! Render [Edges] handles, change colours or change Gizmos_GO the [Edge] holds
             //*! At the same time switch ON/OFF visability of [Block] or [Line] graph base on [Show Block Graph] & [Show Line Graph] flag 
 
@@ -802,7 +802,85 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Update_Graph_Boarder_Edited_Mode")]
     private void Update_Graph_Boarder_Edited_Mode()
     {
+        #region Check [U-Edge] of [Line] and set [Block] - [Node] Traversability
+        for (int i = 0; i < row - 1; ++i)
+        {
+            for (int j = 0; j < col; ++j)
+            {
+                Edge curEdge = LI_U_Edges[i, j];
 
+                //* Check if [Edge] is [UP] or [Dn] Board
+                if (curEdge.Edge_Type == Edge_Type.Boarder)
+                {
+                    if (curEdge.Boarder_Type == Boarder_Type.UP)
+                    {
+                        if (curEdge.UP_Node != null)
+                        {
+                            curEdge.UP_Node.DN_NODE = null;
+                            curEdge.DN_Node.UP_NODE = null;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (curEdge.Boarder_Type == Boarder_Type.DN)
+                    {
+                        if (curEdge.DN_Node != null)
+                        {
+                            curEdge.UP_Node.DN_NODE = null;
+                            curEdge.DN_Node.UP_NODE = null;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Check [V-Edge] of [Line] and set [Block] - [Node] Traversability
+        for (int i = 0; i < row; ++i)
+        {
+            for (int j = 0; j < col - 1; ++j)
+            {
+                Edge curEdge = LI_V_Edges[i, j];
+
+                //* Check if [Edge] is [LFT] or RGT] Board
+                if (curEdge.Edge_Type == Edge_Type.Boarder)
+                {
+                    if (curEdge.Boarder_Type == Boarder_Type.LFT)
+                    {
+                        if (curEdge.LFT_Node != null)
+                        {
+                            curEdge.LFT_Node.RGT_NODE = null;
+                            curEdge.RGT_Node.LFT_NODE = null;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (curEdge.Boarder_Type == Boarder_Type.RGT)
+                    {
+                        if (curEdge.RGT_Node != null)
+                        {
+                            curEdge.RGT_Node.LFT_NODE = null;
+                            curEdge.LFT_Node.RGT_NODE = null;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
     }
 
     [ContextMenu("Render_Node_Gizmos_Edit_Mode")]
