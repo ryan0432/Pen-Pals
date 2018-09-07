@@ -153,8 +153,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         //*! Default condistion, game starts with the head where it should be.
         head_at_tail = false;
-        Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x, (int)Line_Points[3].segment.transform.position.y];
 
+        //*! Update the pivot nodes position
+        if (head_at_tail == true)
+        {
+            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x,
+                                             (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
+        }
+        else
+        {
+            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x,
+                                             (int)Line_Points[3].segment.transform.position.y];
+        }
         //*! Default value at the start of the game... not updating Do not use
         ///Pivot_Node = Current_Node.RGT_NODE;
     }
@@ -164,7 +174,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        Just_Move_Input();
+        Line_Movement();
 
         //*! Update the positions of the lines
         for (int index = 1; index < Line_Points.Length; index++)
@@ -208,7 +218,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// <summary>
     /// Main Movement controller for the line player
     /// </summary>
-    private void Just_Move_Input()
+    private void Line_Movement()
     {
         ///LOCK THE PLAYER OUT WHILE TRAVERSING THROUGH THE LINE
         //*! Check for the players input
@@ -216,14 +226,14 @@ public class PlayerStateMachine_Line : MonoBehaviour
         {
             Check_Input();
 
-            //*! Update the pivot nodes position
-            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x, (int)Line_Points[3].segment.transform.position.y];
         }
 
 
         //*! Does Queued node have a value
         if (Queued_Node != null)
         {
+
+
             //*! Do nothing if equal 
             if (Queued_Node == Current_Node)
             {
@@ -233,14 +243,33 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Was it the Pivot node
             else if (Queued_Node == Pivot_Node)
             {
-                ///*! Start the coroutine for moving the head along the tail
-                StartCoroutine(Move_Head_To_Tail());
-
-                //*! When the above coroutine is finished
-
 
                 //*! Clear the node
                 Queued_Node = null;
+
+
+                //*! Update the pivot nodes position
+                //*! Where is the head
+                if (head_at_tail == false)
+                {
+                    Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x,
+                                         (int)Line_Points[3].segment.transform.position.y];
+                    ///*! Start the coroutine for moving the head along the tail
+                    StartCoroutine(Move_Head_To_Tail());
+                }
+                else
+                {
+                    Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x,
+                                                     (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
+                    ///*! Start the coroutine for moving the head along the tail
+                    StartCoroutine(Move_Head_From_Tail());
+                }
+
+
+                //*! When the above coroutine(s) is finished
+                //?-Controls the line from the tail or head
+
+
 
             }
             //*! Shift nodes if next is empty
@@ -251,19 +280,37 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         }
 
+        //*! Foward and 'backwards' motion of the update of the nodes
 
         //*! Move player next node is not null
         if (Next_Node != null)
         {
             //*! Forward motion
-            //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
-            for (int index = 0; index < Line_Points.Length; index++)
+            if (head_at_tail == false)
             {
-                if (Line_Points[index].segment.name != "PIVOT")
+                //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
+                for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
+                    if (Line_Points[index].segment.name != "PIVOT")
+                    {
+                        Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
+                    }
                 }
             }
+            else
+            {
+                //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
+                for (int index = Line_Points.Length - 1; index >= 0; index--)
+                {
+                    if (Line_Points[index].segment.name != "PIVOT")
+                    {
+                        Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index - 1].target, movement_speed * Time.deltaTime);
+                    }
+                }
+            }
+
+
+
 
             //*! Get the distance from the player to the next node
             float mag_distance = (Line_Points[0].segment.transform.position - Next_Node.Position).magnitude;
@@ -278,26 +325,45 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Reached the next node within a slight tollerence
             if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
             {
-
-
-                //*! Snap the head and head cap
-                Line_Points[0].segment.transform.position = Line_Points[0].target;
-                Line_Points[1].segment.transform.position = Line_Points[1].target;
-
-                //*! Snap all pivot points
-                for (int index = Line_Points.Length - 1; index >= 0; index--)
+                //*! Update order for forward motion
+                if (head_at_tail == false)
                 {
-                    if (Line_Points[index].segment.name == "PIVOT")
+                    //*! Snap the head and head cap
+                    Line_Points[0].segment.transform.position = Line_Points[0].target;
+                    Line_Points[1].segment.transform.position = Line_Points[1].target;
+
+                    //*! Snap all pivot points
+                    for (int index = Line_Points.Length - 1; index >= 0; index--)
                     {
-                        Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+                        if (Line_Points[index].segment.name == "PIVOT")
+                        {
+                            Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+                        }
+
                     }
 
+                    //*! Tail update
+                    Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
                 }
+                else
+                {
+                    //*! Snap the head and head cap
+                    Line_Points[0].segment.transform.position = Line_Points[0].target;
+                    Line_Points[1].segment.transform.position = Line_Points[1].target;
 
-                //*! Tail update
-                Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+                    //*! Snap all pivot points
+                    for (int index = Line_Points.Length - 1; index >= 0; index--)
+                    {
+                        if (Line_Points[index].segment.name == "PIVOT")
+                        {
+                            Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+                        }
 
+                    }
 
+                    //*! Tail update
+                    Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+                }
 
 
                 //*! Finished moving, unless the below checks override that
@@ -341,15 +407,15 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
     /// <summary>
-    /// Lock controlls until head is at tail
+    /// Lock out the player controller for the line player, until the head is at the tail.
     /// </summary>
     IEnumerator Move_Head_To_Tail()
     {
-        //*! Initialise the current target to 3 - First main pivot
+        //*! Initialise the current target to 3 - First key pivot when the head is at the original head position
         int current_target = 3;
 
-        //*! Set the heads target to be of the pivot 
-        Line_Points[0].target = Line_Points[current_target].segment.transform.position;
+        //*! Set the heads starting target to be of the pivot 
+        Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
 
         //*! Head traversing body starting condition as it is now correct
         head_traversing_body = true;
@@ -369,6 +435,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! Snap the head to its target
                 Line_Points[0].segment.transform.position = Line_Points[0].target;
 
+                //*! While it is not at the end of the array
                 if (Line_Points[0].segment.transform.position != Line_Points[Line_Points.Length - 1].segment.transform.position)
                 {
                     //*! Increment the current target to index into the line points[]
@@ -383,12 +450,14 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         //*! Never should happen, but just in case haha.
                         Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
                         //*! Decreament it?
-                        current_target--;
+                        //current_target--;
                     }
                 }
                 else
                 {
                     //*! Used to excape the while loop
+                    //*! Above Corotine finished
+                    head_at_tail = true;
                     //*! At the tail position
                     head_traversing_body = false;
                 }
@@ -398,25 +467,83 @@ public class PlayerStateMachine_Line : MonoBehaviour
             yield return null;
         }
 
-
-        /////*! Then flip the array so that index 3 is always behind the head.
-        ///*- Below is theory, un tested and not sure if it would work as intended -*/
-        /////*! REVERSE THE VALUES OF EACH ITEM IN THE ARRAY
-        //List<Line_Point> lp = new List<Line_Point>();
-
-        //for (int index = 0; index < Line_Points.Length; index++)
-        //{
-        //    lp.Add(Line_Points[index]);
-        //}
-
-        //lp.Reverse();
-
-
-        //Line_Points = lp.ToArray();
-
+        //*! Current node to move from is now at the tails position converted into node
+        Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x,
+                                           (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
     }
 
 
+    /// <summary>
+    /// Lock out the player controller for the line player, until the head is at the orignal head position.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Move_Head_From_Tail()
+    {
+        //*! Initialise the current target to Line_Points.Length - 2 - First key pivot when the head is at the original head position
+        int current_target = Line_Points.Length - 2;
+
+
+
+        //*! Set the heads starting target to be of the pivot 
+        Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
+
+        //*! Head traversing body starting condition as it is now correct
+        head_traversing_body = true;
+
+        //*! Coroutine Loop - Keep looping until it results to false
+        while (head_traversing_body == true)
+        {
+
+            //*! Move the head towards its target
+            Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, movement_speed * Time.deltaTime);
+
+            //*! Distance calculation
+            float mag_distance = (Line_Points[0].target - Line_Points[0].segment.transform.position).magnitude;
+
+            //*! Reached the target position
+            if (Line_Points[0].segment.transform.position == Line_Points[0].target || mag_distance < 0.01f)
+            {
+                //*! Snap the head to its target
+                Line_Points[0].segment.transform.position = Line_Points[0].target;
+
+
+                //*! While it is not at the start of the array [1] = head cap
+                if (Line_Points[0].segment.transform.position != Line_Points[1].segment.transform.position)
+                {
+                    //*! Decreament the current target to index into the line points[]
+                    if (current_target != 0)
+                    {
+                        current_target--;
+                        //*! Assign the new target
+                        Line_Points[0].target = Line_Points[current_target].target;
+                    }
+                    else
+                    {
+                        //*! Never should happen, but just in case haha.
+                        Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
+                        //*! Increment it?
+                        //current_target++;
+                    }
+                }
+                else
+                {
+                    //*! Used to excape the while loop
+                    //*! Above Corotine finished
+                    head_at_tail = false;
+                    //*! At the tail position
+                    head_traversing_body = false;
+                }
+            }
+
+            //*! Keep returning null until the head is at the tail positon
+            yield return null;
+        }
+
+        //*! Current node to move from is now at the heads position converted into node
+        Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[0].segment.transform.position.x,
+                                           (int)Line_Points[0].segment.transform.position.y];
+
+    }
 
 
     /// <summary>
@@ -443,6 +570,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 Line_Points[index].target = Next_Node.Position;
             }
+            else
+            {
+                Line_Points[index].target = Next_Node.Position;
+            }
 
             //*! Stays where it is until the player has reached the next node
             ///if (Line_Points[index].segment.name == "PIVOT")
@@ -454,6 +585,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 Line_Points[index].target = Line_Points[index - 1].segment.transform.position;
             }
+
 
         }
     }
@@ -548,8 +680,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         //*! There is a line point here
                         t_line_point = true;
 
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -598,8 +730,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         //*! There is a line point here
                         t_line_point = true;
 
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -655,8 +788,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         //*! There is a line point here
                         t_line_point = true;
 
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -705,8 +839,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         //*! There is a line point here
                         t_line_point = true;
 
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -760,8 +895,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         //*! There is a line point here
                         t_line_point = true;
 
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -808,8 +944,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -862,8 +999,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -910,8 +1048,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
                     {
                         //*! There is a line point here
                         t_line_point = true;
-                        //*! If the index is at [3] Yellow Diamond Gizmo Pivot
-                        if (index == 3)
+
+                        //*! If the index is at [3] or [Line_Points.Length - 2] Yellow Diamond Gizmo Pivot
+                        if (index == 3 || index == Line_Points.Length - 2)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -935,6 +1074,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
             return Queued_Node;
         }
 
+    }
+
+
+    private Temp_Node_Map.Node Line_Point_Check()
+    {
+
+        return null;
     }
 
 
