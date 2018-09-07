@@ -280,19 +280,37 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         }
 
+        //*! Foward and 'backwards' motion of the update of the nodes
 
         //*! Move player next node is not null
         if (Next_Node != null)
         {
             //*! Forward motion
-            //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
-            for (int index = 0; index < Line_Points.Length; index++)
+            if (head_at_tail == false)
             {
-                if (Line_Points[index].segment.name != "PIVOT")
+                //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
+                for (int index = 0; index < Line_Points.Length; index++)
                 {
-                    Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
+                    if (Line_Points[index].segment.name != "PIVOT")
+                    {
+                        Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
+                    }
                 }
             }
+            else
+            {
+                //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
+                for (int index = Line_Points.Length - 1; index >= 0; index--)
+                {
+                    if (Line_Points[index].segment.name != "PIVOT")
+                    {
+                        Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index - 1].target, movement_speed * Time.deltaTime);
+                    }
+                }
+            }
+
+
+
 
             //*! Get the distance from the player to the next node
             float mag_distance = (Line_Points[0].segment.transform.position - Next_Node.Position).magnitude;
@@ -307,26 +325,45 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Reached the next node within a slight tollerence
             if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
             {
-
-
-                //*! Snap the head and head cap
-                Line_Points[0].segment.transform.position = Line_Points[0].target;
-                Line_Points[1].segment.transform.position = Line_Points[1].target;
-
-                //*! Snap all pivot points
-                for (int index = Line_Points.Length - 1; index >= 0; index--)
+                //*! Update order for forward motion
+                if (head_at_tail == false)
                 {
-                    if (Line_Points[index].segment.name == "PIVOT")
+                    //*! Snap the head and head cap
+                    Line_Points[0].segment.transform.position = Line_Points[0].target;
+                    Line_Points[1].segment.transform.position = Line_Points[1].target;
+
+                    //*! Snap all pivot points
+                    for (int index = Line_Points.Length - 1; index >= 0; index--)
                     {
-                        Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+                        if (Line_Points[index].segment.name == "PIVOT")
+                        {
+                            Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+                        }
+
                     }
 
+                    //*! Tail update
+                    Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
                 }
+                else
+                {
+                    //*! Snap the head and head cap
+                    Line_Points[0].segment.transform.position = Line_Points[0].target;
+                    Line_Points[1].segment.transform.position = Line_Points[1].target;
 
-                //*! Tail update
-                Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+                    //*! Snap all pivot points
+                    for (int index = Line_Points.Length - 1; index >= 0; index--)
+                    {
+                        if (Line_Points[index].segment.name == "PIVOT")
+                        {
+                            Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+                        }
 
+                    }
 
+                    //*! Tail update
+                    Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+                }
 
 
                 //*! Finished moving, unless the below checks override that
@@ -377,8 +414,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Initialise the current target to 3 - First key pivot when the head is at the original head position
         int current_target = 3;
 
-
-
         //*! Set the heads starting target to be of the pivot 
         Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
 
@@ -404,7 +439,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Line_Points[0].segment.transform.position != Line_Points[Line_Points.Length - 1].segment.transform.position)
                 {
                     //*! Increment the current target to index into the line points[]
-                    if (current_target < Line_Points.Length - 2)
+                    if (current_target < Line_Points.Length - 1)
                     {
                         current_target++;
                         //*! Assign the new target
@@ -421,10 +456,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 else
                 {
                     //*! Used to excape the while loop
-                    //*! At the tail position
-                    head_traversing_body = false;
                     //*! Above Corotine finished
                     head_at_tail = true;
+                    //*! At the tail position
+                    head_traversing_body = false;
                 }
             }
 
@@ -432,9 +467,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
             yield return null;
         }
 
-
-
-
+        //*! Current node to move from is now at the tails position converted into node
+        Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x,
+                                           (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
     }
 
 
@@ -493,16 +528,20 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 else
                 {
                     //*! Used to excape the while loop
-                    //*! At the tail position
-                    head_traversing_body = false;
                     //*! Above Corotine finished
                     head_at_tail = false;
+                    //*! At the tail position
+                    head_traversing_body = false;
                 }
             }
 
             //*! Keep returning null until the head is at the tail positon
             yield return null;
         }
+
+        //*! Current node to move from is now at the heads position converted into node
+        Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[0].segment.transform.position.x,
+                                           (int)Line_Points[0].segment.transform.position.y];
 
     }
 
