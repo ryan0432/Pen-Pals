@@ -5,7 +5,7 @@
 //*!              This class in an experimental class to test using
 //*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 02/09/2018
+//*! Last edit  : 07/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
