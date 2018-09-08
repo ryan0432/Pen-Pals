@@ -94,6 +94,10 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Material li_giz_mat;
 
+    //* Store previos frame's [row] and [col] number
+    private int prevRow;
+    private int prevCol;
+
     #endregion
 
 
@@ -128,22 +132,22 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
-            int curRow = row;
-            int curCol = col;
-
-            bool graph_size_changed = (curRow != row || curCol != col);
+            //int currRow = row;
+            //int currCol = col;
+            //
+            //bool graph_size_changed = (prevRow != currRow || prevCol != currCol);
 
             //*! Edit Graph with [SetActive(true/false)] method
             //*! Update with [SetActive(true/false)] method
 
             //*! Layout Graph by row col number
-            if (graph_size_changed)
-            {
-                Layout_Graph_Edit_Mode();
-            }
+            //if (graph_size_changed)
+            //{
+              Layout_Graph_Edit_Mode();
+            //}
 
-            row = curRow;
-            col = curCol;
+            //prevRow = currRow;
+            //prevCol = currCol;
 
             //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
             Update_Graph_Boarder_Edited_Mode();
@@ -773,12 +777,14 @@ public class Pencil_Case : MonoBehaviour
         #region Switch OFF all [Edge] of [Block] & [Line] for refreshing purpose
         for (int i = 0; i < bl_edge_Count; ++i)
         {
-            transform.Find("BL_Edges_Handles").GetChild(i).gameObject.SetActive(false);
+            //transform.Find("BL_Edges_Handles").GetChild(i).gameObject.SetActive(false);
+            transform.Find("BL_Edges_Handles").GetChild(i).transform.GetComponentInChildren<MeshRenderer>().enabled = false;
         }
 
         for (int i = 0; i < li_edge_Count; ++i)
         {
-            transform.Find("LI_Edges_Handles").GetChild(i).gameObject.SetActive(false);
+            //transform.Find("LI_Edges_Handles").GetChild(i).gameObject.SetActive(false);
+            transform.Find("LI_Edges_Handles").GetChild(i).transform.GetComponentInChildren<MeshRenderer>().enabled = false;
         }
         #endregion
 
@@ -788,7 +794,8 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col; ++j)
             {
-                LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
+                //LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
+                LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
 
                 if (j == 0)
                 {
@@ -808,7 +815,8 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col - 1; ++j)
             {
-                LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
+                //LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
+                LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
 
                 if (i == 0)
                 {
@@ -830,7 +838,8 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col - 1; ++j)
             {
-                BL_U_Edges[i, j].Gizmos_GO.SetActive(true);
+                //BL_U_Edges[i, j].Gizmos_GO.SetActive(true);
+                BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
             }
         }
 
@@ -838,7 +847,8 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col; ++j)
             {
-                BL_V_Edges[i, j].Gizmos_GO.SetActive(true);
+                //BL_V_Edges[i, j].Gizmos_GO.SetActive(true);
+                BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
             }
         }
         #endregion

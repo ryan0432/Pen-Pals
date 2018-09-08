@@ -51,7 +51,7 @@ public class LI_Edge_Type : MonoBehaviour
             {
                 for (int j = 0; j < pc.LI_U_Edges.GetLength(1); ++j)
                 {
-                    if (gameObject == pc.LI_U_Edges[i, j].Gizmos_GO)
+                    if (transform.parent.gameObject == pc.LI_U_Edges[i, j].Gizmos_GO.gameObject)
                     {
                         int currType = (int)edgeType;
                         int dataType = (int)pc.LI_U_Edges[i, j].Edge_Type;
@@ -64,7 +64,7 @@ public class LI_Edge_Type : MonoBehaviour
             {
                 for (int j = 0; j < pc.LI_V_Edges.GetLength(1); ++j)
                 {
-                    if (gameObject == pc.LI_V_Edges[i, j].Gizmos_GO)
+                    if (transform.parent.gameObject == pc.LI_V_Edges[i, j].Gizmos_GO.gameObject)
                     {
                         int currType = (int)edgeType;
                         int dataType = (int)pc.LI_V_Edges[i, j].Edge_Type;
