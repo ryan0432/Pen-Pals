@@ -150,7 +150,7 @@ public class Pencil_Case : MonoBehaviour
             //prevCol = currCol;
 
             //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
-            Update_Graph_Boarder_Edited_Mode();
+            Update_Graph_Traversability_Edited_Mode();
 
             //*! Render [Edges] handles, change colours or change Gizmos_GO the [Edge] holds
             //*! At the same time switch ON/OFF visability of [Block] or [Line] graph base on [Show Block Graph] & [Show Line Graph] flag 
@@ -471,9 +471,9 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge new_edge_V = new Edge();
                 new_edge_V.UP_Node = LI_U_Edges[i, j].UP_Node;
-                new_edge_V.UP_Node = LI_U_Edges[i, j].DN_Node;
-                new_edge_V.UP_Node = LI_U_Edges[i, j].LFT_Node;
-                new_edge_V.UP_Node = LI_U_Edges[i, j].RGT_Node;
+                new_edge_V.DN_Node = LI_U_Edges[i, j].DN_Node;
+                new_edge_V.LFT_Node = LI_U_Edges[i, j].LFT_Node;
+                new_edge_V.RGT_Node = LI_U_Edges[i, j].RGT_Node;
                 new_edge_V.Position = LI_U_Edges[i, j].Position;
                 new_edge_V.Rotation = rot_V;
                 new_edge_V.Edge_Type = Edge_Type.NONE;
@@ -855,15 +855,20 @@ public class Pencil_Case : MonoBehaviour
     }
 
     //*! Check [Edge] Enums flags to decide every [Node] tracersability to neighbor
-    [ContextMenu("Update_Graph_Boarder_Edited_Mode")]
-    private void Update_Graph_Boarder_Edited_Mode()
+    [ContextMenu("Update_Graph_Traversability_Edited_Mode")]
+    private void Update_Graph_Traversability_Edited_Mode()
     {
-        #region Check [U-Edge] of [Line] and set [Block] - [Node] Traversability
+        #region Check [Line] - [U-Edge] and set [Block] - [Node] Traversability
         for (int i = 0; i < row - 1; ++i)
         {
             for (int j = 0; j < col; ++j)
             {
                 Edge curEdge = LI_U_Edges[i, j];
+
+                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
+                #region Assign [Handle Edge Type] to [Edge Type] data
+                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType;
+                #endregion
 
                 //*! Check if [U-Edge] is [UP] or [Dn] [Boarder]
                 #region Check if [Line] - [U-Edge] is a [Boarder]
@@ -956,12 +961,17 @@ public class Pencil_Case : MonoBehaviour
         }
         #endregion
 
-        #region Check [V-Edge] of [Line] and set [Block] - [Node] Traversability
+        #region Check [Line] - [V-Edge] and set [Block] - [Node] Traversability
         for (int i = 0; i < row; ++i)
         {
             for (int j = 0; j < col - 1; ++j)
             {
                 Edge curEdge = LI_V_Edges[i, j];
+
+                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
+                #region Assign [Handle Edge Type] to [Edge Type] data
+                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType;
+                #endregion
 
                 //*! Check if [V-Edge] is [LFT] or RGT] [Boarder]
                 #region Check if [Line] - [V-Edge] is a [Boarder]
@@ -1049,6 +1059,99 @@ public class Pencil_Case : MonoBehaviour
                         curEdge.RGT_Node.LFT_NODE = null;
                     }
                 }
+                #endregion
+            }
+        }
+        #endregion
+
+        #region Check [Block] - [U-Edge] and set [Line] - [Node] Traversability
+        for (int i = 0; i < row; ++i)
+        {
+            for (int j = 0; j < col - 1; ++j)
+            {
+                Edge curEdge = BL_U_Edges[i, j];
+
+                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
+                #region Assign [Handle Edge Type] to [Edge Type] data
+                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<BL_Handle>().edgeType;
+                #endregion
+
+                //*! Check if [U-Edge] is [None]
+                //*! If it is a [Boarder] assigned to [None],
+                //*! DON'T REBUILD [Node] connection on its [Null] side 
+                #region Check if [U-Edge] is [None]
+                //if (curEdge.Edge_Type == Edge_Type.NONE)
+                //{
+                //    if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
+                //    {
+                //        if (curEdge.LFT_Node == null)
+                //        {
+                //            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                //            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                //            curEdge.RGT_Node.LFT_NODE = null;
+                //        }
+
+                //        if (curEdge.RGT_Node == null)
+                //        {
+                //            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                //            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                //            curEdge.LFT_Node.RGT_NODE = null;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                //        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                //        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                //        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                //    }
+                //}
+                #endregion
+            }
+        }
+        #endregion
+
+        #region Check [Block] - [V-Edge] and set [Line] - [Node] Traversability
+        for (int i = 0; i < row - 1; ++i)
+        {
+            for (int j = 0; j < col; ++j)
+            {
+                Edge curEdge = BL_V_Edges[i, j];
+                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
+                #region Assign [Handle Edge Type] to [Edge Type] data
+                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<BL_Handle>().edgeType;
+                #endregion
+
+                //*! Check if [V-Edge] is [None]
+                //*! If it is a [Boarder] assigned to [None],
+                //*! DON'T REBUILD [Node] connection on its [Null] side 
+                #region Check if [V-Edge] is [None]
+                //if (curEdge.Edge_Type == Edge_Type.NONE)
+                //{
+                //    if (curEdge.UP_Node == null || curEdge.DN_Node == null)
+                //    {
+                //        if (curEdge.UP_Node == null)
+                //        {
+                //            curEdge.DN_Node.UP_NODE = null;
+                //            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                //            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                //        }
+
+                //        if (curEdge.DN_Node == null)
+                //        {
+                //            curEdge.UP_Node.DN_NODE = null;
+                //            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                //            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                //        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                //        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                //        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                //    }
+                //}
                 #endregion
             }
         }
@@ -1248,28 +1351,32 @@ public class Pencil_Case : MonoBehaviour
     }
 
     #endregion
-
-    #region [Edge_Type] Enum class
-    public enum Edge_Type
-    {
-        NONE = 0,
-        Black_Pen = 1,
-        HighLighter_Red = 2,
-        HighLighter_Blue = 3,
-        Pencil = 4,
-        Colour_Pencil = 5,
-        Boarder = 6
-    }
-    #endregion
-
-    #region [Boarder_Type] Enum class
-    public enum Boarder_Type
-    {
-        NONE,
-        UP,
-        DN,
-        LFT,
-        RGT
-    }
-    #endregion
 }
+
+//*!----------------------------!*//
+//*!    Custom Enum Classes
+//*!----------------------------!*//
+
+#region [Edge_Type] Enum class
+public enum Edge_Type
+{
+    NONE = 0,
+    Black_Pen = 1,
+    HighLighter_Red = 2,
+    HighLighter_Blue = 3,
+    Pencil = 4,
+    Colour_Pencil = 5,
+    Boarder = 6
+}
+#endregion
+
+#region [Boarder_Type] Enum class
+public enum Boarder_Type
+{
+    NONE,
+    UP,
+    DN,
+    LFT,
+    RGT
+}
+#endregion
