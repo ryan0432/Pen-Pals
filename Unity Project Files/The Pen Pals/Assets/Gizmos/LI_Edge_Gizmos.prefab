@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4693266860258076}
   - component: {fileID: 33684341756263046}
   - component: {fileID: 23869733015364714}
+  - component: {fileID: 114441308525585862}
   m_Layer: 0
   m_Name: Edge_Gizmos_Mesh
   m_TagString: Untagged
@@ -112,3 +113,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1354692147077126}
   m_Mesh: {fileID: 4300004, guid: a1ee45e7e0b3faa44946533a9e69b350, type: 3}
+--- !u!114 &114441308525585862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1354692147077126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c08bc5f4ffd6cc4d8c145f30d45f3cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  edgeType: 1

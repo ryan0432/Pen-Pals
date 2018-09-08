@@ -1,11 +1,11 @@
 ﻿//*!--------------------------------------------------------------!*//
 //*! Programmer : Ryan Chung
 //*!
-//*! Description: A class for operating shape editor in edit mode.
+//*! Description: A class for operating [Pencil Case] in edit mode.
 //*!              This class in an experimental class to test using
 //*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 07/09/2018
+//*! Last edit  : 08/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-
 public class Pencil_Case : MonoBehaviour
 {
     //*!----------------------------!*//
@@ -129,14 +128,15 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
-            //Edit Graph with [SetActive(true/false)] method
-            //Update with [SetActive(true/false)] method
+            //*! Edit Graph with [SetActive(true/false)] method
+            //*! Update with [SetActive(true/false)] method
 
             //*! Layout Graph by row col number
             Layout_Graph_Edit_Mode();
 
             //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
             Update_Graph_Boarder_Edited_Mode();
+
             //*! Render [Edges] handles, change colours or change Gizmos_GO the [Edge] holds
             //*! At the same time switch ON/OFF visability of [Block] or [Line] graph base on [Show Block Graph] & [Show Line Graph] flag 
 
@@ -844,7 +844,7 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge curEdge = LI_U_Edges[i, j];
 
-                //* Check if [Edge] is [UP] or [Dn] [Boarder]
+                //*! Check if [U-Edge] is [UP] or [Dn] [Boarder]
                 #region Check if [Line] - [U-Edge] is a [Boarder]
                 if (curEdge.Edge_Type == Edge_Type.Boarder)
                 {
@@ -875,6 +875,62 @@ public class Pencil_Case : MonoBehaviour
                     }
                 }
                 #endregion
+
+                //*! Check if [U-Edge] is [None]
+                //*! If it is a [Boarder] assigned to [None],
+                //*! DON'T REBUILD [Node] connection on its [Null] side 
+                #region Check if [U-Edge] is [None]
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    if (curEdge.UP_Node == null || curEdge.DN_Node == null)
+                    {
+                        if (curEdge.UP_Node == null)
+                        {
+                            curEdge.DN_Node.UP_NODE = null;
+                            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                        }
+
+                        if (curEdge.DN_Node == null)
+                        {
+                            curEdge.UP_Node.DN_NODE = null;
+                            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                    }
+                }
+                #endregion
+
+                //*! Check if [U-Edge] is [Black_Pen]. If true, shut [UP] [DN] traversabilities
+                #region Check if [U-Edge] is [Black_Pen]
+                if (curEdge.Edge_Type == Edge_Type.Black_Pen)
+                {
+                    if (curEdge.UP_Node == null || curEdge.DN_Node == null)
+                    {
+                        if (curEdge.UP_Node == null)
+                        {
+                            curEdge.DN_Node.UP_NODE = null;
+                        }
+
+                        if (curEdge.DN_Node == null)
+                        {
+                            curEdge.UP_Node.DN_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.UP_Node.DN_NODE = null;
+                        curEdge.DN_Node.UP_NODE = null;
+                    }
+                }
+                #endregion
             }
         }
         #endregion
@@ -886,7 +942,7 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge curEdge = LI_V_Edges[i, j];
 
-                //* Check if [Edge] is [LFT] or RGT] [Boarder]
+                //*! Check if [V-Edge] is [LFT] or RGT] [Boarder]
                 #region Check if [Line] - [V-Edge] is a [Boarder]
                 if (curEdge.Edge_Type == Edge_Type.Boarder)
                 {
@@ -914,6 +970,62 @@ public class Pencil_Case : MonoBehaviour
                         {
                             curEdge.LFT_Node.RGT_NODE = null;
                         }
+                    }
+                }
+                #endregion
+
+                //*! Check if [V-Edge] is [None]
+                //*! If it is a [Boarder] assigned to [None],
+                //*! DON'T REBUILD [Node] connection on its [Null] side
+                #region Check if [V-Edge] is [None]
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
+                    {
+                        if (curEdge.LFT_Node == null)
+                        {
+                            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                            curEdge.RGT_Node.LFT_NODE = null;
+                        }
+
+                        if (curEdge.RGT_Node == null)
+                        {
+                            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                            curEdge.LFT_Node.RGT_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                    }
+                }
+                #endregion
+
+                //*! Check if [V-Edge] is [Black_Pen]. If true, shut [LFT] [RGT] traversabilities
+                #region Check if [V-Edge] is [Black_Pen]
+                if (curEdge.Edge_Type == Edge_Type.Black_Pen)
+                {
+                    if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
+                    {
+                        if (curEdge.LFT_Node == null)
+                        {
+                            curEdge.RGT_Node.LFT_NODE = null;
+                        }
+
+                        if (curEdge.RGT_Node == null)
+                        {
+                            curEdge.LFT_Node.RGT_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.LFT_Node.RGT_NODE = null;
+                        curEdge.RGT_Node.LFT_NODE = null;
                     }
                 }
                 #endregion
@@ -1119,13 +1231,13 @@ public class Pencil_Case : MonoBehaviour
     #region [Edge_Type] Enum class
     public enum Edge_Type
     {
-        NONE,
-        Terrain,
-        Pencil,
-        HighLighter_Blue,
-        HighLighter_Red,
-        Colour_Pencil,
-        Boarder
+        NONE = 0,
+        Black_Pen = 1,
+        HighLighter_Red = 2,
+        HighLighter_Blue = 3,
+        Pencil = 4,
+        Colour_Pencil = 5,
+        Boarder = 6
     }
     #endregion
 
@@ -1137,7 +1249,6 @@ public class Pencil_Case : MonoBehaviour
         DN,
         LFT,
         RGT
-
     }
     #endregion
 }
