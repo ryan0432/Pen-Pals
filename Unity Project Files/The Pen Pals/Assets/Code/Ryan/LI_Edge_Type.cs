@@ -30,8 +30,9 @@ public class LI_Edge_Type : MonoBehaviour
 #if UNITY_EDITOR
     // Update is called once per frame
     [ContextMenu("Editor_Update")]
-    void Update ()
+    private void Update ()
 	{
+        Debug.Log("In Update");
         #region Check if current state is in [Playing Mode] or [Edit Mode]
         //*! Call [Runtime Update] if editor is in test [Playing Mode]
         if (UnityEditor.EditorApplication.isPlaying) { Runtime_Update(); }

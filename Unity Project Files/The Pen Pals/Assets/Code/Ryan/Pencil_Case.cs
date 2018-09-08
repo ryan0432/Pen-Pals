@@ -128,11 +128,22 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
+            int curRow = row;
+            int curCol = col;
+
+            bool graph_size_changed = (curRow != row || curCol != col);
+
             //*! Edit Graph with [SetActive(true/false)] method
             //*! Update with [SetActive(true/false)] method
 
             //*! Layout Graph by row col number
-            Layout_Graph_Edit_Mode();
+            if (graph_size_changed)
+            {
+                Layout_Graph_Edit_Mode();
+            }
+
+            row = curRow;
+            col = curCol;
 
             //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
             Update_Graph_Boarder_Edited_Mode();
