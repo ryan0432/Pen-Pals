@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 33987383304823214}
   - component: {fileID: 23888831729394986}
   m_Layer: 0
-  m_Name: default
+  m_Name: LI_Arrw_Gizmos_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

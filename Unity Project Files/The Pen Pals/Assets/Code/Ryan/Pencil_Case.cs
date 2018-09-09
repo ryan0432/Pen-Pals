@@ -81,7 +81,6 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private GameObject bl_edge_giz;
 
-
     //!* Gizmos meshes and materials for [DrawMesh] mode
     [SerializeField]
     [HideInInspector]
@@ -96,10 +95,19 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Material li_giz_mat;
 
+    //* Gizmos meshes for [Handles] in [Edit Mode]
+    [SerializeField]
+    private Mesh block_blue_goal_giz;
+    [SerializeField]
+    private Mesh line_red_goal_giz;
+    [SerializeField]
+    private Mesh black_pen_giz;
+    [SerializeField]
+    private Mesh highlighter_red_giz;
+
     //* Store previos frame's [row] and [col] number
     private int prevRow;
     private int prevCol;
-
     #endregion
 
 
@@ -797,7 +805,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_U_Edges[i, j].Boarder_Type = Boarder_Type.DN;
-                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.Boarder;
                     LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = Boarder_Type.DN;
                 }
 
@@ -805,7 +813,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_U_Edges[i, j].Boarder_Type = Boarder_Type.UP;
-                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.Boarder;
                     LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = Boarder_Type.UP;
                 }
             }
@@ -830,7 +838,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_V_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_V_Edges[i, j].Boarder_Type = Boarder_Type.LFT;
-                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.Boarder;
                     LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = Boarder_Type.LFT;
                 }
 
@@ -838,7 +846,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_V_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_V_Edges[i, j].Boarder_Type = Boarder_Type.RGT;
-                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.Boarder;
                     LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = Boarder_Type.RGT;
                 }
             }
@@ -1283,6 +1291,66 @@ public class Pencil_Case : MonoBehaviour
         #endregion
     }
 
+    [ContextMenu("Render_All_Handles_By_Type_Edit_Mode")]
+    private void Render_All_Handles_By_Type_Edit_Mode()
+    {
+        //*! Replace [Block] [Node] mesh base on it's [Node Type]
+        //*! Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type] first
+        for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+            {
+                BL_Nodes[i, j].Node_Type = (Node_Type)(int)BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
+            }
+        }
+
+        //*! Replace [Line] [Node] mesh base on it's [Node Type]
+        //*! Assign [Line] [Node] [Handle] [Type] to [Line] [Node] [Data] [Type] first
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+            {
+                LI_Nodes[i, j].Node_Type = (Node_Type)(int)BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
+            }
+        }
+
+        //*! Replace [Line] [U-Edge] mesh base on it's [Node Type]
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+            {
+
+            }
+        }
+
+        //*! Replace [Line] [V-Edge] mesh base on it's [Node Type]
+        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+
+            }
+        }
+
+        //*! Replace [Block] [U-Edge] mesh base on it's [Node Type]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+
+            }
+        }
+
+        //*! Replace [Block] [V-Edge] mesh base on it's [Node Type]
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+
+            }
+        }
+    }
+
     //*! Only running this function when game runtime
     [ContextMenu("Runtime_Update")]
     void Runtime_Update()
@@ -1295,7 +1363,6 @@ public class Pencil_Case : MonoBehaviour
     //*!----------------------------!*//
 
     #region [Node] and [Edge] classes
-
     //*! Classes for map elements [Node] and [Edge] 
     public class Node
     {
@@ -1315,8 +1382,14 @@ public class Pencil_Case : MonoBehaviour
         public Node LFT_NODE { get; set; }
         public Node RGT_NODE { get; set; }
 
-        //*! Getter, Setter of [Edge] [Gizmos]
+        //*! Getter, Setter of [Node] [Gizmos]
         public GameObject Gizmos_GO { get; set; }
+
+        //*! Getter, Setter of [Node] [Type]
+        public Node_Type Node_Type { get; set; }
+
+        //*! Getter, Setter of [Node] is occupied
+        public bool Is_Occupied { get; set; }
     }
 
     public class Edge
@@ -1337,8 +1410,10 @@ public class Pencil_Case : MonoBehaviour
         //*! Getter, Setter of [Edge] [Edge Type] & [Boarder Type]
         public Edge_Type Edge_Type { get; set; }
         public Boarder_Type Boarder_Type { get; set; }
-    }
 
+        //*! Getter, Setter of [Node] is occupied
+        public bool Is_Occupied { get; set; }
+    }
     #endregion
 }
 
@@ -1359,23 +1434,6 @@ public enum Edge_Type
 }
 #endregion
 
-#region [BL_Handle_Edge_Type] Enum class
-public enum BL_Handle_Edge_Type
-{
-    NONE = 0,
-    HighLighter_Red = 2,
-}
-#endregion
-
-#region [LI_Handle_Edge_Type] Enum class
-public enum LI_Handle_Edge_Type
-{
-    NONE = 0,
-    Black_Pen = 1,
-    Boarder = 6
-}
-#endregion
-
 #region [Boarder_Type] Enum class
 public enum Boarder_Type
 {
@@ -1384,5 +1442,16 @@ public enum Boarder_Type
     DN,
     LFT,
     RGT
+}
+#endregion
+
+#region [Node_Type] Enum class
+public enum Node_Type
+{
+    NONE = 0,
+    Block_Blue_Goal = 1,
+    Block_Red_Goal = 2,
+    Line_Blue_Goal = 3,
+    Line_Red_Goal = 4
 }
 #endregion

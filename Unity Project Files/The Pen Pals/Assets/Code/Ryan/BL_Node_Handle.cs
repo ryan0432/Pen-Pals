@@ -15,25 +15,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class LI_Edge_Handle : MonoBehaviour
+public class BL_Node_Handle : MonoBehaviour
 {
-    //*!----------------------------!*//
-    //*!    Public Variables
-    //*!----------------------------!*//
-    public LI_Edge_Handle_Type edgeType;
-    [HideInInspector]
-    public Boarder_Type boarderType;
+    public BL_Node_Handle_Type nodeType;
 }
 
 //*!----------------------------!*//
 //*!    Custom Enum Classes
 //*!----------------------------!*//
 
-#region [LI_Handle_Edge_Type] Enum class
-public enum LI_Edge_Handle_Type
+#region [BL_Node_Type] Enum class
+public enum BL_Node_Handle_Type
 {
     NONE = 0,
-    Black_Pen = 1,
-    Boarder = 6
+    Block_Blue_Goal = 1,
+    Block_Red_Goal = 2
 }
 #endregion

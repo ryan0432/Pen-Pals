@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33373230170491914}
   - component: {fileID: 23419753637113312}
   m_Layer: 0
-  m_Name: default
+  m_Name: BL_Arrw_Gizmos_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

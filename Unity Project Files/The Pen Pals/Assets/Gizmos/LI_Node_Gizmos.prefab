@@ -36,8 +36,9 @@ GameObject:
   - component: {fileID: 4238589839395144}
   - component: {fileID: 33206259170117882}
   - component: {fileID: 23604427979454808}
+  - component: {fileID: 114387887358581830}
   m_Layer: 0
-  m_Name: default
+  m_Name: LI_Node_Gizmos_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,3 +113,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1751657101019056}
   m_Mesh: {fileID: 4300000, guid: 7eb70a00878732e4bb2d2c2e50fe5b3a, type: 3}
+--- !u!114 &114387887358581830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1751657101019056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d3ed1144b586f439ce28d64042ae6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeType: 0
