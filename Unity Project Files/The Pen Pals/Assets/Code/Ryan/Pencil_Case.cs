@@ -905,36 +905,16 @@ public class Pencil_Case : MonoBehaviour
                 {
                     if (curEdge.Boarder_Type == Boarder_Type.UP)
                     {
-                        if (curEdge.UP_Node != null)
-                        {
-                            curEdge.UP_Node.DN_NODE = null;
-                            curEdge.DN_Node.UP_NODE = null;
-                            curEdge.LFT_Node.UP_NODE = null;
-                            curEdge.RGT_Node.UP_NODE = null;
-                        }
-                        else
-                        {
-                            curEdge.DN_Node.UP_NODE = null;
-                            curEdge.LFT_Node.UP_NODE = null;
-                            curEdge.RGT_Node.UP_NODE = null;
-                        }
+                        curEdge.DN_Node.UP_NODE = null;
+                        curEdge.LFT_Node.UP_NODE = null;
+                        curEdge.RGT_Node.UP_NODE = null;
                     }
 
                     if (curEdge.Boarder_Type == Boarder_Type.DN)
                     {
-                        if (curEdge.DN_Node != null)
-                        {
-                            curEdge.UP_Node.DN_NODE = null;
-                            curEdge.DN_Node.UP_NODE = null;
-                            curEdge.LFT_Node.DN_NODE = null;
-                            curEdge.RGT_Node.DN_NODE = null;
-                        }
-                        else
-                        {
-                            curEdge.UP_Node.DN_NODE = null;
-                            curEdge.LFT_Node.DN_NODE = null;
-                            curEdge.RGT_Node.DN_NODE = null;
-                        }
+                        curEdge.UP_Node.DN_NODE = null;
+                        curEdge.LFT_Node.DN_NODE = null;
+                        curEdge.RGT_Node.DN_NODE = null;
                     }
                 }
                 #endregion
@@ -1011,36 +991,16 @@ public class Pencil_Case : MonoBehaviour
                 {
                     if (curEdge.Boarder_Type == Boarder_Type.LFT)
                     {
-                        if (curEdge.LFT_Node != null)
-                        {
-                            curEdge.LFT_Node.RGT_NODE = null;
-                            curEdge.RGT_Node.LFT_NODE = null;
-                            curEdge.UP_Node.LFT_NODE = null;
-                            curEdge.DN_Node.LFT_NODE = null;
-                        }
-                        else
-                        {
-                            curEdge.RGT_Node.LFT_NODE = null;
-                            curEdge.UP_Node.LFT_NODE = null;
-                            curEdge.DN_Node.LFT_NODE = null;
-                        }
+                        curEdge.RGT_Node.LFT_NODE = null;
+                        curEdge.UP_Node.LFT_NODE = null;
+                        curEdge.DN_Node.LFT_NODE = null;
                     }
 
                     if (curEdge.Boarder_Type == Boarder_Type.RGT)
                     {
-                        if (curEdge.RGT_Node != null)
-                        {
-                            curEdge.LFT_Node.RGT_NODE = null;
-                            curEdge.RGT_Node.LFT_NODE = null;
-                            curEdge.UP_Node.RGT_NODE = null;
-                            curEdge.DN_Node.RGT_NODE = null;
-                        }
-                        else
-                        {
-                            curEdge.LFT_Node.RGT_NODE = null;
-                            curEdge.UP_Node.RGT_NODE = null;
-                            curEdge.DN_Node.RGT_NODE = null;
-                        }
+                        curEdge.LFT_Node.RGT_NODE = null;
+                        curEdge.UP_Node.RGT_NODE = null;
+                        curEdge.DN_Node.RGT_NODE = null;
                     }
                 }
                 #endregion
