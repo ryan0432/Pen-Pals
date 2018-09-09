@@ -5,7 +5,7 @@
 //*!              This class in an experimental class to test using
 //*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 08/09/2018
+//*! Last edit  : 09/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -801,12 +801,16 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_U_Edges[i, j].Boarder_Type = Boarder_Type.DN;
+                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().boarderType = Boarder_Type.DN;
                 }
 
                 if (j == col - 1)
                 {
                     LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_U_Edges[i, j].Boarder_Type = Boarder_Type.UP;
+                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_U_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().boarderType = Boarder_Type.UP;
                 }
             }
         }
@@ -822,12 +826,16 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_V_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_V_Edges[i, j].Boarder_Type = Boarder_Type.LFT;
+                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().boarderType = Boarder_Type.LFT;
                 }
 
                 if (i == row - 1)
                 {
                     LI_V_Edges[i, j].Edge_Type = Edge_Type.Boarder;
                     LI_V_Edges[i, j].Boarder_Type = Boarder_Type.RGT;
+                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType = LI_Handle_Edge_Type.Boarder;
+                    LI_V_Edges[i, j].Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().boarderType = Boarder_Type.RGT;
                 }
             }
         }
@@ -868,6 +876,7 @@ public class Pencil_Case : MonoBehaviour
                 //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
                 #region Assign [Handle Edge Type] to [Edge Type] data
                 curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType;
+                curEdge.Boarder_Type = curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().boarderType;
                 #endregion
 
                 //*! Check if [U-Edge] is [UP] or [Dn] [Boarder]
@@ -905,7 +914,7 @@ public class Pencil_Case : MonoBehaviour
                 //*! Check if [U-Edge] is [None]
                 //*! If it is a [Boarder] assigned to [None],
                 //*! DON'T REBUILD [Node] connection on its [Null] side 
-                #region Check if [U-Edge] is [None]
+                #region Check if [Line] [U-Edge] is [None]
                 if (curEdge.Edge_Type == Edge_Type.NONE)
                 {
                     if (curEdge.UP_Node == null || curEdge.DN_Node == null)
@@ -913,29 +922,23 @@ public class Pencil_Case : MonoBehaviour
                         if (curEdge.UP_Node == null)
                         {
                             curEdge.DN_Node.UP_NODE = null;
-                            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
                         }
 
                         if (curEdge.DN_Node == null)
                         {
                             curEdge.UP_Node.DN_NODE = null;
-                            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
                         }
                     }
                     else
                     {
                         curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
                         curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-                        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
                     }
                 }
                 #endregion
 
                 //*! Check if [U-Edge] is [Black_Pen]. If true, shut [UP] [DN] traversabilities
-                #region Check if [U-Edge] is [Black_Pen]
+                #region Check if [Line] [U-Edge] is [Black_Pen]
                 if (curEdge.Edge_Type == Edge_Type.Black_Pen)
                 {
                     if (curEdge.UP_Node == null || curEdge.DN_Node == null)
@@ -971,9 +974,10 @@ public class Pencil_Case : MonoBehaviour
                 //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
                 #region Assign [Handle Edge Type] to [Edge Type] data
                 curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().edgeType;
+                curEdge.Boarder_Type = curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Handle>().boarderType;
                 #endregion
 
-                //*! Check if [V-Edge] is [LFT] or RGT] [Boarder]
+                //*! Check if [Line] [V-Edge] is [LFT] or RGT] [Boarder]
                 #region Check if [Line] - [V-Edge] is a [Boarder]
                 if (curEdge.Edge_Type == Edge_Type.Boarder)
                 {
@@ -1005,32 +1009,26 @@ public class Pencil_Case : MonoBehaviour
                 }
                 #endregion
 
-                //*! Check if [V-Edge] is [None]
+                //*! Check if [Line] [V-Edge] is [None]
                 //*! If it is a [Boarder] assigned to [None],
                 //*! DON'T REBUILD [Node] connection on its [Null] side
-                #region Check if [V-Edge] is [None]
+                #region Check if [Line] [V-Edge] is [None]
                 if (curEdge.Edge_Type == Edge_Type.NONE)
                 {
                     if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
                     {
                         if (curEdge.LFT_Node == null)
                         {
-                            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
                             curEdge.RGT_Node.LFT_NODE = null;
                         }
 
                         if (curEdge.RGT_Node == null)
                         {
-                            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
                             curEdge.LFT_Node.RGT_NODE = null;
                         }
                     }
                     else
                     {
-                        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
                         curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
                         curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
                     }
@@ -1038,7 +1036,7 @@ public class Pencil_Case : MonoBehaviour
                 #endregion
 
                 //*! Check if [V-Edge] is [Black_Pen]. If true, shut [LFT] [RGT] traversabilities
-                #region Check if [V-Edge] is [Black_Pen]
+                #region Check if [Line] [V-Edge] is [Black_Pen]
                 if (curEdge.Edge_Type == Edge_Type.Black_Pen)
                 {
                     if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
@@ -1076,36 +1074,22 @@ public class Pencil_Case : MonoBehaviour
                 curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<BL_Handle>().edgeType;
                 #endregion
 
-                //*! Check if [U-Edge] is [None]
-                //*! If it is a [Boarder] assigned to [None],
-                //*! DON'T REBUILD [Node] connection on its [Null] side 
+                //*! Check if [Block] [U-Edge] is [None]
                 #region Check if [U-Edge] is [None]
-                //if (curEdge.Edge_Type == Edge_Type.NONE)
-                //{
-                //    if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
-                //    {
-                //        if (curEdge.LFT_Node == null)
-                //        {
-                //            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                //            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-                //            curEdge.RGT_Node.LFT_NODE = null;
-                //        }
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                    curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                }
+                #endregion
 
-                //        if (curEdge.RGT_Node == null)
-                //        {
-                //            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                //            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-                //            curEdge.LFT_Node.RGT_NODE = null;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                //        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-                //        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                //        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
-                //    }
-                //}
+                //*! Check if [Block] [U-Edge] is [HighLighter_Red]
+                #region Check if [Block] [U-Edge] is [HighLighter_Red]
+                if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
+                {
+                    curEdge.UP_Node.DN_NODE = null;
+                    curEdge.DN_Node.UP_NODE = null;
+                }
                 #endregion
             }
         }
@@ -1122,36 +1106,26 @@ public class Pencil_Case : MonoBehaviour
                 curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<BL_Handle>().edgeType;
                 #endregion
 
-                //*! Check if [V-Edge] is [None]
-                //*! If it is a [Boarder] assigned to [None],
-                //*! DON'T REBUILD [Node] connection on its [Null] side 
+                //*! Check if [Block] [V-Edge] is [None]
                 #region Check if [V-Edge] is [None]
-                //if (curEdge.Edge_Type == Edge_Type.NONE)
-                //{
-                //    if (curEdge.UP_Node == null || curEdge.DN_Node == null)
-                //    {
-                //        if (curEdge.UP_Node == null)
-                //        {
-                //            curEdge.DN_Node.UP_NODE = null;
-                //            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                //            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
-                //        }
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+ 
+                    curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                    curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
 
-                //        if (curEdge.DN_Node == null)
-                //        {
-                //            curEdge.UP_Node.DN_NODE = null;
-                //            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                //            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-                //        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-                //        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-                //        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
-                //    }
-                //}
+                }
+                #endregion
+
+                //*! Check if [Block] [V-Edge] is [HighLighter_Red]
+                #region Check if [Block] [V-Edge] is [HighLighter_Red]
+                if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
+                {
+
+                    curEdge.LFT_Node.RGT_NODE = null;
+                    curEdge.RGT_Node.LFT_NODE = null;
+
+                }
                 #endregion
             }
         }
