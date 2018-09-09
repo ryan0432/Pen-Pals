@@ -15,20 +15,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class BL_Handle : MonoBehaviour
+public class BL_Edge_Handle : MonoBehaviour
 {
     public BL_Handle_Edge_Type edgeType;
 }
-
-
-//*!----------------------------!*//
-//*!    Custom Enum Classes
-//*!----------------------------!*//
-
-#region [Handle_Edge_Type] Enum class
-public enum BL_Handle_Edge_Type
-{
-    NONE = 0,
-    HighLighter_Red = 2,
-}
-#endregion

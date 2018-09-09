@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class LI_Handle : MonoBehaviour
+public class LI_Edge_Handle : MonoBehaviour
 {
     //*!----------------------------!*//
     //*!    Public Variables
@@ -24,17 +24,3 @@ public class LI_Handle : MonoBehaviour
     [HideInInspector]
     public Boarder_Type boarderType;
 }
-
-
-//*!----------------------------!*//
-//*!    Custom Enum Classes
-//*!----------------------------!*//
-
-#region [Handle_Edge_Type] Enum class
-public enum LI_Handle_Edge_Type
-{
-    NONE = 0,
-    Black_Pen = 1,
-    Boarder = 6
-}
-#endregion
