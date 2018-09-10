@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: 5f63d48c55ad7104499fe593f77253b6
-timeCreated: 1536554623
+guid: 961bff4a45a9ce74bb5910c390e27bb0
+timeCreated: 1536561467
 licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Highlighter_Giz_Mesh
+    100000: Sticker_Giz_Mesh
     100002: //RootNode
-    400000: Highlighter_Giz_Mesh
+    400000: Sticker_Giz_Mesh
     400002: //RootNode
-    2100000: Highlighter_Giz_MeshMat
-    2300000: Highlighter_Giz_Mesh
-    3300000: Highlighter_Giz_Mesh
-    4300000: Highlighter_Giz_Mesh
+    2100000: Sticker_Giz_MeshMat
+    2300000: Sticker_Giz_Mesh
+    3300000: Sticker_Giz_Mesh
+    4300000: Sticker_Giz_Mesh
   externalObjects: {}
   materials:
     importMaterials: 1
