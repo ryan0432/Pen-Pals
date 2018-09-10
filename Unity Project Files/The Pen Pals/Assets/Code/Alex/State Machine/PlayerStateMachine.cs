@@ -104,7 +104,8 @@ public class PlayerStateMachine : MonoBehaviour
         //*! Current node is alligned to where it was placed
         Current_Node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
 
-        is_grounded = Ground_Check();
+        is_grounded = Ground_Check();//false
+        //StartCoroutine(Ground_Check());
 
     }
         
@@ -160,7 +161,12 @@ public class PlayerStateMachine : MonoBehaviour
                 can_second = false;
             }
         }
-            
+        else if (is_moving == true && can_second == false)
+        {
+            //*! Player Input checks - based on Current Node position.
+            Queued_Node = Controller_Input();
+        }
+
 
         //*! Does Queued node have a value
         if (Queued_Node != null)
@@ -186,10 +192,10 @@ public class PlayerStateMachine : MonoBehaviour
 
 
             //*! Get the distance from the player to the next node
-            float mag_distance = (transform.position - new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0)).magnitude;
+            float mag_distance = (new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0) - transform.position).magnitude;
            
             //*! If distance is less then the threshhold - allow player to override the Queued node
-            if (mag_distance < 1.0f)
+            if (mag_distance < 0.5f)
             {
                 can_second = true;
             }
@@ -234,6 +240,7 @@ public class PlayerStateMachine : MonoBehaviour
                 else
                 {
                     ///Debug.Log("Q: null - Ground Check!");
+                    //StartCoroutine(Ground_Check());
                     Ground_Check();
                 }
 
@@ -249,17 +256,67 @@ public class PlayerStateMachine : MonoBehaviour
     //*! Public Access
     #region Public Functions
 
- 
- 
+
+
 
     #endregion
-    
+
 
     //*! Private Access
     #region Private Functions
 
 
- 
+
+    ///// <summary>
+    ///// Returns false if the player is not grounded
+    ///// </summary>
+    ///// <returns></returns>
+    //private IEnumerator Ground_Check()
+    //{
+    //    yield return new WaitForSeconds(0.5f);
+
+    //    //*! Can go down from the current grid position
+    //    if (Current_Node.Can_DN == true)
+    //    {               
+    //        //*! Assign the current grid positions down node to the Queued Node
+    //        Queued_Node = Current_Node.DN_NODE;
+
+    //        //*! Is NOT Grounded
+    //        is_grounded = false;
+
+    //        //*! Player is now falling - lock out controlls until grounded
+    //        is_falling = true;
+
+    //        //*! Not grounded, so they must be moving / falling
+    //        is_moving = true;
+    //    }
+    //    else
+    //    {
+    //        //*! Can not go down from current node
+
+    //        Next_Node = null;
+    //        Queued_Node = null;
+
+    //        //*! Reset the key pressed flags
+    //        up_key_pressed = false;
+    //        down_key_pressed = false;
+    //        left_key_pressed = false;
+    //        right_key_pressed = false;
+
+    //        //*! Is Grounded
+    //        is_grounded = true;
+
+    //        //*! Player is not falling as it is grounded - re-enable the controlls
+    //        is_falling = false;
+
+    //        //*! Stopped moving
+    //        is_moving = false;
+    //    }
+
+    //    //*! Was a value assigned to the Queued Node
+    //    //return (Queued_Node != null) ? false : true;
+    //}
+
     /// <summary>
     /// Returns false if the player is not grounded
     /// </summary>
@@ -268,7 +325,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         //*! Can go down from the current grid position
         if (Current_Node.Can_DN == true)
-        {               
+        {
             //*! Assign the current grid positions down node to the Queued Node
             Queued_Node = Current_Node.DN_NODE;
 
@@ -308,78 +365,9 @@ public class PlayerStateMachine : MonoBehaviour
         return (Queued_Node != null) ? false : true;
     }
 
- 
-    /// <summary>
-    /// Can the Queued node be reached by the Current node
-    /// </summary>
-    /// <returns> if the current can reach the Queued node </returns>
-    private bool Validated_Queued_Node()
-    {
-        //*! What key was pressed
-        if (up_key_pressed == true)
-        {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.UP_NODE == Queued_Node.DN_NODE)
-            {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //*! What key was pressed
-        else if (down_key_pressed == true)
-        {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.DN_NODE == Queued_Node.UP_NODE)
-            {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //*! What key was pressed
-        else if (left_key_pressed == true)
-        {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.LFT_NODE == Queued_Node.RGT_NODE)
-            {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        //*! What key was pressed
-        else if (right_key_pressed == true)
-        {
-            //*! Does the corresponding node in the direction match 
-            if (Current_Node.RGT_NODE == Queued_Node.LFT_NODE)
-            {
-                //*! The Queued Node can be traversed from the Next Node
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
 
 
 
- 
     /// <summary>
     /// Checks the current key pressed and sets the appropirate flag
     /// </summary>
@@ -421,7 +409,7 @@ public class PlayerStateMachine : MonoBehaviour
             else if (is_grounded == true)
             {
                 //*! Set the flag for later use
-                left_key_pressed = true;
+                left_key_pressed = false;
             }
 
 
@@ -445,7 +433,7 @@ public class PlayerStateMachine : MonoBehaviour
             else if (is_grounded == true)
             {
                 //*! Set the flag for later use
-                right_key_pressed = true;
+                right_key_pressed = false;
             }
 
 
