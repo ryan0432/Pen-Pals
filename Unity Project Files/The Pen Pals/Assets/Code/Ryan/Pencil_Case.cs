@@ -84,26 +84,35 @@ public class Pencil_Case : MonoBehaviour
     //!* Gizmos meshes and materials for [DrawMesh] mode
     [SerializeField]
     [HideInInspector]
-    private Mesh node_giz;
+    private Mesh node_giz_mesh;
     [SerializeField]
     [HideInInspector]
-    private Mesh arrw_giz;
+    private Mesh edge_giz_mesh;
+    [SerializeField]
+    [HideInInspector]
+    private Mesh arrw_giz_mesh;
     [SerializeField]
     [HideInInspector]
     private Material bl_giz_mat;
     [SerializeField]
     [HideInInspector]
     private Material li_giz_mat;
+    [SerializeField]
+    [HideInInspector]
+    private Material boarder_giz_mat;
+    [SerializeField]
+    [HideInInspector]
+    private Material icon_giz_mat;
 
     //* Gizmos meshes for [Handles] in [Edit Mode]
     [SerializeField]
-    private Mesh block_blue_goal_giz;
+    private Mesh block_blue_goal_giz_mesh;
     [SerializeField]
-    private Mesh line_red_goal_giz;
+    private Mesh line_red_goal_giz_mesh;
     [SerializeField]
-    private Mesh black_pen_giz;
+    private Mesh black_pen_giz_mesh;
     [SerializeField]
-    private Mesh highlighter_red_giz;
+    private Mesh highlighter_red_giz_mesh;
 
     //* Store previos frame's [row] and [col] number
     private int prevRow;
@@ -167,6 +176,9 @@ public class Pencil_Case : MonoBehaviour
 
             //*! Render all nodes according to the [Edge] check result
             Render_Node_Gizmos_Edit_Mode();
+
+            //*! Render all [Node] [Edge] handles' icon base on their [Type]
+            Render_All_Handles_By_Type_Edit_Mode();
         }
 
     }
@@ -517,14 +529,14 @@ public class Pencil_Case : MonoBehaviour
 
                 //Matrix4x4 handleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position) *
                 //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz, handleMatx, bl_giz_mat, 0);
+                //Graphics.DrawMesh(node_giz_mesh, handleMatx, bl_giz_mat, 0);
 
                 if (BL_Nodes[i, j].Can_UP)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_DN)
@@ -533,7 +545,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_LFT)
@@ -542,7 +554,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_RGT)
@@ -551,7 +563,7 @@ public class Pencil_Case : MonoBehaviour
                                            Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                            Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (!showBlockNode)
@@ -573,14 +585,14 @@ public class Pencil_Case : MonoBehaviour
 
                 //Matrix4x4 handleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position) *
                 //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz, handleMatx, li_giz_mat, 0);
+                //Graphics.DrawMesh(node_giz_mesh, handleMatx, li_giz_mat, 0);
 
                 if (LI_Nodes[i, j].Can_UP)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_DN)
@@ -589,7 +601,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_LFT)
@@ -598,7 +610,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_RGT)
@@ -607,7 +619,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (!showLineNode)
@@ -1182,7 +1194,7 @@ public class Pencil_Case : MonoBehaviour
 
                 //Matrix4x4 handleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position) *
                 //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz, handleMatx, bl_giz_mat, 0);
+                //Graphics.DrawMesh(node_giz_mesh, handleMatx, bl_giz_mat, 0);
 
                 if (showBlockNode)
                 {
@@ -1198,7 +1210,7 @@ public class Pencil_Case : MonoBehaviour
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_DN)
@@ -1207,7 +1219,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_LFT)
@@ -1216,7 +1228,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
                 if (BL_Nodes[i, j].Can_RGT)
@@ -1225,7 +1237,7 @@ public class Pencil_Case : MonoBehaviour
                                            Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                            Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, bl_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
             }
         }
@@ -1241,7 +1253,7 @@ public class Pencil_Case : MonoBehaviour
 
                 //Matrix4x4 handleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position) *
                 //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz, handleMatx, li_giz_mat, 0);
+                //Graphics.DrawMesh(node_giz_mesh, handleMatx, li_giz_mat, 0);
                 if (showLineNode)
                 {
                     LI_Nodes[i, j].Gizmos_GO.transform.GetComponentInChildren<MeshRenderer>().enabled = true;
@@ -1257,7 +1269,7 @@ public class Pencil_Case : MonoBehaviour
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_DN)
@@ -1266,7 +1278,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_LFT)
@@ -1275,7 +1287,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
                 if (LI_Nodes[i, j].Can_RGT)
@@ -1284,7 +1296,7 @@ public class Pencil_Case : MonoBehaviour
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
 
-                    Graphics.DrawMesh(arrw_giz, arrHandleMatx, li_giz_mat, 0);
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
             }
         }
@@ -1300,7 +1312,26 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
             {
-                BL_Nodes[i, j].Node_Type = (Node_Type)(int)BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
+                #region Get reference of current [Block] [Node]
+                Node currNode = BL_Nodes[i, j];
+                currNode.Node_Type = (Node_Type)(int)currNode.Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
+                #endregion
+
+                #region Check [Block] [Node] is [None]
+                if (currNode.Node_Type == Node_Type.NONE)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = node_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = bl_giz_mat;
+                }
+                #endregion
+
+                #region Check [Block] [Node] is [Block Blue Goal]
+                if (currNode.Node_Type == Node_Type.Block_Blue_Goal)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = block_blue_goal_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                }
+                #endregion
             }
         }
 
@@ -1310,7 +1341,26 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
-                LI_Nodes[i, j].Node_Type = (Node_Type)(int)BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
+                #region Get reference of current [Block] [Node]
+                Node currNode = LI_Nodes[i, j];
+                currNode.Node_Type = (Node_Type)(int)currNode.Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
+                #endregion
+
+                #region Check [Line] [Node] is [None]
+                if (currNode.Node_Type == Node_Type.NONE)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = node_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = li_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [Node] is [Line Red Goal]
+                if (currNode.Node_Type == Node_Type.Line_Red_Goal)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = line_red_goal_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                }
+                #endregion
             }
         }
 
@@ -1319,7 +1369,25 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
             {
+                #region Get reference of current [Line] [U-Edge]
+                Edge currEdge = LI_U_Edges[i, j];
+                #endregion
 
+                #region Check [Line] [U-Edge] is [None]
+                if (currEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = edge_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = li_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [U-Edge] is [Boarder]
+                if (currEdge.Edge_Type == Edge_Type.Boarder)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = edge_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<Renderer>().material = boarder_giz_mat;
+                }
+                #endregion
             }
         }
 
@@ -1328,7 +1396,25 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
             {
+                #region Get reference of current [Line] [V-Edge]
+                Edge currEdge = LI_V_Edges[i, j];
+                #endregion
 
+                #region Check [Line] [V-Edge] is [None]
+                if (currEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = edge_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<Renderer>().material = li_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [V-Edge] is [Boarder]
+                if (currEdge.Edge_Type == Edge_Type.Boarder)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = edge_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = boarder_giz_mat;
+                }
+                #endregion
             }
         }
 
@@ -1337,7 +1423,9 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
             {
-
+                #region Get reference of current [Block] [U-Edge]
+                Edge currEdge = BL_U_Edges[i, j];
+                #endregion
             }
         }
 
@@ -1346,7 +1434,9 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
             {
-
+                #region Get reference of current [Block] [V-Edge]
+                Edge currEdge = BL_V_Edges[i, j];
+                #endregion
             }
         }
     }
