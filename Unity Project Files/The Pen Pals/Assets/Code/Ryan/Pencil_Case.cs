@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
+[System.Serializable]
 public class Pencil_Case : MonoBehaviour
 {
     //*!----------------------------!*//
@@ -36,23 +37,31 @@ public class Pencil_Case : MonoBehaviour
 
     [Range(2, 50)]
     [HideInInspector]
+    [SerializeField]
     public int row;
+
     [Range(2, 50)]
     [HideInInspector]
+    [SerializeField]
     public int col;
 
     [Range(0.1f, 1.0f)]
     public float handle_size;
 
+    [SerializeField]
     public Node[,] BL_Nodes { get; set; }
+    [SerializeField]
     public Node[,] LI_Nodes { get; set; }
 
+    [SerializeField]
     public Edge[,] BL_U_Edges { get; set; }
+    [SerializeField]
     public Edge[,] BL_V_Edges { get; set; }
 
+    [SerializeField]
     public Edge[,] LI_U_Edges { get; set; }
+    [SerializeField]
     public Edge[,] LI_V_Edges { get; set; }
-
     #endregion
 
     //*!----------------------------!*//
@@ -116,9 +125,11 @@ public class Pencil_Case : MonoBehaviour
 
     //* Gizmos meshes for [Handles] in [Edit Mode]
     [SerializeField]
+    [HideInInspector]
     private Mesh sticker_giz_mesh;
 
     [SerializeField]
+    [HideInInspector]
     private Mesh obstacle_giz_mesh;
 
     //* Store previos frame's [row] and [col] number
@@ -1493,6 +1504,8 @@ public class Pencil_Case : MonoBehaviour
                 #endregion
             }
         }
+
+        Debug.Log("Refresh Map Icons");
     }
 
     //*! Only running this function when game runtime
@@ -1508,6 +1521,7 @@ public class Pencil_Case : MonoBehaviour
 
 #region [Node] and [Edge] classes
 //*! Classes for map elements [Node] and [Edge] 
+[System.Serializable]
 public class Node
 {
     //*! Getter, Setter of Node members
@@ -1536,6 +1550,7 @@ public class Node
     public bool Is_Occupied { get; set; }
 }
 
+[System.Serializable]
 public class Edge
 {
     //*! Getter, Setter of [Edge] neighbor [Node]
