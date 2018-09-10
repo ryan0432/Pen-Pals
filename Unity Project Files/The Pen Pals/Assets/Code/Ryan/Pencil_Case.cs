@@ -1381,6 +1381,14 @@ public class Pencil_Case : MonoBehaviour
                 }
                 #endregion
 
+                #region Check [Line] [U-Edge] is [Black_Pen]
+                if (currEdge.Edge_Type == Edge_Type.Black_Pen)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = black_pen_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                }
+                #endregion
+
                 #region Check [Line] [U-Edge] is [Boarder]
                 if (currEdge.Edge_Type == Edge_Type.Boarder)
                 {
@@ -1408,6 +1416,14 @@ public class Pencil_Case : MonoBehaviour
                 }
                 #endregion
 
+                #region Check [Line] [V-Edge] is [Black_Pen]
+                if (currEdge.Edge_Type == Edge_Type.Black_Pen)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = black_pen_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                }
+                #endregion
+
                 #region Check [Line] [V-Edge] is [Boarder]
                 if (currEdge.Edge_Type == Edge_Type.Boarder)
                 {
@@ -1426,6 +1442,22 @@ public class Pencil_Case : MonoBehaviour
                 #region Get reference of current [Block] [U-Edge]
                 Edge currEdge = BL_U_Edges[i, j];
                 #endregion
+
+                #region Check [Block] [U-Edge] is [None]
+                if (currEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = edge_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<Renderer>().material = bl_giz_mat;
+                }
+                #endregion
+
+                #region Check [Block] [U-Edge] is [Highlighter_Red]
+                if (currEdge.Edge_Type == Edge_Type.HighLighter_Red)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = highlighter_red_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                }
+                #endregion
             }
         }
 
@@ -1436,6 +1468,22 @@ public class Pencil_Case : MonoBehaviour
             {
                 #region Get reference of current [Block] [V-Edge]
                 Edge currEdge = BL_V_Edges[i, j];
+                #endregion
+
+                #region Check [Block] [V-Edge] is [None]
+                if (currEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = edge_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<Renderer>().material = bl_giz_mat;
+                }
+                #endregion
+
+                #region Check [Block] [V-Edge] is [Highlighter_Red]
+                if (currEdge.Edge_Type == Edge_Type.HighLighter_Red)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = highlighter_red_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                }
                 #endregion
             }
         }
