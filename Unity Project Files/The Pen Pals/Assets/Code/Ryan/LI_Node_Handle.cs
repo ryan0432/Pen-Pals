@@ -28,7 +28,6 @@ public class LI_Node_Handle : MonoBehaviour
 public enum LI_Node_Handle_Type
 {
     NONE = 0,
-    Line_Blue_Goal = 3,
     Line_Red_Goal = 4
 }
 #endregion

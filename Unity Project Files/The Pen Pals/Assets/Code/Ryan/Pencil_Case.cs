@@ -686,7 +686,7 @@ public class Pencil_Case : MonoBehaviour
         #endregion
 
         //*! Render [Block] [Edge] handles for [Line]
-        #region Instantiate [Block] - [Edge] handles for [Line]
+        #region Instantiate [Block] - [U-Edge] handles for [Line]
         for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
         {
             for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
@@ -708,7 +708,7 @@ public class Pencil_Case : MonoBehaviour
         }
         #endregion
 
-        #region Instantiate [Block] - [Edge] handles for [Line]
+        #region Instantiate [Block] - [V-Edge] handles for [Line]
         for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
         {
             for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
@@ -1500,66 +1500,65 @@ public class Pencil_Case : MonoBehaviour
     void Runtime_Update()
     {
     }
-
-
-    //*!----------------------------!*//
-    //*!    Custom Subclasses
-    //*!----------------------------!*//
-
-    #region [Node] and [Edge] classes
-    //*! Classes for map elements [Node] and [Edge] 
-    public class Node
-    {
-        //*! Getter, Setter of Node members
-        public Vector3 Position { get; set; }
-        public float Node_Size { get; set; }
-
-        //*! Getter, Setter of Node members
-        public bool Can_UP { get { return UP_NODE != null; } }
-        public bool Can_DN { get { return DN_NODE != null; } }
-        public bool Can_LFT { get { return LFT_NODE != null; } }
-        public bool Can_RGT { get { return RGT_NODE != null; } }
-
-        //*! Neighbor Node reference holder
-        public Node UP_NODE { get; set; }
-        public Node DN_NODE { get; set; }
-        public Node LFT_NODE { get; set; }
-        public Node RGT_NODE { get; set; }
-
-        //*! Getter, Setter of [Node] [Gizmos]
-        public GameObject Gizmos_GO { get; set; }
-
-        //*! Getter, Setter of [Node] [Type]
-        public Node_Type Node_Type { get; set; }
-
-        //*! Getter, Setter of [Node] is occupied
-        public bool Is_Occupied { get; set; }
-    }
-
-    public class Edge
-    {
-        //*! Getter, Setter of [Edge] neighbor [Node]
-        public Node UP_Node { get; set; }
-        public Node DN_Node { get; set; }
-        public Node LFT_Node { get; set; }
-        public Node RGT_Node { get; set; }
-
-        //*! Getter, Setter of [Edge] Position and Rotation
-        public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
-
-        //*! Getter, Setter of [Edge] [Gizmos]
-        public GameObject Gizmos_GO { get; set; }
-
-        //*! Getter, Setter of [Edge] [Edge Type] & [Boarder Type]
-        public Edge_Type Edge_Type { get; set; }
-        public Boarder_Type Boarder_Type { get; set; }
-
-        //*! Getter, Setter of [Node] is occupied
-        public bool Is_Occupied { get; set; }
-    }
-    #endregion
 }
+
+//*!----------------------------!*//
+//*!       Custom Classes
+//*!----------------------------!*//
+
+#region [Node] and [Edge] classes
+//*! Classes for map elements [Node] and [Edge] 
+public class Node
+{
+    //*! Getter, Setter of Node members
+    public Vector3 Position { get; set; }
+    public float Node_Size { get; set; }
+
+    //*! Getter, Setter of Node members
+    public bool Can_UP { get { return UP_NODE != null; } }
+    public bool Can_DN { get { return DN_NODE != null; } }
+    public bool Can_LFT { get { return LFT_NODE != null; } }
+    public bool Can_RGT { get { return RGT_NODE != null; } }
+
+    //*! Neighbor Node reference holder
+    public Node UP_NODE { get; set; }
+    public Node DN_NODE { get; set; }
+    public Node LFT_NODE { get; set; }
+    public Node RGT_NODE { get; set; }
+
+    //*! Getter, Setter of [Node] [Gizmos]
+    public GameObject Gizmos_GO { get; set; }
+
+    //*! Getter, Setter of [Node] [Type]
+    public Node_Type Node_Type { get; set; }
+
+    //*! Getter, Setter of [Node] is occupied
+    public bool Is_Occupied { get; set; }
+}
+
+public class Edge
+{
+    //*! Getter, Setter of [Edge] neighbor [Node]
+    public Node UP_Node { get; set; }
+    public Node DN_Node { get; set; }
+    public Node LFT_Node { get; set; }
+    public Node RGT_Node { get; set; }
+
+    //*! Getter, Setter of [Edge] Position and Rotation
+    public Vector3 Position { get; set; }
+    public Quaternion Rotation { get; set; }
+
+    //*! Getter, Setter of [Edge] [Gizmos]
+    public GameObject Gizmos_GO { get; set; }
+
+    //*! Getter, Setter of [Edge] [Edge Type] & [Boarder Type]
+    public Edge_Type Edge_Type { get; set; }
+    public Boarder_Type Boarder_Type { get; set; }
+
+    //*! Getter, Setter of [Node] is occupied
+    public bool Is_Occupied { get; set; }
+}
+#endregion
 
 //*!----------------------------!*//
 //*!    Custom Enum Classes
