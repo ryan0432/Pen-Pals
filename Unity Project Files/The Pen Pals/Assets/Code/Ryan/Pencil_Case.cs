@@ -103,6 +103,9 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private Material icon_giz_mat;
+    [SerializeField]
+    [HideInInspector]
+    private Material highlighter_red_giz_mat;
 
     //* Gizmos meshes for [Handles] in [Edit Mode]
     [SerializeField]
@@ -1455,7 +1458,7 @@ public class Pencil_Case : MonoBehaviour
                 if (currEdge.Edge_Type == Edge_Type.HighLighter_Red)
                 {
                     currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = highlighter_red_giz_mesh;
-                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = highlighter_red_giz_mat;
                 }
                 #endregion
             }
@@ -1482,7 +1485,7 @@ public class Pencil_Case : MonoBehaviour
                 if (currEdge.Edge_Type == Edge_Type.HighLighter_Red)
                 {
                     currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = highlighter_red_giz_mesh;
-                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = icon_giz_mat;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = highlighter_red_giz_mat;
                 }
                 #endregion
             }
