@@ -187,7 +187,7 @@ public class XML_SaveLoad : MonoBehaviour
             Player_Saves[index] = Player_Save.Load("./Player Save Files/" + save_files[index].Name);
         }
 
-      
+
 
 
         //*! Remove any null objects in the list
@@ -203,7 +203,7 @@ public class XML_SaveLoad : MonoBehaviour
 
     //*! Private Access
     #region Private Functions
- 
+
     private void Save_Player(int player_id)
     {
         //*! Use Player_0# for 1-9 then 10 11 12 etc
@@ -213,7 +213,7 @@ public class XML_SaveLoad : MonoBehaviour
         if (Player_Saves[player_id].Name == "")
         {
 
-            if (player_id <=  9)
+            if (player_id <= 9)
             {
                 Player_Saves[player_id].Name = "Player_0" + (player_id + 1);
             }
@@ -229,14 +229,22 @@ public class XML_SaveLoad : MonoBehaviour
             }
         }
 
-        //*! Save each player
-        Player_Saves[player_id].Save("./Player Save Files/Player_" + (player_id + 1) + ".xml");
+        if (player_id <= 9)
+        {
+            //*! Save each player
+            Player_Saves[player_id].Save("./Player Save Files/Player_0" + (player_id + 1) + ".xml");
+        }
+        else
+        {
+            //*! Save each player
+            Player_Saves[player_id].Save("./Player Save Files/Player_" + (player_id + 1) + ".xml");
+        }
     }
 
-
-    #endregion
-
 }
+
+#endregion
+
 
 /// <summary>
 /// For each Level this contains the information about each 
