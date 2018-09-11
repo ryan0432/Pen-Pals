@@ -165,17 +165,21 @@ public class Graph_Editor : Editor
             {
                 if (gC.BL_Nodes[i, j].Can_UP)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.BL_Nodes[i, j];
-                    new_edge.End_Node = gC.BL_Nodes[i, j + 1];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.BL_Nodes[i, j],
+                        End_Node = gC.BL_Nodes[i, j + 1]
+                    };
                     gC.BL_Edges.Add(new_edge);
                 }
 
                 if (gC.BL_Nodes[i, j].Can_RGT)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.BL_Nodes[i, j];
-                    new_edge.End_Node = gC.BL_Nodes[i + 1, j];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.BL_Nodes[i, j],
+                        End_Node = gC.BL_Nodes[i + 1, j]
+                    };
                     gC.BL_Edges.Add(new_edge);
                 }
             }
@@ -185,9 +189,11 @@ public class Graph_Editor : Editor
         {
             if (gC.BL_Nodes[i, gC.BL_Nodes.GetUpperBound(1)].Can_RGT)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.BL_Nodes[i, gC.BL_Nodes.GetUpperBound(1)];
-                new_edge.End_Node = gC.BL_Nodes[i + 1, gC.BL_Nodes.GetUpperBound(1)];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.BL_Nodes[i, gC.BL_Nodes.GetUpperBound(1)],
+                    End_Node = gC.BL_Nodes[i + 1, gC.BL_Nodes.GetUpperBound(1)]
+                };
                 gC.BL_Edges.Add(new_edge);
             }
         }
@@ -196,9 +202,11 @@ public class Graph_Editor : Editor
         {
             if (gC.BL_Nodes[gC.BL_Nodes.GetUpperBound(0), i].Can_UP)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.BL_Nodes[gC.BL_Nodes.GetUpperBound(0), i];
-                new_edge.End_Node = gC.BL_Nodes[gC.BL_Nodes.GetUpperBound(0), i + 1];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.BL_Nodes[gC.BL_Nodes.GetUpperBound(0), i],
+                    End_Node = gC.BL_Nodes[gC.BL_Nodes.GetUpperBound(0), i + 1]
+                };
                 gC.BL_Edges.Add(new_edge);
             }
         }
@@ -213,17 +221,21 @@ public class Graph_Editor : Editor
             {
                 if (gC.BL_Nodes[i, j].Can_DN)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.BL_Nodes[i, j];
-                    new_edge.End_Node = gC.BL_Nodes[i, j - 1];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.BL_Nodes[i, j],
+                        End_Node = gC.BL_Nodes[i, j - 1]
+                    };
                     gC.BL_Edges.Add(new_edge);
                 }
 
                 if (gC.BL_Nodes[i, j].Can_LFT)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.BL_Nodes[i, j];
-                    new_edge.End_Node = gC.BL_Nodes[i - 1, j];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.BL_Nodes[i, j],
+                        End_Node = gC.BL_Nodes[i - 1, j]
+                    };
                     gC.BL_Edges.Add(new_edge);
                 }
             }
@@ -233,9 +245,11 @@ public class Graph_Editor : Editor
         {
             if (gC.BL_Nodes[i, gC.BL_Nodes.GetLowerBound(1)].Can_LFT)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.BL_Nodes[i, gC.BL_Nodes.GetLowerBound(1)];
-                new_edge.End_Node = gC.BL_Nodes[i - 1, gC.BL_Nodes.GetLowerBound(1)];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.BL_Nodes[i, gC.BL_Nodes.GetLowerBound(1)],
+                    End_Node = gC.BL_Nodes[i - 1, gC.BL_Nodes.GetLowerBound(1)]
+                };
                 gC.BL_Edges.Add(new_edge);
             }
         }
@@ -244,9 +258,11 @@ public class Graph_Editor : Editor
         {
             if (gC.BL_Nodes[gC.BL_Nodes.GetLowerBound(0), i].Can_DN)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.BL_Nodes[gC.BL_Nodes.GetLowerBound(0), i];
-                new_edge.End_Node = gC.BL_Nodes[gC.BL_Nodes.GetLowerBound(0), i - 1];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.BL_Nodes[gC.BL_Nodes.GetLowerBound(0), i],
+                    End_Node = gC.BL_Nodes[gC.BL_Nodes.GetLowerBound(0), i - 1]
+                };
                 gC.BL_Edges.Add(new_edge);
             }
         }
@@ -261,17 +277,21 @@ public class Graph_Editor : Editor
             {
                 if (gC.LI_Nodes[i, j].Can_UP)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.LI_Nodes[i, j];
-                    new_edge.End_Node = gC.LI_Nodes[i, j + 1];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.LI_Nodes[i, j],
+                        End_Node = gC.LI_Nodes[i, j + 1]
+                    };
                     gC.LI_Edges.Add(new_edge);
                 }
 
                 if (gC.LI_Nodes[i, j].Can_RGT)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.LI_Nodes[i, j];
-                    new_edge.End_Node = gC.LI_Nodes[i + 1, j];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.LI_Nodes[i, j],
+                        End_Node = gC.LI_Nodes[i + 1, j]
+                    };
                     gC.LI_Edges.Add(new_edge);
                 }
             }
@@ -281,9 +301,11 @@ public class Graph_Editor : Editor
         {
             if (gC.LI_Nodes[i, gC.LI_Nodes.GetUpperBound(1)].Can_RGT)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.LI_Nodes[i, gC.LI_Nodes.GetUpperBound(1)];
-                new_edge.End_Node = gC.LI_Nodes[i + 1, gC.LI_Nodes.GetUpperBound(1)];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.LI_Nodes[i, gC.LI_Nodes.GetUpperBound(1)],
+                    End_Node = gC.LI_Nodes[i + 1, gC.LI_Nodes.GetUpperBound(1)]
+                };
                 gC.LI_Edges.Add(new_edge);
             }
         }
@@ -292,9 +314,11 @@ public class Graph_Editor : Editor
         {
             if (gC.LI_Nodes[gC.LI_Nodes.GetUpperBound(0), i].Can_UP)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.LI_Nodes[gC.LI_Nodes.GetUpperBound(0), i];
-                new_edge.End_Node = gC.LI_Nodes[gC.LI_Nodes.GetUpperBound(0), i + 1];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.LI_Nodes[gC.LI_Nodes.GetUpperBound(0), i],
+                    End_Node = gC.LI_Nodes[gC.LI_Nodes.GetUpperBound(0), i + 1]
+                };
                 gC.LI_Edges.Add(new_edge);
             }
         }
@@ -309,17 +333,21 @@ public class Graph_Editor : Editor
             {
                 if (gC.LI_Nodes[i, j].Can_DN)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.LI_Nodes[i, j];
-                    new_edge.End_Node = gC.LI_Nodes[i, j - 1];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.LI_Nodes[i, j],
+                        End_Node = gC.LI_Nodes[i, j - 1]
+                    };
                     gC.LI_Edges.Add(new_edge);
                 }
 
                 if (gC.LI_Nodes[i, j].Can_LFT)
                 {
-                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                    new_edge.Start_Node = gC.LI_Nodes[i, j];
-                    new_edge.End_Node = gC.LI_Nodes[i - 1, j];
+                    Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                    {
+                        Start_Node = gC.LI_Nodes[i, j],
+                        End_Node = gC.LI_Nodes[i - 1, j]
+                    };
                     gC.LI_Edges.Add(new_edge);
                 }
             }
@@ -329,9 +357,11 @@ public class Graph_Editor : Editor
         {
             if (gC.LI_Nodes[i, gC.LI_Nodes.GetLowerBound(1)].Can_LFT)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.LI_Nodes[i, gC.LI_Nodes.GetLowerBound(1)];
-                new_edge.End_Node = gC.LI_Nodes[i - 1, gC.LI_Nodes.GetLowerBound(1)];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.LI_Nodes[i, gC.LI_Nodes.GetLowerBound(1)],
+                    End_Node = gC.LI_Nodes[i - 1, gC.LI_Nodes.GetLowerBound(1)]
+                };
                 gC.LI_Edges.Add(new_edge);
             }
         }
@@ -340,9 +370,11 @@ public class Graph_Editor : Editor
         {
             if (gC.LI_Nodes[gC.LI_Nodes.GetLowerBound(0), i].Can_DN)
             {
-                Graph_Creator.Edge new_edge = new Graph_Creator.Edge();
-                new_edge.Start_Node = gC.LI_Nodes[gC.LI_Nodes.GetLowerBound(0), i];
-                new_edge.End_Node = gC.LI_Nodes[gC.LI_Nodes.GetLowerBound(0), i - 1];
+                Graph_Creator.Edge new_edge = new Graph_Creator.Edge
+                {
+                    Start_Node = gC.LI_Nodes[gC.LI_Nodes.GetLowerBound(0), i],
+                    End_Node = gC.LI_Nodes[gC.LI_Nodes.GetLowerBound(0), i - 1]
+                };
                 gC.LI_Edges.Add(new_edge);
             }
         }
