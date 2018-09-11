@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_Play : MonoBehaviour
+public class Game_Manager : MonoBehaviour
 {
     //*!----------------------------!*//
     //*!    Public Variables
