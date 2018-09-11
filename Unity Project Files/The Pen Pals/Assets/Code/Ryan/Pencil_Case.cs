@@ -62,6 +62,9 @@ public class Pencil_Case : MonoBehaviour
     public Edge[,] LI_U_Edges { get; set; }
     [SerializeField]
     public Edge[,] LI_V_Edges { get; set; }
+
+    [SerializeField]
+    public Lv_Data lv_Data;
     #endregion
 
     //*!----------------------------!*//
@@ -100,6 +103,17 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private Mesh arrw_giz_mesh;
+
+    //* Gizmos meshes for [Handles] in [Edit Mode]
+    [SerializeField]
+    [HideInInspector]
+    private Mesh sticker_giz_mesh;
+
+    [SerializeField]
+    [HideInInspector]
+    private Mesh obstacle_giz_mesh;
+
+    //* Gizmos materials for [Handles] in [Edit Mode]
     [SerializeField]
     [HideInInspector]
     private Material bl_giz_mat;
@@ -122,19 +136,15 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Material highlighter_red_giz_mat;
 
-
-    //* Gizmos meshes for [Handles] in [Edit Mode]
-    [SerializeField]
-    [HideInInspector]
-    private Mesh sticker_giz_mesh;
-
-    [SerializeField]
-    [HideInInspector]
-    private Mesh obstacle_giz_mesh;
-
     //* Store previos frame's [row] and [col] number
     private int prevRow;
     private int prevCol;
+
+    //* Save/Load Level Data based on booleans
+    [SerializeField]
+    private bool isSaved;
+    [SerializeField]
+    private bool isLoaded;
     #endregion
 
 
@@ -169,6 +179,8 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
+
+
             //int currRow = row;
             //int currCol = col;
             //
@@ -180,7 +192,7 @@ public class Pencil_Case : MonoBehaviour
             //*! Layout Graph by row col number
             //if (graph_size_changed)
             //{
-              Layout_Graph_Edit_Mode();
+            Layout_Graph_Edit_Mode();
             //}
 
             //prevRow = currRow;
@@ -195,8 +207,14 @@ public class Pencil_Case : MonoBehaviour
             //*! Render all nodes according to the [Edge] check result
             Render_Node_Gizmos_Edit_Mode();
 
+            Save_Level_Data();
+
+            Load_Level_Data();
+
             //*! Render all [Node] [Edge] handles' icon base on their [Type]
             Render_All_Handles_By_Type_Edit_Mode();
+
+
         }
 
     }
@@ -1508,10 +1526,53 @@ public class Pencil_Case : MonoBehaviour
         Debug.Log("Refresh Map Icons");
     }
 
+    [ContextMenu("Save_Level_Data")]
+    [SerializeField]
+    public void Save_Level_Data()
+    {
+        if (isSaved)
+        {
+            lv_Data.row = row;
+            lv_Data.col = col;
+            lv_Data.BL_Nodes = BL_Nodes;
+            lv_Data.LI_Nodes = LI_Nodes;
+            lv_Data.BL_U_Edges = BL_U_Edges;
+            lv_Data.BL_V_Edges = BL_V_Edges;
+            lv_Data.LI_U_Edges = LI_U_Edges;
+            lv_Data.LI_V_Edges = LI_V_Edges;
+
+            Debug.Log("Level Data Saved!!");
+
+            isSaved = false;
+        }
+    }
+
+    [ContextMenu("Load_Level_Data")]
+    [SerializeField]
+    public void Load_Level_Data()
+    {
+        if (isLoaded)
+        {
+            row = lv_Data.row;
+            col = lv_Data.col;
+            BL_Nodes = lv_Data.BL_Nodes;
+            LI_Nodes = lv_Data.LI_Nodes;
+            BL_U_Edges = lv_Data.BL_U_Edges;
+            BL_V_Edges = lv_Data.BL_V_Edges;
+            LI_U_Edges = lv_Data.LI_U_Edges;
+            LI_V_Edges = lv_Data.LI_V_Edges;
+
+            Debug.Log("Level Data Loaded!!");
+
+            isLoaded = false;
+        }
+    }
+
     //*! Only running this function when game runtime
     [ContextMenu("Runtime_Update")]
     void Runtime_Update()
     {
+
     }
 }
 
@@ -1521,7 +1582,6 @@ public class Pencil_Case : MonoBehaviour
 
 #region [Node] and [Edge] classes
 //*! Classes for map elements [Node] and [Edge] 
-[System.Serializable]
 public class Node
 {
     //*! Getter, Setter of Node members
@@ -1550,7 +1610,6 @@ public class Node
     public bool Is_Occupied { get; set; }
 }
 
-[System.Serializable]
 public class Edge
 {
     //*! Getter, Setter of [Edge] neighbor [Node]

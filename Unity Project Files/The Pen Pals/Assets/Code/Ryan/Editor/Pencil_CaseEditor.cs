@@ -13,13 +13,36 @@ public class Pencil_CaseEditor : Editor
     SerializedProperty row;
     SerializedProperty col;
 
+    SerializedProperty BL_Nodes;
+    SerializedProperty LI_Nodes;
+    SerializedProperty BL_U_Edges;
+    SerializedProperty BL_V_Edges;
+    SerializedProperty LI_U_Edges;
+    SerializedProperty LI_V_Edges;
+
+    SerializedProperty isSaved;
+    SerializedProperty isLoaded;
+
+
     private void OnEnable()
     {
         initialRow = serializedObject.FindProperty("initialRow");
         initialCol = serializedObject.FindProperty("initialCol");
         startEditing = serializedObject.FindProperty("startEditing");
+
         row = serializedObject.FindProperty("row");
         col = serializedObject.FindProperty("col");
+
+        BL_Nodes = serializedObject.FindProperty("BL_Nodes");
+        LI_Nodes = serializedObject.FindProperty("LI_Nodes");
+        BL_U_Edges = serializedObject.FindProperty("BL_U_Edges");
+        BL_V_Edges = serializedObject.FindProperty("BL_V_Edges");
+        LI_U_Edges = serializedObject.FindProperty("LI_U_Edges");
+        LI_V_Edges = serializedObject.FindProperty("LI_V_Edges");
+
+        isSaved = serializedObject.FindProperty("isSaved");
+        isLoaded = serializedObject.FindProperty("isLoaded");
+
     }
 
     public override void OnInspectorGUI()
@@ -68,6 +91,28 @@ public class Pencil_CaseEditor : Editor
         {
             GUILayout.Label("Col");
             col.intValue = EditorGUILayout.IntSlider(col.intValue, 2, initialCol.intValue);
+
+        }
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        {
+            if (startEditing.boolValue)
+            {
+                if (GUILayout.Button("Save Level Data", GUILayout.MaxHeight(64), GUILayout.MaxHeight(32)))
+                {
+                    isSaved.boolValue = true;
+                }
+
+                if (GUILayout.Button("Load Level Data", GUILayout.MaxHeight(64), GUILayout.MaxHeight(32)))
+                {
+                    isLoaded.boolValue = true;
+                }
+            }
+            else
+            {
+                GUILayout.Label("Pleasue Initialize Level Size", EditorStyles.boldLabel);
+            }
 
         }
         GUILayout.EndHorizontal();

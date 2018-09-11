@@ -9,7 +9,7 @@ public class Test_Play : MonoBehaviour
     //*!----------------------------!*//
 
     [SerializeField]
-    public Pencil_Case pc;
+    public Lv_Data lvData;
 
     [SerializeField]
     public Node[,] BL_Nodes { get; set; }
@@ -31,20 +31,20 @@ public class Test_Play : MonoBehaviour
 
     void Awake()
     {
-        Initializa_Map_Data();
+        Initializa_Level_Data();
     }
 
     void Update()
     {
-        Debug.Log(BL_Nodes[0, 0].Position);
+        Debug.Log(LI_Nodes[1,1].Position);
     }
 
     //*!----------------------------!*//
     //*!    Private Functions
     //*!----------------------------!*//
 
-    private void Initializa_Map_Data()
+    private void Initializa_Level_Data()
     {
-        BL_Nodes = pc.BL_Nodes;
+
     }
 }
