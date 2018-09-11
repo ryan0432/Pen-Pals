@@ -11,15 +11,15 @@ public class Lv_Data : ScriptableObject
     [SerializeField]
     public int col;
     [SerializeField]
-    public Node[,] BL_Nodes { get; set; }
+    public Node[] BL_Nodes;
     [SerializeField]
-    public Node[,] LI_Nodes { get; set; }
+    public Node[] LI_Nodes;
     [SerializeField]
-    public Edge[,] BL_U_Edges { get; set; }
+    public Edge[] BL_U_Edges;
     [SerializeField]
-    public Edge[,] BL_V_Edges { get; set; }
+    public Edge[] BL_V_Edges;
     [SerializeField]
-    public Edge[,] LI_U_Edges { get; set; }
+    public Edge[] LI_U_Edges;
     [SerializeField]
-    public Edge[,] LI_V_Edges { get; set; }
+    public Edge[] LI_V_Edges;
 }

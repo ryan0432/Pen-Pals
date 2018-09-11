@@ -11,19 +11,13 @@ public class Test_Play : MonoBehaviour
     [SerializeField]
     public Lv_Data lvData;
 
-    [SerializeField]
     public Node[,] BL_Nodes { get; set; }
-    [SerializeField]
     public Node[,] LI_Nodes { get; set; }
 
-    [SerializeField]
     public Edge[,] BL_U_Edges { get; set; }
-    [SerializeField]
     public Edge[,] BL_V_Edges { get; set; }
 
-    [SerializeField]
     public Edge[,] LI_U_Edges { get; set; }
-    [SerializeField]
     public Edge[,] LI_V_Edges { get; set; }
 
     public int row;

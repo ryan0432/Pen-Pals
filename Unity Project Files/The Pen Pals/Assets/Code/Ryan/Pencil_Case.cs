@@ -48,19 +48,13 @@ public class Pencil_Case : MonoBehaviour
     [Range(0.1f, 1.0f)]
     public float handle_size;
 
-    [SerializeField]
     public Node[,] BL_Nodes { get; set; }
-    [SerializeField]
     public Node[,] LI_Nodes { get; set; }
 
-    [SerializeField]
     public Edge[,] BL_U_Edges { get; set; }
-    [SerializeField]
     public Edge[,] BL_V_Edges { get; set; }
 
-    [SerializeField]
     public Edge[,] LI_U_Edges { get; set; }
-    [SerializeField]
     public Edge[,] LI_V_Edges { get; set; }
 
     [SerializeField]
@@ -183,8 +177,6 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
-
-
             //int currRow = row;
             //int currCol = col;
             //
@@ -196,11 +188,11 @@ public class Pencil_Case : MonoBehaviour
             //*! Layout Graph by row col number
             //if (graph_size_changed)
             //{
+
             Layout_Graph_Edit_Mode();
             //}
 
             Save_Level_Data();
-
             Load_Level_Data();
 
             //prevRow = currRow;
@@ -211,14 +203,12 @@ public class Pencil_Case : MonoBehaviour
 
             //*! Render [Edges] handles, change colours or change Gizmos_GO the [Edge] holds
             //*! At the same time switch ON/OFF visability of [Block] or [Line] graph base on [Show Block Graph] & [Show Line Graph] flag 
-
+            Assign_Handle_Type_To_Data_Edit_Mode();
             //*! Render all nodes according to the [Edge] check result
             Render_Node_Gizmos_Edit_Mode();
 
             //*! Render all [Node] [Edge] handles' icon base on their [Type]
             Render_All_Handles_By_Type_Edit_Mode();
-
-
         }
 
     }
@@ -824,25 +814,22 @@ public class Pencil_Case : MonoBehaviour
         #region Switch OFF all [Edge] of [Block] & [Line] for refreshing purpose
         for (int i = 0; i < bl_edge_Count; ++i)
         {
-            //transform.Find("BL_Edges_Handles").GetChild(i).gameObject.SetActive(false);
             transform.Find("BL_Edges_Handles").GetChild(i).transform.GetComponentInChildren<MeshRenderer>().enabled = false;
         }
 
         for (int i = 0; i < li_edge_Count; ++i)
         {
-            //transform.Find("LI_Edges_Handles").GetChild(i).gameObject.SetActive(false);
             transform.Find("LI_Edges_Handles").GetChild(i).transform.GetComponentInChildren<MeshRenderer>().enabled = false;
         }
         #endregion
 
-        //*! Switch ON [Edge] in both [Block] & [Line] according to row & col number
+        //*! Switch ON [Line] [Edge] according to row & col number
+        //*! Set [Line] [Edge] [Type] to [Boarder] base on row & col
         #region Switch ON [Edge] of [Line] and set [Board] + [Board Type] base on row & col number 
         for (int i = 0; i < row - 1; ++i)
         {
             for (int j = 0; j < col; ++j)
             {
-                //LI_U_Edges[i, j].Gizmos_GO.SetActive(true);
-
                 if (showLineEdge)
                 {
                     LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
@@ -874,8 +861,6 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col - 1; ++j)
             {
-                //LI_V_Edges[i, j].Gizmos_GO.SetActive(true);
-
                 if (showLineEdge)
                 {
                     LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
@@ -904,13 +889,13 @@ public class Pencil_Case : MonoBehaviour
         }
         #endregion
 
+
+        //*! Switch ON [Block] [Edge] according to row & col number
         #region Switch ON [Edge] of [Block] base on row & col number
         for (int i = 0; i < row; ++i)
         {
             for (int j = 0; j < col - 1; ++j)
             {
-                //BL_U_Edges[i, j].Gizmos_GO.SetActive(true);
-
                 if (showBlockEdge)
                 {
                     BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
@@ -926,8 +911,6 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < col; ++j)
             {
-                //BL_V_Edges[i, j].Gizmos_GO.SetActive(true);
-
                 if (showBlockEdge)
                 {
                     BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = true;
@@ -936,6 +919,84 @@ public class Pencil_Case : MonoBehaviour
                 {
                     BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = false;
                 }
+            }
+        }
+        #endregion
+    }
+
+    [ContextMenu("Assign_All_Handle_Type_To_Data_Edit_Mode")]
+    private void Assign_Handle_Type_To_Data_Edit_Mode()
+    {
+        //*! Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type]
+        #region Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type]
+        for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+            {
+                Node currNode = BL_Nodes[i, j];
+                currNode.Node_Type = (Node_Type)(int)currNode.Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
+            }
+        }
+        #endregion
+
+        //*! Assign [Line] [Node] [Handle] [Type] to [Line] [Node] [Data] [Type]
+        #region Assign [Line] [Node] [Handle] [Type] to [Line] [Node] [Data] [Type]
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+            {
+                Node currNode = LI_Nodes[i, j];
+                currNode.Node_Type = (Node_Type)(int)currNode.Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
+            }
+        }
+        #endregion
+
+        //*! Assign [Line] [U-Edge] [Handle] [Type] to [Line] [U-Edge] [Data] [Type]
+        #region Assign [Line] [U-Edge] [Handle] [Type] to [Line] [U-Edge] [Data] [Type]
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+            {
+                Edge currEdge = LI_U_Edges[i, j];
+                currEdge.Edge_Type = (Edge_Type)(int)currEdge.Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
+                currEdge.Boarder_Type = currEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType;
+            }
+        }
+        #endregion
+
+        //*! Assign [Line] [V-Edge] [Handle] [Type] to [Line] [V-Edge] [Data] [Type]
+        #region Assign [Line] [V-Edge] [Handle] [Type] to [Line] [V-Edge] [Data] [Type]
+        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+                Edge currEdge = LI_V_Edges[i, j];
+                currEdge.Edge_Type = (Edge_Type)(int)currEdge.Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
+                currEdge.Boarder_Type = currEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType;
+            }
+        }
+        #endregion
+
+        //*! Assign [Block] [U-Edge] [Handle] [Type] to [Block] [U-Edge] [Data] [Type]
+        #region Assign [Block] [U-Edge] [Handle] [Type] to [Block] [U-Edge] [Data] [Type]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+                Edge currEdge = BL_U_Edges[i, j];
+                currEdge.Edge_Type = (Edge_Type)(int)currEdge.Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
+            }
+        }
+        #endregion
+
+        //*! Assign [Block] [U-Edge] [Handle] [Type] to [Block] [U-Edge] [Data] [Type]
+        #region Assign [Block] [U-Edge] [Handle] [Type] to [Block] [U-Edge] [Data] [Type]
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+                Edge currEdge = BL_V_Edges[i, j];
+                currEdge.Edge_Type = (Edge_Type)(int)currEdge.Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
             }
         }
         #endregion
@@ -951,12 +1012,6 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < col; ++j)
             {
                 Edge curEdge = LI_U_Edges[i, j];
-
-                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
-                #region Assign [Handle Edge Type] to [Edge Type] data
-                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType;
-                curEdge.Boarder_Type = curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType;
-                #endregion
 
                 //*! Check if [U-Edge] is [UP] or [Dn] [Boarder]
                 #region Check if [Line] - [U-Edge] is a [Boarder]
@@ -1038,12 +1093,6 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge curEdge = LI_V_Edges[i, j];
 
-                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
-                #region Assign [Handle Edge Type] to [Edge Type] data
-                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().edgeType;
-                curEdge.Boarder_Type = curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType;
-                #endregion
-
                 //*! Check if [Line] [V-Edge] is [LFT] or RGT] [Boarder]
                 #region Check if [Line] - [V-Edge] is a [Boarder]
                 if (curEdge.Edge_Type == Edge_Type.Boarder)
@@ -1124,11 +1173,6 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge curEdge = BL_U_Edges[i, j];
 
-                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
-                #region Assign [Handle Edge Type] to [Edge Type] data
-                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<BL_Edge_Handle>().edgeType;
-                #endregion
-
                 //*! Check if [Block] [U-Edge] is [None]
                 #region Check if [U-Edge] is [None]
                 if (curEdge.Edge_Type == Edge_Type.NONE)
@@ -1156,10 +1200,6 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < col; ++j)
             {
                 Edge curEdge = BL_V_Edges[i, j];
-                //* Assign [Handle Edge Type] to [Edge Type] data (First Step)
-                #region Assign [Handle Edge Type] to [Edge Type] data
-                curEdge.Edge_Type = (Edge_Type)(int)curEdge.Gizmos_GO.transform.GetChild(0).GetComponent<BL_Edge_Handle>().edgeType;
-                #endregion
 
                 //*! Check if [Block] [V-Edge] is [None]
                 #region Check if [V-Edge] is [None]
@@ -1353,7 +1393,6 @@ public class Pencil_Case : MonoBehaviour
             {
                 #region Get reference of current [Block] [Node]
                 Node currNode = BL_Nodes[i, j];
-                currNode.Node_Type = (Node_Type)(int)currNode.Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
                 #endregion
 
                 #region Check [Block] [Node] is [None]
@@ -1382,7 +1421,6 @@ public class Pencil_Case : MonoBehaviour
             {
                 #region Get reference of current [Line] [Node]
                 Node currNode = LI_Nodes[i, j];
-                currNode.Node_Type = (Node_Type)(int)currNode.Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
                 #endregion
 
                 #region Check [Line] [Node] is [None]
@@ -1538,18 +1576,91 @@ public class Pencil_Case : MonoBehaviour
         {
             lv_Data.row = row;
             lv_Data.col = col;
-            lv_Data.BL_Nodes = BL_Nodes;
-            lv_Data.LI_Nodes = LI_Nodes;
-            lv_Data.BL_U_Edges = BL_U_Edges;
-            lv_Data.BL_V_Edges = BL_V_Edges;
-            lv_Data.LI_U_Edges = LI_U_Edges;
-            lv_Data.LI_V_Edges = LI_V_Edges;
+
+            lv_Data.BL_Nodes = new Node[BL_Nodes.GetLength(0) * BL_Nodes.GetLength(1)];
+            lv_Data.LI_Nodes = new Node[LI_Nodes.GetLength(0) * LI_Nodes.GetLength(1)];
+            lv_Data.BL_U_Edges = new Edge[BL_U_Edges.GetLength(0) * BL_U_Edges.GetLength(1)];
+            lv_Data.BL_V_Edges = new Edge[BL_V_Edges.GetLength(0) * BL_V_Edges.GetLength(1)];
+            lv_Data.LI_U_Edges = new Edge[LI_U_Edges.GetLength(0) * LI_U_Edges.GetLength(1)];
+            lv_Data.LI_V_Edges = new Edge[LI_V_Edges.GetLength(0) * LI_V_Edges.GetLength(1)];
+
+            //*! Assign [Block] [Node] 2D Array to [Lv_Data] reflected 1D Array
+            #region Assign [Block] [Node] 2D Array to Lv_Data 1D Array
+            for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+                {
+                    int colSize = BL_Nodes.GetLength(1);
+                    lv_Data.BL_Nodes[colSize * i + j] = BL_Nodes[i, j];
+                }
+            }
+            #endregion
+
+            //*! Assign [Line] [Node] 2D Array to [Lv_Data] reflected 1D Array
+            #region Assign [Line] [Node] 2D Array to Lv_Data 1D Array
+            for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+                {
+                    int colSize = LI_Nodes.GetLength(1);
+                    lv_Data.LI_Nodes[colSize * i + j] = LI_Nodes[i, j];
+                }
+            }
+            #endregion
+
+            //*! Assign [Line] [U-Edge] 2D Array to [Lv_Data] reflected 1D Array
+            #region Assign [Line] [U-Edge] 2D Array to Lv_Data 1D Array
+            for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+                {
+                    int colSize = LI_U_Edges.GetLength(1);
+                    lv_Data.LI_U_Edges[colSize * i + j] = LI_U_Edges[i, j];
+                }
+            }
+            #endregion
+
+            //*! Assign [Line] [V-Edge] 2D Array to [Lv_Data] reflected 1D Array
+            #region Assign [Line] [V-Edge] [Handle] [Type] to [Line] [V-Edge] [Data] [Type]
+            for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+                {
+                    int colSize = LI_V_Edges.GetLength(1);
+                    lv_Data.LI_V_Edges[colSize * i + j] = LI_V_Edges[i, j];
+                }
+            }
+            #endregion
+
+            //*! Assign [Block] [U-Edge] 2D Array to [Lv_Data] reflected 1D Array
+            #region Assign [Block] [U-Edge] 2D Array to Lv_Data 1D Array
+            for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+                {
+                    int colSize = BL_U_Edges.GetLength(1);
+                    lv_Data.BL_U_Edges[colSize * i + j] = BL_U_Edges[i, j];
+                }
+            }
+            #endregion
+
+            //*! Assign [Block] [V-Edge] 2D Array to [Lv_Data] reflected 1D Array
+            #region Assign [Block] [V-Edge] 2D Array to Lv_Data 1D Array
+            for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+                {
+                    int colSize = BL_V_Edges.GetLength(1);
+                    lv_Data.BL_V_Edges[colSize * i + j] = BL_V_Edges[i, j];
+                }
+            }
+            #endregion
 
             Debug.Log("Level Data Saved!!");
-            Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
-            Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
-            Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
-            Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
+            //Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
+            //Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
+            //Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
+            //Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
 
             isSaved = false;
         }
@@ -1563,18 +1674,96 @@ public class Pencil_Case : MonoBehaviour
         {
             row = lv_Data.row;
             col = lv_Data.col;
-            BL_Nodes = lv_Data.BL_Nodes;
-            LI_Nodes = lv_Data.LI_Nodes;
-            BL_U_Edges = lv_Data.BL_U_Edges;
-            BL_V_Edges = lv_Data.BL_V_Edges;
-            LI_U_Edges = lv_Data.LI_U_Edges;
-            LI_V_Edges = lv_Data.LI_V_Edges;
+
+            //*! Assign [Lv_Data] reflected 1D Array to [Block] [Node] 2D Array 
+            #region Assign [Lv_Data] reflected 1D Array to [Block] [Node] 2D Array 
+            for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+                {
+                    int colSize = BL_Nodes.GetLength(1);
+                    BL_Nodes[i, j] = lv_Data.BL_Nodes[colSize * i + j];
+                    BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = 
+                                (BL_Node_Handle_Type)(int)lv_Data.BL_Nodes[colSize * i + j].Node_Type;
+                }
+            }
+            #endregion
+
+            //*! Assign [Lv_Data] reflected 1D Array to [Line] [Node] 2D Array 
+            #region Assign [Lv_Data] reflected 1D Array to [Line] [Node] 2D Array 
+            for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+                {
+                    int colSize = LI_Nodes.GetLength(1);
+                    LI_Nodes[i, j] = lv_Data.LI_Nodes[colSize * i + j];
+                    LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType =
+                                (LI_Node_Handle_Type)(int)lv_Data.LI_Nodes[colSize * i + j].Node_Type;
+                }
+            }
+            #endregion
+
+            //*! Assign [Lv_Data] reflected 1D Array to [Line] [U-Edge] 2D Array 
+            #region Assign [Lv_Data] reflected 1D Array to [Line] [U-Edge] 2D Array 
+            for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+                {
+                    int colSize = LI_U_Edges.GetLength(1);
+                    LI_U_Edges[i, j] = lv_Data.LI_U_Edges[colSize * i + j];
+                    LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType =
+                                (LI_Edge_Handle_Type)(int)lv_Data.LI_U_Edges[colSize * i + j].Edge_Type;
+                }
+            }
+            #endregion
+
+            //*! Assign [Lv_Data] reflected 1D Array to [Line] [V-Edge] 2D Array 
+            #region Assign [Lv_Data] reflected 1D Array to [Line] [V-Edge] 2D Array 
+            for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+                {
+                    int colSize = LI_V_Edges.GetLength(1);
+                    LI_V_Edges[i, j] = lv_Data.LI_V_Edges[colSize * i + j];
+                    LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType =
+                                (LI_Edge_Handle_Type)(int)lv_Data.LI_V_Edges[colSize * i + j].Edge_Type;
+                }
+            }
+            #endregion
+
+            //*! Assign [Lv_Data] reflected 1D Array to [BLock] [U-Edge] 2D Array 
+            #region Assign [Lv_Data] reflected 1D Array to [BLock] [U-Edge] 2D Array 
+            for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+                {
+                    int colSize = BL_U_Edges.GetLength(1);
+                    BL_U_Edges[i, j] = lv_Data.BL_U_Edges[colSize * i + j];
+                    BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType =
+                                (BL_Edge_Handle_Type)(int)lv_Data.BL_U_Edges[colSize * i + j].Edge_Type;
+                }
+            }
+            #endregion
+
+            //*! Assign [Lv_Data] reflected 1D Array to [BLock] [V-Edge] 2D Array 
+            #region Assign [Lv_Data] reflected 1D Array to [BLock] [V-Edge] 2D Array 
+            for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+                {
+                    int colSize = BL_V_Edges.GetLength(1);
+                    BL_V_Edges[i, j] = lv_Data.BL_V_Edges[colSize * i + j];
+                    BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType =
+                                (BL_Edge_Handle_Type)(int)lv_Data.BL_V_Edges[colSize * i + j].Edge_Type;
+                }
+            }
+            #endregion
 
             Debug.Log("Level Data Loaded!!");
-            Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
-            Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
-            Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
-            Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
+            //Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
+            //Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
+            //Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
+            //Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
 
             isLoaded = false;
         }
@@ -1584,7 +1773,6 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Runtime_Update")]
     void Runtime_Update()
     {
-
     }
 }
 
