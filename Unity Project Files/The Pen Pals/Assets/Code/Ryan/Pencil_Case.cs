@@ -48,14 +48,14 @@ public class Pencil_Case : MonoBehaviour
     [Range(0.1f, 1.0f)]
     public float handle_size;
 
-    public Node[,] BL_Nodes { get; set; }
-    public Node[,] LI_Nodes { get; set; }
+    public Node[,] BL_Nodes;
+    public Node[,] LI_Nodes;
 
-    public Edge[,] BL_U_Edges { get; set; }
-    public Edge[,] BL_V_Edges { get; set; }
+    public Edge[,] BL_U_Edges;
+    public Edge[,] BL_V_Edges;
 
-    public Edge[,] LI_U_Edges { get; set; }
-    public Edge[,] LI_V_Edges { get; set; }
+    public Edge[,] LI_U_Edges;
+    public Edge[,] LI_V_Edges;
 
     [SerializeField]
     public Lv_Data lv_Data;
@@ -1631,6 +1631,7 @@ public class Pencil_Case : MonoBehaviour
                     int colSize = LI_V_Edges.GetLength(1);
                     lv_Data.LI_V_Edges[colSize * i + j] = new Edge();
                     lv_Data.LI_V_Edges[colSize * i + j] = LI_V_Edges[i, j];
+
                 }
             }
             #endregion
@@ -1787,11 +1788,12 @@ public class Pencil_Case : MonoBehaviour
 
 #region [Node] and [Edge] classes
 //*! Classes for map elements [Node] and [Edge] 
+[System.Serializable]
 public class Node
 {
     //*! Getter, Setter of Node members
-    public Vector3 Position { get; set; }
-    public float Node_Size { get; set; }
+    public Vector3 Position;
+    public float Node_Size;
 
     //*! Getter, Setter of Node members
     public bool Can_UP { get { return UP_NODE != null; } }
@@ -1800,42 +1802,43 @@ public class Node
     public bool Can_RGT { get { return RGT_NODE != null; } }
 
     //*! Neighbor Node reference holder
-    public Node UP_NODE { get; set; }
-    public Node DN_NODE { get; set; }
-    public Node LFT_NODE { get; set; }
-    public Node RGT_NODE { get; set; }
+    public Node UP_NODE;
+    public Node DN_NODE;
+    public Node LFT_NODE;
+    public Node RGT_NODE;
 
     //*! Getter, Setter of [Node] [Gizmos]
-    public GameObject Gizmos_GO { get; set; }
+    public GameObject Gizmos_GO;
 
     //*! Getter, Setter of [Node] [Type]
-    public Node_Type Node_Type { get; set; }
+    public Node_Type Node_Type;
 
     //*! Getter, Setter of [Node] is occupied
-    public bool Is_Occupied { get; set; }
+    public bool Is_Occupied;
 }
 
+[System.Serializable]
 public class Edge
 {
     //*! Getter, Setter of [Edge] neighbor [Node]
-    public Node UP_Node { get; set; }
-    public Node DN_Node { get; set; }
-    public Node LFT_Node { get; set; }
-    public Node RGT_Node { get; set; }
+    public Node UP_Node;
+    public Node DN_Node;
+    public Node LFT_Node;
+    public Node RGT_Node;
 
     //*! Getter, Setter of [Edge] Position and Rotation
-    public Vector3 Position { get; set; }
-    public Quaternion Rotation { get; set; }
+    public Vector3 Position;
+    public Quaternion Rotation;
 
     //*! Getter, Setter of [Edge] [Gizmos]
-    public GameObject Gizmos_GO { get; set; }
+    public GameObject Gizmos_GO;
 
     //*! Getter, Setter of [Edge] [Edge Type] & [Boarder Type]
-    public Edge_Type Edge_Type { get; set; }
-    public Boarder_Type Boarder_Type { get; set; }
+    public Edge_Type Edge_Type;
+    public Boarder_Type Boarder_Type;
 
     //*! Getter, Setter of [Node] is occupied
-    public bool Is_Occupied { get; set; }
+    public bool Is_Occupied;
 }
 #endregion
 
