@@ -5,7 +5,7 @@
 //*!              This class in an experimental class to test using
 //*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 09/09/2018
+//*! Last edit  : 12/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -215,8 +215,6 @@ public class Pencil_Case : MonoBehaviour
 
             //*! Render all [Node] [Edge] handles' icon base on their [Type]
             Render_All_Handles_By_Type_Edit_Mode();
-
-
         }
 
     }
