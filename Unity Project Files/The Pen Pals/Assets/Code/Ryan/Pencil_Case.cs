@@ -1569,7 +1569,6 @@ public class Pencil_Case : MonoBehaviour
     }
 
     [ContextMenu("Save_Level_Data")]
-    [SerializeField]
     public void Save_Level_Data()
     {
         if (isSaved)
@@ -1591,6 +1590,7 @@ public class Pencil_Case : MonoBehaviour
                 for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
                 {
                     int colSize = BL_Nodes.GetLength(1);
+                    lv_Data.BL_Nodes[colSize * i + j] = new Node();
                     lv_Data.BL_Nodes[colSize * i + j] = BL_Nodes[i, j];
                 }
             }
@@ -1603,6 +1603,7 @@ public class Pencil_Case : MonoBehaviour
                 for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
                 {
                     int colSize = LI_Nodes.GetLength(1);
+                    lv_Data.LI_Nodes[colSize * i + j] = new Node();
                     lv_Data.LI_Nodes[colSize * i + j] = LI_Nodes[i, j];
                 }
             }
@@ -1615,6 +1616,7 @@ public class Pencil_Case : MonoBehaviour
                 for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
                 {
                     int colSize = LI_U_Edges.GetLength(1);
+                    lv_Data.LI_U_Edges[colSize * i + j] = new Edge();
                     lv_Data.LI_U_Edges[colSize * i + j] = LI_U_Edges[i, j];
                 }
             }
@@ -1627,6 +1629,7 @@ public class Pencil_Case : MonoBehaviour
                 for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
                 {
                     int colSize = LI_V_Edges.GetLength(1);
+                    lv_Data.LI_V_Edges[colSize * i + j] = new Edge();
                     lv_Data.LI_V_Edges[colSize * i + j] = LI_V_Edges[i, j];
                 }
             }
@@ -1639,6 +1642,7 @@ public class Pencil_Case : MonoBehaviour
                 for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
                 {
                     int colSize = BL_U_Edges.GetLength(1);
+                    lv_Data.BL_U_Edges[colSize * i + j] = new Edge();
                     lv_Data.BL_U_Edges[colSize * i + j] = BL_U_Edges[i, j];
                 }
             }
@@ -1651,14 +1655,15 @@ public class Pencil_Case : MonoBehaviour
                 for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
                 {
                     int colSize = BL_V_Edges.GetLength(1);
+                    lv_Data.BL_V_Edges[colSize * i + j] = new Edge();
                     lv_Data.BL_V_Edges[colSize * i + j] = BL_V_Edges[i, j];
                 }
             }
             #endregion
 
             Debug.Log("Level Data Saved!!");
-            //Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
-            //Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
+            Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0].Edge_Type.ToString());
+            Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
             //Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
             //Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
 
@@ -1667,7 +1672,6 @@ public class Pencil_Case : MonoBehaviour
     }
 
     [ContextMenu("Load_Level_Data")]
-    [SerializeField]
     public void Load_Level_Data()
     {
         if (isLoaded)
@@ -1683,7 +1687,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     int colSize = BL_Nodes.GetLength(1);
                     BL_Nodes[i, j] = lv_Data.BL_Nodes[colSize * i + j];
-                    BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = 
+                    BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType =
                                 (BL_Node_Handle_Type)(int)lv_Data.BL_Nodes[colSize * i + j].Node_Type;
                 }
             }
@@ -1760,8 +1764,8 @@ public class Pencil_Case : MonoBehaviour
             #endregion
 
             Debug.Log("Level Data Loaded!!");
-            //Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
-            //Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
+            Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0].Edge_Type.ToString());
+            Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
             //Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
             //Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
 
