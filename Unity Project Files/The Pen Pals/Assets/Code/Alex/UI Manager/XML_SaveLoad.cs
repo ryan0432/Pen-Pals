@@ -213,7 +213,7 @@ public class XML_SaveLoad : MonoBehaviour
         if (Player_Saves[player_id].Name == "")
         {
 
-            if (player_id <= 9)
+            if (player_id +1 <= 9)
             {
                 Player_Saves[player_id].Name = "Player_0" + (player_id + 1);
             }
@@ -229,7 +229,7 @@ public class XML_SaveLoad : MonoBehaviour
             }
         }
 
-        if (player_id <= 9)
+        if (player_id +1 <= 9)
         {
             //*! Save each player
             Player_Saves[player_id].Save("./Player Save Files/Player_0" + (player_id + 1) + ".xml");
