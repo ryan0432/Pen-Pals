@@ -272,17 +272,21 @@ public class Temp_Node_Map : MonoBehaviour
             {
                 if (bl_nodes[i, j].Can_UP)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = bl_nodes[i, j];
-                    new_edge.End_Node = bl_nodes[i, j + 1];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = bl_nodes[i, j],
+                        End_Node = bl_nodes[i, j + 1]
+                    };
                     bl_edges.Add(new_edge);
                 }
 
                 if (bl_nodes[i, j].Can_RGT)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = bl_nodes[i, j];
-                    new_edge.End_Node = bl_nodes[i + 1, j];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = bl_nodes[i, j],
+                        End_Node = bl_nodes[i + 1, j]
+                    };
                     bl_edges.Add(new_edge);
                 }
             }
@@ -292,9 +296,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (bl_nodes[i, bl_nodes.GetUpperBound(1)].Can_RGT)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = bl_nodes[i, bl_nodes.GetUpperBound(1)];
-                new_edge.End_Node = bl_nodes[i + 1, bl_nodes.GetUpperBound(1)];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = bl_nodes[i, bl_nodes.GetUpperBound(1)],
+                    End_Node = bl_nodes[i + 1, bl_nodes.GetUpperBound(1)]
+                };
                 bl_edges.Add(new_edge);
             }
         }
@@ -303,9 +309,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (bl_nodes[bl_nodes.GetUpperBound(0), i].Can_UP)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = bl_nodes[bl_nodes.GetUpperBound(0), i];
-                new_edge.End_Node = bl_nodes[bl_nodes.GetUpperBound(0), i + 1];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = bl_nodes[bl_nodes.GetUpperBound(0), i],
+                    End_Node = bl_nodes[bl_nodes.GetUpperBound(0), i + 1]
+                };
                 bl_edges.Add(new_edge);
             }
         }
@@ -318,17 +326,21 @@ public class Temp_Node_Map : MonoBehaviour
             {
                 if (bl_nodes[i, j].Can_DN)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = bl_nodes[i, j];
-                    new_edge.End_Node = bl_nodes[i, j - 1];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = bl_nodes[i, j],
+                        End_Node = bl_nodes[i, j - 1]
+                    };
                     bl_edges.Add(new_edge);
                 }
 
                 if (bl_nodes[i, j].Can_LFT)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = bl_nodes[i, j];
-                    new_edge.End_Node = bl_nodes[i - 1, j];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = bl_nodes[i, j],
+                        End_Node = bl_nodes[i - 1, j]
+                    };
                     bl_edges.Add(new_edge);
                 }
             }
@@ -338,9 +350,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (bl_nodes[i, bl_nodes.GetLowerBound(1)].Can_LFT)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = bl_nodes[i, bl_nodes.GetLowerBound(1)];
-                new_edge.End_Node = bl_nodes[i - 1, bl_nodes.GetLowerBound(1)];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = bl_nodes[i, bl_nodes.GetLowerBound(1)],
+                    End_Node = bl_nodes[i - 1, bl_nodes.GetLowerBound(1)]
+                };
                 bl_edges.Add(new_edge);
             }
         }
@@ -349,9 +363,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (bl_nodes[bl_nodes.GetLowerBound(0), i].Can_DN)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = bl_nodes[bl_nodes.GetLowerBound(0), i];
-                new_edge.End_Node = bl_nodes[bl_nodes.GetLowerBound(0), i - 1];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = bl_nodes[bl_nodes.GetLowerBound(0), i],
+                    End_Node = bl_nodes[bl_nodes.GetLowerBound(0), i - 1]
+                };
                 bl_edges.Add(new_edge);
             }
         }
@@ -364,17 +380,21 @@ public class Temp_Node_Map : MonoBehaviour
             {
                 if (li_nodes[i, j].Can_UP)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i, j + 1];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = li_nodes[i, j],
+                        End_Node = li_nodes[i, j + 1]
+                    };
                     li_edges.Add(new_edge);
                 }
 
                 if (li_nodes[i, j].Can_RGT)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i + 1, j];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = li_nodes[i, j],
+                        End_Node = li_nodes[i + 1, j]
+                    };
                     li_edges.Add(new_edge);
                 }
             }
@@ -384,9 +404,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (li_nodes[i, li_nodes.GetUpperBound(1)].Can_RGT)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[i, li_nodes.GetUpperBound(1)];
-                new_edge.End_Node = li_nodes[i + 1, li_nodes.GetUpperBound(1)];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = li_nodes[i, li_nodes.GetUpperBound(1)],
+                    End_Node = li_nodes[i + 1, li_nodes.GetUpperBound(1)]
+                };
                 li_edges.Add(new_edge);
             }
         }
@@ -395,9 +417,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (li_nodes[li_nodes.GetUpperBound(0), i].Can_UP)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[li_nodes.GetUpperBound(0), i];
-                new_edge.End_Node = li_nodes[li_nodes.GetUpperBound(0), i + 1];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = li_nodes[li_nodes.GetUpperBound(0), i],
+                    End_Node = li_nodes[li_nodes.GetUpperBound(0), i + 1]
+                };
                 li_edges.Add(new_edge);
             }
         }
@@ -410,17 +434,21 @@ public class Temp_Node_Map : MonoBehaviour
             {
                 if (li_nodes[i, j].Can_DN)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i, j - 1];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = li_nodes[i, j],
+                        End_Node = li_nodes[i, j - 1]
+                    };
                     li_edges.Add(new_edge);
                 }
 
                 if (li_nodes[i, j].Can_LFT)
                 {
-                    Edge new_edge = new Edge();
-                    new_edge.Start_Node = li_nodes[i, j];
-                    new_edge.End_Node = li_nodes[i - 1, j];
+                    Edge new_edge = new Edge
+                    {
+                        Start_Node = li_nodes[i, j],
+                        End_Node = li_nodes[i - 1, j]
+                    };
                     li_edges.Add(new_edge);
                 }
             }
@@ -430,9 +458,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (li_nodes[i, li_nodes.GetLowerBound(1)].Can_LFT)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[i, li_nodes.GetLowerBound(1)];
-                new_edge.End_Node = li_nodes[i - 1, li_nodes.GetLowerBound(1)];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = li_nodes[i, li_nodes.GetLowerBound(1)],
+                    End_Node = li_nodes[i - 1, li_nodes.GetLowerBound(1)]
+                };
                 li_edges.Add(new_edge);
             }
         }
@@ -441,9 +471,11 @@ public class Temp_Node_Map : MonoBehaviour
         {
             if (li_nodes[li_nodes.GetLowerBound(0), i].Can_DN)
             {
-                Edge new_edge = new Edge();
-                new_edge.Start_Node = li_nodes[li_nodes.GetLowerBound(0), i];
-                new_edge.End_Node = li_nodes[li_nodes.GetLowerBound(0), i - 1];
+                Edge new_edge = new Edge
+                {
+                    Start_Node = li_nodes[li_nodes.GetLowerBound(0), i],
+                    End_Node = li_nodes[li_nodes.GetLowerBound(0), i - 1]
+                };
                 li_edges.Add(new_edge);
             }
         }
