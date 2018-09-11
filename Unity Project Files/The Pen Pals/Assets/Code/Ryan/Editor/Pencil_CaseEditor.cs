@@ -33,13 +33,6 @@ public class Pencil_CaseEditor : Editor
         row = serializedObject.FindProperty("row");
         col = serializedObject.FindProperty("col");
 
-        BL_Nodes = serializedObject.FindProperty("BL_Nodes");
-        LI_Nodes = serializedObject.FindProperty("LI_Nodes");
-        BL_U_Edges = serializedObject.FindProperty("BL_U_Edges");
-        BL_V_Edges = serializedObject.FindProperty("BL_V_Edges");
-        LI_U_Edges = serializedObject.FindProperty("LI_U_Edges");
-        LI_V_Edges = serializedObject.FindProperty("LI_V_Edges");
-
         isSaved = serializedObject.FindProperty("isSaved");
         isLoaded = serializedObject.FindProperty("isLoaded");
 
@@ -103,10 +96,18 @@ public class Pencil_CaseEditor : Editor
                 {
                     isSaved.boolValue = true;
                 }
+                else
+                {
+                    isSaved.boolValue = false;
+                }
 
                 if (GUILayout.Button("Load Level Data", GUILayout.MaxHeight(64), GUILayout.MaxHeight(32)))
                 {
                     isLoaded.boolValue = true;
+                }
+                else
+                {
+                    isLoaded.boolValue = false;
                 }
             }
             else

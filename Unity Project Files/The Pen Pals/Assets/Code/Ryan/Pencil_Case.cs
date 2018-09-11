@@ -137,13 +137,17 @@ public class Pencil_Case : MonoBehaviour
     private Material highlighter_red_giz_mat;
 
     //* Store previos frame's [row] and [col] number
+    [HideInInspector]
     private int prevRow;
+    [HideInInspector]
     private int prevCol;
 
     //* Save/Load Level Data based on booleans
     [SerializeField]
+    [HideInInspector]
     private bool isSaved;
     [SerializeField]
+    [HideInInspector]
     private bool isLoaded;
     #endregion
 
@@ -195,6 +199,10 @@ public class Pencil_Case : MonoBehaviour
             Layout_Graph_Edit_Mode();
             //}
 
+            Save_Level_Data();
+
+            Load_Level_Data();
+
             //prevRow = currRow;
             //prevCol = currCol;
 
@@ -206,10 +214,6 @@ public class Pencil_Case : MonoBehaviour
 
             //*! Render all nodes according to the [Edge] check result
             Render_Node_Gizmos_Edit_Mode();
-
-            Save_Level_Data();
-
-            Load_Level_Data();
 
             //*! Render all [Node] [Edge] handles' icon base on their [Type]
             Render_All_Handles_By_Type_Edit_Mode();
@@ -1542,6 +1546,10 @@ public class Pencil_Case : MonoBehaviour
             lv_Data.LI_V_Edges = LI_V_Edges;
 
             Debug.Log("Level Data Saved!!");
+            Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
+            Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
+            Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
+            Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
 
             isSaved = false;
         }
@@ -1563,6 +1571,10 @@ public class Pencil_Case : MonoBehaviour
             LI_V_Edges = lv_Data.LI_V_Edges;
 
             Debug.Log("Level Data Loaded!!");
+            Debug.Log("Data BL- U (0,0) Edge Type: " + lv_Data.BL_U_Edges[0, 0].Edge_Type.ToString());
+            Debug.Log("Editor BL- U (0,0) Edge Type: " + BL_U_Edges[0, 0].Edge_Type.ToString());
+            Debug.Log("Data BL- U (0,0) UP_Node Can_DN: " + lv_Data.BL_U_Edges[0, 0].UP_Node.Can_DN);
+            Debug.Log("Editor BL- U (0,0) UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
 
             isLoaded = false;
         }
@@ -1575,6 +1587,7 @@ public class Pencil_Case : MonoBehaviour
 
     }
 }
+
 
 //*!----------------------------!*//
 //*!       Custom Classes
