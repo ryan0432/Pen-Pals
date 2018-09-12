@@ -417,12 +417,16 @@ public class Pencil_Case : MonoBehaviour
                     new_edge_U.UP_Node = BL_Nodes[i, j];
                     new_edge_U.DN_Node = null;
                 }
-
-                if (j == LI_U_Edges.GetLength(1) - 1)
+                else if (j == LI_U_Edges.GetLength(1) - 1)
                 {
                     new_edge_U.Edge_Type = Edge_Type.Boarder;
                     new_edge_U.Boarder_Type = Boarder_Type.UP;
                     new_edge_U.UP_Node = null;
+                    new_edge_U.DN_Node = BL_Nodes[i, j - 1];
+                }
+                else
+                {
+                    new_edge_U.UP_Node = BL_Nodes[i, j];
                     new_edge_U.DN_Node = BL_Nodes[i, j - 1];
                 }
 
@@ -451,50 +455,22 @@ public class Pencil_Case : MonoBehaviour
                     new_edge_V.LFT_Node = null;
                     new_edge_V.RGT_Node = BL_Nodes[i, j];
                 }
-
-                if (i == LI_V_Edges.GetLength(0) - 1)
+                else if (i == LI_V_Edges.GetLength(0) - 1)
                 {
                     new_edge_V.Edge_Type = Edge_Type.Boarder;
                     new_edge_V.Boarder_Type = Boarder_Type.RGT;
                     new_edge_V.LFT_Node = BL_Nodes[i - 1, j];
                     new_edge_V.RGT_Node = null;
                 }
+                else
+                {
+                    new_edge_V.LFT_Node = BL_Nodes[i - 1, j];
+                    new_edge_V.RGT_Node = BL_Nodes[i, j];
+                }
 
                 new_edge_V.Position = new_edge_V.DN_Node.Position + ((new_edge_V.UP_Node.Position - new_edge_V.DN_Node.Position) / 2);
                 new_edge_V.Rotation = rot_V;
                 LI_V_Edges[i, j] = new_edge_V;
-            }
-        }
-        #endregion
-
-        //*! Refresh (rebuild) [Line] - [Edge]'s for direction [Node] reference linkages
-        //*! Otherwise the empty [Node] reference spot will remain [null] after changing the graph size
-        #region Rebuild [Line] - non-boarder [U] direction [Edge]'s [Node] references
-        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
-        {
-            for (int j = 1; j < LI_U_Edges.GetLength(1) - 1; ++j)
-            {
-                LI_U_Edges[i, j].Edge_Type = Edge_Type.NONE;
-                LI_U_Edges[i, j].Boarder_Type = Boarder_Type.NONE;
-                LI_U_Edges[i, j].UP_Node = BL_Nodes[i, j];
-                LI_U_Edges[i, j].DN_Node = BL_Nodes[i, j - 1];
-                LI_U_Edges[i, j].LFT_Node = LI_Nodes[i, j];
-                LI_U_Edges[i, j].RGT_Node = LI_Nodes[i + 1, j];
-            }
-        }
-        #endregion
-
-        #region Rebuild [Line] - non-boarder [V] direction [Edge]'s [Node] references
-        for (int i = 1; i < LI_V_Edges.GetLength(0) - 1; ++i)
-        {
-            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
-            {
-                LI_V_Edges[i, j].Edge_Type = Edge_Type.NONE;
-                LI_V_Edges[i, j].Boarder_Type = Boarder_Type.NONE;
-                LI_V_Edges[i, j].UP_Node = LI_Nodes[i, j + 1];
-                LI_V_Edges[i, j].DN_Node = LI_Nodes[i, j];
-                LI_V_Edges[i, j].LFT_Node = BL_Nodes[i - 1, j];
-                LI_V_Edges[i, j].RGT_Node = BL_Nodes[i, j];
             }
         }
         #endregion

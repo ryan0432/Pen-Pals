@@ -48,8 +48,12 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(BL_Nodes[0, 0].Can_UP);
-        Debug.Log(BL_Nodes[0, 1].Can_DN);
+        Debug.Log(BL_Nodes[0, 1].Position);
+        Debug.Log(LI_U_Edges[0, 1].UP_Node.Position);
+        Debug.Log(BL_Nodes[0, 0].Position);
+        Debug.Log(LI_U_Edges[0, 1].DN_Node.Position);
+        Debug.Log(LI_Nodes[1, 1].Position);
+        Debug.Log(LI_U_Edges[0, 1].RGT_Node.Position);
     }
 
     //*!----------------------------!*//
@@ -242,12 +246,16 @@ public class Game_Manager : MonoBehaviour
                     new_edge_U.UP_Node = BL_Nodes[i, j];
                     new_edge_U.DN_Node = null;
                 }
-
-                if (j == LI_U_Edges.GetLength(1) - 1)
+                else if (j == LI_U_Edges.GetLength(1) - 1)
                 {
                     new_edge_U.Edge_Type = Edge_Type.Boarder;
                     new_edge_U.Boarder_Type = Boarder_Type.UP;
                     new_edge_U.UP_Node = null;
+                    new_edge_U.DN_Node = BL_Nodes[i, j - 1];
+                }
+                else
+                {
+                    new_edge_U.UP_Node = BL_Nodes[i, j];
                     new_edge_U.DN_Node = BL_Nodes[i, j - 1];
                 }
 
@@ -284,13 +292,17 @@ public class Game_Manager : MonoBehaviour
                     new_edge_V.LFT_Node = null;
                     new_edge_V.RGT_Node = BL_Nodes[i, j];
                 }
-
-                if (i == LI_V_Edges.GetLength(0) - 1)
+                else if (i == LI_V_Edges.GetLength(0) - 1)
                 {
                     new_edge_V.Edge_Type = Edge_Type.Boarder;
                     new_edge_V.Boarder_Type = Boarder_Type.RGT;
                     new_edge_V.LFT_Node = BL_Nodes[i - 1, j];
                     new_edge_V.RGT_Node = null;
+                }
+                else
+                {
+                    new_edge_V.LFT_Node = BL_Nodes[i - 1, j];
+                    new_edge_V.RGT_Node = BL_Nodes[i, j];
                 }
 
                 new_edge_V.Position = lvData.LI_V_Edges[colSize * i + j].Position;
@@ -364,223 +376,223 @@ public class Game_Manager : MonoBehaviour
 
         //*! Check [Edge] Enums flags to decide every [Node] tracersability to neighbor
         #region Check [Line] - [U-Edge] and set [Block] - [Node] Traversability
-        //for (int i = 0; i < li_U_edge_row; ++i)
-        //{
-        //    for (int j = 0; j < li_U_edge_col; ++j)
-        //    {
-        //        Edge curEdge = LI_U_Edges[i, j];
+        for (int i = 0; i < li_U_edge_row; ++i)
+        {
+            for (int j = 0; j < li_U_edge_col; ++j)
+            {
+                Edge curEdge = LI_U_Edges[i, j];
 
-        //        //*! Check if [U-Edge] is [UP] or [Dn] [Boarder]
-        //        #region Check if [Line] - [U-Edge] is a [Boarder]
-        //        if (curEdge.Edge_Type == Edge_Type.Boarder)
-        //        {
-        //            if (curEdge.Boarder_Type == Boarder_Type.UP)
-        //            {
-        //                curEdge.DN_Node.UP_NODE = null;
-        //                curEdge.LFT_Node.UP_NODE = null;
-        //                curEdge.RGT_Node.UP_NODE = null;
-        //            }
+                //*! Check if [U-Edge] is [UP] or [Dn] [Boarder]
+                #region Check if [Line] - [U-Edge] is a [Boarder]
+                if (curEdge.Edge_Type == Edge_Type.Boarder)
+                {
+                    if (curEdge.Boarder_Type == Boarder_Type.UP)
+                    {
+                        curEdge.DN_Node.UP_NODE = null;
+                        curEdge.LFT_Node.UP_NODE = null;
+                        curEdge.RGT_Node.UP_NODE = null;
+                    }
 
-        //            if (curEdge.Boarder_Type == Boarder_Type.DN)
-        //            {
-        //                curEdge.UP_Node.DN_NODE = null;
-        //                curEdge.LFT_Node.DN_NODE = null;
-        //                curEdge.RGT_Node.DN_NODE = null;
-        //            }
-        //        }
-        //        #endregion
+                    if (curEdge.Boarder_Type == Boarder_Type.DN)
+                    {
+                        curEdge.UP_Node.DN_NODE = null;
+                        curEdge.LFT_Node.DN_NODE = null;
+                        curEdge.RGT_Node.DN_NODE = null;
+                    }
+                }
+                #endregion
 
-        //        //*! Check if [U-Edge] is [None]
-        //        //*! If it is a [Boarder] assigned to [None],
-        //        //*! DON'T REBUILD [Node] connection on its [Null] side 
-        //        #region Check if [Line] [U-Edge] is [None]
-        //        if (curEdge.Edge_Type == Edge_Type.NONE)
-        //        {
-        //            if (curEdge.UP_Node == null || curEdge.DN_Node == null)
-        //            {
-        //                if (curEdge.UP_Node == null)
-        //                {
-        //                    curEdge.DN_Node.UP_NODE = null;
-        //                }
+                //*! Check if [U-Edge] is [None]
+                //*! If it is a [Boarder] assigned to [None],
+                //*! DON'T REBUILD [Node] connection on its [Null] side 
+                #region Check if [Line] [U-Edge] is [None]
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    if (curEdge.UP_Node == null || curEdge.DN_Node == null)
+                    {
+                        if (curEdge.UP_Node == null)
+                        {
+                            curEdge.DN_Node.UP_NODE = null;
+                        }
 
-        //                if (curEdge.DN_Node == null)
-        //                {
-        //                    curEdge.UP_Node.DN_NODE = null;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-        //                curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-        //            }
-        //        }
-        //        #endregion
+                        if (curEdge.DN_Node == null)
+                        {
+                            curEdge.UP_Node.DN_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                        curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                    }
+                }
+                #endregion
 
-        //        //*! Check if [U-Edge] is [Black_Pen]. If true, shut [UP] [DN] traversabilities
-        //        #region Check if [Line] [U-Edge] is [Black_Pen]
-        //        if (curEdge.Edge_Type == Edge_Type.Black_Pen)
-        //        {
-        //            if (curEdge.UP_Node == null || curEdge.DN_Node == null)
-        //            {
-        //                if (curEdge.UP_Node == null)
-        //                {
-        //                    curEdge.DN_Node.UP_NODE = null;
-        //                }
+                //*! Check if [U-Edge] is [Black_Pen]. If true, shut [UP] [DN] traversabilities
+                #region Check if [Line] [U-Edge] is [Black_Pen]
+                if (curEdge.Edge_Type == Edge_Type.Black_Pen)
+                {
+                    if (curEdge.UP_Node == null || curEdge.DN_Node == null)
+                    {
+                        if (curEdge.UP_Node == null)
+                        {
+                            curEdge.DN_Node.UP_NODE = null;
+                        }
 
-        //                if (curEdge.DN_Node == null)
-        //                {
-        //                    curEdge.UP_Node.DN_NODE = null;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                curEdge.UP_Node.DN_NODE = null;
-        //                curEdge.DN_Node.UP_NODE = null;
-        //            }
-        //        }
-        //        #endregion
-        //    }
-        //}
-        //#endregion
+                        if (curEdge.DN_Node == null)
+                        {
+                            curEdge.UP_Node.DN_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.UP_Node.DN_NODE = null;
+                        curEdge.DN_Node.UP_NODE = null;
+                    }
+                }
+                #endregion
+            }
+        }
+        #endregion
 
-        //#region Check [Line] - [V-Edge] and set [Block] - [Node] Traversability
-        //for (int i = 0; i < li_V_edge_row; ++i)
-        //{
-        //    for (int j = 0; j < li_V_edge_col; ++j)
-        //    {
-        //        Edge curEdge = LI_V_Edges[i, j];
+        #region Check [Line] - [V-Edge] and set [Block] - [Node] Traversability
+        for (int i = 0; i < li_V_edge_row; ++i)
+        {
+            for (int j = 0; j < li_V_edge_col; ++j)
+            {
+                Edge curEdge = LI_V_Edges[i, j];
 
-        //        //*! Check if [Line] [V-Edge] is [LFT] or RGT] [Boarder]
-        //        #region Check if [Line] - [V-Edge] is a [Boarder]
-        //        if (curEdge.Edge_Type == Edge_Type.Boarder)
-        //        {
-        //            if (curEdge.Boarder_Type == Boarder_Type.LFT)
-        //            {
-        //                curEdge.RGT_Node.LFT_NODE = null;
-        //                curEdge.UP_Node.LFT_NODE = null;
-        //                curEdge.DN_Node.LFT_NODE = null;
-        //            }
+                //*! Check if [Line] [V-Edge] is [LFT] or RGT] [Boarder]
+                #region Check if [Line] - [V-Edge] is a [Boarder]
+                if (curEdge.Edge_Type == Edge_Type.Boarder)
+                {
+                    if (curEdge.Boarder_Type == Boarder_Type.LFT)
+                    {
+                        curEdge.RGT_Node.LFT_NODE = null;
+                        curEdge.UP_Node.LFT_NODE = null;
+                        curEdge.DN_Node.LFT_NODE = null;
+                    }
 
-        //            if (curEdge.Boarder_Type == Boarder_Type.RGT)
-        //            {
-        //                curEdge.LFT_Node.RGT_NODE = null;
-        //                curEdge.UP_Node.RGT_NODE = null;
-        //                curEdge.DN_Node.RGT_NODE = null;
-        //            }
-        //        }
-        //        #endregion
+                    if (curEdge.Boarder_Type == Boarder_Type.RGT)
+                    {
+                        curEdge.LFT_Node.RGT_NODE = null;
+                        curEdge.UP_Node.RGT_NODE = null;
+                        curEdge.DN_Node.RGT_NODE = null;
+                    }
+                }
+                #endregion
 
-        //        //*! Check if [Line] [V-Edge] is [None]
-        //        //*! If it is a [Boarder] assigned to [None],
-        //        //*! DON'T REBUILD [Node] connection on its [Null] side
-        //        #region Check if [Line] [V-Edge] is [None]
-        //        if (curEdge.Edge_Type == Edge_Type.NONE)
-        //        {
-        //            if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
-        //            {
-        //                if (curEdge.LFT_Node == null)
-        //                {
-        //                    curEdge.RGT_Node.LFT_NODE = null;
-        //                }
+                //*! Check if [Line] [V-Edge] is [None]
+                //*! If it is a [Boarder] assigned to [None],
+                //*! DON'T REBUILD [Node] connection on its [Null] side
+                #region Check if [Line] [V-Edge] is [None]
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
+                    {
+                        if (curEdge.LFT_Node == null)
+                        {
+                            curEdge.RGT_Node.LFT_NODE = null;
+                        }
 
-        //                if (curEdge.RGT_Node == null)
-        //                {
-        //                    curEdge.LFT_Node.RGT_NODE = null;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-        //                curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
-        //            }
-        //        }
-        //        #endregion
+                        if (curEdge.RGT_Node == null)
+                        {
+                            curEdge.LFT_Node.RGT_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                        curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                    }
+                }
+                #endregion
 
-        //        //*! Check if [V-Edge] is [Black_Pen]. If true, shut [LFT] [RGT] traversabilities
-        //        #region Check if [Line] [V-Edge] is [Black_Pen]
-        //        if (curEdge.Edge_Type == Edge_Type.Black_Pen)
-        //        {
-        //            if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
-        //            {
-        //                if (curEdge.LFT_Node == null)
-        //                {
-        //                    curEdge.RGT_Node.LFT_NODE = null;
-        //                }
+                //*! Check if [V-Edge] is [Black_Pen]. If true, shut [LFT] [RGT] traversabilities
+                #region Check if [Line] [V-Edge] is [Black_Pen]
+                if (curEdge.Edge_Type == Edge_Type.Black_Pen)
+                {
+                    if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
+                    {
+                        if (curEdge.LFT_Node == null)
+                        {
+                            curEdge.RGT_Node.LFT_NODE = null;
+                        }
 
-        //                if (curEdge.RGT_Node == null)
-        //                {
-        //                    curEdge.LFT_Node.RGT_NODE = null;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                curEdge.LFT_Node.RGT_NODE = null;
-        //                curEdge.RGT_Node.LFT_NODE = null;
-        //            }
-        //        }
-        //        #endregion
-        //    }
-        //}
-        //#endregion
+                        if (curEdge.RGT_Node == null)
+                        {
+                            curEdge.LFT_Node.RGT_NODE = null;
+                        }
+                    }
+                    else
+                    {
+                        curEdge.LFT_Node.RGT_NODE = null;
+                        curEdge.RGT_Node.LFT_NODE = null;
+                    }
+                }
+                #endregion
+            }
+        }
+        #endregion
 
-        //#region Check [Block] - [U-Edge] and set [Line] - [Node] Traversability
-        //for (int i = 0; i < bl_U_edge_row; ++i)
-        //{
-        //    for (int j = 0; j < bl_U_edge_col; ++j)
-        //    {
-        //        Edge curEdge = BL_U_Edges[i, j];
+        #region Check [Block] - [U-Edge] and set [Line] - [Node] Traversability
+        for (int i = 0; i < bl_U_edge_row; ++i)
+        {
+            for (int j = 0; j < bl_U_edge_col; ++j)
+            {
+                Edge curEdge = BL_U_Edges[i, j];
 
-        //        //*! Check if [Block] [U-Edge] is [None]
-        //        #region Check if [U-Edge] is [None]
-        //        if (curEdge.Edge_Type == Edge_Type.NONE)
-        //        {
-        //            curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
-        //            curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
-        //        }
-        //        #endregion
+                //*! Check if [Block] [U-Edge] is [None]
+                #region Check if [U-Edge] is [None]
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
+                    curEdge.UP_Node.DN_NODE = curEdge.DN_Node;
+                    curEdge.DN_Node.UP_NODE = curEdge.UP_Node;
+                }
+                #endregion
 
-        //        //*! Check if [Block] [U-Edge] is [HighLighter_Red]
-        //        #region Check if [Block] [U-Edge] is [HighLighter_Red]
-        //        if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
-        //        {
-        //            curEdge.UP_Node.DN_NODE = null;
-        //            curEdge.DN_Node.UP_NODE = null;
-        //        }
-        //        #endregion
-        //    }
-        //}
-        //#endregion
+                //*! Check if [Block] [U-Edge] is [HighLighter_Red]
+                #region Check if [Block] [U-Edge] is [HighLighter_Red]
+                if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
+                {
+                    curEdge.UP_Node.DN_NODE = null;
+                    curEdge.DN_Node.UP_NODE = null;
+                }
+                #endregion
+            }
+        }
+        #endregion
 
-        //#region Check [Block] - [V-Edge] and set [Line] - [Node] Traversability
-        //for (int i = 0; i < bl_V_edge_row; ++i)
-        //{
-        //    for (int j = 0; j < bl_V_edge_col; ++j)
-        //    {
-        //        Edge curEdge = BL_V_Edges[i, j];
+        #region Check [Block] - [V-Edge] and set [Line] - [Node] Traversability
+        for (int i = 0; i < bl_V_edge_row; ++i)
+        {
+            for (int j = 0; j < bl_V_edge_col; ++j)
+            {
+                Edge curEdge = BL_V_Edges[i, j];
 
-        //        //*! Check if [Block] [V-Edge] is [None]
-        //        #region Check if [V-Edge] is [None]
-        //        if (curEdge.Edge_Type == Edge_Type.NONE)
-        //        {
+                //*! Check if [Block] [V-Edge] is [None]
+                #region Check if [V-Edge] is [None]
+                if (curEdge.Edge_Type == Edge_Type.NONE)
+                {
 
-        //            curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
-        //            curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
+                    curEdge.LFT_Node.RGT_NODE = curEdge.RGT_Node;
+                    curEdge.RGT_Node.LFT_NODE = curEdge.LFT_Node;
 
-        //        }
-        //        #endregion
+                }
+                #endregion
 
-        //        //*! Check if [Block] [V-Edge] is [HighLighter_Red]
-        //        #region Check if [Block] [V-Edge] is [HighLighter_Red]
-        //        if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
-        //        {
+                //*! Check if [Block] [V-Edge] is [HighLighter_Red]
+                #region Check if [Block] [V-Edge] is [HighLighter_Red]
+                if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
+                {
 
-        //            curEdge.LFT_Node.RGT_NODE = null;
-        //            curEdge.RGT_Node.LFT_NODE = null;
+                    curEdge.LFT_Node.RGT_NODE = null;
+                    curEdge.RGT_Node.LFT_NODE = null;
 
-        //        }
-        //        #endregion
-        //    }
-        //}
+                }
+                #endregion
+            }
+        }
         #endregion
     }
 
