@@ -3,12 +3,10 @@
 //*!----------------------------!*//
 
 //*! Using namespaces
-using UnityEngine;
 using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
-using System;
+using System.Xml.Serialization;
+using UnityEngine;
 
 
 //*!----------------------------!*//
@@ -78,6 +76,8 @@ public class XML_SaveLoad : MonoBehaviour
         //*! Load Player One
         ///player_saves[0] = Player_Save.Load("./Player Save Files/player_" + (index + 1) + ".xml");
 
+
+
         Load_All_Players();
     }
 
@@ -132,7 +132,15 @@ public class XML_SaveLoad : MonoBehaviour
             //*! Blank Player Name
             if (Player_Saves[index].Name == "")
             {
-                Player_Saves[index].Name = "Player_" + (index + 1);
+
+                if (index + 1 <= 9)
+                {
+                    Player_Saves[index].Name = "Player_0" + (index + 1);
+                }
+                else
+                {
+                    Player_Saves[index].Name = "Player_" + (index + 1);
+                }
 
                 for (int inner_index = 0; inner_index < 15; inner_index++)
                 {
@@ -142,7 +150,15 @@ public class XML_SaveLoad : MonoBehaviour
 
 
             //*! Save each player
-            Player_Saves[index].Save("./Player Save Files/player_" + (index + 1) + ".xml");
+            if (index + 1 <= 9)
+            {
+                Player_Saves[index].Save("./Player Save Files/Player_0" + (index + 1) + ".xml");
+            }
+            else
+            {
+                Player_Saves[index].Save("./Player Save Files/Player_" + (index + 1) + ".xml");
+            }
+
         }
     }
 
@@ -163,7 +179,7 @@ public class XML_SaveLoad : MonoBehaviour
         //*! No Save File Count
         if (save_files.Count == 0)
         {
-            Debug.LogError("NO SAVE FILES IN THE DIRECTORY");
+            Debug.LogWarning("NO SAVE FILES IN THE DIRECTORY");
             //*! Don't load the save files.
             return;
         }
@@ -213,7 +229,7 @@ public class XML_SaveLoad : MonoBehaviour
         if (Player_Saves[player_id].Name == "")
         {
 
-            if (player_id +1 <= 9)
+            if (player_id + 1 <= 9)
             {
                 Player_Saves[player_id].Name = "Player_0" + (player_id + 1);
             }
@@ -229,7 +245,7 @@ public class XML_SaveLoad : MonoBehaviour
             }
         }
 
-        if (player_id +1 <= 9)
+        if (player_id + 1 <= 9)
         {
             //*! Save each player
             Player_Saves[player_id].Save("./Player Save Files/Player_0" + (player_id + 1) + ".xml");
@@ -290,6 +306,9 @@ public class Player_Save
     //*! Count of levels the game has.
     [XmlArray("Level_Count"), XmlArrayItem("Level_Data")]
     public List<Level_Data> Level_Count = new List<Level_Data>();
+
+
+
 
     /// <summary>
     /// Check Against the level Defaults - making sure the values are not blank

@@ -549,7 +549,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Check_Input()
     {
-        Debug.Log("Controller Input");
+        //Debug.Log("Controller Input");
         //*! Only when the player is not moving
         if (is_moving == false)
         {
