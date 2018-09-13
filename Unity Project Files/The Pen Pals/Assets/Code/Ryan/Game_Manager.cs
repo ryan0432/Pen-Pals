@@ -48,12 +48,7 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(BL_Nodes[0, 1].Position);
-        Debug.Log(LI_U_Edges[0, 1].UP_Node.Position);
-        Debug.Log(BL_Nodes[0, 0].Position);
-        Debug.Log(LI_U_Edges[0, 1].DN_Node.Position);
-        Debug.Log(LI_Nodes[1, 1].Position);
-        Debug.Log(LI_U_Edges[0, 1].RGT_Node.Position);
+
     }
 
     //*!----------------------------!*//
