@@ -188,7 +188,7 @@ public class Pencil_Case : MonoBehaviour
             //*! Layout Graph by row col number
             //if (graph_size_changed)
             //{
-
+            
             Layout_Graph_Edit_Mode();
             //}
 
@@ -215,6 +215,8 @@ public class Pencil_Case : MonoBehaviour
 
             //*! Render all [Node] [Edge] handles' icon base on their [Type]
             Render_All_Handles_By_Type_Edit_Mode();
+
+            
         }
 
     }
