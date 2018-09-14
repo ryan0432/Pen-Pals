@@ -1755,6 +1755,15 @@ public class Pencil_Case : MonoBehaviour
             }
             #endregion
 
+            //*! UnityEditor - Refresh, SetDirty, SaveAssets
+            #region Call UnityEditor - Refresh, SetDirty, SaveAssets
+            UnityEditor.AssetDatabase.Refresh();
+
+            UnityEditor.EditorUtility.SetDirty(lv_Data);
+
+            UnityEditor.AssetDatabase.SaveAssets();
+            #endregion
+
             Debug.Log("Level Data Saved!!");
 
             isSaved = false;

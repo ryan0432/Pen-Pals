@@ -23,9 +23,6 @@ public class Pencil_CaseEditor : Editor
     SerializedProperty isSaved;
     SerializedProperty isLoaded;
 
-    Lv_Data lv_Data;
-
-
     private void OnEnable()
     {
         initialRow = serializedObject.FindProperty("initialRow");
@@ -37,7 +34,6 @@ public class Pencil_CaseEditor : Editor
 
         isSaved = serializedObject.FindProperty("isSaved");
         isLoaded = serializedObject.FindProperty("isLoaded");
-        lv_Data = FindObjectOfType<Pencil_Case>().lv_Data;
 
     }
 
@@ -97,11 +93,7 @@ public class Pencil_CaseEditor : Editor
             {
                 if (GUILayout.Button("Save Level Data", GUILayout.MaxHeight(64), GUILayout.MaxHeight(32)))
                 {
-
                     isSaved.boolValue = true;
-                    AssetDatabase.Refresh();
-                    EditorUtility.SetDirty(lv_Data);
-                    AssetDatabase.SaveAssets();
                 }
 
                 if (GUILayout.Button("Load Level Data", GUILayout.MaxHeight(64), GUILayout.MaxHeight(32)))
