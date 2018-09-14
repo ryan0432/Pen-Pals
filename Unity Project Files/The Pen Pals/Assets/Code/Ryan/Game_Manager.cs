@@ -32,16 +32,27 @@ public class Game_Manager : MonoBehaviour
     public Edge[,] LI_U_Edges;
     public Edge[,] LI_V_Edges;
 
-    public int row;
-    public int col;
-
     public GameObject Black_Pen;
     public GameObject HighLighter_Red;
     public GameObject Block_Blue_Goal;
     public GameObject Line_Red_Goal;
 
+    //*!----------------------------!*//
+    //*!    Private Variables
+    //*!----------------------------!*//
+
+    [HideInInspector]
+    private int row;
+    [HideInInspector]
+    private int col;
+
+    [HideInInspector]
+    private Pencil_Case pc;
+
     void Awake()
     {
+        pc = FindObjectOfType<Pencil_Case>();
+        pc.Clear_Graph_Init_Mode();
         Clean_Up_Symbols();
         Initializa_Level_Data();
     }
@@ -590,8 +601,6 @@ public class Game_Manager : MonoBehaviour
         }
         #endregion
     }
-
-
 
     [ContextMenu("Clean_Up_Symbols")]
     private void Clean_Up_Symbols()

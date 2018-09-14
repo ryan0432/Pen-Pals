@@ -147,9 +147,24 @@ public class Pencil_Case : MonoBehaviour
 
 
 #if UNITY_EDITOR
+    [ContextMenu("Editor_Awake")]
+    public void Awake()
+    {
+        if (startEditing)
+        {
+            Clear_Graph_Init_Mode();
+            Layout_Graph_Init_Mode();
+            Render_Node_Gizmos_Init_Mode();
+            Render_Edges_Handles_Init_Mode();
+            isLoaded = true;
+            Load_Level_Data();
+            Assign_All_Data_Type_To_Handle_Edit_Mode();
+        }
+    }
+
     //*! This [Update] only runs in edit mode
     [ContextMenu("Editor_Update")]
-    private void Update()
+    public void Update()
     {
         #region Check if current state is in [Playing Mode] or [Edit Mode]
         //*! Call [Runtime Update] if editor is in test [Playing Mode]
@@ -164,7 +179,7 @@ public class Pencil_Case : MonoBehaviour
         if (!startEditing)
         {
             //*! Update with [DestroyImmidiate()] method
-            Update_Graph_Init_Mode();
+            Clear_Graph_Init_Mode();
 
             //*! Initialize Graph here
             Layout_Graph_Init_Mode();
@@ -215,15 +230,13 @@ public class Pencil_Case : MonoBehaviour
 
             //*! Render all [Node] [Edge] handles' icon base on their [Type]
             Render_All_Handles_By_Type_Edit_Mode();
-
-            
         }
 
     }
 
     //*! [OnValidate] only works in [Editor Mode] changing related varibles in realtime
     [ContextMenu("OnValidate")]
-    private void OnValidate()
+    public void OnValidate()
     {
         //*! Limit the max number of [Row] and [Col] bound to [initialRow] and [initialCol]
         if (!startEditing)
@@ -261,12 +274,12 @@ public class Pencil_Case : MonoBehaviour
 
 
     //*!----------------------------!*//
-    //*!    Private Functions
+    //*!    Custom Functions
     //*!----------------------------!*//
 
     //*! Setup [Block] and [Line] nodes [Data] by the number of row and col
     [ContextMenu("Layout_Graph_Init_Mode")]
-    private void Layout_Graph_Init_Mode()
+    public void Layout_Graph_Init_Mode()
     {
         //*! Setup instances and references for the graph data with [Node] & [Edge] default construction
         #region Setup instances for [Block] and [Line] Nodes and Edges
@@ -519,7 +532,7 @@ public class Pencil_Case : MonoBehaviour
 
     //*! Render [Node] by instantiating [GameObjects]
     [ContextMenu("Render_Node_Gizmos_Init_Mode")]
-    private void Render_Node_Gizmos_Init_Mode()
+    public void Render_Node_Gizmos_Init_Mode()
     {
         #region Setup gizmos' spacing based on handle size
         //!* Gizmos Spacing for [Instantiate] method
@@ -643,7 +656,7 @@ public class Pencil_Case : MonoBehaviour
     }
 
     [ContextMenu("Render_Edges_Handles_Init_Mode")]
-    private void Render_Edges_Handles_Init_Mode()
+    public void Render_Edges_Handles_Init_Mode()
     {
         //*! Render [Line] [Edge] handles for [Block]
         #region Instantiate [Line] - [U_Edge] handles for [Block]
@@ -737,8 +750,8 @@ public class Pencil_Case : MonoBehaviour
     }
 
     //*! Destroys instantiated node prefabs in [Initialization Mode]
-    [ContextMenu("Update_Graph_Init_Mode")]
-    private void Update_Graph_Init_Mode()
+    [ContextMenu("Clear_Graph_Init_Mode")]
+    public void Clear_Graph_Init_Mode()
     {
         bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
         bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
@@ -784,7 +797,7 @@ public class Pencil_Case : MonoBehaviour
 
     //*! Update the Graph size in Edit Mode with [SetActive Method]
     [ContextMenu("Layout_Graph_Edit_Mode")]
-    private void Layout_Graph_Edit_Mode()
+    public void Layout_Graph_Edit_Mode()
     {
         //*! Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
         #region Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
@@ -871,7 +884,6 @@ public class Pencil_Case : MonoBehaviour
         }
         #endregion
 
-
         //*! Switch ON [Block] [Edge] according to row & col number
         #region Switch ON [Edge] of [Block] base on row & col number
         for (int i = 0; i < row; ++i)
@@ -908,7 +920,7 @@ public class Pencil_Case : MonoBehaviour
 
     //* Assign All [Handle]'s [Edge] [Node] [Type] to [Data]
     [ContextMenu("Assign_All_Handle_Type_To_Data_Edit_Mode")]
-    private void Assign_All_Handle_Type_To_Data_Edit_Mode()
+    public void Assign_All_Handle_Type_To_Data_Edit_Mode()
     {
         //*! Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type]
         #region Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type]
@@ -987,7 +999,7 @@ public class Pencil_Case : MonoBehaviour
 
     //* Assign All [Handle]'s [Edge] [Node] [Type] to [Data]
     [ContextMenu("Assign_All_Data_Type_To_Handle_Edit_Mode")]
-    private void Assign_All_Data_Type_To_Handle_Edit_Mode()
+    public void Assign_All_Data_Type_To_Handle_Edit_Mode()
     {
         //*! Assign [Block] [Node] [Data] [Type] to [Block] [Node] [Handle] [Type]
         #region Assign [Block] [Node] [Data] [Type] to [Block] [Node] [Handle] [Type]
@@ -1066,7 +1078,7 @@ public class Pencil_Case : MonoBehaviour
 
     //*! Check [Edge] Enums flags to decide every [Node] tracersability to neighbor
     [ContextMenu("Update_Graph_Traversability_Edited_Mode")]
-    private void Update_Graph_Traversability_Edited_Mode()
+    public void Update_Graph_Traversability_Edited_Mode()
     {
         #region Check [Line] - [U-Edge] and set [Block] - [Node] Traversability
         for (int i = 0; i < row - 1; ++i)
@@ -1290,7 +1302,7 @@ public class Pencil_Case : MonoBehaviour
     }
 
     [ContextMenu("Render_Node_Gizmos_Edit_Mode")]
-    private void Render_Node_Gizmos_Edit_Mode()
+    public void Render_Node_Gizmos_Edit_Mode()
     {
         #region Setup gizmos' spacing based on handle size
         //!* Gizmos Spacing for [Instantiate] method
@@ -1445,7 +1457,7 @@ public class Pencil_Case : MonoBehaviour
     }
 
     [ContextMenu("Render_All_Handles_By_Type_Edit_Mode")]
-    private void Render_All_Handles_By_Type_Edit_Mode()
+    public void Render_All_Handles_By_Type_Edit_Mode()
     {
         //*! Replace [Block] [Node] mesh base on it's [Node Type]
         //*! Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type] first
