@@ -11,8 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ad3183da788134bad07f9beac0997d, type: 3}
   m_Name: Ryan_Test_Level
   m_EditorClassIdentifier: 
-  row: 4
-  col: 4
+  row: 5
+  col: 5
   BL_Nodes:
   - Position: {x: 0.5, y: 0.5, z: 0}
     Node_Type: 0
@@ -20,17 +20,31 @@ MonoBehaviour:
     Node_Type: 0
   - Position: {x: 0.5, y: 2.5, z: 0}
     Node_Type: 0
+  - Position: {x: 0.5, y: 3.5, z: 0}
+    Node_Type: 0
   - Position: {x: 1.5, y: 0.5, z: 0}
     Node_Type: 0
   - Position: {x: 1.5, y: 1.5, z: 0}
     Node_Type: 0
   - Position: {x: 1.5, y: 2.5, z: 0}
     Node_Type: 0
+  - Position: {x: 1.5, y: 3.5, z: 0}
+    Node_Type: 0
   - Position: {x: 2.5, y: 0.5, z: 0}
     Node_Type: 0
   - Position: {x: 2.5, y: 1.5, z: 0}
     Node_Type: 0
   - Position: {x: 2.5, y: 2.5, z: 0}
+    Node_Type: 0
+  - Position: {x: 2.5, y: 3.5, z: 0}
+    Node_Type: 0
+  - Position: {x: 3.5, y: 0.5, z: 0}
+    Node_Type: 0
+  - Position: {x: 3.5, y: 1.5, z: 0}
+    Node_Type: 0
+  - Position: {x: 3.5, y: 2.5, z: 0}
+    Node_Type: 0
+  - Position: {x: 3.5, y: 3.5, z: 0}
     Node_Type: 0
   LI_Nodes:
   - Position: {x: 0, y: 0, z: 0}
@@ -41,6 +55,8 @@ MonoBehaviour:
     Node_Type: 0
   - Position: {x: 0, y: 3, z: 0}
     Node_Type: 0
+  - Position: {x: 0, y: 4, z: 0}
+    Node_Type: 0
   - Position: {x: 1, y: 0, z: 0}
     Node_Type: 0
   - Position: {x: 1, y: 1, z: 0}
@@ -48,6 +64,8 @@ MonoBehaviour:
   - Position: {x: 1, y: 2, z: 0}
     Node_Type: 0
   - Position: {x: 1, y: 3, z: 0}
+    Node_Type: 0
+  - Position: {x: 1, y: 4, z: 0}
     Node_Type: 0
   - Position: {x: 2, y: 0, z: 0}
     Node_Type: 0
@@ -57,6 +75,8 @@ MonoBehaviour:
     Node_Type: 0
   - Position: {x: 2, y: 3, z: 0}
     Node_Type: 0
+  - Position: {x: 2, y: 4, z: 0}
+    Node_Type: 0
   - Position: {x: 3, y: 0, z: 0}
     Node_Type: 0
   - Position: {x: 3, y: 1, z: 0}
@@ -64,6 +84,18 @@ MonoBehaviour:
   - Position: {x: 3, y: 2, z: 0}
     Node_Type: 0
   - Position: {x: 3, y: 3, z: 0}
+    Node_Type: 0
+  - Position: {x: 3, y: 4, z: 0}
+    Node_Type: 0
+  - Position: {x: 4, y: 0, z: 0}
+    Node_Type: 0
+  - Position: {x: 4, y: 1, z: 0}
+    Node_Type: 0
+  - Position: {x: 4, y: 2, z: 0}
+    Node_Type: 0
+  - Position: {x: 4, y: 3, z: 0}
+    Node_Type: 0
+  - Position: {x: 4, y: 4, z: 0}
     Node_Type: 0
   BL_U_Edges:
   - Position: {x: 0, y: 0.5, z: 0}
@@ -75,6 +107,9 @@ MonoBehaviour:
   - Position: {x: 0, y: 2.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
+  - Position: {x: 0, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
   - Position: {x: 1, y: 0.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
@@ -84,6 +119,9 @@ MonoBehaviour:
   - Position: {x: 1, y: 2.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
+  - Position: {x: 1, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
   - Position: {x: 2, y: 0.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
@@ -93,6 +131,9 @@ MonoBehaviour:
   - Position: {x: 2, y: 2.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
+  - Position: {x: 2, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
   - Position: {x: 3, y: 0.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
@@ -102,6 +143,21 @@ MonoBehaviour:
   - Position: {x: 3, y: 2.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 2
+  - Position: {x: 3, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 4, y: 0.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 2
+  - Position: {x: 4, y: 1.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 4, y: 2.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 2
+  - Position: {x: 4, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
   BL_V_Edges:
   - Position: {x: 0.5, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -113,6 +169,9 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
   - Position: {x: 0.5, y: 3, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 0.5, y: 4, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
   - Position: {x: 1.5, y: 0, z: 0}
@@ -127,6 +186,9 @@ MonoBehaviour:
   - Position: {x: 1.5, y: 3, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+  - Position: {x: 1.5, y: 4, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
   - Position: {x: 2.5, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
@@ -137,6 +199,24 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
   - Position: {x: 2.5, y: 3, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 2.5, y: 4, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 1, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 2, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 3, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 4, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
   LI_U_Edges:
@@ -151,6 +231,9 @@ MonoBehaviour:
     Edge_Type: 0
   - Position: {x: 0.5, y: 3, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 0.5, y: 4, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
   - Position: {x: 1.5, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
@@ -162,6 +245,9 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
   - Position: {x: 1.5, y: 3, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 1.5, y: 4, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
   - Position: {x: 2.5, y: 0, z: 0}
@@ -175,6 +261,24 @@ MonoBehaviour:
     Edge_Type: 0
   - Position: {x: 2.5, y: 3, z: 0}
     Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 2.5, y: 4, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 6
+  - Position: {x: 3.5, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 6
+  - Position: {x: 3.5, y: 1, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 2, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 3, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+    Edge_Type: 0
+  - Position: {x: 3.5, y: 4, z: 0}
+    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
   LI_V_Edges:
   - Position: {x: 0, y: 0.5, z: 0}
@@ -186,6 +290,9 @@ MonoBehaviour:
   - Position: {x: 0, y: 2.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+  - Position: {x: 0, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 6
   - Position: {x: 1, y: 0.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
@@ -193,6 +300,9 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
   - Position: {x: 1, y: 2.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 1, y: 3.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
   - Position: {x: 2, y: 0.5, z: 0}
@@ -204,12 +314,30 @@ MonoBehaviour:
   - Position: {x: 2, y: 2.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+  - Position: {x: 2, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
   - Position: {x: 3, y: 0.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 6
+    Edge_Type: 0
   - Position: {x: 3, y: 1.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 6
+    Edge_Type: 0
   - Position: {x: 3, y: 2.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 3, y: 3.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 0
+  - Position: {x: 4, y: 0.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 6
+  - Position: {x: 4, y: 1.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 6
+  - Position: {x: 4, y: 2.5, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Edge_Type: 6
+  - Position: {x: 4, y: 3.5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6

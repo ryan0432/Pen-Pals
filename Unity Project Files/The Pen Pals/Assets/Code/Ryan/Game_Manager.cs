@@ -47,19 +47,18 @@ public class Game_Manager : MonoBehaviour
     private int col;
 
     [HideInInspector]
-    private Pencil_Case pc;
+    private bool is_Pencil_Case;
 
     void Awake()
     {
-        pc = FindObjectOfType<Pencil_Case>();
-        pc.Clear_Graph_Init_Mode();
+        if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
         Clean_Up_Symbols();
         Initializa_Level_Data();
     }
 
     void Update()
     {
-
+        Clear_Gizmos();
     }
 
     //*!----------------------------!*//
@@ -69,6 +68,8 @@ public class Game_Manager : MonoBehaviour
     [ContextMenu("Initializa_Level_Data")]
     private void Initializa_Level_Data()
     {
+        //*! Setup row/col for each [Node] & [Edge] array
+        #region Setup row/col for each [Node] & [Edge] array
         row = lvData.row;
         col = lvData.col;
 
@@ -89,13 +90,17 @@ public class Game_Manager : MonoBehaviour
 
         int li_V_edge_row = row;
         int li_V_edge_col = col - 1;
+        #endregion
 
+        //*! Setup new instances for each [Node] & [Edge] array
+        #region Setup new instances for each [Node] & [Edge] array
         BL_Nodes = new Node[bl_node_row, bl_node_col];
         LI_Nodes = new Node[li_node_row, li_node_col];
         BL_U_Edges = new Edge[bl_U_edge_row, bl_U_edge_col];
         BL_V_Edges = new Edge[bl_V_edge_row, bl_V_edge_col];
         LI_U_Edges = new Edge[li_U_edge_row, li_U_edge_col];
         LI_V_Edges = new Edge[li_V_edge_row, li_V_edge_col];
+        #endregion
 
         //*! Setup [Block] - [Node] data
         #region Setup [Block] Nodes and Preset Neighbor Nodes to Null
@@ -606,6 +611,7 @@ public class Game_Manager : MonoBehaviour
     private void Clean_Up_Symbols()
     {
         bool is_Symbol_List_Empty = (transform.Find("Symbols").childCount < 1);
+
         if (!is_Symbol_List_Empty)
         {
             for (int i = transform.Find("Symbols").childCount; i > 0; --i)
@@ -613,6 +619,56 @@ public class Game_Manager : MonoBehaviour
                 Destroy(transform.Find("Symbols").GetChild(0).gameObject);
             }
             Debug.Log("Clean Up Symbols");
+        }
+    }
+
+    [ContextMenu("Clear_Gizmos")]
+    private void Clear_Gizmos()
+    {
+        //*! If there is a [Pencil_Case_Handle] in the scene,
+        //*! clean up gizmos by setting the mesh renderer to enable = false
+        if (is_Pencil_Case)
+        {
+            bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
+            bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
+            bool is_BL_Edges_List_Empty = (transform.Find("BL_Edges_Handles").childCount < 1);
+            bool is_LI_Edges_List_Empty = (transform.Find("LI_Edges_Handles").childCount < 1);
+
+            if (!is_BL_Node_Gizmos_List_Empty)
+            {
+                for (int i  = 0; i < transform.Find("BL_Node_Gizmos").childCount; ++i)
+                {
+                    transform.Find("BL_Node_Gizmos").GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            if (!is_LI_Node_Gizmos_List_Empty)
+            {
+                for (int i = 0; i < transform.Find("LI_Node_Gizmos").childCount; ++i)
+                {
+                    transform.Find("LI_Node_Gizmos").GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            if (!is_BL_Edges_List_Empty)
+            {
+                for (int i = 0; i < transform.Find("BL_Edges_Handles").childCount; ++i)
+                {
+                    transform.Find("BL_Edges_Handles").GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            if (!is_LI_Edges_List_Empty)
+            {
+                for (int i = 0; i < transform.Find("LI_Edges_Handles").childCount; ++i)
+                {
+                    transform.Find("LI_Edges_Handles").GetChild(i).gameObject.SetActive(false);
+                }
+            }
+
+            is_Pencil_Case = false;
+
+            Debug.Log("Clear Pencil Case Gizmos in Play Mode!");
         }
     }
 }
