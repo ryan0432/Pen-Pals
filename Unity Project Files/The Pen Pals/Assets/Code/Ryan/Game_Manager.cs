@@ -32,6 +32,8 @@ public class Game_Manager : MonoBehaviour
     public Edge[,] LI_U_Edges;
     public Edge[,] LI_V_Edges;
 
+    public bool Show_Gizmos;
+
     public GameObject Black_Pen;
     public GameObject HighLighter_Red;
     public GameObject Block_Blue_Goal;
@@ -49,6 +51,16 @@ public class Game_Manager : MonoBehaviour
     [HideInInspector]
     private bool is_Pencil_Case;
 
+    [SerializeField]
+    [HideInInspector]
+    private Mesh arrw_giz_mesh;
+    [SerializeField]
+    [HideInInspector]
+    private Material bl_giz_mat;
+    [SerializeField]
+    [HideInInspector]
+    private Material li_giz_mat;
+
     void Awake()
     {
         if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
@@ -58,7 +70,8 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
-        Clear_Gizmos();
+        Clear_Pencil_Case_Gizmos();
+        Render_Node_Traversability_Gizmos();
     }
 
     //*!----------------------------!*//
@@ -175,7 +188,7 @@ public class Game_Manager : MonoBehaviour
         {
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
-                int colSize = BL_Nodes.GetLength(1);
+                int colSize = LI_Nodes.GetLength(1);
                 Node new_node = new Node();
                 LI_Nodes[i, j] = new_node;
                 LI_Nodes[i, j].Position = lvData.LI_Nodes[colSize * i + j].Position;
@@ -622,8 +635,8 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
-    [ContextMenu("Clear_Gizmos")]
-    private void Clear_Gizmos()
+    [ContextMenu("Clear_Pencil_Case_Gizmos")]
+    private void Clear_Pencil_Case_Gizmos()
     {
         //*! If there is a [Pencil_Case_Handle] in the scene,
         //*! clean up gizmos by setting the mesh renderer to enable = false
@@ -670,5 +683,102 @@ public class Game_Manager : MonoBehaviour
 
             Debug.Log("Clear Pencil Case Gizmos in Play Mode!");
         }
+    }
+
+    [ContextMenu("Render_Node_Traversability_Gizmos")]
+    private void Render_Node_Traversability_Gizmos()
+    {
+        if (!Show_Gizmos) return;
+
+        #region Setup gizmos' spacing based on handle size
+        float handle_size = 0.15f;
+        float gizmos_spacing = handle_size * 0.8f;
+        #endregion
+
+        #region Setup Gizmos for [Block] Nodes and indication arrows
+        for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+            {
+                if (BL_Nodes[i, j].Can_UP)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
+                }
+
+                if (BL_Nodes[i, j].Can_DN)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
+                }
+
+                if (BL_Nodes[i, j].Can_LFT)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
+                }
+
+                if (BL_Nodes[i, j].Can_RGT)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
+                                           Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                           Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
+                }
+            }
+        }
+        #endregion
+
+        #region Setup Gizmos for [Line] Nodes and indication arrows
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+            {
+                if (LI_Nodes[i, j].Can_UP)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
+                }
+
+                if (LI_Nodes[i, j].Can_DN)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
+                }
+
+                if (LI_Nodes[i, j].Can_LFT)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
+                }
+
+                if (LI_Nodes[i, j].Can_RGT)
+                {
+                    Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
+                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
+
+                    Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
+                }
+            }
+        }
+        #endregion
     }
 }

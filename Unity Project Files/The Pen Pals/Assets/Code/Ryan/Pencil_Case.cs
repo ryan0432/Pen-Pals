@@ -1337,13 +1337,6 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < bl_col; ++j)
             {
-                //GameObject newNodeGiz = Instantiate(bl_node_giz, BL_Nodes[i, j].Position, Quaternion.identity, transform.GetChild(0));
-                //newNodeGiz.transform.localScale *= handle_size;
-
-                //Matrix4x4 handleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position) *
-                //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz_mesh, handleMatx, bl_giz_mat, 0);
-
                 if (showBlockNode)
                 {
                     BL_Nodes[i, j].Gizmos_GO.transform.GetComponentInChildren<MeshRenderer>().enabled = true;
@@ -1396,12 +1389,6 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 0; j < li_col; ++j)
             {
-                //GameObject newNodeGiz = Instantiate(li_node_giz, LI_Nodes[i, j].Position, Quaternion.identity, transform.GetChild(1));
-                //newNodeGiz.transform.localScale *= handle_size;
-
-                //Matrix4x4 handleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position) *
-                //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz_mesh, handleMatx, li_giz_mat, 0);
                 if (showLineNode)
                 {
                     LI_Nodes[i, j].Gizmos_GO.transform.GetComponentInChildren<MeshRenderer>().enabled = true;
