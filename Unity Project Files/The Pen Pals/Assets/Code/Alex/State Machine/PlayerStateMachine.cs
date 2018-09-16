@@ -4,7 +4,6 @@
 
 //*! Using namespaces
 using UnityEngine;
-using System.Collections;
 
 
 public class PlayerStateMachine : MonoBehaviour
@@ -47,7 +46,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 
     private Vector2 grid_position;
-    
+
     #endregion
 
 
@@ -55,20 +54,20 @@ public class PlayerStateMachine : MonoBehaviour
     //*!    Public Variables
     //*!----------------------------!*//
     #region Public Variables
- 
+
 
     //*! Previous Input
-    public Temp_Node_Map.Node Previous_Node = null;
+    public Node Previous_Node = null;
     //*! Current Input
-    public Temp_Node_Map.Node Current_Node = null;
+    public Node Current_Node = null;
     //*! Next Input
-    public Temp_Node_Map.Node Next_Node = null;
+    public Node Next_Node = null;
     //*! Queued Input
-    public Temp_Node_Map.Node Queued_Node = null;
+    public Node Queued_Node = null;
 
 
     //*! Graph Container
-    public Temp_Node_Map Node_Graph;
+    public Game_Manager Node_Graph;
 
     //*! Property Accessor(s)
     public KeyCode Up_Key
@@ -96,7 +95,6 @@ public class PlayerStateMachine : MonoBehaviour
     /// </summary>
     private void Start()
     {
-
         //*! Assign the current grid position of the current world coodinates.
         grid_position.x = transform.position.x;
         grid_position.y = transform.position.y;
@@ -108,7 +106,7 @@ public class PlayerStateMachine : MonoBehaviour
         //StartCoroutine(Ground_Check());
 
     }
-        
+
 
     /// <summary>
     ///  Main Update loop for the state machine
@@ -181,19 +179,19 @@ public class PlayerStateMachine : MonoBehaviour
                 Queued_Node = null;
             }
         }
- 
+
 
 
         //*! Move player next node is not null
         if (Next_Node != null)
         {
             //*! Move towards with precision to have the player exactly reach the next node
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0), 4 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0), 4 * Time.deltaTime);
 
 
             //*! Get the distance from the player to the next node
-            float mag_distance = (new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0) - transform.position).magnitude;
-           
+            float mag_distance = (new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0) - transform.position).magnitude;
+
             //*! If distance is less then the threshhold - allow player to override the Queued node
             if (mag_distance < 0.5f)
             {
@@ -202,7 +200,7 @@ public class PlayerStateMachine : MonoBehaviour
 
 
             //*! Reached the next node
-            if (transform.position == new Vector3(Next_Node.Position.x - 0.5f, Next_Node.Position.y - 0.5f, 0))
+            if (transform.position == new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0))
             {
                 //*! Finished moving, unless the below checks override that
                 is_moving = false;
@@ -215,7 +213,7 @@ public class PlayerStateMachine : MonoBehaviour
 
                 //*! Clear the next node
                 Next_Node = null;
-               
+
                 //*! Update the grid position
                 grid_position.x = Current_Node.Position.x;
                 grid_position.y = Current_Node.Position.y;
@@ -372,10 +370,10 @@ public class PlayerStateMachine : MonoBehaviour
     /// Checks the current key pressed and sets the appropirate flag
     /// </summary>
     /// <returns>-The node to be assigned to the queue-</returns>
-    private Temp_Node_Map.Node Controller_Input()
+    private Node Controller_Input()
     {
         //*! Up key was pressed
-        if (Input.GetKeyDown(Up_Key) == true && up_key_pressed == false)
+        if (Input.GetKeyDown(Up_Key) == true && up_key_pressed == false && Current_Node.Can_UP == true)
         {
             //*! Set the flag for later use
             up_key_pressed = true;
@@ -444,9 +442,9 @@ public class PlayerStateMachine : MonoBehaviour
         }
         else
         {
-            return Queued_Node;   
+            return Queued_Node;
         }
-        
+
     }
 
     #endregion //*! End of Private functions
@@ -456,6 +454,5 @@ public class PlayerStateMachine : MonoBehaviour
     #region Protected Functions
 
     #endregion
-    
+
 }
- 
