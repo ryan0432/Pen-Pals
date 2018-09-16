@@ -29,5 +29,6 @@ public enum BL_Node_Handle_Type
 {
     NONE = 0,
     Block_Blue_Goal = 1,
+    Block_Red_Goal = 2
 }
 #endregion
