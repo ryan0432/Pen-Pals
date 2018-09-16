@@ -4142,6 +4142,8 @@ MonoBehaviour:
   boarder_giz_mat: {fileID: 2100000, guid: 1007f43e2792009459c8b3058e47da1c, type: 2}
   block_blue_sticker_giz_mat: {fileID: 2100000, guid: 9ce3d25f6324dd44589c1fed9dfee9d3,
     type: 2}
+  block_red_sticker_giz_mat: {fileID: 2100000, guid: 289594ef9ac49b04993db134ff733862,
+    type: 2}
   line_red_sticker_giz_mat: {fileID: 2100000, guid: 289594ef9ac49b04993db134ff733862,
     type: 2}
   black_pen_giz_mat: {fileID: 2100000, guid: 0bf6327c596b1b8458264b19259618bb, type: 2}

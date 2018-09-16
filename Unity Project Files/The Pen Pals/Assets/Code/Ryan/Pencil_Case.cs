@@ -122,6 +122,9 @@ public class Pencil_Case : MonoBehaviour
     private Material block_blue_sticker_giz_mat;
     [SerializeField]
     [HideInInspector]
+    private Material block_red_sticker_giz_mat;
+    [SerializeField]
+    [HideInInspector]
     private Material line_red_sticker_giz_mat;
     [SerializeField]
     [HideInInspector]
@@ -1441,6 +1444,14 @@ public class Pencil_Case : MonoBehaviour
                 {
                     currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
                     currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = block_blue_sticker_giz_mat;
+                }
+                #endregion
+
+                #region Check [Block] [Node] is [Block Red Goal]
+                if (currNode.Node_Type == Node_Type.Block_Red_Goal)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = block_red_sticker_giz_mat;
                 }
                 #endregion
             }
