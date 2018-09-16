@@ -37,6 +37,7 @@ public class Game_Manager : MonoBehaviour
     public GameObject Black_Pen;
     public GameObject HighLighter_Red;
     public GameObject Block_Blue_Goal;
+    public GameObject Block_Red_Goal;
     public GameObject Line_Red_Goal;
 
     //*!----------------------------!*//
@@ -131,10 +132,16 @@ public class Game_Manager : MonoBehaviour
                 BL_Nodes[i, j].LFT_NODE = null;
                 BL_Nodes[i, j].RGT_NODE = null;
 
-                //* Check [Node] [Type] = [Block_Blue_Goal]
+                //*! Check [Node] [Type] = [Block_Blue_Goal]
                 if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Blue_Goal)
                 {
                     Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                }
+
+                //* Check [Node] [Type] = [Block_Red_Goal]
+                if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Red_Goal)
+                {
+                    Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                 }
             }
         }

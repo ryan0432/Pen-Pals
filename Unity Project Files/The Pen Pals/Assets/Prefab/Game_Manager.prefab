@@ -87,6 +87,8 @@ MonoBehaviour:
     type: 2}
   Block_Blue_Goal: {fileID: 1196781030308194, guid: 86c90e700398be74191212c6a58d5aeb,
     type: 2}
+  Block_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
+    type: 2}
   Line_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
     type: 2}
   arrw_giz_mesh: {fileID: 4300000, guid: 153535d1ad483ca4d98cf5629cea88ce, type: 3}
