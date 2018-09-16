@@ -260,6 +260,7 @@ public class Game_Manager : MonoBehaviour
                 Edge new_edge_U = new Edge();
                 new_edge_U.Edge_Type = lvData.LI_U_Edges[colSize * i + j].Edge_Type;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
+                new_edge_U.Edge_Direction = lvData.LI_U_Edges[colSize * i + j].Edge_Direction;
                 new_edge_U.LFT_Node = LI_Nodes[i, j];
                 new_edge_U.RGT_Node = LI_Nodes[i + 1, j];
 
@@ -284,7 +285,7 @@ public class Game_Manager : MonoBehaviour
                 }
 
                 new_edge_U.Position = lvData.LI_U_Edges[colSize * i + j].Position;
-                new_edge_U.Rotation = lvData.LI_U_Edges[colSize * i + j].Rotation;
+
                 LI_U_Edges[i, j] = new_edge_U;
 
                 //* Check [Edge] [Type] = [Black_Pen]
@@ -306,6 +307,7 @@ public class Game_Manager : MonoBehaviour
                 Edge new_edge_V = new Edge();
                 new_edge_V.Edge_Type = lvData.LI_V_Edges[colSize * i + j].Edge_Type;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
+                new_edge_V.Edge_Direction = lvData.LI_V_Edges[colSize * i + j].Edge_Direction;
                 new_edge_V.DN_Node = LI_Nodes[i, j];
                 new_edge_V.UP_Node = LI_Nodes[i, j + 1];
 
@@ -330,7 +332,6 @@ public class Game_Manager : MonoBehaviour
                 }
 
                 new_edge_V.Position = lvData.LI_V_Edges[colSize * i + j].Position;
-                new_edge_V.Rotation = lvData.LI_V_Edges[colSize * i + j].Rotation;
                 LI_V_Edges[i, j] = new_edge_V;
 
                 //* Check [Edge] [Type] = [Black_Pen]
@@ -356,9 +357,9 @@ public class Game_Manager : MonoBehaviour
                 new_edge_U.LFT_Node = LI_V_Edges[i, j].LFT_Node;
                 new_edge_U.RGT_Node = LI_V_Edges[i, j].RGT_Node;
                 new_edge_U.Position = LI_V_Edges[i, j].Position;
-                new_edge_U.Rotation = lvData.BL_U_Edges[colSize * i + j].Rotation;
                 new_edge_U.Edge_Type = lvData.BL_U_Edges[colSize * i + j].Edge_Type;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
+                new_edge_U.Edge_Direction = lvData.BL_U_Edges[colSize * i + j].Edge_Direction;
                 BL_U_Edges[i, j] = new_edge_U;
 
                 //* Check [Edge] [Type] = [HighLighter_Red]
@@ -382,9 +383,9 @@ public class Game_Manager : MonoBehaviour
                 new_edge_V.LFT_Node = LI_U_Edges[i, j].LFT_Node;
                 new_edge_V.RGT_Node = LI_U_Edges[i, j].RGT_Node;
                 new_edge_V.Position = LI_U_Edges[i, j].Position;
-                new_edge_V.Rotation = lvData.BL_V_Edges[colSize * i + j].Rotation;
                 new_edge_V.Edge_Type = lvData.BL_V_Edges[colSize * i + j].Edge_Type;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
+                new_edge_V.Edge_Direction = lvData.BL_V_Edges[colSize * i + j].Edge_Direction;
                 BL_V_Edges[i, j] = new_edge_V;
 
                 //* Check [Edge] [Type] = [HighLighter_Red]

@@ -130,12 +130,6 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Material highlighter_red_giz_mat;
 
-    //* Store previos frame's [row] and [col] number
-    [HideInInspector]
-    private int prevRow;
-    [HideInInspector]
-    private int prevCol;
-
     //* Save/Load Level Data based on booleans
     [HideInInspector]
     [SerializeField]
@@ -150,6 +144,12 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Editor_Awake")]
     public void Awake()
     {
+        transform.Find("BL_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("LI_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("BL_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("LI_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
+
         if (startEditing)
         {
             Clear_Graph_Init_Mode();
@@ -191,44 +191,29 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
-            //int currRow = row;
-            //int currCol = col;
-            //
-            //bool graph_size_changed = (prevRow != currRow || prevCol != currCol);
+            //*! Load Level data from file
+            Load_Level_Data();
 
-            //*! Edit Graph with [SetActive(true/false)] method
-            //*! Update with [SetActive(true/false)] method
+            //*! Render all [Edge] base on row/col and set [Boarder] data
+            Render_Edge_Handles_Edit_Mode();
 
-            //*! Layout Graph by row col number
-            //if (graph_size_changed)
-            //{
-            
-            Layout_Graph_Edit_Mode();
-            //}
+            //*! Check every [Edge] [Type] [Data]'s enum flag to turn the switch [Nodes] traversability ON/OFF
+            Update_Graph_Traversability_Edited_Mode();
+
+            //*! Render all [Node] according to the [Edge] check result
+            Render_Node_Gizmos_Edit_Mode();
+
+            //*! Assign All [Handle]'s [Edge] [Node] [Type] to [Data]
+            Assign_All_Handle_Type_To_Data_Edit_Mode();
+
+            //*! Assign [Data] [Node] & [Edge] [Type] to [Gizmos] [Node] & [Edge] [Type]
+            Assign_All_Data_Type_To_Handle_Edit_Mode();
+
+            //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic)
+            Render_All_Handles_By_Type_Edit_Mode();
 
             //* Save Level data from file
             Save_Level_Data();
-
-            //prevRow = currRow;
-            //prevCol = currCol;
-
-            //*! Check every [Edge]'s enum flag to turn the switch [Nodes] traversability ON/OFF
-            Update_Graph_Traversability_Edited_Mode();
-
-            //* Assign All [Handle]'s [Edge] [Node] [Type] to [Data]
-            Assign_All_Handle_Type_To_Data_Edit_Mode();
-
-            //* Load Level data from file
-            Load_Level_Data();
-
-            //* Assign [Data] [Node] & [Edge] [Type] to [Gizmos] [Node] & [Edge] [Type]
-            Assign_All_Data_Type_To_Handle_Edit_Mode();
-
-            //*! Render all nodes according to the [Edge] check result
-            Render_Node_Gizmos_Edit_Mode();
-
-            //*! Render all [Node] [Edge] handles' icon base on their [Type]
-            Render_All_Handles_By_Type_Edit_Mode();
         }
 
     }
@@ -421,6 +406,7 @@ public class Pencil_Case : MonoBehaviour
                 Edge new_edge_U = new Edge();
                 new_edge_U.Edge_Type = Edge_Type.NONE;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
+                new_edge_U.Edge_Direction = Edge_Direction.Horizontal;
                 new_edge_U.LFT_Node = LI_Nodes[i, j];
                 new_edge_U.RGT_Node = LI_Nodes[i + 1, j];
 
@@ -445,7 +431,6 @@ public class Pencil_Case : MonoBehaviour
                 }
 
                 new_edge_U.Position = new_edge_U.LFT_Node.Position + ((new_edge_U.RGT_Node.Position - new_edge_U.LFT_Node.Position) / 2);
-                new_edge_U.Rotation = rot_U;
                 LI_U_Edges[i, j] = new_edge_U;
             }
         }
@@ -483,7 +468,7 @@ public class Pencil_Case : MonoBehaviour
                 }
 
                 new_edge_V.Position = new_edge_V.DN_Node.Position + ((new_edge_V.UP_Node.Position - new_edge_V.DN_Node.Position) / 2);
-                new_edge_V.Rotation = rot_V;
+                new_edge_V.Edge_Direction = Edge_Direction.Vertical;
                 LI_V_Edges[i, j] = new_edge_V;
             }
         }
@@ -501,9 +486,9 @@ public class Pencil_Case : MonoBehaviour
                 new_edge_U.LFT_Node = LI_V_Edges[i, j].LFT_Node;
                 new_edge_U.RGT_Node = LI_V_Edges[i, j].RGT_Node;
                 new_edge_U.Position = LI_V_Edges[i, j].Position;
-                new_edge_U.Rotation = rot_U;
                 new_edge_U.Edge_Type = Edge_Type.NONE;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
+                new_edge_U.Edge_Direction = Edge_Direction.Horizontal;
                 BL_U_Edges[i, j] = new_edge_U;
             }
         }
@@ -520,9 +505,9 @@ public class Pencil_Case : MonoBehaviour
                 new_edge_V.LFT_Node = LI_U_Edges[i, j].LFT_Node;
                 new_edge_V.RGT_Node = LI_U_Edges[i, j].RGT_Node;
                 new_edge_V.Position = LI_U_Edges[i, j].Position;
-                new_edge_V.Rotation = rot_V;
                 new_edge_V.Edge_Type = Edge_Type.NONE;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
+                new_edge_V.Edge_Direction = Edge_Direction.Vertical;
                 BL_V_Edges[i, j] = new_edge_V;
             }
         }
@@ -792,7 +777,7 @@ public class Pencil_Case : MonoBehaviour
 
     //*! Update the Graph size in Edit Mode with [SetActive Method]
     [ContextMenu("Layout_Graph_Edit_Mode")]
-    private void Layout_Graph_Edit_Mode()
+    private void Render_Edge_Handles_Edit_Mode()
     {
         //*! Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
         #region Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
@@ -1698,8 +1683,8 @@ public class Pencil_Case : MonoBehaviour
                     int colSize = li_U_edge_col;
                     lv_Data.LI_U_Edges[colSize * i + j] = new Inter_Edge();
                     lv_Data.LI_U_Edges[colSize * i + j].Position = LI_U_Edges[i, j].Position;
-                    lv_Data.LI_U_Edges[colSize * i + j].Rotation = LI_U_Edges[i, j].Rotation;
                     lv_Data.LI_U_Edges[colSize * i + j].Edge_Type = LI_U_Edges[i, j].Edge_Type;
+                    lv_Data.LI_U_Edges[colSize * i + j].Edge_Direction = LI_U_Edges[i, j].Edge_Direction;
                 }
             }
             #endregion
@@ -1713,8 +1698,8 @@ public class Pencil_Case : MonoBehaviour
                     int colSize = li_V_edge_col;
                     lv_Data.LI_V_Edges[colSize * i + j] = new Inter_Edge();
                     lv_Data.LI_V_Edges[colSize * i + j].Position = LI_V_Edges[i, j].Position;
-                    lv_Data.LI_V_Edges[colSize * i + j].Rotation = LI_V_Edges[i, j].Rotation;
                     lv_Data.LI_V_Edges[colSize * i + j].Edge_Type = LI_V_Edges[i, j].Edge_Type;
+                    lv_Data.LI_V_Edges[colSize * i + j].Edge_Direction = LI_V_Edges[i, j].Edge_Direction;
 
                 }
             }
@@ -1729,8 +1714,8 @@ public class Pencil_Case : MonoBehaviour
                     int colSize = bl_U_edge_col;
                     lv_Data.BL_U_Edges[colSize * i + j] = new Inter_Edge();
                     lv_Data.BL_U_Edges[colSize * i + j].Position = BL_U_Edges[i, j].Position;
-                    lv_Data.BL_U_Edges[colSize * i + j].Rotation = BL_U_Edges[i, j].Rotation;
                     lv_Data.BL_U_Edges[colSize * i + j].Edge_Type = BL_U_Edges[i, j].Edge_Type;
+                    lv_Data.BL_U_Edges[colSize * i + j].Edge_Direction = BL_U_Edges[i, j].Edge_Direction;
                 }
             }
             #endregion
@@ -1744,8 +1729,8 @@ public class Pencil_Case : MonoBehaviour
                     int colSize = bl_V_edge_col;
                     lv_Data.BL_V_Edges[colSize * i + j] = new Inter_Edge();
                     lv_Data.BL_V_Edges[colSize * i + j].Position = BL_V_Edges[i, j].Position;
-                    lv_Data.BL_V_Edges[colSize * i + j].Rotation = BL_V_Edges[i, j].Rotation;
                     lv_Data.BL_V_Edges[colSize * i + j].Edge_Type = BL_V_Edges[i, j].Edge_Type;
+                    lv_Data.BL_V_Edges[colSize * i + j].Edge_Direction = BL_V_Edges[i, j].Edge_Direction;
                 }
             }
             #endregion
@@ -1841,6 +1826,7 @@ public class Pencil_Case : MonoBehaviour
                     {
                         int colSize = li_U_edge_col;
                         LI_U_Edges[i, j].Edge_Type = lv_Data.LI_U_Edges[colSize * i + j].Edge_Type;
+                        LI_U_Edges[i, j].Edge_Direction = lv_Data.LI_U_Edges[colSize * i + j].Edge_Direction;
                     }
                 }
                 #endregion
@@ -1853,6 +1839,7 @@ public class Pencil_Case : MonoBehaviour
                     {
                         int colSize = li_V_edge_col;
                         LI_V_Edges[i, j].Edge_Type = lv_Data.LI_V_Edges[colSize * i + j].Edge_Type;
+                        LI_V_Edges[i, j].Edge_Direction = lv_Data.LI_V_Edges[colSize * i + j].Edge_Direction;
                     }
                 }
                 #endregion
@@ -1865,6 +1852,7 @@ public class Pencil_Case : MonoBehaviour
                     {
                         int colSize = bl_U_edge_col;
                         BL_U_Edges[i, j].Edge_Type = lv_Data.BL_U_Edges[colSize * i + j].Edge_Type;
+                        BL_U_Edges[i, j].Edge_Direction = lv_Data.BL_U_Edges[colSize * i + j].Edge_Direction;
                     }
                 }
                 #endregion
@@ -1877,15 +1865,25 @@ public class Pencil_Case : MonoBehaviour
                     {
                         int colSize = bl_V_edge_col;
                         BL_V_Edges[i, j].Edge_Type = lv_Data.BL_V_Edges[colSize * i + j].Edge_Type;
+                        BL_V_Edges[i, j].Edge_Direction = lv_Data.BL_V_Edges[colSize * i + j].Edge_Direction;
                     }
                 }
                 #endregion
 
-                Assign_All_Data_Type_To_Handle_Edit_Mode();
+                //*! Render all [Edge] base on row/col and set [Boarder] data
+                Render_Edge_Handles_Edit_Mode();
 
+                //*! Check every [Edge] [Type] [Data]'s enum flag to turn the switch [Nodes] traversability ON/OFF
                 Update_Graph_Traversability_Edited_Mode();
 
-                Layout_Graph_Edit_Mode();
+                //*! Render all [Node] and its [arrow Gizmos] according to the [Edge] check result
+                Render_Node_Gizmos_Edit_Mode();
+
+                //*! Assign [Data] [Node] & [Edge] [Type] to [Gizmos] [Node] & [Edge] [Type]
+                Assign_All_Data_Type_To_Handle_Edit_Mode();
+
+                //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic)
+                Render_All_Handles_By_Type_Edit_Mode();
 
                 Debug.Log("Level Data Loaded!!");
             }
@@ -1933,6 +1931,19 @@ public class Node
 
     //*! Getter, Setter of [Node] is occupied
     public bool Is_Occupied;
+
+    public Node Clone()
+    {
+        Node new_Node = new Node();
+        new_Node.Position = Position;
+        new_Node.UP_NODE = UP_NODE.Clone();
+        new_Node.DN_NODE = DN_NODE.Clone();
+        new_Node.LFT_NODE = LFT_NODE.Clone();
+        new_Node.RGT_NODE = RGT_NODE.Clone();
+        new_Node.Node_Type = Node_Type;
+
+        return new_Node;
+    }
 }
 
 public class Edge
@@ -1945,7 +1956,21 @@ public class Edge
 
     //*! Getter, Setter of [Edge] Position and Rotation
     public Vector3 Position;
-    public Quaternion Rotation;
+    public Quaternion Rotation
+    {
+        get
+        {
+            switch (Edge_Direction)
+            {
+                case Edge_Direction.Horizontal:
+                    return Quaternion.AngleAxis(90, Vector3.forward);
+                case Edge_Direction.Vertical:
+                    return Quaternion.AngleAxis(0, Vector3.forward);
+                default:
+                    return Quaternion.AngleAxis(90, Vector3.forward);
+            }
+        }
+    }
 
     //*! Getter, Setter of [Edge] [Gizmos]
     public GameObject Gizmos_GO;
@@ -1953,9 +1978,54 @@ public class Edge
     //*! Getter, Setter of [Edge] [Edge Type] & [Boarder Type]
     public Edge_Type Edge_Type;
     public Boarder_Type Boarder_Type;
+    public Edge_Direction Edge_Direction;
 
     //*! Getter, Setter of [Node] is occupied
     public bool Is_Occupied;
+
+    //* Function to reset neighbor nodes' traversability
+    public void Set_Traversability()
+    {
+        Node prev_UPsDN_Node = new Node();
+        Node prev_DNsUP_Node = new Node();
+        Node prev_LFTsRGT_Node = new Node();
+        Node prev_RGTsLFT_Node = new Node();
+
+        if (Is_Occupied)
+        {
+            if (Edge_Direction == Edge_Direction.Horizontal)
+            {
+                prev_UPsDN_Node = UP_Node.DN_NODE.Clone();
+                prev_DNsUP_Node = DN_Node.UP_NODE.Clone();
+
+                UP_Node.DN_NODE = null;
+                DN_Node.UP_NODE = null;
+            }
+
+            if (Edge_Direction == Edge_Direction.Vertical)
+            {
+                prev_LFTsRGT_Node = LFT_Node.RGT_NODE.Clone();
+                prev_RGTsLFT_Node = RGT_Node.LFT_NODE.Clone();
+
+                LFT_Node.RGT_NODE = null;
+                RGT_Node.LFT_NODE = null;
+            }
+        }
+        else
+        {
+            if (Edge_Direction == Edge_Direction.Horizontal)
+            {
+                UP_Node.DN_NODE = prev_UPsDN_Node.Clone();
+                DN_Node.UP_NODE = prev_DNsUP_Node.Clone();
+            }
+
+            if (Edge_Direction == Edge_Direction.Vertical)
+            {
+                LFT_Node.RGT_NODE = prev_LFTsRGT_Node.Clone();
+                RGT_Node.LFT_NODE = prev_RGTsLFT_Node.Clone();
+            }
+        }
+    }
 }
 #endregion
 
@@ -1984,6 +2054,14 @@ public enum Boarder_Type
     DN,
     LFT,
     RGT
+}
+#endregion
+
+#region [Edge_Direction] Enum class
+public enum Edge_Direction
+{
+    Horizontal = 0,
+    Vertical = 1
 }
 #endregion
 

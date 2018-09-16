@@ -26,6 +26,6 @@ public class Inter_Node
 public class Inter_Edge
 {
     public Vector3 Position;
-    public Quaternion Rotation;
     public Edge_Type Edge_Type;
+    public Edge_Direction Edge_Direction;
 }
