@@ -72,6 +72,13 @@ public class Game_Manager : MonoBehaviour
     {
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
+
+        BL_U_Edges[0, 0].Is_Occupied = true;
+        BL_U_Edges[0, 0].Set_Traversability();
+        Debug.Log("BL_U_Edges[0, 0] Up_Node Can DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
+        BL_U_Edges[0, 0].Is_Occupied = false;
+        BL_U_Edges[0, 0].Set_Traversability();
+        Debug.Log("BL_U_Edges[0, 0] Up_Node Can DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
     }
 
     //*!----------------------------!*//

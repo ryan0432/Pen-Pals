@@ -535,10 +535,6 @@ public class Pencil_Case : MonoBehaviour
                 newNodeGiz.transform.localScale *= (handle_size * 1.5f);
                 BL_Nodes[i, j].Gizmos_GO = newNodeGiz;
 
-                //Matrix4x4 handleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position) *
-                //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz_mesh, handleMatx, bl_giz_mat, 0);
-
                 if (BL_Nodes[i, j].Can_UP)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
@@ -590,10 +586,6 @@ public class Pencil_Case : MonoBehaviour
                 GameObject newNodeGiz = Instantiate(li_node_giz, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("LI_Node_Gizmos"));
                 newNodeGiz.transform.localScale *= (handle_size * 1.5f);
                 LI_Nodes[i, j].Gizmos_GO = newNodeGiz;
-
-                //Matrix4x4 handleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position) *
-                //Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size) * 1.5f);
-                //Graphics.DrawMesh(node_giz_mesh, handleMatx, li_giz_mat, 0);
 
                 if (LI_Nodes[i, j].Can_UP)
                 {
@@ -1936,10 +1928,10 @@ public class Node
     {
         Node new_Node = new Node();
         new_Node.Position = Position;
-        new_Node.UP_NODE = UP_NODE.Clone();
-        new_Node.DN_NODE = DN_NODE.Clone();
-        new_Node.LFT_NODE = LFT_NODE.Clone();
-        new_Node.RGT_NODE = RGT_NODE.Clone();
+        new_Node.UP_NODE = UP_NODE;
+        new_Node.DN_NODE = DN_NODE;
+        new_Node.LFT_NODE = LFT_NODE;
+        new_Node.RGT_NODE = RGT_NODE;
         new_Node.Node_Type = Node_Type;
 
         return new_Node;

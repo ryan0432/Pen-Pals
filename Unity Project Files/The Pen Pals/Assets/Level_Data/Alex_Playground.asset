@@ -57,7 +57,7 @@ MonoBehaviour:
   - Position: {x: 3.5, y: 2.5, z: 0}
     Node_Type: 0
   - Position: {x: 3.5, y: 3.5, z: 0}
-    Node_Type: 0
+    Node_Type: 1
   - Position: {x: 3.5, y: 4.5, z: 0}
     Node_Type: 0
   - Position: {x: 3.5, y: 5.5, z: 0}
@@ -65,19 +65,19 @@ MonoBehaviour:
   - Position: {x: 4.5, y: 0.5, z: 0}
     Node_Type: 0
   - Position: {x: 4.5, y: 1.5, z: 0}
-    Node_Type: 0
+    Node_Type: 1
   - Position: {x: 4.5, y: 2.5, z: 0}
     Node_Type: 0
   - Position: {x: 4.5, y: 3.5, z: 0}
-    Node_Type: 1
-  - Position: {x: 4.5, y: 4.5, z: 0}
     Node_Type: 0
+  - Position: {x: 4.5, y: 4.5, z: 0}
+    Node_Type: 1
   - Position: {x: 4.5, y: 5.5, z: 0}
     Node_Type: 0
   - Position: {x: 5.5, y: 0.5, z: 0}
     Node_Type: 0
   - Position: {x: 5.5, y: 1.5, z: 0}
-    Node_Type: 1
+    Node_Type: 0
   - Position: {x: 5.5, y: 2.5, z: 0}
     Node_Type: 0
   - Position: {x: 5.5, y: 3.5, z: 0}
@@ -252,7 +252,7 @@ MonoBehaviour:
   - Position: {x: 7, y: 2, z: 0}
     Node_Type: 0
   - Position: {x: 7, y: 3, z: 0}
-    Node_Type: 0
+    Node_Type: 4
   - Position: {x: 7, y: 4, z: 0}
     Node_Type: 0
   - Position: {x: 7, y: 5, z: 0}
@@ -280,7 +280,7 @@ MonoBehaviour:
   - Position: {x: 9, y: 2, z: 0}
     Node_Type: 0
   - Position: {x: 9, y: 3, z: 0}
-    Node_Type: 4
+    Node_Type: 0
   - Position: {x: 9, y: 4, z: 0}
     Node_Type: 0
   - Position: {x: 9, y: 5, z: 0}
@@ -298,7 +298,7 @@ MonoBehaviour:
   - Position: {x: 10, y: 4, z: 0}
     Node_Type: 0
   - Position: {x: 10, y: 5, z: 0}
-    Node_Type: 0
+    Node_Type: 4
   - Position: {x: 10, y: 6, z: 0}
     Node_Type: 0
   - Position: {x: 11, y: 0, z: 0}
@@ -317,899 +317,899 @@ MonoBehaviour:
     Node_Type: 0
   BL_U_Edges:
   - Position: {x: 0, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 11, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 11, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 11, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 11, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 11, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 11, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   BL_V_Edges:
   - Position: {x: 0.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 0.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 0.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 0.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 0.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 0.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 0.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 2
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 0
+    Edge_Type: 2
+    Edge_Direction: 1
   - Position: {x: 9.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   LI_U_Edges:
   - Position: {x: 0.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 0.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 0.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 1.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Edge_Type: 0
+    Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 2.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Edge_Type: 1
+    Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Edge_Type: 0
+    Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 3.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Edge_Type: 1
+    Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 4.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 5.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 6.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 7.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Edge_Type: 1
+    Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 8.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 9.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 1, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
-    Edge_Type: 0
+    Edge_Type: 1
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 2, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 3, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 4, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 0
+    Edge_Direction: 0
   - Position: {x: 10.5, y: 6, z: 0}
-    Rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
     Edge_Type: 6
+    Edge_Direction: 0
   LI_V_Edges:
   - Position: {x: 0, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 0, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 0, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 0, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 0, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 0, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 1, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 1, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 1
+    Edge_Direction: 1
   - Position: {x: 1, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 1
+    Edge_Direction: 1
   - Position: {x: 1, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 1
+    Edge_Direction: 1
   - Position: {x: 1, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 1
+    Edge_Direction: 1
   - Position: {x: 1, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 2, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 3, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 4, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 5, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 6, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 7, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 8, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 9, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 10, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 1
-  - Position: {x: 10, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 1
-  - Position: {x: 10, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 1
-  - Position: {x: 10, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Edge_Type: 1
-  - Position: {x: 10, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 0
+    Edge_Direction: 1
+  - Position: {x: 10, y: 2.5, z: 0}
+    Edge_Type: 0
+    Edge_Direction: 1
+  - Position: {x: 10, y: 3.5, z: 0}
+    Edge_Type: 0
+    Edge_Direction: 1
+  - Position: {x: 10, y: 4.5, z: 0}
+    Edge_Type: 0
+    Edge_Direction: 1
+  - Position: {x: 10, y: 5.5, z: 0}
+    Edge_Type: 0
+    Edge_Direction: 1
   - Position: {x: 11, y: 0.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 11, y: 1.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 11, y: 2.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 11, y: 3.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 11, y: 4.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
   - Position: {x: 11, y: 5.5, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
     Edge_Type: 6
+    Edge_Direction: 1
