@@ -73,7 +73,6 @@ public class Game_Manager : MonoBehaviour
     {
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
-        Check_Node_Stickers_In_Update();
 
         //BL_U_Edges[0, 0].Is_Occupied = true;
         //BL_U_Edges[0, 0].Set_Traversability();
@@ -815,46 +814,4 @@ public class Game_Manager : MonoBehaviour
         }
         #endregion
     }
-
-    [ContextMenu("Check_Node_Stickers")]
-    private void Check_Node_Stickers_In_Update()
-    {
-        //*! Check [Block] [Node] [Type]
-        for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
-        {
-            for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
-            {
-                if (BL_Nodes[i, j].Gizmos_GO == null) return;
-
-                //*! If [Node] [Type] == [NONE], setActive to false
-                if (BL_Nodes[i, j].Node_Type == Node_Type.NONE)
-                {
-                    BL_Nodes[i, j].Gizmos_GO.SetActive(false);
-                }
-                else
-                {
-                    BL_Nodes[i, j].Gizmos_GO.SetActive(true);
-                }
-            }
-        }
-
-        //*! Check [Line] [Node] [Type]
-        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
-        {
-            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
-            {
-                if (LI_Nodes[i, j].Gizmos_GO == null) return;
-
-                if (LI_Nodes[i, j].Node_Type == Node_Type.NONE)
-                {
-                    LI_Nodes[i, j].Gizmos_GO.SetActive(false);
-                }
-                else
-                {
-                    LI_Nodes[i, j].Gizmos_GO.SetActive(false);
-                }
-            }
-        }
-    }
-
 }
