@@ -457,7 +457,7 @@ MonoBehaviour:
   move_left_key: 276
   move_right_key: 275
   movement_speed: 4
-  Node_Graph: {fileID: 0}
+  player_type: 0
   Line_Points: []
 --- !u!120 &120244725024711018
 LineRenderer:

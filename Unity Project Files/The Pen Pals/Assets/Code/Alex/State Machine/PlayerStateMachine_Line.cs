@@ -3,9 +3,8 @@
 //*!----------------------------!*//
 
 //*! Using namespaces
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using UnityEngine;
 
 public class PlayerStateMachine_Line : MonoBehaviour
 {
@@ -53,6 +52,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
     #endregion
 
 
+    //*! Graph Container
+    private Game_Manager Node_Graph;
+
 
     //*! Current Head Position
     private Vector2 grid_position;
@@ -72,9 +74,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
     [Range(1, 6)]
     public int movement_speed = 1;
 
-    //*! Graph Container
-    public Temp_Node_Map Node_Graph;
 
+    public enum Player_Type
+    {
+        BLUE = 0,
+        RED = 1
+    }
+    public Player_Type player_type;
 
     [System.Serializable]
     public struct Line_Point
@@ -86,13 +92,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
     public Line_Point[] Line_Points;
 
     //*! Previous Input
-    public Temp_Node_Map.Node Pivot_Node = null;
+    public Node Pivot_Node = null;
     //*! Current Input
-    public Temp_Node_Map.Node Current_Node = null;
+    public Node Current_Node = null;
     //*! Next Input
-    public Temp_Node_Map.Node Next_Node = null;
+    public Node Next_Node = null;
     //*! Queued Input
-    public Temp_Node_Map.Node Queued_Node = null;
+    public Node Queued_Node = null;
 
 
     //*! Property Accessor(s)
@@ -118,6 +124,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     private void Awake()
     {
+        Node_Graph = FindObjectOfType<Game_Manager>();
         //*! Line Render component
         line_renderer = GetComponent<LineRenderer>();
 
@@ -317,6 +324,26 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! Reset the seond input permission
                 can_second = false;
 
+                //*! Collect a sticker
+                if (player_type == Player_Type.BLUE)
+                {
+                    if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
+                    {
+                        Next_Node.Node_Type = Node_Type.NONE;
+                        Next_Node.Gizmos_GO.SetActive(false);
+                    }
+                }
+                else
+                {
+                    if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
+                    {
+                        Next_Node.Node_Type = Node_Type.NONE;
+                        Next_Node.Gizmos_GO.SetActive(false);
+                    }
+                }
+
+
+
                 //*! Shift the next node into the current node
                 Current_Node = Next_Node;
 
@@ -378,33 +405,33 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 //*! While it is not at the end of the array
                 //if (Line_Points[0].segment.transform.position != Line_Points[Line_Points.Length - 1].segment.transform.position || mag_distance < 0.01f)
                 //{
-                    //*! Increment the current target to index into the line points[]
-                    if (current_target < Line_Points.Length - 1)
-                    {
-                        
-                        current_target++;
-                        //*! Assign the new target based on the next segments position not target
-                        Line_Points[0].target = Line_Points[current_target].segment.transform.position;
-                    }
-                    else
-                    {
-                        //*! At the tail position
-                        head_traversing_body = false;
+                //*! Increment the current target to index into the line points[]
+                if (current_target < Line_Points.Length - 1)
+                {
 
-                        //*! Finished moving
-                        is_moving = false;
+                    current_target++;
+                    //*! Assign the new target based on the next segments position not target
+                    Line_Points[0].target = Line_Points[current_target].segment.transform.position;
+                }
+                else
+                {
+                    //*! At the tail position
+                    head_traversing_body = false;
+
+                    //*! Finished moving
+                    is_moving = false;
 
 
-                        up_key_pressed = false;
-                        down_key_pressed = false;
-                        left_key_pressed = false;
-                        right_key_pressed = false;
+                    up_key_pressed = false;
+                    down_key_pressed = false;
+                    left_key_pressed = false;
+                    right_key_pressed = false;
 
-                        //    //*! Never should happen, but just in case haha.
-                        //    Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
-                        //    //*! Decreament it?
-                        //    current_target--;
-                    }
+                    //    //*! Never should happen, but just in case haha.
+                    //    Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
+                    //    //*! Decreament it?
+                    //    current_target--;
+                }
                 //}
 
             }
@@ -434,7 +461,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //{
     //    //*! Initialise the current target to Line_Points.Length - 2 - First key pivot when the head is at the original head position
     //    int current_target = Line_Points.Length - 1;
-        
+
     //    //*! Set the heads starting target to be of the pivot 
     //    Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
 
@@ -590,12 +617,12 @@ public class PlayerStateMachine_Line : MonoBehaviour
     ///  If the next node has a value then it hasn't being cleared being that it has not reached the next node, return the next nodes right
     /// </summary>
     /// <returns>-The node to be assigned to the queue-</returns>
-    private Temp_Node_Map.Node Controller_Input()
+    private Node Controller_Input()
     {
         //*! Temp Line point, is the point at the position of the Current nodes 'direction' or Next nodes 'direction'
         //*! Stays false if there is no point at that position then return the appropirate node
         bool t_line_point = false;
-        
+
         //*! Up key was pressed
         if (Input.GetKeyDown(Up_Key) == true)
         {
@@ -686,7 +713,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
                         //*! If the index is at [3]
-                        if (index == 3 )
+                        if (index == 3)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -744,7 +771,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
                         //*! If the index is at [3]
-                        if (index == 3 )
+                        if (index == 3)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -795,7 +822,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
                         //*! If the index is at [3] 
-                        if (index == 3 )
+                        if (index == 3)
                         {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
@@ -901,7 +928,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                         //*! If the index is at [3]
                         if (index == 3)
-                        { 
+                        {
                             //*! The Pivot node behind the head
                             return Pivot_Node;
                         }
@@ -1040,8 +1067,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         Vector3 x;
         x = Line_Points[1].segment.transform.position;
-        Line_Points[1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position; 
-        Line_Points[2].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position; 
+        Line_Points[1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+        Line_Points[2].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
         Line_Points[Line_Points.Length - 1].segment.transform.position = x;
 
         current_end--;
@@ -1050,9 +1077,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
         {
             //*! Reset the target position
             //Line_Points[index].target = Vector3.zero;
-              
+
             //*! Move the head cap with the first pivot
-            
+
             //*! Keep swaping the values while they have not crossed
             if (current_end > index)
             {
@@ -1068,11 +1095,11 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 current_end--;
             }
         }
-               
 
-   
+
+
     }
-            
+
 
 
     #endregion //*! End of Private functions
