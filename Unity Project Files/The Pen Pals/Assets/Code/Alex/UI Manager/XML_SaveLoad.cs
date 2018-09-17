@@ -94,6 +94,7 @@ public class XML_SaveLoad : MonoBehaviour
     /// Removes the player save from the list and file directory
     /// </summary>
     /// <param name="player_number"> Used to index into the array of player saves </param>
+    [ContextMenu("Remove a new Player by index:")]
     public void Remove_Player(int player_number)
     {
         if (Player_Saves.Count == 0)
@@ -111,20 +112,39 @@ public class XML_SaveLoad : MonoBehaviour
     /// <summary>
     /// Adding a new player and writing it to file
     /// </summary>
+    [ContextMenu("Add a new Player")]
     public void Add_Player()
     {
-        //*! Create a new Player
-        Player_Saves.Add(new Player_Save());
+        if (Player_Saves.Count == 0)
+        {
+            Load_All_Players();
 
-        //*! Save the last player added to the list
-        Save_Player(Player_Saves.Count - 1);
+            //*! Create a new Player
+            Player_Saves.Add(new Player_Save());
+
+            //*! Save the last player added to the list
+            Save_Player(Player_Saves.Count - 1);
+        }
+        else
+        {
+            //*! Create a new Player
+            Player_Saves.Add(new Player_Save());
+
+            //*! Save the last player added to the list
+            Save_Player(Player_Saves.Count - 1);
+        }
+
     }
 
     /// <summary>
     /// Saving all players to file from the Player_Saves List
     /// </summary>
+    [ContextMenu("Save all Player")]
     public void Save_All_Players()
     {
+        if (Player_Saves.Count == 0)
+            return;
+
         //*! Save All Players
         for (int index = 0; index < Player_Saves.Count; index++)
         {
@@ -166,6 +186,7 @@ public class XML_SaveLoad : MonoBehaviour
     /// <summary>
     /// Load in all the save files and adding them to the Player_Saves List
     /// </summary>
+    [ContextMenu("Load all Players")]
     public void Load_All_Players()
     {
         //*! Get some information on the directory 
@@ -187,13 +208,7 @@ public class XML_SaveLoad : MonoBehaviour
         //*! Add null objects to the player saves list of the count of files in the saves directory
         for (int index = 0; index < save_files.Count; index++)
         {
-
-
-
-            Debug.Log("INDEX : " + index + " : " + save_files[index].Name);
-
-
-
+            Debug.Log("Added a new Player at INDEX : " + index + " : " + save_files[index].Name);
             Player_Saves.Add(null);
         }
 
@@ -219,6 +234,7 @@ public class XML_SaveLoad : MonoBehaviour
 
     //*! Private Access
     #region Private Functions
+
 
     private void Save_Player(int player_id)
     {
