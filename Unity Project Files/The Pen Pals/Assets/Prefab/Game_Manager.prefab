@@ -87,7 +87,9 @@ MonoBehaviour:
     type: 2}
   Block_Blue_Goal: {fileID: 1196781030308194, guid: 86c90e700398be74191212c6a58d5aeb,
     type: 2}
-  Block_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
+  Block_Red_Goal: {fileID: 1365616581065350, guid: 53eae94e93d81a1449adec4c1441a09f,
+    type: 2}
+  Line_Blue_Goal: {fileID: 1891366900479438, guid: f6e9ee916ed16e848b7868271c374345,
     type: 2}
   Line_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
     type: 2}

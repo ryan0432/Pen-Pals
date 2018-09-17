@@ -125,6 +125,9 @@ public class Pencil_Case : MonoBehaviour
     private Material block_red_sticker_giz_mat;
     [SerializeField]
     [HideInInspector]
+    private Material line_blue_sticker_giz_mat;
+    [SerializeField]
+    [HideInInspector]
     private Material line_red_sticker_giz_mat;
     [SerializeField]
     [HideInInspector]
@@ -1472,6 +1475,14 @@ public class Pencil_Case : MonoBehaviour
                 }
                 #endregion
 
+                #region Check [Line] [Node] is [Line Blue Goal]
+                if (currNode.Node_Type == Node_Type.Line_Blue_Goal)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_blue_sticker_giz_mat;
+                }
+                #endregion
+
                 #region Check [Line] [Node] is [Line Red Goal]
                 if (currNode.Node_Type == Node_Type.Line_Red_Goal)
                 {
@@ -1978,6 +1989,11 @@ public class Edge
     public Node DN_Node;
     public Node LFT_Node;
     public Node RGT_Node;
+
+    ////*! [Edge] reference that corsses with current [Edge]
+    //public Edge Cross_Edge;
+    //public Edge UP_or_RGT_Edge;
+    //public Edge DN_or_LFT_Edge;
 
     //*! [Edge] Position reference holder
     public Vector3 Position;

@@ -38,6 +38,7 @@ public class Game_Manager : MonoBehaviour
     public GameObject HighLighter_Red;
     public GameObject Block_Blue_Goal;
     public GameObject Block_Red_Goal;
+    public GameObject Line_Blue_Goal;
     public GameObject Line_Red_Goal;
 
     //*!----------------------------!*//
@@ -223,6 +224,13 @@ public class Game_Manager : MonoBehaviour
                 LI_Nodes[i, j].DN_NODE = null;
                 LI_Nodes[i, j].LFT_NODE = null;
                 LI_Nodes[i, j].RGT_NODE = null;
+
+                //* Check [Node] [Type] == [Line_Blue_Goal]
+                if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Blue_Goal)
+                {
+                    GameObject new_Gizmos_GO = Instantiate(Line_Blue_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
+                }
 
                 //* Check [Node] [Type] == [Line_Red_Goal]
                 if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Red_Goal)
