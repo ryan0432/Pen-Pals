@@ -2145,22 +2145,17 @@ public class Node
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
-            prev_UPsDN_Node = UP_NODE.DN_NODE.Clone();
-            prev_DNsUP_Node = DN_NODE.UP_NODE.Clone();
-            prev_LFTsRGT_Node = LFT_NODE.RGT_NODE.Clone();
-            prev_RGTsLFT_Node = RGT_NODE.LFT_NODE.Clone();
-
-            UP_NODE.DN_NODE = null;
-            DN_NODE.UP_NODE = null;
-            LFT_NODE.RGT_NODE = null;
-            RGT_NODE.LFT_NODE = null;
+            if (UP_NODE.DN_NODE != null) { prev_UPsDN_Node = UP_NODE.DN_NODE.Clone(); UP_NODE.DN_NODE = null; }
+            if (DN_NODE.UP_NODE != null) { prev_DNsUP_Node = DN_NODE.UP_NODE.Clone(); DN_NODE.UP_NODE = null; }
+            if (LFT_NODE.RGT_NODE != null) { prev_LFTsRGT_Node = LFT_NODE.RGT_NODE.Clone(); LFT_NODE.RGT_NODE = null; }
+            if (RGT_NODE.LFT_NODE != null) { prev_RGTsLFT_Node = RGT_NODE.LFT_NODE.Clone(); RGT_NODE.LFT_NODE = null; }   
         }
         else
         {
-            UP_NODE.DN_NODE = prev_UPsDN_Node.Clone();
-            DN_NODE.UP_NODE = prev_DNsUP_Node.Clone();
-            LFT_NODE.RGT_NODE = prev_LFTsRGT_Node.Clone();
-            RGT_NODE.LFT_NODE = prev_RGTsLFT_Node.Clone();
+            if (prev_UPsDN_Node != null) { UP_NODE.DN_NODE = prev_UPsDN_Node.Clone(); }
+            if (prev_DNsUP_Node != null) { DN_NODE.UP_NODE = prev_DNsUP_Node.Clone(); }
+            if (prev_LFTsRGT_Node != null) { LFT_NODE.RGT_NODE = prev_LFTsRGT_Node.Clone(); }
+            if (prev_RGTsLFT_Node != null) { RGT_NODE.LFT_NODE = prev_RGTsLFT_Node.Clone(); }
         }
         #endregion
     }
@@ -2222,34 +2217,28 @@ public class Edge
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
-                prev_UPsDN_Node = UP_Node.DN_NODE.Clone();
-                prev_DNsUP_Node = DN_Node.UP_NODE.Clone();
-
-                UP_Node.DN_NODE = null;
-                DN_Node.UP_NODE = null;
+                if (UP_Node.DN_NODE != null) { prev_UPsDN_Node = UP_Node.DN_NODE.Clone(); UP_Node.DN_NODE = null; }
+                if (DN_Node.UP_NODE != null) { prev_DNsUP_Node = DN_Node.UP_NODE.Clone(); DN_Node.UP_NODE = null; }
             }
 
             if (Edge_Direction == Edge_Direction.Vertical)
             {
-                prev_LFTsRGT_Node = LFT_Node.RGT_NODE.Clone();
-                prev_RGTsLFT_Node = RGT_Node.LFT_NODE.Clone();
-
-                LFT_Node.RGT_NODE = null;
-                RGT_Node.LFT_NODE = null;
+                if (LFT_Node.RGT_NODE != null) { prev_LFTsRGT_Node = LFT_Node.RGT_NODE.Clone(); LFT_Node.RGT_NODE = null; }
+                if (RGT_Node.LFT_NODE != null) { prev_RGTsLFT_Node = RGT_Node.LFT_NODE.Clone(); RGT_Node.LFT_NODE = null; } 
             }
         }
         else
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
-                UP_Node.DN_NODE = prev_UPsDN_Node.Clone();
-                DN_Node.UP_NODE = prev_DNsUP_Node.Clone();
+                if (prev_UPsDN_Node != null) { UP_Node.DN_NODE = prev_UPsDN_Node.Clone(); }
+                if (prev_DNsUP_Node != null) { DN_Node.UP_NODE = prev_DNsUP_Node.Clone(); }
             }
 
             if (Edge_Direction == Edge_Direction.Vertical)
             {
-                LFT_Node.RGT_NODE = prev_LFTsRGT_Node.Clone();
-                RGT_Node.LFT_NODE = prev_RGTsLFT_Node.Clone();
+                if (prev_LFTsRGT_Node != null) { LFT_Node.RGT_NODE = prev_LFTsRGT_Node.Clone(); }
+                if (prev_RGTsLFT_Node != null) { RGT_Node.LFT_NODE = prev_RGTsLFT_Node.Clone(); }
             }
         }
         #endregion
