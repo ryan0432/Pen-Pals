@@ -94,7 +94,7 @@ public class XML_SaveLoad : MonoBehaviour
     /// Removes the player save from the list and file directory
     /// </summary>
     /// <param name="player_number"> Used to index into the array of player saves </param>
-    [ContextMenu("Remove a new Player by index:")]
+
     public void Remove_Player(int player_number)
     {
         if (Player_Saves.Count == 0)

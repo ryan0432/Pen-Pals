@@ -158,6 +158,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Current node is alligned to where it was placed
         Current_Node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
 
+
+
         //*! Default condistion, game starts with the head where it should be.
         head_at_tail = false;
 
@@ -310,8 +312,34 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 }
 
+
                 //*! Tail update
                 Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+
+                Node tail_node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
+
+                Node pivot_before_tail = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
+
+                //*! I have 2 nodes, find what edge they share and reset the traversabilty of that back to its original state.
+
+                if (tail_node.UP_NODE == pivot_before_tail)
+                {
+                    tail_node.DN_EDGE.Set_Traversability(true);
+                }
+                else if (tail_node.DN_NODE == pivot_before_tail)
+                {
+                    tail_node.UP_EDGE.Set_Traversability(true);
+                }
+                else if (tail_node.LFT_NODE == pivot_before_tail)
+                {
+                    tail_node.RGT_EDGE.Set_Traversability(true);
+                }
+                else if (tail_node.RGT_NODE == pivot_before_tail)
+                {
+                    tail_node.LFT_EDGE.Set_Traversability(true);
+                }
+
+
 
                 //*! Finished moving, unless the below checks override that
                 is_moving = false;
@@ -454,79 +482,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
     /// <summary>
-    /// Lock out the player controller for the line player, until the head is at the orignal head position.
-    /// </summary>
-    /// <returns></returns>
-    //IEnumerator Move_Head_From_Tail()
-    //{
-    //    //*! Initialise the current target to Line_Points.Length - 2 - First key pivot when the head is at the original head position
-    //    int current_target = Line_Points.Length - 1;
-
-    //    //*! Set the heads starting target to be of the pivot 
-    //    Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
-
-    //    //*! Head traversing body starting condition as it is now correct
-    //    head_traversing_body = true;
-
-    //    //*! Coroutine Loop - Keep looping until it results to false
-    //    while (head_traversing_body == true)
-    //    {
-
-    //        //*! Move the head towards its target
-    //        Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, movement_speed * Time.deltaTime);
-
-    //        //*! Distance calculation
-    //        float mag_distance = (Line_Points[0].target - Line_Points[0].segment.transform.position).magnitude;
-
-    //        //*! Reached the target position
-    //        if (Line_Points[0].segment.transform.position == Line_Points[0].target || mag_distance < 0.01f)
-    //        {
-    //            //*! Snap the head to its target
-    //            Line_Points[0].segment.transform.position = Line_Points[0].target;
-
-
-    //            //*! While it is not at the start of the array [1] = head cap
-    //            if (Line_Points[0].segment.transform.position != Line_Points[1].segment.transform.position)
-    //            {
-    //                //*! Decreament the current target to index into the line points[]
-    //                if (current_target > 0)
-    //                {
-    //                    current_target--;
-    //                    //*! Assign the new target
-    //                    Line_Points[0].target = Line_Points[current_target].target;
-    //                }
-    //                //else
-    //                //{
-    //                //    //*! Never should happen, but just in case haha.
-    //                //    Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
-    //                //    //*! Increment it?
-    //                //    current_target++;
-    //                //}
-    //            }
-    //            else
-    //            {
-    //                //*! Used to excape the while loop
-    //                //*! Above Corotine finished
-    //                head_at_tail = false;
-    //                //*! At the tail position
-    //                head_traversing_body = false;
-    //            }
-    //        }
-
-    //        //*! Keep returning null until the head is at the tail positon
-    //        yield return null;
-    //    }
-
-    //    //*! Current node to move from is now at the heads position converted into node
-    //    Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[0].segment.transform.position.x,
-    //                                       (int)Line_Points[0].segment.transform.position.y];
-
-    //    Line_Point_Swap();
-
-    //}
-
-
-    /// <summary>
     /// Set the target positions of the HEAD, HEAD_CAP, TAIL_CAP
     /// </summary>
     private void Shift_Nodes()
@@ -587,6 +542,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
             if (Queued_Node != null)
             {
                 is_moving = true;
+
+
             }
         }
 
@@ -635,6 +592,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Next_Node.Can_UP == true)
                 {
+                    Next_Node.UP_EDGE.Set_Traversability(false);
+
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.UP_NODE.Position.x), Mathf.RoundToInt(Next_Node.UP_NODE.Position.y), Mathf.RoundToInt(Next_Node.UP_NODE.Position.z));
                 }
                 else
@@ -683,8 +642,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 ///*! Default Value for the current position
                 Vector3Int t_current_position = Vector3Int.zero;
 
+
                 if (Current_Node.Can_UP == true)
                 {
+                    //Current_Node.UpEdege.SetTraversabilty(true);
+                    //Current_Node.UP_EDGE.Is_Occupied = true;
+                    Current_Node.UP_EDGE.Set_Traversability(false);
+
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.UP_NODE.Position.x), Mathf.RoundToInt(Current_Node.UP_NODE.Position.y), Mathf.RoundToInt(Current_Node.UP_NODE.Position.z));
                 }
                 else
@@ -742,6 +706,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Next_Node.Can_DN == true)
                 {
+                    Next_Node.DN_EDGE.Set_Traversability(false);
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.DN_NODE.Position.x), Mathf.RoundToInt(Next_Node.DN_NODE.Position.y), Mathf.RoundToInt(Next_Node.DN_NODE.Position.z));
                 }
                 else
@@ -794,6 +759,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Current_Node.Can_DN == true)
                 {
+                    Current_Node.DN_EDGE.Set_Traversability(false);
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.DN_NODE.Position.x), Mathf.RoundToInt(Current_Node.DN_NODE.Position.y), Mathf.RoundToInt(Current_Node.DN_NODE.Position.z));
                 }
                 else
@@ -851,6 +817,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Next_Node.Can_LFT == true)
                 {
+                    Next_Node.LFT_EDGE.Set_Traversability(false);
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.LFT_NODE.Position.x), Mathf.RoundToInt(Next_Node.LFT_NODE.Position.y), Mathf.RoundToInt(Next_Node.LFT_NODE.Position.z));
                 }
                 else
@@ -901,6 +868,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Current_Node.Can_LFT == true)
                 {
+                    Current_Node.LFT_EDGE.Set_Traversability(false);
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.LFT_NODE.Position.x), Mathf.RoundToInt(Current_Node.LFT_NODE.Position.y), Mathf.RoundToInt(Current_Node.LFT_NODE.Position.z));
                 }
                 else
@@ -956,6 +924,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Next_Node.Can_RGT == true)
                 {
+                    Next_Node.RGT_EDGE.Set_Traversability(false);
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.RGT_NODE.Position.x), Mathf.RoundToInt(Next_Node.RGT_NODE.Position.y), Mathf.RoundToInt(Next_Node.RGT_NODE.Position.z));
                 }
                 else
@@ -1005,6 +974,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 if (Current_Node.Can_RGT == true)
                 {
+                    Current_Node.RGT_EDGE.Set_Traversability(false);
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.RGT_NODE.Position.x), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.y), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.z));
                 }
                 else

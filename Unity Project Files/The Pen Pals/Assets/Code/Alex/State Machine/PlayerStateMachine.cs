@@ -403,7 +403,7 @@ public class PlayerStateMachine : MonoBehaviour
         else if (Input.GetKeyDown(Left_Key) == true && left_key_pressed == false)
         {
             //*! Has the player jumped
-            if (up_key_pressed == true && Current_Node.UP_NODE.Can_LFT == true)
+            if (up_key_pressed == true /*&& Current_Node.UP_NODE.Can_LFT == true*/)
             {
                 //*! Set the flag for later use
                 left_key_pressed = true;
@@ -412,7 +412,7 @@ public class PlayerStateMachine : MonoBehaviour
                 right_key_pressed = true;
             }
             //*! Move along ground
-            else if (is_grounded == true && Current_Node.Can_LFT == true)
+            else if (is_grounded == true /*&& Current_Node.Can_LFT == true*/)
             {
                 //*! Set the flag for later use
                 left_key_pressed = false;
@@ -429,7 +429,7 @@ public class PlayerStateMachine : MonoBehaviour
         else if (Input.GetKeyDown(Right_Key) == true && right_key_pressed == false)
         {
             //*! Has the player jumped
-            if (up_key_pressed == true && Current_Node.UP_NODE.Can_RGT == true)
+            if (up_key_pressed == true /*&& Current_Node.UP_NODE.Can_RGT == true*/)
             {
                 //*! Set the flag for later use
                 left_key_pressed = true;
@@ -438,7 +438,7 @@ public class PlayerStateMachine : MonoBehaviour
                 right_key_pressed = true;
             }
             //*! Move along ground
-            else if (is_grounded == true && Current_Node.Can_RGT == true)
+            else if (is_grounded == true /*&& Current_Node.Can_RGT == true*/)
             {
                 //*! Set the flag for later use
                 right_key_pressed = false;
@@ -456,6 +456,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             return Queued_Node;
         }
+
 
     }
 
