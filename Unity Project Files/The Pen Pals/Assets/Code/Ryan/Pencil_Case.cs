@@ -354,6 +354,11 @@ public class Pencil_Case : MonoBehaviour
                 LI_Nodes[i, j].DN_NODE = null;
                 LI_Nodes[i, j].LFT_NODE = null;
                 LI_Nodes[i, j].RGT_NODE = null;
+
+                LI_Nodes[i, j].UP_EDGE = null;
+                LI_Nodes[i, j].DN_EDGE = null;
+                LI_Nodes[i, j].LFT_EDGE = null;
+                LI_Nodes[i, j].RGT_EDGE = null;
             }
         }
         #endregion
@@ -512,6 +517,132 @@ public class Pencil_Case : MonoBehaviour
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
                 new_edge_V.Edge_Direction = Edge_Direction.Vertical;
                 BL_V_Edges[i, j] = new_edge_V;
+            }
+        }
+        #endregion
+
+        //*! Setup [Line] - [Node]'s neighbor [Edge]
+        #region Setup [Line] - [Node]'s neighbor [Edge] - Non-Boarder
+        for (int i = 1; i < LI_Nodes.GetLength(0) - 1; ++i)
+        {
+            for (int j = 1; j < LI_Nodes.GetLength(1) - 1; ++j)
+            {
+                LI_Nodes[i, j].UP_EDGE = LI_V_Edges[i,j];
+                LI_Nodes[i, j].DN_EDGE = LI_V_Edges[i, j - 1];
+                LI_Nodes[i, j].LFT_EDGE = LI_U_Edges[i - 1, j];
+                LI_Nodes[i, j].RGT_EDGE = LI_U_Edges[i, j];
+            }
+        }
+        #endregion
+
+        #region Setup [Line] - [Node]'s neighbor [Edge] - UP-Boarder
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            int maxY = LI_Nodes.GetUpperBound(1);
+
+            if (i == 0)
+            {
+                LI_Nodes[i, maxY].UP_EDGE = null;
+                LI_Nodes[i, maxY].DN_EDGE = LI_V_Edges[i, maxY - 1];
+                LI_Nodes[i, maxY].LFT_EDGE = null;
+                LI_Nodes[i, maxY].RGT_EDGE = LI_U_Edges[i, maxY];
+            }
+            else if (i == LI_Nodes.GetLength(0) - 1)
+            {
+                LI_Nodes[i, maxY].UP_EDGE = null;
+                LI_Nodes[i, maxY].DN_EDGE = LI_V_Edges[i, maxY - 1];
+                LI_Nodes[i, maxY].LFT_EDGE = LI_U_Edges[i - 1, maxY];
+                LI_Nodes[i, maxY].RGT_EDGE = null;
+            }
+            else
+            {
+                LI_Nodes[i, maxY].UP_EDGE = null;
+                LI_Nodes[i, maxY].DN_EDGE = LI_V_Edges[i, maxY - 1];
+                LI_Nodes[i, maxY].LFT_EDGE = LI_U_Edges[i - 1, maxY];
+                LI_Nodes[i, maxY].RGT_EDGE = LI_U_Edges[i, maxY];
+            }
+        }
+        #endregion
+
+        #region Setup [Line] - [Node]'s neighbor [Edge] - DN-Boarder
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            if (i == 0)
+            {
+                LI_Nodes[i, 0].UP_EDGE = LI_V_Edges[i, 0];
+                LI_Nodes[i, 0].DN_EDGE = null;
+                LI_Nodes[i, 0].LFT_EDGE = null;
+                LI_Nodes[i, 0].RGT_EDGE = LI_U_Edges[i, 0];
+            }
+            else if (i == LI_Nodes.GetLength(0) - 1)
+            {
+                LI_Nodes[i, 0].UP_EDGE = LI_V_Edges[i, 0];
+                LI_Nodes[i, 0].DN_EDGE = null;
+                LI_Nodes[i, 0].LFT_EDGE = LI_U_Edges[i - 1, 0];
+                LI_Nodes[i, 0].RGT_EDGE = null;
+            }
+            else
+            {
+                LI_Nodes[i, 0].UP_EDGE = LI_V_Edges[i, 0];
+                LI_Nodes[i, 0].DN_EDGE = null;
+                LI_Nodes[i, 0].LFT_EDGE = LI_U_Edges[i - 1, 0];
+                LI_Nodes[i, 0].RGT_EDGE = LI_U_Edges[i, 0];
+            }
+        }
+        #endregion
+
+        #region Setup [Line] - [Node]'s neighbor [Edge] - LFT-Boarder
+        for (int i = 0; i < LI_Nodes.GetLength(1); ++i)
+        {
+            if (i == 0)
+            {
+                LI_Nodes[0, i].UP_EDGE = LI_V_Edges[0, i];
+                LI_Nodes[0, i].DN_EDGE = null;
+                LI_Nodes[0, i].LFT_EDGE = null;
+                LI_Nodes[0, i].RGT_EDGE = LI_U_Edges[0, i];
+            }
+            else if (i == LI_Nodes.GetLength(1) - 1)
+            {
+                LI_Nodes[0, i].UP_EDGE = null;
+                LI_Nodes[0, i].DN_EDGE = LI_V_Edges[0, i - 1];
+                LI_Nodes[0, i].LFT_EDGE = null;
+                LI_Nodes[0, i].RGT_EDGE = LI_U_Edges[0, i];
+            }
+            else
+            {
+                LI_Nodes[0, i].UP_EDGE = LI_V_Edges[0, i];
+                LI_Nodes[0, i].DN_EDGE = LI_V_Edges[0, i - 1];
+                LI_Nodes[0, i].LFT_EDGE = null;
+                LI_Nodes[0, i].RGT_EDGE = LI_U_Edges[0, i];
+            }
+        }
+        #endregion
+
+        #region Setup [Line] - [Node]'s neighbor [Edge] - RGT-Boarder
+        for (int i = 0; i < LI_Nodes.GetLength(1); ++i)
+        {
+            int maxX = LI_Nodes.GetUpperBound(0);
+
+            if (i == 0)
+            {
+                LI_Nodes[maxX, i].UP_EDGE = LI_V_Edges[maxX, i];
+                LI_Nodes[maxX, i].DN_EDGE = null;
+                LI_Nodes[maxX, i].LFT_EDGE = LI_U_Edges[maxX - 1, i];
+                LI_Nodes[maxX, i].RGT_EDGE = null;
+            }
+            else if (i == LI_Nodes.GetLength(1) - 1)
+            {
+                LI_Nodes[maxX, i].UP_EDGE = null;
+                LI_Nodes[maxX, i].DN_EDGE = LI_V_Edges[maxX, i - 1];
+                LI_Nodes[maxX, i].LFT_EDGE = LI_U_Edges[maxX - 1, i];
+                LI_Nodes[maxX, i].RGT_EDGE = null;
+            }
+            else
+            {
+                LI_Nodes[maxX, i].UP_EDGE = LI_V_Edges[maxX, i];
+                LI_Nodes[maxX, i].DN_EDGE = LI_V_Edges[maxX, i - 1];
+                LI_Nodes[maxX, i].LFT_EDGE = LI_U_Edges[maxX - 1, i];
+                LI_Nodes[maxX, i].RGT_EDGE = null;
             }
         }
         #endregion
@@ -1957,6 +2088,12 @@ public class Node
     public Node DN_NODE;
     public Node LFT_NODE;
     public Node RGT_NODE;
+
+    //*! Connected [Edge] reference holder
+    public Edge UP_EDGE;
+    public Edge DN_EDGE;
+    public Edge LFT_EDGE;
+    public Edge RGT_EDGE;
 
     //*! [Node] [Gizmos] reference holder
     public GameObject Gizmos_GO;
