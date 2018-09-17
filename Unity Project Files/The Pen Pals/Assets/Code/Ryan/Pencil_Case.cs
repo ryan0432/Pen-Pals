@@ -2129,6 +2129,41 @@ public class Node
 
         return new_Node;
     }
+
+    //* Function to set neighbor [Node] traversability
+    public void Set_Traversability(bool Can_Traverse)
+    {
+        //*! New references for neighbor [Node] previous status
+        #region New references for neighbor [Node] previous status
+        Node prev_UPsDN_Node = new Node();
+        Node prev_DNsUP_Node = new Node();
+        Node prev_LFTsRGT_Node = new Node();
+        Node prev_RGTsLFT_Node = new Node();
+        #endregion
+
+        //*! Switch traversability according to [Can_Traverse] argument
+        #region Switch traversability according to [Can_Traverse] argument
+        if (!Can_Traverse)
+        {
+            prev_UPsDN_Node = UP_NODE.DN_NODE.Clone();
+            prev_DNsUP_Node = DN_NODE.UP_NODE.Clone();
+            prev_LFTsRGT_Node = LFT_NODE.RGT_NODE.Clone();
+            prev_RGTsLFT_Node = RGT_NODE.LFT_NODE.Clone();
+
+            UP_NODE.DN_NODE = null;
+            DN_NODE.UP_NODE = null;
+            LFT_NODE.RGT_NODE = null;
+            RGT_NODE.LFT_NODE = null;
+        }
+        else
+        {
+            UP_NODE.DN_NODE = prev_UPsDN_Node.Clone();
+            DN_NODE.UP_NODE = prev_DNsUP_Node.Clone();
+            LFT_NODE.RGT_NODE = prev_LFTsRGT_Node.Clone();
+            RGT_NODE.LFT_NODE = prev_RGTsLFT_Node.Clone();
+        }
+        #endregion
+    }
 }
 
 public class Edge
@@ -2182,6 +2217,7 @@ public class Edge
         #endregion
 
         //*! Switch traversability according to [Can_Traverse] argument
+        #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
@@ -2216,6 +2252,7 @@ public class Edge
                 RGT_Node.LFT_NODE = prev_RGTsLFT_Node.Clone();
             }
         }
+        #endregion
     }
 }
 #endregion
