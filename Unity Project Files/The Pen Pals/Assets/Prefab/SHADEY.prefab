@@ -259,7 +259,7 @@ MonoBehaviour:
   move_down_key: 274
   move_left_key: 276
   move_right_key: 275
-  player_type: 1
+  player_type: 0
 --- !u!212 &212243544939605738
 SpriteRenderer:
   m_ObjectHideFlags: 1
