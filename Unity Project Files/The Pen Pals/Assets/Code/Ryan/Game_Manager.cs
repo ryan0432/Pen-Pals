@@ -73,6 +73,15 @@ public class Game_Manager : MonoBehaviour
     {
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
+        Check_Node_Stickers_In_Update();
+
+        //BL_U_Edges[0, 0].Is_Occupied = true;
+        //BL_U_Edges[0, 0].Set_Traversability();
+        //Debug.Log("BL_U_Edges[0, 0] UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
+
+        //BL_U_Edges[0, 0].Is_Occupied = false;
+        //BL_U_Edges[0, 0].Set_Traversability();
+        //Debug.Log("BL_U_Edges[0, 0] UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
     }
 
     //*!----------------------------!*//
@@ -141,16 +150,18 @@ public class Game_Manager : MonoBehaviour
                 BL_Nodes[i, j].LFT_NODE = null;
                 BL_Nodes[i, j].RGT_NODE = null;
 
-                //*! Check [Node] [Type] = [Block_Blue_Goal]
+                //*! Check [Node] [Type] == [Block_Blue_Goal]
                 if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Blue_Goal)
                 {
-                    Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                 }
 
-                //* Check [Node] [Type] = [Block_Red_Goal]
+                //* Check [Node] [Type] == [Block_Red_Goal]
                 if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Red_Goal)
                 {
-                    Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                 }
             }
         }
@@ -214,10 +225,11 @@ public class Game_Manager : MonoBehaviour
                 LI_Nodes[i, j].LFT_NODE = null;
                 LI_Nodes[i, j].RGT_NODE = null;
 
-                //* Check [Node] [Type] = [Line_Red_Goal]
+                //* Check [Node] [Type] == [Line_Red_Goal]
                 if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Red_Goal)
                 {
-                    Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                 }
             }
         }
@@ -304,10 +316,11 @@ public class Game_Manager : MonoBehaviour
 
                 LI_U_Edges[i, j] = new_edge_U;
 
-                //* Check [Edge] [Type] = [Black_Pen]
+                //* Check [Edge] [Type] == [Black_Pen]
                 if (LI_U_Edges[i, j].Edge_Type == Edge_Type.Black_Pen)
                 {
-                    Instantiate(Black_Pen, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    LI_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
                 }
             }
         }
@@ -353,7 +366,8 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Edge] [Type] = [Black_Pen]
                 if (LI_V_Edges[i, j].Edge_Type == Edge_Type.Black_Pen)
                 {
-                    Instantiate(Black_Pen, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    LI_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
                 }
             }
         }
@@ -381,7 +395,9 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Edge] [Type] = [HighLighter_Red]
                 if (BL_U_Edges[i, j].Edge_Type == Edge_Type.HighLighter_Red)
                 {
-                    Instantiate(HighLighter_Red, BL_U_Edges[i, j].Position, BL_U_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(HighLighter_Red, BL_U_Edges[i, j].Position, BL_U_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    BL_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+
                 }
             }
         }
@@ -407,7 +423,8 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Edge] [Type] = [HighLighter_Red]
                 if (BL_V_Edges[i, j].Edge_Type == Edge_Type.HighLighter_Red)
                 {
-                    Instantiate(HighLighter_Red, BL_V_Edges[i, j].Position, BL_V_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    GameObject new_Gizmos_GO = Instantiate(HighLighter_Red, BL_V_Edges[i, j].Position, BL_V_Edges[i, j].Rotation, transform.Find("Symbols"));
+                    BL_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
                 }
             }
         }
@@ -798,4 +815,46 @@ public class Game_Manager : MonoBehaviour
         }
         #endregion
     }
+
+    [ContextMenu("Check_Node_Stickers")]
+    private void Check_Node_Stickers_In_Update()
+    {
+        //*! Check [Block] [Node] [Type]
+        for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+            {
+                if (BL_Nodes[i, j].Gizmos_GO == null) return;
+
+                //*! If [Node] [Type] == [NONE], setActive to false
+                if (BL_Nodes[i, j].Node_Type == Node_Type.NONE)
+                {
+                    BL_Nodes[i, j].Gizmos_GO.SetActive(false);
+                }
+                else
+                {
+                    BL_Nodes[i, j].Gizmos_GO.SetActive(true);
+                }
+            }
+        }
+
+        //*! Check [Line] [Node] [Type]
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+            {
+                if (LI_Nodes[i, j].Gizmos_GO == null) return;
+
+                if (LI_Nodes[i, j].Node_Type == Node_Type.NONE)
+                {
+                    LI_Nodes[i, j].Gizmos_GO.SetActive(false);
+                }
+                else
+                {
+                    LI_Nodes[i, j].Gizmos_GO.SetActive(false);
+                }
+            }
+        }
+    }
+
 }

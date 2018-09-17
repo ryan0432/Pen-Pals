@@ -1931,30 +1931,32 @@ public class Pencil_Case : MonoBehaviour
 //*! Classes for map elements [Node] and [Edge] 
 public class Node
 {
-    //*! Getter, Setter of Node members
+    //*! [Node] Position reference holder
     public Vector3 Position;
 
-    //*! Getter, Setter of Node members
+    //*! Getter, Setter of [Node] Traversability boolean properties of 4 neighbor [Node]
+    //*! Return value according to if neighbor [Node] null && occupied
     public bool Can_UP { get { return (UP_NODE != null) && (UP_NODE.Is_Occupied == false); } }
     public bool Can_DN { get { return (DN_NODE != null) && (DN_NODE.Is_Occupied == false); } }
     public bool Can_LFT { get { return (LFT_NODE != null) && (LFT_NODE.Is_Occupied == false); } }
     public bool Can_RGT { get { return (RGT_NODE != null) && (RGT_NODE.Is_Occupied == false); } }
 
-    //*! Neighbor Node reference holder
+    //*! Neighbor [Node] reference holder
     public Node UP_NODE;
     public Node DN_NODE;
     public Node LFT_NODE;
     public Node RGT_NODE;
 
-    //*! Getter, Setter of [Node] [Gizmos]
+    //*! [Node] [Gizmos] reference holder
     public GameObject Gizmos_GO;
 
-    //*! Getter, Setter of [Node] [Type]
+    //*! [Node] [Type] reference holder
     public Node_Type Node_Type;
 
-    //*! Getter, Setter of [Node] is occupied
+    //*! [Node] is occupied boolean
     public bool Is_Occupied;
 
+    //*! Deep copy current [Node]
     public Node Clone()
     {
         Node new_Node = new Node();
@@ -1971,13 +1973,13 @@ public class Node
 
 public class Edge
 {
-    //*! Getter, Setter of [Edge] neighbor [Node]
+    //*! [Edge] neighbor [Node] reference holder
     public Node UP_Node;
     public Node DN_Node;
     public Node LFT_Node;
     public Node RGT_Node;
 
-    //*! Getter, Setter of [Edge] Position and Rotation
+    //*! [Edge] Position reference holder
     public Vector3 Position;
     public Quaternion Rotation
     {
@@ -1995,25 +1997,29 @@ public class Edge
         }
     }
 
-    //*! Getter, Setter of [Edge] [Gizmos]
+    //*! [Edge] [Gizmos] reference holder
     public GameObject Gizmos_GO;
 
-    //*! Getter, Setter of [Edge] [Edge Type] & [Boarder Type]
+    //*! [Edge] [Edge Type], [Boarder Type] and [Edge Direction] reference holder
     public Edge_Type Edge_Type;
     public Boarder_Type Boarder_Type;
     public Edge_Direction Edge_Direction;
 
-    //*! Getter, Setter of [Node] is occupied
+    //*! [Edge] is occupied boolean
     public bool Is_Occupied;
 
-    //* Function to reset neighbor nodes' traversability
+    //* Function to set neighbor [Node] traversability
     public void Set_Traversability()
     {
+        //*! New references for neighbor [Node] previous status
+        #region New references for neighbor [Node] previous status
         Node prev_UPsDN_Node = new Node();
         Node prev_DNsUP_Node = new Node();
         Node prev_LFTsRGT_Node = new Node();
         Node prev_RGTsLFT_Node = new Node();
+        #endregion
 
+        //*! 
         if (Is_Occupied)
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
