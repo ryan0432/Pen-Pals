@@ -1616,7 +1616,7 @@ public class Pencil_Case : MonoBehaviour
             #region If there is no Lv_Data pluged in, show error message and return
             if (lv_Data == null)
             {
-                Debug.Log("There is no Level Data loaded. Please select a Level Data to edit.");
+                Debug.Log("There is no Level Data loaded in [Pencil_Case]. Please select a Level Data to edit.");
                 isSaved = false;
                 return;
             }
@@ -1769,7 +1769,7 @@ public class Pencil_Case : MonoBehaviour
             #region If there is no Lv_Data pluged in, show error message and return
             if (lv_Data == null)
             {
-                Debug.Log("There is no Level Data loaded. Please select a Level Data to edit.");
+                Debug.Log("There is no Level Data loaded in [Pencil_Case]. Please select a Level Data to edit.");
                 isLoaded = false;
                 return;
             }
@@ -1935,10 +1935,10 @@ public class Node
     public Vector3 Position;
 
     //*! Getter, Setter of Node members
-    public bool Can_UP { get { return (UP_NODE != null) && (Is_Occupied == false); } }
-    public bool Can_DN { get { return (DN_NODE != null) && (Is_Occupied == false); } }
-    public bool Can_LFT { get { return (LFT_NODE != null) && (Is_Occupied == false); } }
-    public bool Can_RGT { get { return (RGT_NODE != null) && (Is_Occupied == false); } }
+    public bool Can_UP { get { return (UP_NODE != null) && (UP_NODE.Is_Occupied == false); } }
+    public bool Can_DN { get { return (DN_NODE != null) && (DN_NODE.Is_Occupied == false); } }
+    public bool Can_LFT { get { return (LFT_NODE != null) && (LFT_NODE.Is_Occupied == false); } }
+    public bool Can_RGT { get { return (RGT_NODE != null) && (RGT_NODE.Is_Occupied == false); } }
 
     //*! Neighbor Node reference holder
     public Node UP_NODE;

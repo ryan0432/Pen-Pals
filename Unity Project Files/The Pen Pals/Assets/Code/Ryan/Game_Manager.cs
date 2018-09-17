@@ -82,6 +82,15 @@ public class Game_Manager : MonoBehaviour
     [ContextMenu("Initializa_Level_Data")]
     private void Initializa_Level_Data()
     {
+        //*! If there is no Level Data pluged in, show error message and return
+        #region If there is no Level Data pluged in, show error message and return
+        if (lvData == null)
+        {
+            Debug.Log("There is no Level Data loaded in [Game_Manager]. Please select a Level Data to edit.");
+            return;
+        }
+        #endregion
+
         //*! Setup row/col for each [Node] & [Edge] array
         #region Setup row/col for each [Node] & [Edge] array
         row = lvData.row;
