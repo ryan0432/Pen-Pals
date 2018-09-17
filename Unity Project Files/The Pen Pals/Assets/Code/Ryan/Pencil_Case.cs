@@ -203,19 +203,19 @@ public class Pencil_Case : MonoBehaviour
             //*! Check every [Edge] [Type] [Data]'s enum flag to turn the switch [Nodes] traversability ON/OFF
             Update_Graph_Traversability_Edited_Mode();
 
-            //*! Render all [Node] according to the [Edge] check result
+            //*! Render all [Node] and its arrow indicators ON/OFF according to the [Edge] check result
             Render_Node_Gizmos_Edit_Mode();
 
-            //*! Assign All [Handle]'s [Edge] [Node] [Type] to [Data]
+            //*! Assign All [Handle] & [Gizmos]'s [Edge] & [Node] - [Type] to [Data]
             Assign_All_Handle_Type_To_Data_Edit_Mode();
 
-            //*! Assign [Data] [Node] & [Edge] [Type] to [Gizmos] [Node] & [Edge] [Type]
+            //*! Assign [Data] [Node] & [Edge] [Type] to [Handle] & [Gizmos]'s [Node] & [Edge] [Type]
             Assign_All_Data_Type_To_Handle_Edit_Mode();
 
-            //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic)
+            //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic Only)
             Render_All_Handles_By_Type_Edit_Mode();
 
-            //* Save Level data from file
+            //*! Save Level data from file
             Save_Level_Data();
         }
 
@@ -277,9 +277,6 @@ public class Pencil_Case : MonoBehaviour
         BL_V_Edges = new Edge[initialRow - 1, initialCol];
         LI_U_Edges = new Edge[initialRow - 1, initialCol];
         LI_V_Edges = new Edge[initialRow, initialCol - 1];
-
-        Quaternion rot_U = Quaternion.AngleAxis(90, Vector3.forward);
-        Quaternion rot_V = Quaternion.AngleAxis(0, Vector3.forward);
         #endregion
 
         //*! Setup [Block] - [Node] data
@@ -1615,6 +1612,16 @@ public class Pencil_Case : MonoBehaviour
     {
         if (isSaved)
         {
+            //*! If there is no Lv_Data pluged in, show error message and return
+            #region If there is no Lv_Data pluged in, show error message and return
+            if (lv_Data == null)
+            {
+                Debug.Log("There is no Level Data loaded. Please select a Level Data to edit.");
+                isSaved = false;
+                return;
+            }
+            #endregion
+
             //*! Setup row/col for each [Node] & [Edge] array
             #region Setup row/col for each [Node] & [Edge] array
             lv_Data.row = row;
@@ -1758,6 +1765,16 @@ public class Pencil_Case : MonoBehaviour
     {
         if (isLoaded)
         {
+            //*! If there is no Lv_Data pluged in, show error message and return
+            #region If there is no Lv_Data pluged in, show error message and return
+            if (lv_Data == null)
+            {
+                Debug.Log("There is no Level Data loaded. Please select a Level Data to edit.");
+                isLoaded = false;
+                return;
+            }
+            #endregion
+
             //*! If the editor's graph size is smaller than file' graph size
             //*! Print error message
             if (lv_Data.row > row || lv_Data.col > col)
@@ -1873,6 +1890,8 @@ public class Pencil_Case : MonoBehaviour
                 }
                 #endregion
 
+                //*! Initiate Repaint Level Process initiate
+                # region Initiate Repaint Level Process initiate
                 //*! Render all [Edge] base on row/col and set [Boarder] data
                 Render_Edge_Handles_Edit_Mode();
 
@@ -1887,6 +1906,7 @@ public class Pencil_Case : MonoBehaviour
 
                 //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic)
                 Render_All_Handles_By_Type_Edit_Mode();
+                #endregion
 
                 Debug.Log("Level Data Loaded!!");
             }
@@ -1915,10 +1935,10 @@ public class Node
     public Vector3 Position;
 
     //*! Getter, Setter of Node members
-    public bool Can_UP { get { return UP_NODE != null; } }
-    public bool Can_DN { get { return DN_NODE != null; } }
-    public bool Can_LFT { get { return LFT_NODE != null; } }
-    public bool Can_RGT { get { return RGT_NODE != null; } }
+    public bool Can_UP { get { return (UP_NODE != null) && (Is_Occupied == false); } }
+    public bool Can_DN { get { return (DN_NODE != null) && (Is_Occupied == false); } }
+    public bool Can_LFT { get { return (LFT_NODE != null) && (Is_Occupied == false); } }
+    public bool Can_RGT { get { return (RGT_NODE != null) && (Is_Occupied == false); } }
 
     //*! Neighbor Node reference holder
     public Node UP_NODE;
