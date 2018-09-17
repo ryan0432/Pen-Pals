@@ -41,7 +41,7 @@ MonoBehaviour:
   - Position: {x: 4.5, y: 0.5, z: 0}
     Node_Type: 0
   - Position: {x: 4.5, y: 1.5, z: 0}
-    Node_Type: 0
+    Node_Type: 2
   - Position: {x: 4.5, y: 2.5, z: 0}
     Node_Type: 0
   LI_Nodes:
@@ -90,7 +90,7 @@ MonoBehaviour:
   - Position: {x: 5, y: 1, z: 0}
     Node_Type: 0
   - Position: {x: 5, y: 2, z: 0}
-    Node_Type: 0
+    Node_Type: 3
   - Position: {x: 5, y: 3, z: 0}
     Node_Type: 0
   BL_U_Edges:

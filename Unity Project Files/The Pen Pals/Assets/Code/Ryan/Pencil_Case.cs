@@ -5,7 +5,7 @@
 //*!              This class in an experimental class to test using
 //*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 12/09/2018
+//*! Last edit  : 17/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -1115,6 +1115,8 @@ public class Pencil_Case : MonoBehaviour
             {
                 Node currNode = BL_Nodes[i, j];
                 currNode.Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = (BL_Node_Handle_Type)(int)currNode.Node_Type;
+                currNode.Gizmos_GO.transform.GetChild(0).position = currNode.Position;
+                currNode.Gizmos_GO.transform.GetChild(0).rotation = Quaternion.identity;
             }
         }
         #endregion
@@ -1127,6 +1129,8 @@ public class Pencil_Case : MonoBehaviour
             {
                 Node currNode = LI_Nodes[i, j];
                 currNode.Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = (LI_Node_Handle_Type)(int)currNode.Node_Type;
+                currNode.Gizmos_GO.transform.GetChild(0).position = currNode.Position;
+                currNode.Gizmos_GO.transform.GetChild(0).rotation = Quaternion.identity;
             }
         }
         #endregion
@@ -1140,6 +1144,8 @@ public class Pencil_Case : MonoBehaviour
                 Edge currEdge = LI_U_Edges[i, j];
                 currEdge.Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = (LI_Edge_Handle_Type)(int)currEdge.Edge_Type;
                 currEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = currEdge.Boarder_Type;
+                currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
+                currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
             }
         }
         #endregion
@@ -1153,6 +1159,8 @@ public class Pencil_Case : MonoBehaviour
                 Edge currEdge = LI_V_Edges[i, j];
                 currEdge.Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = (LI_Edge_Handle_Type)(int)currEdge.Edge_Type;
                 currEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = currEdge.Boarder_Type;
+                currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
+                currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
             }
         }
         #endregion
@@ -1165,6 +1173,8 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge currEdge = BL_U_Edges[i, j];
                 currEdge.Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = (BL_Edge_Handle_Type)(int)currEdge.Edge_Type;
+                currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
+                currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
             }
         }
         #endregion
@@ -1177,6 +1187,8 @@ public class Pencil_Case : MonoBehaviour
             {
                 Edge currEdge = BL_V_Edges[i, j];
                 currEdge.Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = (BL_Edge_Handle_Type)(int)currEdge.Edge_Type;
+                currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
+                currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
             }
         }
         #endregion
@@ -2207,6 +2219,7 @@ public class Edge
     }
 }
 #endregion
+
 
 //*!----------------------------!*//
 //*!    Custom Enum Classes

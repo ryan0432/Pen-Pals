@@ -1,12 +1,12 @@
 ﻿//*!--------------------------------------------------------------!*//
 //*! Programmer : Ryan Chung
 //*!
-//*! Description: A class for Assigning [Node Type] to [Pencil Case]
-//*!              [Edge Type] data.
+//*! Description: This is the [Game Manager], handles [Level Data]
+//*!              and convert it into a playable level
 //*!              This class in an experimental class to test using
 //*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 12/09/2018
+//*! Last edit  : 17/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -41,6 +41,16 @@ public class Game_Manager : MonoBehaviour
     public GameObject Line_Blue_Goal;
     public GameObject Line_Red_Goal;
 
+    [HideInInspector]
+    public int Block_Blue_Goal_Count = 0;
+    [HideInInspector]
+    public int Block_Red_Goal_Count = 0;
+    [HideInInspector]
+    public int Line_Blue_Goal_Count = 0;
+    [HideInInspector]
+    public int Line_Red_Goal_Count = 0;
+
+
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
@@ -63,6 +73,7 @@ public class Game_Manager : MonoBehaviour
     [HideInInspector]
     private Material li_giz_mat;
 
+
     void Awake()
     {
         if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
@@ -84,6 +95,7 @@ public class Game_Manager : MonoBehaviour
         //Debug.Log("BL_U_Edges[0, 0] UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
     }
 
+
     //*!----------------------------!*//
     //*!    Private Functions
     //*!----------------------------!*//
@@ -95,7 +107,7 @@ public class Game_Manager : MonoBehaviour
         #region If there is no Level Data pluged in, show error message and return
         if (lvData == null)
         {
-            Debug.Log("There is no Level Data loaded in [Game_Manager]. Please select a Level Data to edit.");
+            Debug.Log("There is no Level Data loaded in [Game_Manager]. Please select a Level Data to play.");
             return;
         }
         #endregion
@@ -155,6 +167,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
+                    Block_Blue_Goal_Count++;
                 }
 
                 //* Check [Node] [Type] == [Block_Red_Goal]
@@ -162,6 +175,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
+                    Block_Red_Goal_Count++;
                 }
             }
         }
@@ -230,6 +244,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Line_Blue_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
+                    Line_Blue_Goal_Count++;
                 }
 
                 //* Check [Node] [Type] == [Line_Red_Goal]
@@ -237,6 +252,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
+                    Line_Red_Goal_Count++;
                 }
             }
         }
