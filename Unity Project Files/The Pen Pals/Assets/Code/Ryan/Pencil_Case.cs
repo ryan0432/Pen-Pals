@@ -2158,11 +2158,8 @@ public class Edge
     public Boarder_Type Boarder_Type;
     public Edge_Direction Edge_Direction;
 
-    //*! [Edge] is occupied boolean
-    public bool Is_Occupied;
-
     //* Function to set neighbor [Node] traversability
-    public void Set_Traversability()
+    public void Set_Traversability(bool Can_Traverse)
     {
         //*! New references for neighbor [Node] previous status
         #region New references for neighbor [Node] previous status
@@ -2172,8 +2169,8 @@ public class Edge
         Node prev_RGTsLFT_Node = new Node();
         #endregion
 
-        //*! 
-        if (Is_Occupied)
+        //*! Switch traversability according to [Can_Traverse] argument
+        if (!Can_Traverse)
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
