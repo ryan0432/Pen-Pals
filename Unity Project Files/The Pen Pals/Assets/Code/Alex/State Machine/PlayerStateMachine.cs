@@ -143,6 +143,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             //*! Current Position before the move
             Current_Node.Is_Occupied = true;
+            Current_Node.Set_Traversability(false);
 
             //*! Player Input checks - based on Current Node position.
             Queued_Node = Controller_Input();
@@ -152,7 +153,7 @@ public class PlayerStateMachine : MonoBehaviour
             {
                 is_moving = true;
 
-                Queued_Node.Is_Occupied = true;
+                Queued_Node.Set_Traversability(false);
             }
 
         }
@@ -169,7 +170,7 @@ public class PlayerStateMachine : MonoBehaviour
             //*! Does it have a value, did the player input something?
             if (Queued_Node != null)
             {
-                Queued_Node.Is_Occupied = true;
+                Queued_Node.Set_Traversability(false);
                 //*! Reset the second input flag
                 can_second = false;
             }
@@ -185,7 +186,7 @@ public class PlayerStateMachine : MonoBehaviour
         //*! Does Queued node have a value
         if (Queued_Node != null)
         {
-            Queued_Node.Is_Occupied = true;
+            Queued_Node.Set_Traversability(false);
             //*! Shift nodes if next is empty
             if (Next_Node == null && Queued_Node != null)
             {
@@ -204,7 +205,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
 
             //*! Current Position before the move
-            Next_Node.Is_Occupied = true;
+            Next_Node.Set_Traversability(false);
 
             //*! Move towards with precision to have the player exactly reach the next node
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0), 4 * Time.deltaTime);
@@ -252,12 +253,15 @@ public class PlayerStateMachine : MonoBehaviour
 
 
 
-
+                Previous_Node = Current_Node;
                 //*! When it is at the next node is not at the current node
-                Current_Node.Is_Occupied = false;
+                Previous_Node.Set_Traversability(true);
 
                 //*! Shift the next node into the current node
                 Current_Node = Next_Node;
+
+
+
 
                 //*! Clear the next node
                 Next_Node = null;
@@ -270,12 +274,12 @@ public class PlayerStateMachine : MonoBehaviour
                 //*! Does Queued node have a value
                 if (Queued_Node != null)
                 {
-                    Queued_Node.Is_Occupied = true;
+                    Queued_Node.Set_Traversability(false);
                     ///Debug.Log("Q: Not null" + Queued_Node.Position);
                     //*! Shift nodes if next is empty
                     if (Next_Node == null && Queued_Node != null)
                     {
-                        Queued_Node.Is_Occupied = true;
+                        Queued_Node.Set_Traversability(false);
                         ///Debug.Log("N: null" + Next_Node);
                         //*! Shift Queued into the next node
                         Next_Node = Queued_Node;
@@ -327,7 +331,7 @@ public class PlayerStateMachine : MonoBehaviour
             //*! Assign the current grid positions down node to the Queued Node
             Queued_Node = Current_Node.DN_NODE;
 
-            Queued_Node.Is_Occupied = true;
+            Queued_Node.Set_Traversability(false);
 
 
             //*! Is NOT Grounded
