@@ -2107,6 +2107,13 @@ public class Node
     public Edge LFT_EDGE;
     public Edge RGT_EDGE;
 
+    //*! New references for neighbor [Node] previous status
+    public Node prev_UP_Node;
+    public Node prev_DN_Node;
+    public Node prev_LFT_Node;
+    public Node prev_RGT_Node;
+
+
     //*! [Node] [Gizmos] reference holder
     public GameObject Gizmos_GO;
 
@@ -2119,15 +2126,17 @@ public class Node
     //*! Deep copy current [Node]
     public Node Clone()
     {
-        Node new_Node = new Node();
-        new_Node.Position = Position;
-        new_Node.UP_NODE = UP_NODE;
-        new_Node.DN_NODE = DN_NODE;
-        new_Node.LFT_NODE = LFT_NODE;
-        new_Node.RGT_NODE = RGT_NODE;
-        new_Node.Node_Type = Node_Type;
+        //Node new_Node = new Node();
+        //new_Node.Position = Position;
+        //new_Node.UP_NODE = UP_NODE;
+        //new_Node.DN_NODE = DN_NODE;
+        //new_Node.LFT_NODE = LFT_NODE;
+        //new_Node.RGT_NODE = RGT_NODE;
+        //new_Node.Node_Type = Node_Type;
+        //new_Node.Gizmos_GO = Gizmos_GO;
+        //return new_Node;
 
-        return new_Node;
+        return (Node)MemberwiseClone();
     }
 
     //* Function to set neighbor [Node] traversability
@@ -2135,27 +2144,38 @@ public class Node
     {
         //*! New references for neighbor [Node] previous status
         #region New references for neighbor [Node] previous status
-        Node prev_UPsDN_Node = new Node();
-        Node prev_DNsUP_Node = new Node();
-        Node prev_LFTsRGT_Node = new Node();
-        Node prev_RGTsLFT_Node = new Node();
+        //prev_UP_Node = new Node();
+        //prev_DN_Node = new Node();
+        //prev_LFT_Node = new Node();
+        //prev_RGT_Node = new Node();
+
+        //prev_UP_Node = null;
+        //prev_DN_Node = null;
+        //prev_LFT_Node = null;
+        //prev_RGT_Node = null;
         #endregion
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
-            if (UP_NODE.DN_NODE != null) { prev_UPsDN_Node = UP_NODE.DN_NODE.Clone(); UP_NODE.DN_NODE = null; }
-            if (DN_NODE.UP_NODE != null) { prev_DNsUP_Node = DN_NODE.UP_NODE.Clone(); DN_NODE.UP_NODE = null; }
-            if (LFT_NODE.RGT_NODE != null) { prev_LFTsRGT_Node = LFT_NODE.RGT_NODE.Clone(); LFT_NODE.RGT_NODE = null; }
-            if (RGT_NODE.LFT_NODE != null) { prev_RGTsLFT_Node = RGT_NODE.LFT_NODE.Clone(); RGT_NODE.LFT_NODE = null; }   
+            if (UP_NODE != null) { prev_UP_Node = UP_NODE.Clone(); UP_NODE.DN_NODE = null; }
+
+            if (DN_NODE != null) { prev_DN_Node = DN_NODE.Clone(); DN_NODE.UP_NODE = null; }
+
+            if (LFT_NODE != null) { prev_LFT_Node = LFT_NODE.Clone(); LFT_NODE.RGT_NODE = null; }
+
+            if (RGT_NODE != null) { prev_RGT_Node = RGT_NODE.Clone(); RGT_NODE.LFT_NODE = null; }
         }
         else
         {
-            if (prev_UPsDN_Node != null) { UP_NODE.DN_NODE = prev_UPsDN_Node.Clone(); }
-            if (prev_DNsUP_Node != null) { DN_NODE.UP_NODE = prev_DNsUP_Node.Clone(); }
-            if (prev_LFTsRGT_Node != null) { LFT_NODE.RGT_NODE = prev_LFTsRGT_Node.Clone(); }
-            if (prev_RGTsLFT_Node != null) { RGT_NODE.LFT_NODE = prev_RGTsLFT_Node.Clone(); }
+            if (prev_UP_Node != null) { UP_NODE = prev_UP_Node.Clone(); UP_NODE.DN_NODE = this; }
+
+            if (prev_DN_Node != null) { DN_NODE = prev_DN_Node.Clone(); DN_NODE.UP_NODE = this; }
+
+            if (prev_LFT_Node != null) { LFT_NODE = prev_LFT_Node.Clone(); LFT_NODE.RGT_NODE = this; }
+
+            if (prev_RGT_Node != null) { RGT_NODE = prev_RGT_Node.Clone(); RGT_NODE.LFT_NODE = this; }
         }
         #endregion
     }
@@ -2168,6 +2188,12 @@ public class Edge
     public Node DN_Node;
     public Node LFT_Node;
     public Node RGT_Node;
+
+    //*! New references for neighbor [Node] previous status
+    public Node prev_UPsDN_Node;
+    public Node prev_DNsUP_Node;
+    public Node prev_LFTsRGT_Node;
+    public Node prev_RGTsLFT_Node;
 
     ////*! [Edge] reference that corsses with current [Edge]
     //public Edge Cross_Edge;
@@ -2203,13 +2229,15 @@ public class Edge
     //* Function to set neighbor [Node] traversability
     public void Set_Traversability(bool Can_Traverse)
     {
-        //*! New references for neighbor [Node] previous status
-        #region New references for neighbor [Node] previous status
-        Node prev_UPsDN_Node = new Node();
-        Node prev_DNsUP_Node = new Node();
-        Node prev_LFTsRGT_Node = new Node();
-        Node prev_RGTsLFT_Node = new Node();
-        #endregion
+        //prev_UPsDN_Node = new Node();
+        //prev_DNsUP_Node = new Node();
+        //prev_LFTsRGT_Node = new Node();
+        //prev_RGTsLFT_Node = new Node();
+
+        //prev_UPsDN_Node = null;
+        //prev_DNsUP_Node = null;
+        //prev_LFTsRGT_Node = null;
+        //prev_RGTsLFT_Node = null;
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
@@ -2218,13 +2246,15 @@ public class Edge
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
                 if (UP_Node.DN_NODE != null) { prev_UPsDN_Node = UP_Node.DN_NODE.Clone(); UP_Node.DN_NODE = null; }
+
                 if (DN_Node.UP_NODE != null) { prev_DNsUP_Node = DN_Node.UP_NODE.Clone(); DN_Node.UP_NODE = null; }
             }
 
             if (Edge_Direction == Edge_Direction.Vertical)
             {
                 if (LFT_Node.RGT_NODE != null) { prev_LFTsRGT_Node = LFT_Node.RGT_NODE.Clone(); LFT_Node.RGT_NODE = null; }
-                if (RGT_Node.LFT_NODE != null) { prev_RGTsLFT_Node = RGT_Node.LFT_NODE.Clone(); RGT_Node.LFT_NODE = null; } 
+
+                if (RGT_Node.LFT_NODE != null) { prev_RGTsLFT_Node = RGT_Node.LFT_NODE.Clone(); RGT_Node.LFT_NODE = null; }
             }
         }
         else
@@ -2232,12 +2262,14 @@ public class Edge
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
                 if (prev_UPsDN_Node != null) { UP_Node.DN_NODE = prev_UPsDN_Node.Clone(); }
+
                 if (prev_DNsUP_Node != null) { DN_Node.UP_NODE = prev_DNsUP_Node.Clone(); }
             }
 
             if (Edge_Direction == Edge_Direction.Vertical)
             {
                 if (prev_LFTsRGT_Node != null) { LFT_Node.RGT_NODE = prev_LFTsRGT_Node.Clone(); }
+
                 if (prev_RGTsLFT_Node != null) { RGT_Node.LFT_NODE = prev_RGTsLFT_Node.Clone(); }
             }
         }
