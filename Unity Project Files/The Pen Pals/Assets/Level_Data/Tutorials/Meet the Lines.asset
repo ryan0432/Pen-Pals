@@ -340,7 +340,7 @@ MonoBehaviour:
   - Position: {x: 1, y: 7, z: 0}
     Node_Type: 0
   - Position: {x: 1, y: 8, z: 0}
-    Node_Type: 4
+    Node_Type: 3
   - Position: {x: 1, y: 9, z: 0}
     Node_Type: 0
   - Position: {x: 2, y: 0, z: 0}
