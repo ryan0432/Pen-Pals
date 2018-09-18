@@ -2218,47 +2218,46 @@ public class Edge
     //* Function to set neighbor [Node] traversability
     public void Set_Traversability(bool Can_Traverse)
     {
+        Curr_Edge = new Edge();
+
+        Curr_Edge = this;
+
+        if (UP_Node != null && UP_Node.Can_DN) { prev_UPsDN_Node = new Node(); prev_UPsDN_Node = UP_Node.DN_NODE; }
+
+        if (DN_Node != null && DN_Node.Can_UP) { prev_DNsUP_Node = new Node(); prev_DNsUP_Node = DN_Node.UP_NODE; }
+
+        if (LFT_Node != null && LFT_Node.Can_RGT) { prev_LFTsRGT_Node = new Node(); prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
+
+        if (RGT_Node != null && RGT_Node.Can_LFT) { prev_RGTsLFT_Node = new Node(); prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
+
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
-                if (UP_Node.DN_NODE != null) { prev_UPsDN_Node = new Node(); prev_UPsDN_Node = UP_Node.DN_NODE; UP_Node.DN_NODE = null; }
+                if (UP_Node != null && UP_Node.Can_DN) { UP_Node.DN_NODE = null; }
 
-                if (DN_Node.UP_NODE != null) { prev_DNsUP_Node = new Node(); prev_DNsUP_Node = DN_Node.UP_NODE; DN_Node.UP_NODE = null; }
-
-                if (LFT_Node.RGT_NODE != null) { prev_LFTsRGT_Node = new Node(); prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
-
-                if (RGT_Node.LFT_NODE != null) { prev_RGTsLFT_Node = new Node(); prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
+                if (DN_Node != null && DN_Node.Can_UP) { DN_Node.UP_NODE = null; }
             }
 
             if (Edge_Direction == Edge_Direction.Vertical)
             {
-                if (UP_Node.DN_NODE != null) { prev_UPsDN_Node = new Node(); prev_UPsDN_Node = UP_Node.DN_NODE; }
+                if (LFT_Node != null && LFT_Node.Can_RGT) { LFT_Node.RGT_NODE = null; }
 
-                if (DN_Node.UP_NODE != null) { prev_DNsUP_Node = new Node(); prev_DNsUP_Node = DN_Node.UP_NODE; }
-
-                if (LFT_Node.RGT_NODE != null) { prev_LFTsRGT_Node = new Node(); prev_LFTsRGT_Node = LFT_Node.RGT_NODE; LFT_Node.RGT_NODE = null; }
-
-                if (RGT_Node.LFT_NODE != null) { prev_RGTsLFT_Node = new Node(); prev_RGTsLFT_Node = RGT_Node.LFT_NODE; RGT_Node.LFT_NODE = null; }
+                if (RGT_Node != null && RGT_Node.Can_LFT) { RGT_Node.LFT_NODE = null; }
             }
         }
         else
         {
-            //if (Edge_Direction == Edge_Direction.Horizontal)
-            //{
-                if (prev_UPsDN_Node != null) { UP_Node.DN_NODE = prev_UPsDN_Node; }
+            if (UP_Node != null) { UP_Node.DN_NODE = prev_UPsDN_Node; }
 
-                if (prev_DNsUP_Node != null) { DN_Node.UP_NODE = prev_DNsUP_Node; }
-            //}
+            if (DN_Node != null) { DN_Node.UP_NODE = prev_DNsUP_Node; }
 
-            //if (Edge_Direction == Edge_Direction.Vertical)
-            //{
-                if (prev_LFTsRGT_Node != null) { LFT_Node.RGT_NODE = prev_LFTsRGT_Node; }
+            if (LFT_Node != null) { LFT_Node.RGT_NODE = prev_LFTsRGT_Node; }
 
-                if (prev_RGTsLFT_Node != null) { RGT_Node.LFT_NODE = prev_RGTsLFT_Node; }
-            //}
+            if (RGT_Node != null) { RGT_Node.LFT_NODE = prev_RGTsLFT_Node; }
+
         }
         #endregion
     }
