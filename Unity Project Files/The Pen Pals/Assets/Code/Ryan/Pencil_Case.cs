@@ -2178,11 +2178,10 @@ public class Edge
     public Node RGT_Node;
 
     //*! New references for neighbor [Node] previous status
-    public Edge Curr_Edge;
-    public Node prev_UPsDN_Node;
-    public Node prev_DNsUP_Node;
-    public Node prev_LFTsRGT_Node;
-    public Node prev_RGTsLFT_Node;
+    public Node Prev_UPsDN_Node;
+    public Node Prev_DNsUP_Node;
+    public Node Prev_LFTsRGT_Node;
+    public Node Prev_RGTsLFT_Node;
 
     ////*! [Edge] reference that corsses with current [Edge]
     //public Edge Cross_Edge;
@@ -2218,17 +2217,13 @@ public class Edge
     //* Function to set neighbor [Node] traversability
     public void Set_Traversability(bool Can_Traverse)
     {
-        Curr_Edge = new Edge();
+        if (UP_Node != null && UP_Node.Can_DN) { Prev_UPsDN_Node = new Node(); Prev_UPsDN_Node = UP_Node.DN_NODE; }
 
-        Curr_Edge = this;
+        if (DN_Node != null && DN_Node.Can_UP) { Prev_DNsUP_Node = new Node(); Prev_DNsUP_Node = DN_Node.UP_NODE; }
 
-        if (UP_Node != null && UP_Node.Can_DN) { prev_UPsDN_Node = new Node(); prev_UPsDN_Node = UP_Node.DN_NODE; }
+        if (LFT_Node != null && LFT_Node.Can_RGT) { Prev_LFTsRGT_Node = new Node(); Prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
 
-        if (DN_Node != null && DN_Node.Can_UP) { prev_DNsUP_Node = new Node(); prev_DNsUP_Node = DN_Node.UP_NODE; }
-
-        if (LFT_Node != null && LFT_Node.Can_RGT) { prev_LFTsRGT_Node = new Node(); prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
-
-        if (RGT_Node != null && RGT_Node.Can_LFT) { prev_RGTsLFT_Node = new Node(); prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
+        if (RGT_Node != null && RGT_Node.Can_LFT) { Prev_RGTsLFT_Node = new Node(); Prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
@@ -2250,14 +2245,19 @@ public class Edge
         }
         else
         {
-            if (UP_Node != null) { UP_Node.DN_NODE = prev_UPsDN_Node; }
+            if (Edge_Direction == Edge_Direction.Horizontal)
+            {
+                if (UP_Node != null) { UP_Node.DN_NODE = Prev_UPsDN_Node; }
 
-            if (DN_Node != null) { DN_Node.UP_NODE = prev_DNsUP_Node; }
+                if (DN_Node != null) { DN_Node.UP_NODE = Prev_DNsUP_Node; }
+            }
 
-            if (LFT_Node != null) { LFT_Node.RGT_NODE = prev_LFTsRGT_Node; }
+            if (Edge_Direction == Edge_Direction.Vertical)
+            {
+                if (LFT_Node != null) { LFT_Node.RGT_NODE = Prev_LFTsRGT_Node; }
 
-            if (RGT_Node != null) { RGT_Node.LFT_NODE = prev_RGTsLFT_Node; }
-
+                if (RGT_Node != null) { RGT_Node.LFT_NODE = Prev_RGTsLFT_Node; }
+            }
         }
         #endregion
     }
