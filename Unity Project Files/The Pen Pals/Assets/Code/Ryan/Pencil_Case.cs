@@ -2107,6 +2107,9 @@ public class Node
     public Edge LFT_EDGE;
     public Edge RGT_EDGE;
 
+    //*! temp node
+    public Node temp_node;
+
     //*! [Node] [Gizmos] reference holder
     public GameObject Gizmos_GO;
 
@@ -2135,10 +2138,14 @@ public class Node
     //* Function to set neighbor [Node] traversability
     public void Set_Traversability(bool Can_Traverse)
     {
+
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
+            temp_node = new Node();
+            temp_node = Clone();
+
             if (UP_NODE != null) { UP_NODE.DN_NODE = null; }
 
             if (DN_NODE != null) { DN_NODE.UP_NODE = null; }
@@ -2149,13 +2156,13 @@ public class Node
         }
         else
         {
-            if (UP_NODE != null) { UP_NODE.DN_NODE = this; }
+            if (temp_node.UP_NODE != null) { UP_NODE.DN_NODE = temp_node; }
 
-            if (DN_NODE != null) { DN_NODE.UP_NODE = this; }
+            if (temp_node.DN_NODE != null) { DN_NODE.UP_NODE = temp_node; }
 
-            if (LFT_NODE != null) { LFT_NODE.RGT_NODE = this; }
+            if (temp_node.LFT_NODE != null) { LFT_NODE.RGT_NODE = temp_node; }
 
-            if (RGT_NODE != null) { RGT_NODE.LFT_NODE = this; }
+            if (temp_node.RGT_NODE != null) { RGT_NODE.LFT_NODE = temp_node; }
         }
         #endregion
     }
