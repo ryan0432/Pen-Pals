@@ -164,6 +164,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Current node is alligned to where it was placed
         Current_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(grid_position.x), Mathf.RoundToInt(grid_position.y)];
 
+        Init_Line_Segment_Traversability();
 
         Current_Node.Is_Occupied = true;
         Current_Node.LFT_EDGE.Set_Traversability(false);
@@ -176,6 +177,39 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         //*! Default value at the start of the game... not updating Do not use
         ///Pivot_Node = Current_Node.RGT_NODE;
+    }
+
+    /// <summary>
+    /// Setting the traversability of the line segments
+    /// </summary>
+    private void Init_Line_Segment_Traversability()
+    {
+
+        for (int index = 0; index < Line_Points.Length - 1; index++)
+        {
+            Node line_segment = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y)];
+            Node next_line_segment = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[index + 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index + 1].segment.transform.position.y)];
+
+            if (line_segment.UP_NODE == next_line_segment)
+            {
+                if (line_segment.UP_EDGE != null) line_segment.UP_EDGE.Set_Traversability(false);
+            }
+
+            if (line_segment.DN_NODE == next_line_segment)
+            {
+                if (line_segment.DN_EDGE != null) line_segment.DN_EDGE.Set_Traversability(false);
+            }
+
+            if (line_segment.LFT_NODE == next_line_segment)
+            {
+                if (line_segment.LFT_EDGE != null) line_segment.LFT_EDGE.Set_Traversability(false);
+            }
+
+            if (line_segment.RGT_NODE == next_line_segment)
+            {
+                if (line_segment.RGT_EDGE != null) line_segment.RGT_EDGE.Set_Traversability(false);
+            }
+        }
     }
 
     /// <summary>
@@ -439,8 +473,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
             if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
             if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
         }
-
-
 
     }
 
