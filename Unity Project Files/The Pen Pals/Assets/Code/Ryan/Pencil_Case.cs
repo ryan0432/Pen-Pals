@@ -150,11 +150,13 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Editor_Awake")]
     public void Awake()
     {
+        #region Hide [Gizmos], [Handle] and [Symbol] parent objects in Hierarchy
         transform.Find("BL_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("LI_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("BL_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("LI_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
+        #endregion
 
         if (startEditing)
         {
@@ -175,7 +177,7 @@ public class Pencil_Case : MonoBehaviour
         //*! Call [Runtime Update] if editor is in test [Playing Mode]
         if (UnityEditor.EditorApplication.isPlaying) { Runtime_Update(); }
 
-        //*! If current event is changing from [Playing Mode] to [Edit Mode] then return
+        //*! If current event is changing to [Playing Mode] to [Edit Mode] then return
         if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) { return; }
         #endregion
 
@@ -186,7 +188,7 @@ public class Pencil_Case : MonoBehaviour
             //*! Update with [DestroyImmidiate()] method
             Clear_Graph_Init_Mode();
 
-            //*! Initialize Graph here
+            //*! Initialize Graph
             Layout_Graph_Init_Mode();
 
             //*! Render Node Gizmos
@@ -203,7 +205,7 @@ public class Pencil_Case : MonoBehaviour
             //*! Render all [Edge] base on row/col and set [Boarder] data
             Render_Edge_Handles_Edit_Mode();
 
-            //*! Check every [Edge] [Type] [Data]'s enum flag to turn the switch [Nodes] traversability ON/OFF
+            //*! Check every [Edge] [Type] [Data]'s enum flag to switch [Nodes] traversability ON/OFF
             Update_Graph_Traversability_Edited_Mode();
 
             //*! Render all [Node] and its arrow indicators ON/OFF according to the [Edge] check result
@@ -863,11 +865,16 @@ public class Pencil_Case : MonoBehaviour
     [ContextMenu("Clear_Graph_Init_Mode")]
     private void Clear_Graph_Init_Mode()
     {
+        //*! Check if parent GameObjects of [Gizmos] and [Handles] are empty
+        #region Check if parent objects of [Gizmos] and [Handles] are empty
         bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
         bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
         bool is_BL_Edges_List_Empty = (transform.Find("BL_Edges_Handles").childCount < 1);
         bool is_LI_Edges_List_Empty = (transform.Find("LI_Edges_Handles").childCount < 1);
+        #endregion
 
+        //*! Destroy all remaining child [Gizmos] and [Handles] GameObjects immediately
+        #region Destroy remaining child [Gizmos] and [Handles] GameObjects immediately
         if (!is_BL_Node_Gizmos_List_Empty)
         {
             for (int i = transform.Find("BL_Node_Gizmos").childCount; i > 0; --i)
@@ -899,6 +906,7 @@ public class Pencil_Case : MonoBehaviour
                 DestroyImmediate(transform.Find("LI_Edges_Handles").GetChild(0).gameObject, true);
             }
         }
+        #endregion
     }
 
     //*! Update the Graph size in Edit Mode with [SetActive Method]
@@ -1565,7 +1573,6 @@ public class Pencil_Case : MonoBehaviour
     private void Render_All_Handles_By_Type_Edit_Mode()
     {
         //*! Replace [Block] [Node] mesh base on it's [Node Type]
-        //*! Assign [Block] [Node] [Handle] [Type] to [Block] [Node] [Data] [Type] first
         for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
@@ -1601,7 +1608,6 @@ public class Pencil_Case : MonoBehaviour
         }
 
         //*! Replace [Line] [Node] mesh base on it's [Node Type]
-        //*! Assign [Line] [Node] [Handle] [Type] to [Line] [Node] [Data] [Type] first
         for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
         {
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
@@ -1671,7 +1677,7 @@ public class Pencil_Case : MonoBehaviour
             }
         }
 
-        //*! Replace [Line] [V-Edge] mesh base on it's [Node Type]
+        //*! Replace [Line] [V-Edge] mesh base on it's [Edge Type]
         for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
         {
             for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
@@ -1706,7 +1712,7 @@ public class Pencil_Case : MonoBehaviour
             }
         }
 
-        //*! Replace [Block] [U-Edge] mesh base on it's [Node Type]
+        //*! Replace [Block] [U-Edge] mesh base on it's [Edge Type]
         for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
         {
             for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
@@ -1733,7 +1739,7 @@ public class Pencil_Case : MonoBehaviour
             }
         }
 
-        //*! Replace [Block] [V-Edge] mesh base on it's [Node Type]
+        //*! Replace [Block] [V-Edge] mesh base on it's [Edge Type]
         for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
         {
             for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
@@ -2107,7 +2113,7 @@ public class Node
     public Edge LFT_EDGE;
     public Edge RGT_EDGE;
 
-    //*! temp node
+    //*! Temp [Node] for storing current [Node] reference
     public Node Curr_Node;
 
     //*! [Node] [Gizmos] reference holder
@@ -2119,28 +2125,14 @@ public class Node
     //*! [Node] is occupied boolean
     public bool Is_Occupied;
 
-    //*! Deep copy current [Node]
-    public Node Clone()
-    {
-        Node new_Node = new Node();
-        new_Node.Position = Position;
-        new_Node.UP_NODE = UP_NODE;
-        new_Node.DN_NODE = DN_NODE;
-        new_Node.LFT_NODE = LFT_NODE;
-        new_Node.RGT_NODE = RGT_NODE;
-        new_Node.Node_Type = Node_Type;
-        new_Node.Gizmos_GO = Gizmos_GO;
-        return new_Node;
-
-        //return (Node)MemberwiseClone();
-    }
-
     //* Function to set neighbor [Node] traversability
     public void Set_Traversability(bool Can_Traverse)
     {
+        #region Setup current [Node] references
         Curr_Node = new Node();
 
         Curr_Node = this;
+        #endregion
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
@@ -2177,7 +2169,7 @@ public class Edge
     public Node LFT_Node;
     public Node RGT_Node;
 
-    //*! New references for neighbor [Node] previous status
+    //*! Temp [Edge] references for neighbor [Node] previous status
     public Node Prev_UPsDN_Node;
     public Node Prev_DNsUP_Node;
     public Node Prev_LFTsRGT_Node;
@@ -2217,6 +2209,8 @@ public class Edge
     //* Function to set neighbor [Node] traversability
     public void Set_Traversability(bool Can_Traverse)
     {
+        //*! Setup temp [Node] references for 4 directions
+        #region Setup temp [Node] references for 4 directions
         if (UP_Node != null && UP_Node.Can_DN) { Prev_UPsDN_Node = new Node(); Prev_UPsDN_Node = UP_Node.DN_NODE; }
 
         if (DN_Node != null && DN_Node.Can_UP) { Prev_DNsUP_Node = new Node(); Prev_DNsUP_Node = DN_Node.UP_NODE; }
@@ -2224,6 +2218,7 @@ public class Edge
         if (LFT_Node != null && LFT_Node.Can_RGT) { Prev_LFTsRGT_Node = new Node(); Prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
 
         if (RGT_Node != null && RGT_Node.Can_LFT) { Prev_RGTsLFT_Node = new Node(); Prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
+        #endregion
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
