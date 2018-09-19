@@ -152,9 +152,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         //*! Set the count of positions to use in the line renderer based on the length of the array
         line_renderer.positionCount = Line_Points.Length - 1;
-
-
-
     }
 
 
@@ -165,7 +162,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         grid_position.y = transform.position.y;
 
         //*! Current node is alligned to where it was placed
-        Current_Node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
+        Current_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(grid_position.x), Mathf.RoundToInt(grid_position.y)];
 
 
         Current_Node.Is_Occupied = true;
@@ -175,17 +172,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Default condistion, game starts with the head where it should be.
         head_at_tail = false;
 
-        //*! Update the pivot nodes position
-        if (head_at_tail == true)
-        {
-            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x,
-                                             (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
-        }
-        else
-        {
-            Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x,
-                                             (int)Line_Points[3].segment.transform.position.y];
-        }
+        Update_Pivot_Node();
+
         //*! Default value at the start of the game... not updating Do not use
         ///Pivot_Node = Current_Node.RGT_NODE;
     }
@@ -195,23 +183,21 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        //Node_Graph.Temp_Update_Graph();
-
-
-
-
-
 
         Line_Movement();
 
-        //*! Update the positions of the lines
-        for (int index = 1; index < Line_Points.Length; index++)
-        {
-            //*! Set the line segments to equal the linepoints segment positions
-            line_renderer.SetPosition(index - 1, Line_Points[index].segment.transform.position);
-        }
+        Update_Line_Renderer();
 
-        //*! Update all the pivot positions to where they are in the game world
+        Update_Line_Segment_Positions();
+
+    }
+
+    /// <summary>
+    /// Update all the pivot positions to where they are in the game world
+    /// </summary>
+    private void Update_Line_Segment_Positions()
+    {
+        //*! Iterate over all
         for (int index = 0; index < transform.childCount; index++)
         {
             //*! *-Expected-* Only pivots elements [2] through [Length -2]
@@ -223,46 +209,19 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 Line_Points[index].target = transform.GetChild(index).position;
             }
         }
+    }
 
-
-        //*! Tail update
-        //Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
-
-        //Node tail_node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
-        //Node pivot_before_tail = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
-
-        //if (tail_node.UP_NODE == pivot_before_tail)
-        //{
-        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-        //}
-        //else if (tail_node.DN_NODE == pivot_before_tail)
-        //{
-        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-        //}
-        //else if (tail_node.LFT_NODE == pivot_before_tail)
-        //{
-        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-        //}
-        //else if (tail_node.RGT_NODE == pivot_before_tail)
-        //{
-        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-        //}
-        //else
-        //{
-        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-        //}
-
+    /// <summary>
+    /// Based on the line segments, draw the line between each
+    /// </summary>
+    private void Update_Line_Renderer()
+    {
+        //*! Update the positions of the lines
+        for (int index = 1; index < Line_Points.Length; index++)
+        {
+            //*! Set the line segments to equal the linepoints segment positions
+            line_renderer.SetPosition(index - 1, Line_Points[index].segment.transform.position);
+        }
     }
     #endregion
 
@@ -293,9 +252,35 @@ public class PlayerStateMachine_Line : MonoBehaviour
             Check_Input();
         }
 
-
-
         //*! Does Queued node have a value
+        Queued_Node_Check();
+
+
+        //*! Foward and 'backwards' motion of the update of the nodes
+
+        //*! Move player next node is not null
+        if (Next_Node != null)
+        {
+            Move_All_Not_Pivots();
+
+            float mag_distance = Distance_Check_To_Next();
+
+
+            //*! Reached the next node within a slight tollerence
+            if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
+            {
+                Reached_Next_Node();
+            }
+        }
+
+    }
+
+
+    /// <summary>
+    /// Does the queued node have a value
+    /// </summary>
+    private void Queued_Node_Check()
+    {
         if (Queued_Node != null)
         {
             //*! Do nothing if equal 
@@ -307,10 +292,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
             //*! Was it the Pivot node
             else if (Queued_Node == Pivot_Node)
             {
-
                 //*! Update the pivot nodes position
-                Pivot_Node = Node_Graph.LI_Nodes[(int)Line_Points[3].segment.transform.position.x,
-                                                 (int)Line_Points[3].segment.transform.position.y];
+                Update_Pivot_Node();
 
                 ///*! Start the coroutine for moving the head along the tail
                 StartCoroutine(Move_Head_To_Tail());
@@ -325,147 +308,210 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 Shift_Nodes();
             }
-
         }
-
-        //*! Foward and 'backwards' motion of the update of the nodes
-
-        //*! Move player next node is not null
-        if (Next_Node != null)
-        {
-            //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
-            for (int index = 0; index < Line_Points.Length; index++)
-            {
-                if (Line_Points[index].segment.name != "PIVOT")
-                {
-                    Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
-                }
-            }
-
-            //*! Get the distance from the player to the next node
-            float mag_distance = (Line_Points[0].segment.transform.position - Next_Node.Position).magnitude;
-
-            //*! If distance is less then the threshhold - allow player to override the Queued node
-            if (mag_distance < 0.5f)
-            {
-                can_second = true;
-            }
-
-
-            //*! Reached the next node within a slight tollerence
-            if (Line_Points[0].segment.transform.position == Next_Node.Position || mag_distance < 0.01f)
-            {
-                //*! Snap the head and head cap
-                Line_Points[0].segment.transform.position = Line_Points[0].target;
-                Line_Points[1].segment.transform.position = Line_Points[1].target;
-
-                //*! Snap all pivot points
-                for (int index = Line_Points.Length - 1; index >= 0; index--)
-                {
-                    if (Line_Points[index].segment.name == "PIVOT")
-                    {
-                        Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
-                    }
-
-                }
-
-                //*! Tail update
-                Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
-
-
-                Node tail_node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
-                Node pivot_before_tail = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
-
-                if (tail_node.UP_NODE == pivot_before_tail)
-                {
-                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-                }
-                else if (tail_node.DN_NODE == pivot_before_tail)
-                {
-                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-                }
-                else if (tail_node.LFT_NODE == pivot_before_tail)
-                {
-                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-                }
-                else if (tail_node.RGT_NODE == pivot_before_tail)
-                {
-                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-                }
-                else
-                {
-                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
-                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
-                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
-                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
-                }
-
-
-                //*! Finished moving, unless the below checks override that
-                is_moving = false;
-
-                up_key_pressed = false;
-                down_key_pressed = false;
-                left_key_pressed = false;
-                right_key_pressed = false;
-
-                //*! Reset the seond input permission
-                can_second = false;
-
-                //*! Collect a sticker
-                if (player_type == Player_Type.BLUE)
-                {
-                    if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
-                    {
-                        Next_Node.Node_Type = Node_Type.NONE;
-                        Next_Node.Gizmos_GO.SetActive(false);
-                    }
-                }
-                else
-                {
-                    if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
-                    {
-                        Next_Node.Node_Type = Node_Type.NONE;
-                        Next_Node.Gizmos_GO.SetActive(false);
-                    }
-                }
-
-
-
-                //*! Shift the next node into the current node
-                Current_Node = Next_Node;
-
-                //*! Clear the next node
-                Next_Node = null;
-
-                //*! Update the grid position
-                grid_position.x = Current_Node.Position.x;
-                grid_position.y = Current_Node.Position.y;
-
-
-
-                //*! Does Queued node have a value - was a queued input
-                if (Queued_Node != null)
-                {
-                    //*! Shift nodes if next is empty
-                    if (Next_Node == null && Queued_Node != null)
-                    {
-                        Shift_Nodes();
-                    }
-                }
-            }
-            ///*! End of reached location
-        }
-        ///*! End of Next node not null
     }
+
+
+    /// <summary>
+    /// Player has reached the next node
+    /// </summary>
+    //*! Functiions in this are order dependent.
+    private void Reached_Next_Node()
+    {
+        Snap_Line_Segments();
+
+        Reset_Traversability();
+
+        Reset_Flag_Checks();
+
+        Collect_Sticker_Check();
+
+
+        //*! Shift the next node into the current node
+        Current_Node = Next_Node;
+
+        //*! Clear the next node
+        Next_Node = null;
+
+
+        Update_Grid_Position();
+
+        Was_Queued_Input();
+    }
+
+    /// <summary>
+    /// Update the pivot nodes position
+    /// </summary>
+    private void Update_Pivot_Node()
+    {
+        Pivot_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[3].segment.transform.position.x),
+                                         Mathf.RoundToInt(Line_Points[3].segment.transform.position.y)];
+    }
+
+
+    /// <summary>
+    /// Get the distance between the lines head and the next nodes position
+    /// </summary>
+    /// <returns> The distance between the two points </returns>
+    private float Distance_Check_To_Next()
+    {
+        //*! Get the distance from the player to the next node
+        float mag_distance = (Line_Points[0].segment.transform.position - Next_Node.Position).magnitude;
+
+        //*! If distance is less then the threshhold - allow player to override the Queued node
+        if (mag_distance < 0.5f)
+        {
+            can_second = true;
+        }
+
+        return mag_distance;
+    }
+
+    /// <summary>
+    /// Move all the line segments that are not the pivot
+    /// </summary>
+    private void Move_All_Not_Pivots()
+    {
+        //*! Iterate over all the Line Points that are not the pivot points (HEAD, HEAD_CAP, TAIL_CAP)
+        for (int index = 0; index < Line_Points.Length; index++)
+        {
+            if (Line_Points[index].segment.name != "PIVOT")
+            {
+                Line_Points[index].segment.transform.position = Vector3.MoveTowards(Line_Points[index].segment.transform.position, Line_Points[index].target, movement_speed * Time.deltaTime);
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Snap all the line segments to their new position
+    /// </summary>
+    private void Snap_Line_Segments()
+    {
+        //*! Snap the head and head cap
+        Line_Points[0].segment.transform.position = Line_Points[0].target;
+        Line_Points[1].segment.transform.position = Line_Points[1].target;
+
+        //*! Snap all pivot points
+        for (int index = Line_Points.Length - 1; index >= 0; index--)
+        {
+            if (Line_Points[index].segment.name == "PIVOT")
+            {
+                Line_Points[index].segment.transform.position = Line_Points[index - 1].segment.transform.position;
+            }
+
+        }
+        //*! Tail update
+        Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+
+    }
+
+    /// <summary>
+    /// When the player has finished moving, reset the traversability of the nodes
+    /// </summary>
+    private void Reset_Traversability()
+    {
+        Node tail_node = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y)];
+        Node pivot_before_tail = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 2].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 2].segment.transform.position.y)];
+
+        if (tail_node.UP_NODE == pivot_before_tail)
+        {
+            if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+            if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+            if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        }
+
+        if (tail_node.DN_NODE == pivot_before_tail)
+        {
+            if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+            if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+            if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        }
+        if (tail_node.LFT_NODE == pivot_before_tail)
+        {
+            if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+            if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+            if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        }
+        if (tail_node.RGT_NODE == pivot_before_tail)
+        {
+            if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+            if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+            if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+        }
+
+
+
+    }
+
+    /// <summary>
+    /// Reset them back to the default values
+    /// </summary>
+    private void Reset_Flag_Checks()
+    {
+        //*! Finished moving, unless the below checks override that
+        is_moving = false;
+
+        up_key_pressed = false;
+        down_key_pressed = false;
+        left_key_pressed = false;
+        right_key_pressed = false;
+
+        //*! Reset the seond input permission
+        can_second = false;
+    }
+
+
+    /// <summary>
+    /// When the position of the player is changed, update the grid position of the player
+    /// </summary>
+    private void Update_Grid_Position()
+    {
+        //*! Update the grid position
+        grid_position.x = Current_Node.Position.x;
+        grid_position.y = Current_Node.Position.y;
+    }
+
+    /// <summary>
+    /// Was there queued input after reaching the next node
+    /// </summary>
+    private void Was_Queued_Input()
+    {
+        //*! Does Queued node have a value - was a queued input
+        if (Queued_Node != null)
+        {
+            //*! Shift nodes if next is empty
+            if (Next_Node == null && Queued_Node != null)
+            {
+                Shift_Nodes();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Did the player collect a sticker
+    /// </summary>
+    private void Collect_Sticker_Check()
+    {
+        //*! Collect a sticker
+        if (player_type == Player_Type.BLUE)
+        {
+            if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
+            {
+                Next_Node.Node_Type = Node_Type.NONE;
+                Next_Node.Gizmos_GO.SetActive(false);
+            }
+        }
+        else
+        {
+            if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
+            {
+                Next_Node.Node_Type = Node_Type.NONE;
+                Next_Node.Gizmos_GO.SetActive(false);
+            }
+        }
+    }
+
     ///*! End of just move
 
 
@@ -537,89 +583,16 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
 
         //*! Current node to move from is now at the tails position converted into node
-        Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x,
-                                           (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
+        Current_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x),
+                                           Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y)];
 
         //*! Update the grid position
-        grid_position.x = Current_Node.Position.x;
-        grid_position.y = Current_Node.Position.y;
+        Update_Grid_Position();
 
         //*! Swap the line points around in reverse order
         Line_Point_Swap();
     }
 
-
-    /// <summary>
-    /// Lock out the player controller for the line player, until the head is at the orignal head position.
-    /// </summary>
-    /// <returns></returns>
-    //IEnumerator Move_Head_From_Tail()
-    //{
-    //    //*! Initialise the current target to Line_Points.Length - 2 - First key pivot when the head is at the original head position
-    //    int current_target = Line_Points.Length - 1;
-
-    //    //*! Set the heads starting target to be of the pivot 
-    //    Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
-
-    //    //*! Head traversing body starting condition as it is now correct
-    //    head_traversing_body = true;
-
-    //    //*! Coroutine Loop - Keep looping until it results to false
-    //    while (head_traversing_body == true)
-    //    {
-
-    //        //*! Move the head towards its target
-    //        Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, movement_speed * Time.deltaTime);
-
-    //        //*! Distance calculation
-    //        float mag_distance = (Line_Points[0].target - Line_Points[0].segment.transform.position).magnitude;
-
-    //        //*! Reached the target position
-    //        if (Line_Points[0].segment.transform.position == Line_Points[0].target || mag_distance < 0.01f)
-    //        {
-    //            //*! Snap the head to its target
-    //            Line_Points[0].segment.transform.position = Line_Points[0].target;
-
-
-    //            //*! While it is not at the start of the array [1] = head cap
-    //            if (Line_Points[0].segment.transform.position != Line_Points[1].segment.transform.position)
-    //            {
-    //                //*! Decreament the current target to index into the line points[]
-    //                if (current_target > 0)
-    //                {
-    //                    current_target--;
-    //                    //*! Assign the new target
-    //                    Line_Points[0].target = Line_Points[current_target].target;
-    //                }
-    //                //else
-    //                //{
-    //                //    //*! Never should happen, but just in case haha.
-    //                //    Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
-    //                //    //*! Increment it?
-    //                //    current_target++;
-    //                //}
-    //            }
-    //            else
-    //            {
-    //                //*! Used to excape the while loop
-    //                //*! Above Corotine finished
-    //                head_at_tail = false;
-    //                //*! At the tail position
-    //                head_traversing_body = false;
-    //            }
-    //        }
-
-    //        //*! Keep returning null until the head is at the tail positon
-    //        yield return null;
-    //    }
-
-    //    //*! Current node to move from is now at the heads position converted into node
-    //    Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[0].segment.transform.position.x,
-    //                                       (int)Line_Points[0].segment.transform.position.y];
-
-    //    Line_Point_Swap();
-
-    //}
 
 
     /// <summary>
@@ -633,6 +606,15 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Clear the Queued node
         Queued_Node = null;
 
+        Set_Target_Positions();
+
+    }
+
+    /// <summary>
+    /// Set the target positions of all the line segments, not pivots
+    /// </summary>
+    private void Set_Target_Positions()
+    {
         //*! Set the target positions
         for (int index = 0; index < Line_Points.Length; index++)
         {
@@ -661,8 +643,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 Line_Points[index].target = Line_Points[index - 1].segment.transform.position;
             }
-
-
         }
     }
 
@@ -1207,10 +1187,10 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 current_end--;
             }
         }
-
-
-
     }
+
+
+
 
 
 
