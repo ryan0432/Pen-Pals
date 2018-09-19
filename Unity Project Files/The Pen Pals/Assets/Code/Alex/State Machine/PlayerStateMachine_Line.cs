@@ -717,6 +717,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Next_Node.UP_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is,  the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -747,6 +748,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Next_Node.UP_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -769,6 +771,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Current_Node.UP_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -800,6 +803,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Current_Node.UP_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -823,11 +827,11 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Next_Node.Can_DN == true)
                 {
                     Next_Node.DN_EDGE.Set_Traversability(false);
-
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.DN_NODE.Position.x), Mathf.RoundToInt(Next_Node.DN_NODE.Position.y), Mathf.RoundToInt(Next_Node.DN_NODE.Position.z));
                 }
                 else
                 {
+                    Next_Node.DN_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -860,6 +864,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Next_Node.DN_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -882,6 +887,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Current_Node.DN_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -913,6 +919,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Current_Node.DN_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -941,6 +948,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Next_Node.LFT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -971,6 +979,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Next_Node.LFT_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -993,6 +1002,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Current_Node.LFT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1022,6 +1032,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Current_Node.LFT_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -1050,6 +1061,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Next_Node.RGT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1079,6 +1091,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Next_Node.RGT_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
@@ -1101,6 +1114,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
+                    Current_Node.RGT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1130,6 +1144,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                         }
                         else
                         {
+                            Current_Node.RGT_EDGE.Set_Traversability(true);
                             //*! No movement
                             return Current_Node;
                         }
