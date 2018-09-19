@@ -110,7 +110,7 @@ public class PlayerStateMachine : MonoBehaviour
         grid_position.y = transform.position.y;
 
         //*! Current node is alligned to where it was placed
-        Current_Node = Node_Graph.BL_Nodes[(int)grid_position.x, (int)grid_position.y];
+        Current_Node = Node_Graph.BL_Nodes[Mathf.RoundToInt(grid_position.x), Mathf.RoundToInt(grid_position.y)];
 
         is_grounded = Ground_Check();//false
 
