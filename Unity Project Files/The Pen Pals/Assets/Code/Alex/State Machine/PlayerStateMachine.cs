@@ -14,11 +14,7 @@ public class PlayerStateMachine : MonoBehaviour
     //*!----------------------------!*//
     #region Private Variables
 
-    //*! Input codes
-    [SerializeField] private KeyCode move_up_key;
-    [SerializeField] private KeyCode move_down_key;
-    [SerializeField] private KeyCode move_left_key;
-    [SerializeField] private KeyCode move_right_key;
+
     //*! Graph Container
     private Game_Manager Node_Graph;
 
@@ -74,18 +70,23 @@ public class PlayerStateMachine : MonoBehaviour
     public Player_Type player_type;
 
 
-    //*! Property Accessor(s)  
+    [Tooltip("Speed that the player moves at.")]
+    [Range(1, 6)]
+    public int movement_speed = 1;
+
+
+    //*! Property Accessor(s)
     public KeyCode Up_Key
-    { get { return move_up_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.UpArrow : KeyCode.W; } private set { } }
 
     public KeyCode Down_Key
-    { get { return move_down_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.DownArrow : KeyCode.S; } private set { } }
 
     public KeyCode Left_Key
-    { get { return move_left_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.LeftArrow : KeyCode.A; } private set { } }
 
     public KeyCode Right_Key
-    { get { return move_right_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.RightArrow : KeyCode.D; } private set { } }
 
     #endregion
 
@@ -142,7 +143,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (is_moving == false && is_grounded == true && is_falling == false)
         {
             //*! Current Position before the move
-            Current_Node.Is_Occupied = true;
+            //Current_Node.Is_Occupied = true;
             Current_Node.Set_Traversability(false);
 
             //*! Player Input checks - based on Current Node position.
@@ -154,6 +155,7 @@ public class PlayerStateMachine : MonoBehaviour
                 is_moving = true;
 
                 Queued_Node.Set_Traversability(false);
+                //Queued_Node.Is_Occupied = true;
             }
 
         }
@@ -171,6 +173,7 @@ public class PlayerStateMachine : MonoBehaviour
             if (Queued_Node != null)
             {
                 Queued_Node.Set_Traversability(false);
+                //Queued_Node.Is_Occupied = true;
                 //*! Reset the second input flag
                 can_second = false;
             }
@@ -187,6 +190,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (Queued_Node != null)
         {
             Queued_Node.Set_Traversability(false);
+            //Queued_Node.Is_Occupied = true;
             //*! Shift nodes if next is empty
             if (Next_Node == null && Queued_Node != null)
             {
@@ -208,7 +212,7 @@ public class PlayerStateMachine : MonoBehaviour
             Next_Node.Set_Traversability(false);
 
             //*! Move towards with precision to have the player exactly reach the next node
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0), 4 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0), movement_speed * Time.deltaTime);
 
 
             //*! Get the distance from the player to the next node
@@ -256,6 +260,7 @@ public class PlayerStateMachine : MonoBehaviour
                 Previous_Node = Current_Node;
                 //*! When it is at the next node is not at the current node
                 Previous_Node.Set_Traversability(true);
+                //Previous_Node.Is_Occupied = false;
 
                 //*! Shift the next node into the current node
                 Current_Node = Next_Node;
@@ -275,11 +280,13 @@ public class PlayerStateMachine : MonoBehaviour
                 if (Queued_Node != null)
                 {
                     Queued_Node.Set_Traversability(false);
+                    //Queued_Node.Is_Occupied = true;
                     ///Debug.Log("Q: Not null" + Queued_Node.Position);
                     //*! Shift nodes if next is empty
                     if (Next_Node == null && Queued_Node != null)
                     {
                         Queued_Node.Set_Traversability(false);
+                        //Queued_Node.Is_Occupied = true;
                         ///Debug.Log("N: null" + Next_Node);
                         //*! Shift Queued into the next node
                         Next_Node = Queued_Node;

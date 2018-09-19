@@ -208,7 +208,7 @@ public class XML_SaveLoad : MonoBehaviour
         //*! Add null objects to the player saves list of the count of files in the saves directory
         for (int index = 0; index < save_files.Count; index++)
         {
-            Debug.Log("Added a new Player at INDEX : " + index + " : " + save_files[index].Name);
+            ///Debug.Log("Added a new Player at INDEX : " + index + " : " + save_files[index].Name);
             Player_Saves.Add(null);
         }
 

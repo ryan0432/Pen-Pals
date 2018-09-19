@@ -14,16 +14,24 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!----------------------------!*//
     #region Private Variables
 
+    [HideInInspector]
+    public bool show_debugger = false;
+
+    [ContextMenu("Debugger")]
+    private void Show_Debugger()
+    {
+        show_debugger = !show_debugger;
+    }
 
     #region Input codes
-    [SerializeField]
-    private KeyCode move_up_key;
-    [SerializeField]
-    private KeyCode move_down_key;
-    [SerializeField]
-    private KeyCode move_left_key;
-    [SerializeField]
-    private KeyCode move_right_key;
+    //[SerializeField]
+    //private KeyCode move_up_key;
+    //[SerializeField]
+    //private KeyCode move_down_key;
+    //[SerializeField]
+    //private KeyCode move_left_key;
+    //[SerializeField]
+    //private KeyCode move_right_key;
 
 
     /// <summary>
@@ -69,18 +77,19 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*!----------------------------!*//
     #region Public Variables
 
-
-    [Header("Speed that the player moves at.")]
-    [Range(1, 6)]
-    public int movement_speed = 1;
-
-
     public enum Player_Type
     {
         BLUE = 0,
         RED = 1
     }
     public Player_Type player_type;
+
+
+    [Tooltip("Speed that the player moves at.")]
+    [Range(1, 6)]
+    public int movement_speed = 1;
+
+
 
     [System.Serializable]
     public struct Line_Point
@@ -103,16 +112,16 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     //*! Property Accessor(s)
     public KeyCode Up_Key
-    { get { return move_up_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.UpArrow : KeyCode.W; } private set { } }
 
     public KeyCode Down_Key
-    { get { return move_down_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.DownArrow : KeyCode.S; } private set { } }
 
     public KeyCode Left_Key
-    { get { return move_left_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.LeftArrow : KeyCode.A; } private set { } }
 
     public KeyCode Right_Key
-    { get { return move_right_key; } private set { } }
+    { get { return (player_type == Player_Type.BLUE) ? KeyCode.RightArrow : KeyCode.D; } private set { } }
 
     #endregion
 
@@ -159,6 +168,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
         Current_Node = Node_Graph.LI_Nodes[(int)grid_position.x, (int)grid_position.y];
 
 
+        Current_Node.Is_Occupied = true;
+        Current_Node.LFT_EDGE.Set_Traversability(false);
+
 
         //*! Default condistion, game starts with the head where it should be.
         head_at_tail = false;
@@ -183,6 +195,13 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //Node_Graph.Temp_Update_Graph();
+
+
+
+
+
+
         Line_Movement();
 
         //*! Update the positions of the lines
@@ -205,6 +224,44 @@ public class PlayerStateMachine_Line : MonoBehaviour
             }
         }
 
+
+        //*! Tail update
+        //Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
+
+        //Node tail_node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
+        //Node pivot_before_tail = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
+
+        //if (tail_node.UP_NODE == pivot_before_tail)
+        //{
+        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        //}
+        //else if (tail_node.DN_NODE == pivot_before_tail)
+        //{
+        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        //}
+        //else if (tail_node.LFT_NODE == pivot_before_tail)
+        //{
+        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        //}
+        //else if (tail_node.RGT_NODE == pivot_before_tail)
+        //{
+        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+        //}
+        //else
+        //{
+        //    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+        //    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+        //    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+        //    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+        //}
 
     }
     #endregion
@@ -312,33 +369,44 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
                 }
 
-
                 //*! Tail update
                 Line_Points[Line_Points.Length - 1].segment.transform.position = Line_Points[Line_Points.Length - 1].segment.transform.position;
 
+
                 Node tail_node = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 1].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 1].segment.transform.position.y];
-
                 Node pivot_before_tail = Node_Graph.LI_Nodes[(int)Line_Points[Line_Points.Length - 2].segment.transform.position.x, (int)Line_Points[Line_Points.Length - 2].segment.transform.position.y];
-
-                //*! I have 2 nodes, find what edge they share and reset the traversabilty of that back to its original state.
 
                 if (tail_node.UP_NODE == pivot_before_tail)
                 {
-                    tail_node.DN_EDGE.Set_Traversability(true);
+                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
                 }
                 else if (tail_node.DN_NODE == pivot_before_tail)
                 {
-                    tail_node.UP_EDGE.Set_Traversability(true);
+                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
                 }
                 else if (tail_node.LFT_NODE == pivot_before_tail)
                 {
-                    tail_node.RGT_EDGE.Set_Traversability(true);
+                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
                 }
                 else if (tail_node.RGT_NODE == pivot_before_tail)
                 {
-                    tail_node.LFT_EDGE.Set_Traversability(true);
+                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
                 }
-
+                else
+                {
+                    if (tail_node.UP_EDGE != null) tail_node.UP_EDGE.Set_Traversability(true);
+                    if (tail_node.DN_EDGE != null) tail_node.DN_EDGE.Set_Traversability(true);
+                    if (tail_node.LFT_EDGE != null) tail_node.LFT_EDGE.Set_Traversability(true);
+                    if (tail_node.RGT_EDGE != null) tail_node.RGT_EDGE.Set_Traversability(true);
+                }
 
 
                 //*! Finished moving, unless the below checks override that
@@ -482,6 +550,79 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
     /// <summary>
+    /// Lock out the player controller for the line player, until the head is at the orignal head position.
+    /// </summary>
+    /// <returns></returns>
+    //IEnumerator Move_Head_From_Tail()
+    //{
+    //    //*! Initialise the current target to Line_Points.Length - 2 - First key pivot when the head is at the original head position
+    //    int current_target = Line_Points.Length - 1;
+
+    //    //*! Set the heads starting target to be of the pivot 
+    //    Line_Points[0].target = Pivot_Node.Position;//Line_Points[current_target].segment.transform.position;
+
+    //    //*! Head traversing body starting condition as it is now correct
+    //    head_traversing_body = true;
+
+    //    //*! Coroutine Loop - Keep looping until it results to false
+    //    while (head_traversing_body == true)
+    //    {
+
+    //        //*! Move the head towards its target
+    //        Line_Points[0].segment.transform.position = Vector3.MoveTowards(Line_Points[0].segment.transform.position, Line_Points[0].target, movement_speed * Time.deltaTime);
+
+    //        //*! Distance calculation
+    //        float mag_distance = (Line_Points[0].target - Line_Points[0].segment.transform.position).magnitude;
+
+    //        //*! Reached the target position
+    //        if (Line_Points[0].segment.transform.position == Line_Points[0].target || mag_distance < 0.01f)
+    //        {
+    //            //*! Snap the head to its target
+    //            Line_Points[0].segment.transform.position = Line_Points[0].target;
+
+
+    //            //*! While it is not at the start of the array [1] = head cap
+    //            if (Line_Points[0].segment.transform.position != Line_Points[1].segment.transform.position)
+    //            {
+    //                //*! Decreament the current target to index into the line points[]
+    //                if (current_target > 0)
+    //                {
+    //                    current_target--;
+    //                    //*! Assign the new target
+    //                    Line_Points[0].target = Line_Points[current_target].target;
+    //                }
+    //                //else
+    //                //{
+    //                //    //*! Never should happen, but just in case haha.
+    //                //    Debug.LogError("NOPE! *-\\_(>.<)_//-* : " + current_target);
+    //                //    //*! Increment it?
+    //                //    current_target++;
+    //                //}
+    //            }
+    //            else
+    //            {
+    //                //*! Used to excape the while loop
+    //                //*! Above Corotine finished
+    //                head_at_tail = false;
+    //                //*! At the tail position
+    //                head_traversing_body = false;
+    //            }
+    //        }
+
+    //        //*! Keep returning null until the head is at the tail positon
+    //        yield return null;
+    //    }
+
+    //    //*! Current node to move from is now at the heads position converted into node
+    //    Current_Node = Node_Graph.LI_Nodes[(int)Line_Points[0].segment.transform.position.x,
+    //                                       (int)Line_Points[0].segment.transform.position.y];
+
+    //    Line_Point_Swap();
+
+    //}
+
+
+    /// <summary>
     /// Set the target positions of the HEAD, HEAD_CAP, TAIL_CAP
     /// </summary>
     private void Shift_Nodes()
@@ -542,8 +683,6 @@ public class PlayerStateMachine_Line : MonoBehaviour
             if (Queued_Node != null)
             {
                 is_moving = true;
-
-
             }
         }
 
@@ -642,11 +781,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 ///*! Default Value for the current position
                 Vector3Int t_current_position = Vector3Int.zero;
 
-
                 if (Current_Node.Can_UP == true)
                 {
-                    //Current_Node.UpEdege.SetTraversabilty(true);
-                    //Current_Node.UP_EDGE.Is_Occupied = true;
                     Current_Node.UP_EDGE.Set_Traversability(false);
 
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.UP_NODE.Position.x), Mathf.RoundToInt(Current_Node.UP_NODE.Position.y), Mathf.RoundToInt(Current_Node.UP_NODE.Position.z));
@@ -707,6 +843,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Next_Node.Can_DN == true)
                 {
                     Next_Node.DN_EDGE.Set_Traversability(false);
+
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.DN_NODE.Position.x), Mathf.RoundToInt(Next_Node.DN_NODE.Position.y), Mathf.RoundToInt(Next_Node.DN_NODE.Position.z));
                 }
                 else
@@ -760,6 +897,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Current_Node.Can_DN == true)
                 {
                     Current_Node.DN_EDGE.Set_Traversability(false);
+
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.DN_NODE.Position.x), Mathf.RoundToInt(Current_Node.DN_NODE.Position.y), Mathf.RoundToInt(Current_Node.DN_NODE.Position.z));
                 }
                 else
@@ -818,6 +956,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Next_Node.Can_LFT == true)
                 {
                     Next_Node.LFT_EDGE.Set_Traversability(false);
+
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.LFT_NODE.Position.x), Mathf.RoundToInt(Next_Node.LFT_NODE.Position.y), Mathf.RoundToInt(Next_Node.LFT_NODE.Position.z));
                 }
                 else
@@ -869,6 +1008,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Current_Node.Can_LFT == true)
                 {
                     Current_Node.LFT_EDGE.Set_Traversability(false);
+
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.LFT_NODE.Position.x), Mathf.RoundToInt(Current_Node.LFT_NODE.Position.y), Mathf.RoundToInt(Current_Node.LFT_NODE.Position.z));
                 }
                 else
@@ -925,6 +1065,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Next_Node.Can_RGT == true)
                 {
                     Next_Node.RGT_EDGE.Set_Traversability(false);
+
                     t_next_position = new Vector3Int(Mathf.RoundToInt(Next_Node.RGT_NODE.Position.x), Mathf.RoundToInt(Next_Node.RGT_NODE.Position.y), Mathf.RoundToInt(Next_Node.RGT_NODE.Position.z));
                 }
                 else
@@ -975,6 +1116,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 if (Current_Node.Can_RGT == true)
                 {
                     Current_Node.RGT_EDGE.Set_Traversability(false);
+
                     t_current_position = new Vector3Int(Mathf.RoundToInt(Current_Node.RGT_NODE.Position.x), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.y), Mathf.RoundToInt(Current_Node.RGT_NODE.Position.z));
                 }
                 else
