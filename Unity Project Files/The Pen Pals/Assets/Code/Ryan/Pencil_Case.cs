@@ -45,8 +45,8 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     public int col;
 
-    [Range(0.1f, 1.0f)]
-    public float handle_size;
+    [Range(0.5f, 1.5f)]
+    public float handle_size = 1.0f;
 
     public Node[,] BL_Nodes;
     public Node[,] LI_Nodes;
@@ -66,7 +66,7 @@ public class Pencil_Case : MonoBehaviour
     //*!----------------------------!*//
 
     #region Private Vars
-    //!* Gizmos prefabs for [Instantiate] mode
+    //*! Gizmos prefabs for [Instantiate] mode
     [SerializeField]
     [HideInInspector]
     private GameObject bl_node_giz;
@@ -87,7 +87,7 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private GameObject bl_edge_giz;
 
-    //!* Gizmos meshes and materials for [DrawMesh] mode
+    //*! Gizmos meshes and materials for [DrawMesh] mode
     [SerializeField]
     [HideInInspector]
     private Mesh node_giz_mesh;
@@ -98,7 +98,7 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Mesh arrw_giz_mesh;
 
-    //* Gizmos meshes for [Handles] in [Edit Mode]
+    //*! Gizmos meshes for [Handles] in [Edit Mode]
     [SerializeField]
     [HideInInspector]
     private Mesh sticker_giz_mesh;
@@ -107,7 +107,7 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Mesh obstacle_giz_mesh;
 
-    //* Gizmos materials for [Handles] in [Edit Mode]
+    //*! Gizmos materials for [Handles] in [Edit Mode]
     [SerializeField]
     [HideInInspector]
     private Material bl_giz_mat;
@@ -136,7 +136,7 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     private Material highlighter_red_giz_mat;
 
-    //* Save/Load Level Data based on booleans
+    //*! Save/Load Level Data based on booleans
     [HideInInspector]
     [SerializeField]
     private bool isSaved;
@@ -655,11 +655,8 @@ public class Pencil_Case : MonoBehaviour
     private void Render_Node_Gizmos_Init_Mode()
     {
         #region Setup gizmos' spacing based on handle size
-        //!* Gizmos Spacing for [Instantiate] method
-        //float gizmos_spacing = handle_size * 0.5f;
-
         //!* Gizmos Spacing for [DrawMesh] method
-        float gizmos_spacing = handle_size * 0.8f;
+        float gizmos_spacing = handle_size * 0.125f;
         #endregion
 
         #region Setup Gizmos for [Block] Nodes and indication arrows
@@ -668,7 +665,7 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
             {
                 GameObject newNodeGiz = Instantiate(bl_node_giz, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("BL_Node_Gizmos"));
-                newNodeGiz.transform.localScale *= (handle_size * 1.5f);
+                newNodeGiz.transform.localScale = new Vector3 (handle_size, handle_size, handle_size);
                 BL_Nodes[i, j].Gizmos_GO = newNodeGiz;
 
                 if (BL_Nodes[i, j].Can_UP)
@@ -720,7 +717,7 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
                 GameObject newNodeGiz = Instantiate(li_node_giz, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("LI_Node_Gizmos"));
-                newNodeGiz.transform.localScale *= (handle_size * 1.5f);
+                newNodeGiz.transform.localScale = new Vector3(handle_size, handle_size, handle_size);
                 LI_Nodes[i, j].Gizmos_GO = newNodeGiz;
 
                 if (LI_Nodes[i, j].Can_UP)
@@ -1125,6 +1122,7 @@ public class Pencil_Case : MonoBehaviour
                 currNode.Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = (BL_Node_Handle_Type)(int)currNode.Node_Type;
                 currNode.Gizmos_GO.transform.GetChild(0).position = currNode.Position;
                 currNode.Gizmos_GO.transform.GetChild(0).rotation = Quaternion.identity;
+                currNode.Gizmos_GO.transform.GetChild(0).localScale = new Vector3(handle_size, handle_size, handle_size);
             }
         }
         #endregion
@@ -1139,6 +1137,7 @@ public class Pencil_Case : MonoBehaviour
                 currNode.Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = (LI_Node_Handle_Type)(int)currNode.Node_Type;
                 currNode.Gizmos_GO.transform.GetChild(0).position = currNode.Position;
                 currNode.Gizmos_GO.transform.GetChild(0).rotation = Quaternion.identity;
+                currNode.Gizmos_GO.transform.GetChild(0).localScale = new Vector3(handle_size, handle_size, handle_size);
             }
         }
         #endregion
@@ -1154,6 +1153,7 @@ public class Pencil_Case : MonoBehaviour
                 currEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = currEdge.Boarder_Type;
                 currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
                 currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
+                currEdge.Gizmos_GO.transform.GetChild(0).localScale = Vector3.one;
             }
         }
         #endregion
@@ -1169,6 +1169,7 @@ public class Pencil_Case : MonoBehaviour
                 currEdge.Gizmos_GO.transform.GetChild(0).GetComponent<LI_Edge_Handle>().boarderType = currEdge.Boarder_Type;
                 currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
                 currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
+                currEdge.Gizmos_GO.transform.GetChild(0).localScale = Vector3.one;
             }
         }
         #endregion
@@ -1183,6 +1184,7 @@ public class Pencil_Case : MonoBehaviour
                 currEdge.Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = (BL_Edge_Handle_Type)(int)currEdge.Edge_Type;
                 currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
                 currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
+                currEdge.Gizmos_GO.transform.GetChild(0).localScale = Vector3.one;
             }
         }
         #endregion
@@ -1197,6 +1199,7 @@ public class Pencil_Case : MonoBehaviour
                 currEdge.Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = (BL_Edge_Handle_Type)(int)currEdge.Edge_Type;
                 currEdge.Gizmos_GO.transform.GetChild(0).position = currEdge.Position;
                 currEdge.Gizmos_GO.transform.GetChild(0).rotation = currEdge.Rotation;
+                currEdge.Gizmos_GO.transform.GetChild(0).localScale = Vector3.one;
             }
         }
         #endregion
@@ -1431,11 +1434,8 @@ public class Pencil_Case : MonoBehaviour
     private void Render_Node_Gizmos_Edit_Mode()
     {
         #region Setup gizmos' spacing based on handle size
-        //!* Gizmos Spacing for [Instantiate] method
-        //float gizmos_spacing = handle_size * 0.5f;
-
         //!* Gizmos Spacing for [DrawMesh] method
-        float gizmos_spacing = handle_size * 0.8f;
+        float gizmos_spacing = handle_size * 0.125f;
         #endregion
 
         //*! Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]

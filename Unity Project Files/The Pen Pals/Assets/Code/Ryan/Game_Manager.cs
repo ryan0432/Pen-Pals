@@ -33,6 +33,8 @@ public class Game_Manager : MonoBehaviour
     public Edge[,] LI_V_Edges;
 
     public bool Show_Gizmos;
+    [Range(0.5f, 1.5f)]
+    public float Gizmos_Size;
 
     public GameObject Black_Pen;
     public GameObject HighLighter_Red;
@@ -874,8 +876,7 @@ public class Game_Manager : MonoBehaviour
         if (!Show_Gizmos) return;
 
         #region Setup gizmos' spacing based on handle size
-        float handle_size = 0.15f;
-        float gizmos_spacing = handle_size * 0.8f;
+        float gizmos_spacing = Gizmos_Size * 0.1f;
         #endregion
 
         #region Setup Gizmos for [Block] Nodes and indication arrows
@@ -886,7 +887,7 @@ public class Game_Manager : MonoBehaviour
                 if (BL_Nodes[i, j].Can_UP)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
@@ -894,7 +895,7 @@ public class Game_Manager : MonoBehaviour
                 if (BL_Nodes[i, j].Can_DN)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
@@ -903,7 +904,7 @@ public class Game_Manager : MonoBehaviour
                 if (BL_Nodes[i, j].Can_LFT)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
@@ -912,7 +913,7 @@ public class Game_Manager : MonoBehaviour
                 if (BL_Nodes[i, j].Can_RGT)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
-                                           Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                           Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
                                            Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
@@ -929,7 +930,7 @@ public class Game_Manager : MonoBehaviour
                 if (LI_Nodes[i, j].Can_UP)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
@@ -937,7 +938,7 @@ public class Game_Manager : MonoBehaviour
                 if (LI_Nodes[i, j].Can_DN)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(180f, Vector3.forward));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
@@ -946,7 +947,7 @@ public class Game_Manager : MonoBehaviour
                 if (LI_Nodes[i, j].Can_LFT)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(90f, Vector3.forward));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
@@ -955,7 +956,7 @@ public class Game_Manager : MonoBehaviour
                 if (LI_Nodes[i, j].Can_RGT)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
-                                              Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
+                                              Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
                                               Matrix4x4.Rotate(Quaternion.AngleAxis(270f, Vector3.forward));
 
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
