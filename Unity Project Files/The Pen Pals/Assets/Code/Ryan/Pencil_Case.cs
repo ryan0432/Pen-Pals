@@ -143,9 +143,6 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     [SerializeField]
     private bool isLoaded;
-
-    //private int prevRow;
-    //private int prevCol;
     #endregion
 
 
@@ -202,8 +199,6 @@ public class Pencil_Case : MonoBehaviour
         }
         else
         {
-            //bool needToRefresh = (prevRow != row || prevCol != col);
-
             //*! Load Level data from file
             Load_Level_Data();
 
