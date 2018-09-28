@@ -2,10 +2,8 @@
 //*! Programmer : Ryan Chung
 //*!
 //*! Description: A class for operating [Pencil Case] in edit mode.
-//*!              This class in an experimental class to test using
-//*!              editor with MonoBehavior.
 //*!
-//*! Last edit  : 17/09/2018
+//*! Last edit  : 28/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
