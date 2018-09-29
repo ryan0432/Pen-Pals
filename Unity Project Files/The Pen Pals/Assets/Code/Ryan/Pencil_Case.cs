@@ -1800,6 +1800,26 @@ public class Pencil_Case : MonoBehaviour
         bool moveRGT = direction == Move_Graph.RGT;
         #endregion
 
+        #region Setup row/col for each [Node] & [Edge] array
+        int bl_node_row = row - 1;
+        int bl_node_col = col - 1;
+
+        int li_node_row = row;
+        int li_node_col = col;
+
+        int bl_U_edge_row = row;
+        int bl_U_edge_col = col - 1;
+
+        int bl_V_edge_row = row - 1;
+        int bl_V_edge_col = col;
+
+        int li_U_edge_row = row - 1;
+        int li_U_edge_col = col;
+
+        int li_V_edge_row = row;
+        int li_V_edge_col = col - 1;
+        #endregion
+
         if (notMove) return;
 
         if (moveUP)
