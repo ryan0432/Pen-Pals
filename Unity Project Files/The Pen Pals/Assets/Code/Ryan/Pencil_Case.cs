@@ -141,6 +141,11 @@ public class Pencil_Case : MonoBehaviour
     [HideInInspector]
     [SerializeField]
     private bool isLoaded;
+
+    //*! Move Graph according to Enum
+    [HideInInspector]
+    [SerializeField]
+    private Move_Graph move_Graph_Direction;
     #endregion
 
 
@@ -200,8 +205,12 @@ public class Pencil_Case : MonoBehaviour
             //*! Load Level data from file
             Load_Level_Data();
 
+            
+
             //*! Excute Refresh Graph function collection
             Refresh_Graph_Edit_Mode();
+
+            
 
             //*! Save Level data to files
             Save_Level_Data();
@@ -891,7 +900,7 @@ public class Pencil_Case : MonoBehaviour
     }
 
     //*! Update the Graph size in Edit Mode with [SetActive Method]
-    [ContextMenu("Layout_Graph_Edit_Mode")]
+    [ContextMenu("Render_Edge_Handles_Edit_Mode")]
     private void Render_Edge_Handles_Edit_Mode()
     {
         //*! Get Child Count's references of both [BL_Edges_Handles] & [LI_Edges_Handles]
@@ -1753,6 +1762,7 @@ public class Pencil_Case : MonoBehaviour
         }
     }
 
+    //*! Excute Refresh Graph function collection
     [ContextMenu("Refresh_Graph_Edit_Mode")]
     private void Refresh_Graph_Edit_Mode()
     {
@@ -1771,10 +1781,262 @@ public class Pencil_Case : MonoBehaviour
         //*! Assign [Data] [Node] & [Edge] [Type] to [Handle] & [Gizmos]'s [Node] & [Edge] [Type]
         Assign_All_Data_Type_To_Handle_Edit_Mode();
 
+        Move_Graph_Edit_Mode(move_Graph_Direction);
+
         //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic Only)
         Render_All_Handles_By_Type_Edit_Mode();
 
         Debug.Log("Refresh Graph!");
+    }
+
+    [ContextMenu("Move_Graph_Edit_Mode")]
+    private void Move_Graph_Edit_Mode(Move_Graph direction)
+    {
+        #region Create boolean instance for checking
+        bool notMove = direction == Move_Graph.NONE;
+        bool moveUP = direction == Move_Graph.UP;
+        bool moveDN = direction == Move_Graph.DN;
+        bool moveLFT = direction == Move_Graph.LFT;
+        bool moveRGT = direction == Move_Graph.RGT;
+        #endregion
+
+        if (notMove) return;
+
+        if (moveUP)
+        {
+            #region Check boundary [Node] & [Edge] - [Type] is NONE. If not, return
+            for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+            {
+                if (BL_Nodes[i, BL_Nodes.GetUpperBound(1)].Node_Type != Node_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                } 
+            }
+
+            for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+            {
+                if (LI_Nodes[i, LI_Nodes.GetUpperBound(1)].Node_Type != Node_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+            {
+                if (BL_U_Edges[i, BL_U_Edges.GetUpperBound(1)].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+            {
+                if (BL_V_Edges[i, BL_V_Edges.GetUpperBound(1)].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+            {
+                if (LI_U_Edges[i, LI_U_Edges.GetUpperBound(1) - 1].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 1; i < LI_V_Edges.GetLength(0) - 1; ++i)
+            {
+                if (LI_V_Edges[i, LI_V_Edges.GetUpperBound(1)].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+            #endregion
+
+            #region Assign Lower [Node] or [Edge] - [Type] to Upper ones
+            for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+            {
+                for (int j = BL_Nodes.GetUpperBound(1); j > 0 ; --j)
+                {
+                    BL_Nodes[i, j].Node_Type = BL_Nodes[i, j - 1].Node_Type;
+                    BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
+                }
+            }
+
+            for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+            {
+                for (int j = LI_Nodes.GetUpperBound(1); j > 0; --j)
+                {
+                    LI_Nodes[i, j].Node_Type = LI_Nodes[i, j - 1].Node_Type;
+                    LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
+                }
+            }
+
+            for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = BL_U_Edges.GetUpperBound(1); j > 0; --j)
+                {
+                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i, j - 1].Edge_Type;
+                    BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_U_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
+                }
+            }
+
+            for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+            {
+                for (int j = BL_V_Edges.GetUpperBound(1); j > 0; --j)
+                {
+                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i, j - 1].Edge_Type;
+                    BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_V_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
+                }
+            }
+
+            for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = LI_U_Edges.GetUpperBound(1) - 1; j > 1; --j)
+                {
+                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i, j - 1].Edge_Type;
+                    LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_U_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
+                }
+            }
+
+            for (int i = 1; i < LI_V_Edges.GetUpperBound(0); ++i)
+            {
+                for (int j = LI_V_Edges.GetUpperBound(1); j > 0; --j)
+                {
+                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i, j - 1].Edge_Type;
+                    LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_V_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
+                }
+            }
+            #endregion
+
+            move_Graph_Direction = Move_Graph.NONE;
+            return;
+        }
+
+        if (moveDN)
+        {
+            #region Check boundary [Node] & [Edge] - [Type] is NONE. If not, return
+            for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+            {
+                if (BL_Nodes[i, BL_Nodes.GetLowerBound(1)].Node_Type != Node_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+            {
+                if (LI_Nodes[i, LI_Nodes.GetLowerBound(1)].Node_Type != Node_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+            {
+                if (BL_U_Edges[i, BL_U_Edges.GetLowerBound(1)].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+            {
+                if (BL_V_Edges[i, BL_V_Edges.GetLowerBound(1)].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+            {
+                if (LI_U_Edges[i, LI_U_Edges.GetLowerBound(1) + 1].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+
+            for (int i = 1; i < LI_V_Edges.GetLength(0) - 1; ++i)
+            {
+                if (LI_V_Edges[i, LI_V_Edges.GetLowerBound(1)].Edge_Type != Edge_Type.NONE)
+                {
+                    move_Graph_Direction = Move_Graph.NONE;
+                    return;
+                }
+            }
+            #endregion
+
+            #region Assign Upper [Node] or [Edge] - [Type] to Lower ones
+            for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_Nodes.GetUpperBound(1); ++j)
+                {
+                    BL_Nodes[i, j].Node_Type = BL_Nodes[i, j + 1].Node_Type;
+                    BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
+                }
+            }
+
+            for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+            {
+                for (int j = 0; j < LI_Nodes.GetUpperBound(1); ++j)
+                {
+                    LI_Nodes[i, j].Node_Type = LI_Nodes[i, j + 1].Node_Type;
+                    LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Nodes[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
+                }
+            }
+
+            for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_U_Edges.GetUpperBound(1); ++j)
+                {
+                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i, j + 1].Edge_Type;
+                    BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_U_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
+                }
+            }
+
+            for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+            {
+                for (int j = 0; j < BL_V_Edges.GetUpperBound(1); ++j)
+                {
+                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i, j + 1].Edge_Type;
+                    BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_V_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
+                }
+            }
+
+            for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+            {
+                for (int j = 1; j < LI_U_Edges.GetUpperBound(1) - 1; ++j)
+                {
+                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i, j + 1].Edge_Type;
+                    LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_U_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
+                }
+            }
+
+            for (int i = 1; i < LI_V_Edges.GetUpperBound(0); ++i)
+            {
+                for (int j = 0; j < LI_V_Edges.GetUpperBound(1); ++j)
+                {
+                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i, j + 1].Edge_Type;
+                    LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_V_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
+                }
+            }
+            #endregion
+
+            move_Graph_Direction = Move_Graph.NONE;
+            return;
+        }
     }
 
     //*! Save Level data to files
@@ -2316,5 +2578,16 @@ public enum Node_Type
     Block_Red_Goal = 2,
     Line_Blue_Goal = 3,
     Line_Red_Goal = 4
+}
+#endregion
+
+#region [Move_Graph] Enum class
+public enum Move_Graph
+{
+    NONE = 0,
+    UP = 1,
+    DN = 2,
+    LFT = 3,
+    RGT = 4
 }
 #endregion

@@ -32,6 +32,8 @@ public class Pencil_CaseEditor : Editor
     SerializedProperty isSaved;
     SerializedProperty isLoaded;
 
+    SerializedProperty move_Graph_Direction;
+
     private void OnEnable()
     {
         initialRow = serializedObject.FindProperty("initialRow");
@@ -43,6 +45,8 @@ public class Pencil_CaseEditor : Editor
 
         isSaved = serializedObject.FindProperty("isSaved");
         isLoaded = serializedObject.FindProperty("isLoaded");
+
+        move_Graph_Direction = serializedObject.FindProperty("move_Graph_Direction");
     }
 
     public override void OnInspectorGUI()
@@ -158,7 +162,7 @@ public class Pencil_CaseEditor : Editor
                 GUILayout.Space(112);
                 if (GUILayout.Button("▲", GUILayout.MaxWidth(30), GUILayout.MaxHeight(30)))
                 {
-
+                    move_Graph_Direction.enumValueIndex = 1;
                 }
             }
         }
@@ -171,13 +175,13 @@ public class Pencil_CaseEditor : Editor
                 GUILayout.Space(80);
                 if (GUILayout.Button("◄", GUILayout.MaxWidth(30), GUILayout.MaxHeight(30)))
                 {
-
+                    move_Graph_Direction.enumValueIndex = 3;
                 }
 
                 GUILayout.Space(30);
                 if (GUILayout.Button("►", GUILayout.MaxWidth(30), GUILayout.MaxHeight(30)))
                 {
-
+                    move_Graph_Direction.enumValueIndex = 4;
                 }
             }
         }
@@ -190,7 +194,7 @@ public class Pencil_CaseEditor : Editor
             {
                 if (GUILayout.Button("▼", GUILayout.MaxWidth(30), GUILayout.MaxHeight(30)))
                 {
-
+                    move_Graph_Direction.enumValueIndex = 2;
                 }
             }
         }
