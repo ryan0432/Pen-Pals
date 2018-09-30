@@ -1,18 +1,28 @@
 fileFormatVersion: 2
 guid: 153535d1ad483ca4d98cf5629cea88ce
-timeCreated: 1535432685
-licenseType: Pro
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     100002: default
+    100004: initialShadingGroup_Arrw_Gizmos_Mesh
+    100006: Arrw_Gizmos_Mesh
     400000: //RootNode
     400002: default
+    400004: initialShadingGroup_Arrw_Gizmos_Mesh
+    400006: Arrw_Gizmos_Mesh
     2100000: defaultMat
+    2100002: initialShadingGroup_Arrw_Gizmos_MeshMat
+    2100004: Arrw_Gizmos_MeshMat
     2300000: default
+    2300002: initialShadingGroup_Arrw_Gizmos_Mesh
+    2300004: Arrw_Gizmos_Mesh
     3300000: default
+    3300002: initialShadingGroup_Arrw_Gizmos_Mesh
+    3300004: Arrw_Gizmos_Mesh
     4300000: default
+    4300002: initialShadingGroup_Arrw_Gizmos_Mesh
+    4300004: Arrw_Gizmos_Mesh
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -32,6 +42,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
