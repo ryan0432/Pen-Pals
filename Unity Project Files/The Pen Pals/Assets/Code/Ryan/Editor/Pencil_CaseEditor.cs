@@ -3,7 +3,7 @@
 //*!
 //*! Description: A class for operating [Pencil Case] inspector.
 //*!
-//*! Last edit  : 28/09/2018
+//*! Last edit  : 30/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces

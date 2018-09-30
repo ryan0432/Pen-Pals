@@ -3,7 +3,7 @@
 //*!
 //*! Description: A class for operating [Pencil Case] in edit mode.
 //*!
-//*! Last edit  : 28/09/2018
+//*! Last edit  : 30/09/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -205,17 +205,15 @@ public class Pencil_Case : MonoBehaviour
             //*! Load Level data from file
             Load_Level_Data();
 
-            
+            //*! Move Graph to designated direction
+            Move_Graph_Edit_Mode(move_Graph_Direction);
 
             //*! Excute Refresh Graph function collection
             Refresh_Graph_Edit_Mode();
 
-            
-
             //*! Save Level data to files
             Save_Level_Data();
         }
-
     }
 
     //*! [OnValidate] only works in [Editor Mode] changing related varibles in realtime
@@ -1781,14 +1779,13 @@ public class Pencil_Case : MonoBehaviour
         //*! Assign [Data] [Node] & [Edge] [Type] to [Handle] & [Gizmos]'s [Node] & [Edge] [Type]
         Assign_All_Data_Type_To_Handle_Edit_Mode();
 
-        Move_Graph_Edit_Mode(move_Graph_Direction);
-
         //*! Render all [Node] [Edge] handles' icon base on their [Type] - (Cosmatic Only)
         Render_All_Handles_By_Type_Edit_Mode();
 
         Debug.Log("Refresh Graph!");
     }
 
+    //*! Move Graph to designated direction
     [ContextMenu("Move_Graph_Edit_Mode")]
     private void Move_Graph_Edit_Mode(Move_Graph direction)
     {
@@ -1885,10 +1882,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = bl_node_col - 1; j > 0 ; --j)
                 {
-                    BL_Nodes[i, j].Node_Type = BL_Nodes[i, j - 1].Node_Type;
                     BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
-                    BL_Nodes[i, j - 1].Node_Type = Node_Type.NONE;
+                    BL_Nodes[i, j].Node_Type = BL_Nodes[i, j - 1].Node_Type;
                     BL_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Node_Handle_Type.NONE;
+                    BL_Nodes[i, j - 1].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -1896,10 +1893,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = li_node_col - 1; j > 0; --j)
                 {
-                    LI_Nodes[i, j].Node_Type = LI_Nodes[i, j - 1].Node_Type;
                     LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
-                    LI_Nodes[i, j - 1].Node_Type = Node_Type.NONE;
+                    LI_Nodes[i, j].Node_Type = LI_Nodes[i, j - 1].Node_Type;
                     LI_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Node_Handle_Type.NONE;
+                    LI_Nodes[i, j - 1].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -1907,10 +1904,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = bl_U_edge_col - 1; j > 0; --j)
                 {
-                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i, j - 1].Edge_Type;
                     BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_U_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_U_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
+                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i, j - 1].Edge_Type;
                     BL_U_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_U_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -1918,10 +1915,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = bl_V_edge_col - 1; j > 0; --j)
                 {
-                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i, j - 1].Edge_Type;
                     BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_V_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_V_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
+                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i, j - 1].Edge_Type;
                     BL_V_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_V_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -1929,10 +1926,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = li_U_edge_col - 2; j > 1; --j)
                 {
-                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i, j - 1].Edge_Type;
                     LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_U_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_U_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
+                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i, j - 1].Edge_Type;
                     LI_U_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_U_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -1940,16 +1937,13 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = li_V_edge_col - 1; j > 0; --j)
                 {
-                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i, j - 1].Edge_Type;
                     LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_V_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_V_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
+                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i, j - 1].Edge_Type;
                     LI_V_Edges[i, j - 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_V_Edges[i, j - 1].Edge_Type = Edge_Type.NONE;
                 }
             }
             #endregion
-
-            move_Graph_Direction = Move_Graph.NONE;
-            return;
         }
 
         if (moveDN)
@@ -2015,10 +2009,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_node_col - 1; ++j)
                 {
-                    BL_Nodes[i, j].Node_Type = BL_Nodes[i, j + 1].Node_Type;
                     BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
-                    BL_Nodes[i, j + 1].Node_Type = Node_Type.NONE;
+                    BL_Nodes[i, j].Node_Type = BL_Nodes[i, j + 1].Node_Type;
                     BL_Nodes[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Node_Handle_Type.NONE;
+                    BL_Nodes[i, j + 1].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -2026,10 +2020,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < li_node_col - 1; ++j)
                 {
-                    LI_Nodes[i, j].Node_Type = LI_Nodes[i, j + 1].Node_Type;
                     LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Nodes[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
-                    LI_Nodes[i, j + 1].Node_Type = Node_Type.NONE;
+                    LI_Nodes[i, j].Node_Type = LI_Nodes[i, j + 1].Node_Type;
                     LI_Nodes[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Node_Handle_Type.NONE;
+                    LI_Nodes[i, j + 1].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -2037,10 +2031,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_U_edge_col - 1; ++j)
                 {
-                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i, j + 1].Edge_Type;
                     BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_U_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_U_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
+                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i, j + 1].Edge_Type;
                     BL_U_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_U_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2048,10 +2042,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_V_edge_col - 1; ++j)
                 {
-                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i, j + 1].Edge_Type;
                     BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_V_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_V_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
+                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i, j + 1].Edge_Type;
                     BL_V_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_V_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2059,10 +2053,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 1; j < li_U_edge_col - 2; ++j)
                 {
-                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i, j + 1].Edge_Type;
                     LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_U_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_U_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
+                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i, j + 1].Edge_Type;
                     LI_U_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_U_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2070,16 +2064,13 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < li_V_edge_col - 1; ++j)
                 {
-                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i, j + 1].Edge_Type;
                     LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_V_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_V_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
+                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i, j + 1].Edge_Type;
                     LI_V_Edges[i, j + 1].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_V_Edges[i, j + 1].Edge_Type = Edge_Type.NONE;
                 }
             }
             #endregion
-
-            move_Graph_Direction = Move_Graph.NONE;
-            return;
         }
 
         if (moveLFT)
@@ -2145,10 +2136,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_node_col; ++j)
                 {
-                    BL_Nodes[i, j].Node_Type = BL_Nodes[i + 1, j].Node_Type;
                     BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i + 1, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
-                    BL_Nodes[i + 1, j].Node_Type = Node_Type.NONE;
+                    BL_Nodes[i, j].Node_Type = BL_Nodes[i + 1, j].Node_Type;
                     BL_Nodes[i + 1, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Node_Handle_Type.NONE;
+                    BL_Nodes[i + 1, j].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -2156,10 +2147,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < li_node_col; ++j)
                 {
-                    LI_Nodes[i, j].Node_Type = LI_Nodes[i + 1, j].Node_Type;
                     LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Nodes[i + 1, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
-                    LI_Nodes[i + 1, j].Node_Type = Node_Type.NONE;
+                    LI_Nodes[i, j].Node_Type = LI_Nodes[i + 1, j].Node_Type;
                     LI_Nodes[i + 1, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Node_Handle_Type.NONE;
+                    LI_Nodes[i + 1, j].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -2167,10 +2158,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_U_edge_col; ++j)
                 {
-                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i + 1, j].Edge_Type;
                     BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_U_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_U_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
+                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i + 1, j].Edge_Type;
                     BL_U_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_U_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2178,10 +2169,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_V_edge_col; ++j)
                 {
-                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i + 1, j].Edge_Type;
                     BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_V_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_V_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
+                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i + 1, j].Edge_Type;
                     BL_V_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_V_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2189,10 +2180,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 1; j < li_U_edge_col - 2; ++j)
                 {
-                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i + 1, j].Edge_Type;
                     LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_U_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_U_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
+                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i + 1, j].Edge_Type;
                     LI_U_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_U_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2200,16 +2191,13 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < li_V_edge_col; ++j)
                 {
-                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i + 1, j].Edge_Type;
                     LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_V_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_V_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
+                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i + 1, j].Edge_Type;
                     LI_V_Edges[i + 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_V_Edges[i + 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
             #endregion
-
-            move_Graph_Direction = Move_Graph.NONE;
-            return;
         }
 
         if (moveRGT)
@@ -2275,10 +2263,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_node_col; ++j)
                 {
-                    BL_Nodes[i, j].Node_Type = BL_Nodes[i - 1, j].Node_Type;
                     BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i - 1, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
-                    BL_Nodes[i - 1, j].Node_Type = Node_Type.NONE;
+                    BL_Nodes[i, j].Node_Type = BL_Nodes[i - 1, j].Node_Type;
                     BL_Nodes[i - 1, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Node_Handle_Type.NONE;
+                    BL_Nodes[i - 1, j].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -2286,10 +2274,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < li_node_col; ++j)
                 {
-                    LI_Nodes[i, j].Node_Type = LI_Nodes[i - 1, j].Node_Type;
                     LI_Nodes[i, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Nodes[i - 1, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType;
-                    LI_Nodes[i - 1, j].Node_Type = Node_Type.NONE;
+                    LI_Nodes[i, j].Node_Type = LI_Nodes[i - 1, j].Node_Type;
                     LI_Nodes[i - 1, j].Gizmos_GO.GetComponentInChildren<LI_Node_Handle>().nodeType = LI_Node_Handle_Type.NONE;
+                    LI_Nodes[i - 1, j].Node_Type = Node_Type.NONE;
                 }
             }
 
@@ -2297,10 +2285,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_U_edge_col; ++j)
                 {
-                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i - 1, j].Edge_Type;
                     BL_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_U_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_U_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
+                    BL_U_Edges[i, j].Edge_Type = BL_U_Edges[i - 1, j].Edge_Type;
                     BL_U_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_U_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2308,10 +2296,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < bl_V_edge_col; ++j)
                 {
-                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i - 1, j].Edge_Type;
                     BL_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_V_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType;
-                    BL_V_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
+                    BL_V_Edges[i, j].Edge_Type = BL_V_Edges[i - 1, j].Edge_Type;
                     BL_V_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<BL_Edge_Handle>().edgeType = BL_Edge_Handle_Type.NONE;
+                    BL_V_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2319,10 +2307,10 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 1; j < li_U_edge_col - 2; ++j)
                 {
-                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i - 1, j].Edge_Type;
                     LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_U_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_U_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
+                    LI_U_Edges[i, j].Edge_Type = LI_U_Edges[i - 1, j].Edge_Type;
                     LI_U_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_U_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
 
@@ -2330,17 +2318,16 @@ public class Pencil_Case : MonoBehaviour
             {
                 for (int j = 0; j < li_V_edge_col; ++j)
                 {
-                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i - 1, j].Edge_Type;
                     LI_V_Edges[i, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_V_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType;
-                    LI_V_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
+                    LI_V_Edges[i, j].Edge_Type = LI_V_Edges[i - 1, j].Edge_Type;
                     LI_V_Edges[i - 1, j].Gizmos_GO.GetComponentInChildren<LI_Edge_Handle>().edgeType = LI_Edge_Handle_Type.NONE;
+                    LI_V_Edges[i - 1, j].Edge_Type = Edge_Type.NONE;
                 }
             }
             #endregion
-
-            move_Graph_Direction = Move_Graph.NONE;
-            return;
         }
+
+        move_Graph_Direction = Move_Graph.NONE;
     }
 
     //*! Save Level data to files
