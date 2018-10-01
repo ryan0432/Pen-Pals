@@ -22,7 +22,7 @@ public class Game_Manager : MonoBehaviour
 
     [SerializeField]
     public Lv_Data[] lvData;
-    public int lvDataIndex;
+    public int lvDataIndex = -1;
 
     public Node[,] BL_Nodes;
     public Node[,] LI_Nodes;
@@ -75,9 +75,7 @@ public class Game_Manager : MonoBehaviour
 
     void Awake()
     {
-        if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
-        Clean_Up_Symbols();
-        Initializa_Level_Data();
+        Initialize_Level();
     }
 
     void Update()
@@ -99,8 +97,8 @@ public class Game_Manager : MonoBehaviour
     //*!    Private Functions
     //*!----------------------------!*//
 
-    [ContextMenu("Initializa_Level_Data")]
-    private void Initializa_Level_Data()
+    [ContextMenu("Setup_Level_Data")]
+    private void Setup_Level_Data(int lvIndex)
     {
         //*! If there is no Level Data pluged in, show error message and return
         #region If there is no Level Data pluged in, show error message and return
@@ -113,8 +111,8 @@ public class Game_Manager : MonoBehaviour
 
         //*! Setup row/col for each [Node] & [Edge] array
         #region Setup row/col for each [Node] & [Edge] array
-        row = lvData[lvDataIndex].row;
-        col = lvData[lvDataIndex].col;
+        row = lvData[lvIndex].row;
+        col = lvData[lvIndex].col;
 
         int bl_node_row = row - 1;
         int bl_node_col = col - 1;
@@ -154,8 +152,8 @@ public class Game_Manager : MonoBehaviour
                 int colSize = BL_Nodes.GetLength(1);
                 Node new_node = new Node();
                 BL_Nodes[i, j] = new_node;
-                BL_Nodes[i, j].Position = lvData[lvDataIndex].BL_Nodes[colSize * i + j].Position;
-                BL_Nodes[i, j].Node_Type = lvData[lvDataIndex].BL_Nodes[colSize * i + j].Node_Type;
+                BL_Nodes[i, j].Position = lvData[lvIndex].BL_Nodes[colSize * i + j].Position;
+                BL_Nodes[i, j].Node_Type = lvData[lvIndex].BL_Nodes[colSize * i + j].Node_Type;
                 BL_Nodes[i, j].UP_NODE = null;
                 BL_Nodes[i, j].DN_NODE = null;
                 BL_Nodes[i, j].LFT_NODE = null;
@@ -231,8 +229,8 @@ public class Game_Manager : MonoBehaviour
                 int colSize = LI_Nodes.GetLength(1);
                 Node new_node = new Node();
                 LI_Nodes[i, j] = new_node;
-                LI_Nodes[i, j].Position = lvData[lvDataIndex].LI_Nodes[colSize * i + j].Position;
-                LI_Nodes[i, j].Node_Type = lvData[lvDataIndex].LI_Nodes[colSize * i + j].Node_Type;
+                LI_Nodes[i, j].Position = lvData[lvIndex].LI_Nodes[colSize * i + j].Position;
+                LI_Nodes[i, j].Node_Type = lvData[lvIndex].LI_Nodes[colSize * i + j].Node_Type;
                 LI_Nodes[i, j].UP_NODE = null;
                 LI_Nodes[i, j].DN_NODE = null;
                 LI_Nodes[i, j].LFT_NODE = null;
@@ -308,9 +306,9 @@ public class Game_Manager : MonoBehaviour
                 int colSize = LI_U_Edges.GetLength(1);
 
                 Edge new_edge_U = new Edge();
-                new_edge_U.Edge_Type = lvData[lvDataIndex].LI_U_Edges[colSize * i + j].Edge_Type;
+                new_edge_U.Edge_Type = lvData[lvIndex].LI_U_Edges[colSize * i + j].Edge_Type;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
-                new_edge_U.Edge_Direction = lvData[lvDataIndex].LI_U_Edges[colSize * i + j].Edge_Direction;
+                new_edge_U.Edge_Direction = lvData[lvIndex].LI_U_Edges[colSize * i + j].Edge_Direction;
                 new_edge_U.LFT_Node = LI_Nodes[i, j];
                 new_edge_U.RGT_Node = LI_Nodes[i + 1, j];
 
@@ -334,7 +332,7 @@ public class Game_Manager : MonoBehaviour
                     new_edge_U.DN_Node = BL_Nodes[i, j - 1];
                 }
 
-                new_edge_U.Position = lvData[lvDataIndex].LI_U_Edges[colSize * i + j].Position;
+                new_edge_U.Position = lvData[lvIndex].LI_U_Edges[colSize * i + j].Position;
 
                 LI_U_Edges[i, j] = new_edge_U;
 
@@ -356,9 +354,9 @@ public class Game_Manager : MonoBehaviour
                 int colSize = LI_V_Edges.GetLength(1);
 
                 Edge new_edge_V = new Edge();
-                new_edge_V.Edge_Type = lvData[lvDataIndex].LI_V_Edges[colSize * i + j].Edge_Type;
+                new_edge_V.Edge_Type = lvData[lvIndex].LI_V_Edges[colSize * i + j].Edge_Type;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
-                new_edge_V.Edge_Direction = lvData[lvDataIndex].LI_V_Edges[colSize * i + j].Edge_Direction;
+                new_edge_V.Edge_Direction = lvData[lvIndex].LI_V_Edges[colSize * i + j].Edge_Direction;
                 new_edge_V.DN_Node = LI_Nodes[i, j];
                 new_edge_V.UP_Node = LI_Nodes[i, j + 1];
 
@@ -382,7 +380,7 @@ public class Game_Manager : MonoBehaviour
                     new_edge_V.RGT_Node = BL_Nodes[i, j];
                 }
 
-                new_edge_V.Position = lvData[lvDataIndex].LI_V_Edges[colSize * i + j].Position;
+                new_edge_V.Position = lvData[lvIndex].LI_V_Edges[colSize * i + j].Position;
                 LI_V_Edges[i, j] = new_edge_V;
 
                 //* Check [Edge] [Type] = [Black_Pen]
@@ -409,9 +407,9 @@ public class Game_Manager : MonoBehaviour
                 new_edge_U.LFT_Node = LI_V_Edges[i, j].LFT_Node;
                 new_edge_U.RGT_Node = LI_V_Edges[i, j].RGT_Node;
                 new_edge_U.Position = LI_V_Edges[i, j].Position;
-                new_edge_U.Edge_Type = lvData[lvDataIndex].BL_U_Edges[colSize * i + j].Edge_Type;
+                new_edge_U.Edge_Type = lvData[lvIndex].BL_U_Edges[colSize * i + j].Edge_Type;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
-                new_edge_U.Edge_Direction = lvData[lvDataIndex].BL_U_Edges[colSize * i + j].Edge_Direction;
+                new_edge_U.Edge_Direction = lvData[lvIndex].BL_U_Edges[colSize * i + j].Edge_Direction;
                 BL_U_Edges[i, j] = new_edge_U;
 
                 //* Check [Edge] [Type] = [HighLighter_Red]
@@ -437,9 +435,9 @@ public class Game_Manager : MonoBehaviour
                 new_edge_V.LFT_Node = LI_U_Edges[i, j].LFT_Node;
                 new_edge_V.RGT_Node = LI_U_Edges[i, j].RGT_Node;
                 new_edge_V.Position = LI_U_Edges[i, j].Position;
-                new_edge_V.Edge_Type = lvData[lvDataIndex].BL_V_Edges[colSize * i + j].Edge_Type;
+                new_edge_V.Edge_Type = lvData[lvIndex].BL_V_Edges[colSize * i + j].Edge_Type;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
-                new_edge_V.Edge_Direction = lvData[lvDataIndex].BL_V_Edges[colSize * i + j].Edge_Direction;
+                new_edge_V.Edge_Direction = lvData[lvIndex].BL_V_Edges[colSize * i + j].Edge_Direction;
                 BL_V_Edges[i, j] = new_edge_V;
 
                 //* Check [Edge] [Type] = [HighLighter_Red]
@@ -961,5 +959,28 @@ public class Game_Manager : MonoBehaviour
             }
         }
         #endregion
+    }
+
+
+    //*!----------------------------!*//
+    //*!    Public Functions
+    //*!----------------------------!*//
+    
+    //*! Initialize the level data and set level data index to current playing level index
+    [ContextMenu("Initialize_Level")]
+    public void Initialize_Level()
+    {
+        //*! Safe check if the next level index to load is out of bound
+        //*! If next index is out of bound, display warning message and load the last level in array instead
+        if (lvDataIndex >= lvData.GetUpperBound(0))
+        {
+            Debug.Log("Level Index Array is out of bound.\n Load the last level in the array instead.");
+            lvDataIndex = lvData.GetUpperBound(0) - 1;
+        }
+
+        if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
+        Clean_Up_Symbols();
+        Setup_Level_Data(lvDataIndex + 1);
+        lvDataIndex++;
     }
 }

@@ -48,7 +48,7 @@ public class Camera_Control : MonoBehaviour
     private void Get_Trigger_Areas()
     {
         Vector2 camPos = transform.position;
-        triggerAreas[0] = new Rect(camPos + new Vector2(frustumCorners[0].x * 0.2f, 0), new Vector3(2.0f, frustumCorners[1].y * 2));
+        //triggerAreas[0] = new Rect(camPos + new Vector2(frustumCorners[0].x * 0.2f, 0), new Vector3(2.0f, frustumCorners[1].y * 2));
     }
 
     private void OnDrawGizmos()
