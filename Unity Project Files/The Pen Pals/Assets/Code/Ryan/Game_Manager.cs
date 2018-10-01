@@ -808,10 +808,11 @@ public class Game_Manager : MonoBehaviour
 
         if (!is_Symbol_List_Empty)
         {
-            for (int i = transform.Find("Symbols").childCount; i > 0; --i)
+            foreach (Transform child in transform.Find("Symbols"))
             {
-                Destroy(transform.Find("Symbols").GetChild(0).gameObject);
+                Destroy(child.gameObject);
             }
+
             Debug.Log("Clean Up Symbols");
         }
     }
