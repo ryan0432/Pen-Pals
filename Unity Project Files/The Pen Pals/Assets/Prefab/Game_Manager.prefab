@@ -80,8 +80,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9a8d993d6a35346827869e92f37bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lvData: {fileID: 0}
+  lvData:
+  - {fileID: 0}
+  lvDataIndex: -1
   Show_Gizmos: 1
+  Gizmos_Size: 0.5
   Black_Pen: {fileID: 1817040449023702, guid: b778286a76047a449a38ddcf03818624, type: 2}
   HighLighter_Red: {fileID: 1831989485835420, guid: 260b18fc5cd12674ebd6d5e44a9dc1db,
     type: 2}
@@ -93,10 +96,8 @@ MonoBehaviour:
     type: 2}
   Line_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
     type: 2}
-  Block_Blue_Goal_Count: 0
-  Block_Red_Goal_Count: 0
-  Line_Blue_Goal_Count: 0
-  Line_Red_Goal_Count: 0
-  arrw_giz_mesh: {fileID: 4300000, guid: 153535d1ad483ca4d98cf5629cea88ce, type: 3}
+  Blue_Sticker_Count: 0
+  Red_Sticker_Count: 0
+  arrw_giz_mesh: {fileID: 4300004, guid: 153535d1ad483ca4d98cf5629cea88ce, type: 3}
   bl_giz_mat: {fileID: 2100000, guid: 69ccd45acd894d94eb7599a068cd4fc0, type: 2}
   li_giz_mat: {fileID: 2100000, guid: a56ff2d88a2c72048a5f8e6ff97d3307, type: 2}

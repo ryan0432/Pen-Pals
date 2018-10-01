@@ -81,6 +81,11 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            Initialize_Level();
+        }
+
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
 
