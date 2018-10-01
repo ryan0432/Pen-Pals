@@ -22,6 +22,7 @@ public class Game_Manager : MonoBehaviour
 
     [SerializeField]
     public Lv_Data[] lvData;
+    [HideInInspector]
     public int lvDataIndex = -1;
 
     public Node[,] BL_Nodes;
