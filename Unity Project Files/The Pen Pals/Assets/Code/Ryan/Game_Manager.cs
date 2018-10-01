@@ -21,7 +21,8 @@ public class Game_Manager : MonoBehaviour
     //*!----------------------------!*//
 
     [SerializeField]
-    public Lv_Data lvData;
+    public Lv_Data[] lvData;
+    public int lvDataIndex;
 
     public Node[,] BL_Nodes;
     public Node[,] LI_Nodes;
@@ -44,13 +45,9 @@ public class Game_Manager : MonoBehaviour
     public GameObject Line_Red_Goal;
 
     [HideInInspector]
-    public int Block_Blue_Goal_Count = 0;
+    public int Blue_Sticker_Count = 0;
     [HideInInspector]
-    public int Block_Red_Goal_Count = 0;
-    [HideInInspector]
-    public int Line_Blue_Goal_Count = 0;
-    [HideInInspector]
-    public int Line_Red_Goal_Count = 0;
+    public int Red_Sticker_Count = 0;
 
 
     //*!----------------------------!*//
@@ -116,8 +113,8 @@ public class Game_Manager : MonoBehaviour
 
         //*! Setup row/col for each [Node] & [Edge] array
         #region Setup row/col for each [Node] & [Edge] array
-        row = lvData.row;
-        col = lvData.col;
+        row = lvData[lvDataIndex].row;
+        col = lvData[lvDataIndex].col;
 
         int bl_node_row = row - 1;
         int bl_node_col = col - 1;
@@ -157,8 +154,8 @@ public class Game_Manager : MonoBehaviour
                 int colSize = BL_Nodes.GetLength(1);
                 Node new_node = new Node();
                 BL_Nodes[i, j] = new_node;
-                BL_Nodes[i, j].Position = lvData.BL_Nodes[colSize * i + j].Position;
-                BL_Nodes[i, j].Node_Type = lvData.BL_Nodes[colSize * i + j].Node_Type;
+                BL_Nodes[i, j].Position = lvData[lvDataIndex].BL_Nodes[colSize * i + j].Position;
+                BL_Nodes[i, j].Node_Type = lvData[lvDataIndex].BL_Nodes[colSize * i + j].Node_Type;
                 BL_Nodes[i, j].UP_NODE = null;
                 BL_Nodes[i, j].DN_NODE = null;
                 BL_Nodes[i, j].LFT_NODE = null;
@@ -169,7 +166,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
-                    Block_Blue_Goal_Count++;
+                    Blue_Sticker_Count++;
                 }
 
                 //* Check [Node] [Type] == [Block_Red_Goal]
@@ -177,7 +174,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
-                    Block_Red_Goal_Count++;
+                    Red_Sticker_Count++;
                 }
             }
         }
@@ -234,8 +231,8 @@ public class Game_Manager : MonoBehaviour
                 int colSize = LI_Nodes.GetLength(1);
                 Node new_node = new Node();
                 LI_Nodes[i, j] = new_node;
-                LI_Nodes[i, j].Position = lvData.LI_Nodes[colSize * i + j].Position;
-                LI_Nodes[i, j].Node_Type = lvData.LI_Nodes[colSize * i + j].Node_Type;
+                LI_Nodes[i, j].Position = lvData[lvDataIndex].LI_Nodes[colSize * i + j].Position;
+                LI_Nodes[i, j].Node_Type = lvData[lvDataIndex].LI_Nodes[colSize * i + j].Node_Type;
                 LI_Nodes[i, j].UP_NODE = null;
                 LI_Nodes[i, j].DN_NODE = null;
                 LI_Nodes[i, j].LFT_NODE = null;
@@ -246,7 +243,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Line_Blue_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
-                    Line_Blue_Goal_Count++;
+                    Blue_Sticker_Count++;
                 }
 
                 //* Check [Node] [Type] == [Line_Red_Goal]
@@ -254,7 +251,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     GameObject new_Gizmos_GO = Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
-                    Line_Red_Goal_Count++;
+                    Red_Sticker_Count++;
                 }
             }
         }
@@ -311,9 +308,9 @@ public class Game_Manager : MonoBehaviour
                 int colSize = LI_U_Edges.GetLength(1);
 
                 Edge new_edge_U = new Edge();
-                new_edge_U.Edge_Type = lvData.LI_U_Edges[colSize * i + j].Edge_Type;
+                new_edge_U.Edge_Type = lvData[lvDataIndex].LI_U_Edges[colSize * i + j].Edge_Type;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
-                new_edge_U.Edge_Direction = lvData.LI_U_Edges[colSize * i + j].Edge_Direction;
+                new_edge_U.Edge_Direction = lvData[lvDataIndex].LI_U_Edges[colSize * i + j].Edge_Direction;
                 new_edge_U.LFT_Node = LI_Nodes[i, j];
                 new_edge_U.RGT_Node = LI_Nodes[i + 1, j];
 
@@ -337,7 +334,7 @@ public class Game_Manager : MonoBehaviour
                     new_edge_U.DN_Node = BL_Nodes[i, j - 1];
                 }
 
-                new_edge_U.Position = lvData.LI_U_Edges[colSize * i + j].Position;
+                new_edge_U.Position = lvData[lvDataIndex].LI_U_Edges[colSize * i + j].Position;
 
                 LI_U_Edges[i, j] = new_edge_U;
 
@@ -359,9 +356,9 @@ public class Game_Manager : MonoBehaviour
                 int colSize = LI_V_Edges.GetLength(1);
 
                 Edge new_edge_V = new Edge();
-                new_edge_V.Edge_Type = lvData.LI_V_Edges[colSize * i + j].Edge_Type;
+                new_edge_V.Edge_Type = lvData[lvDataIndex].LI_V_Edges[colSize * i + j].Edge_Type;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
-                new_edge_V.Edge_Direction = lvData.LI_V_Edges[colSize * i + j].Edge_Direction;
+                new_edge_V.Edge_Direction = lvData[lvDataIndex].LI_V_Edges[colSize * i + j].Edge_Direction;
                 new_edge_V.DN_Node = LI_Nodes[i, j];
                 new_edge_V.UP_Node = LI_Nodes[i, j + 1];
 
@@ -385,7 +382,7 @@ public class Game_Manager : MonoBehaviour
                     new_edge_V.RGT_Node = BL_Nodes[i, j];
                 }
 
-                new_edge_V.Position = lvData.LI_V_Edges[colSize * i + j].Position;
+                new_edge_V.Position = lvData[lvDataIndex].LI_V_Edges[colSize * i + j].Position;
                 LI_V_Edges[i, j] = new_edge_V;
 
                 //* Check [Edge] [Type] = [Black_Pen]
@@ -412,9 +409,9 @@ public class Game_Manager : MonoBehaviour
                 new_edge_U.LFT_Node = LI_V_Edges[i, j].LFT_Node;
                 new_edge_U.RGT_Node = LI_V_Edges[i, j].RGT_Node;
                 new_edge_U.Position = LI_V_Edges[i, j].Position;
-                new_edge_U.Edge_Type = lvData.BL_U_Edges[colSize * i + j].Edge_Type;
+                new_edge_U.Edge_Type = lvData[lvDataIndex].BL_U_Edges[colSize * i + j].Edge_Type;
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
-                new_edge_U.Edge_Direction = lvData.BL_U_Edges[colSize * i + j].Edge_Direction;
+                new_edge_U.Edge_Direction = lvData[lvDataIndex].BL_U_Edges[colSize * i + j].Edge_Direction;
                 BL_U_Edges[i, j] = new_edge_U;
 
                 //* Check [Edge] [Type] = [HighLighter_Red]
@@ -440,9 +437,9 @@ public class Game_Manager : MonoBehaviour
                 new_edge_V.LFT_Node = LI_U_Edges[i, j].LFT_Node;
                 new_edge_V.RGT_Node = LI_U_Edges[i, j].RGT_Node;
                 new_edge_V.Position = LI_U_Edges[i, j].Position;
-                new_edge_V.Edge_Type = lvData.BL_V_Edges[colSize * i + j].Edge_Type;
+                new_edge_V.Edge_Type = lvData[lvDataIndex].BL_V_Edges[colSize * i + j].Edge_Type;
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
-                new_edge_V.Edge_Direction = lvData.BL_V_Edges[colSize * i + j].Edge_Direction;
+                new_edge_V.Edge_Direction = lvData[lvDataIndex].BL_V_Edges[colSize * i + j].Edge_Direction;
                 BL_V_Edges[i, j] = new_edge_V;
 
                 //* Check [Edge] [Type] = [HighLighter_Red]
