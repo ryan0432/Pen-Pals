@@ -6,8 +6,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerStateMachine_Line : MonoBehaviour
+public class Line_Controller : MonoBehaviour
 {
+
+    //*!----------------------------!*//
+    //*!    Player Save Data
+    //*!----------------------------!*//
+    public Player_Save save_data;
 
     //*!----------------------------!*//
     //*!    Private Variables
@@ -23,15 +28,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
         show_debugger = !show_debugger;
     }
 
+    private GameObject Other_Player;
+
     #region Input codes
-    //[SerializeField]
-    //private KeyCode move_up_key;
-    //[SerializeField]
-    //private KeyCode move_down_key;
-    //[SerializeField]
-    //private KeyCode move_left_key;
-    //[SerializeField]
-    //private KeyCode move_right_key;
 
 
     /// <summary>
@@ -61,7 +60,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
 
     //*! Graph Container
-    private Game_Manager Node_Graph;
+    private Game_Manager GameManager;
 
 
     //*! Current Head Position
@@ -79,8 +78,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     public enum Player_Type
     {
-        BLUE = 0,
-        RED = 1
+        RED = 1,
+        BLUE = 2
     }
     public Player_Type player_type;
 
@@ -133,7 +132,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     private void Awake()
     {
-        Node_Graph = FindObjectOfType<Game_Manager>();
+
         //*! Line Render component
         line_renderer = GetComponent<LineRenderer>();
 
@@ -157,16 +156,38 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     private void Start()
     {
+        Get_Other_Player();
+
+        Player_Initialise();
+    }
+
+    private void Get_Other_Player()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int index = 0; index < players.Length; index++)
+        {
+            if (players[index].GetInstanceID() != this.gameObject.GetInstanceID())
+            {
+                Other_Player = players[index];
+                ///Debug.LogWarning("Lines other player" + Other_Player.GetInstanceID());
+            }
+        }
+    }
+
+    public void Player_Initialise()
+    {
+
+        GameManager = FindObjectOfType<Game_Manager>();
+
         //*! Assign the current grid position of the current world coodinates.
         grid_position.x = transform.position.x;
         grid_position.y = transform.position.y;
 
         //*! Current node is alligned to where it was placed
-        Current_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(grid_position.x), Mathf.RoundToInt(grid_position.y)];
+        Current_Node = GameManager.LI_Nodes[Mathf.RoundToInt(grid_position.x), Mathf.RoundToInt(grid_position.y)];
 
-        Init_Line_Segment_Traversability();
 
-        Current_Node.Is_Occupied = true;
         Current_Node.LFT_EDGE.Set_Traversability(false);
 
 
@@ -175,8 +196,33 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         Update_Pivot_Node();
 
-        //*! Default value at the start of the game... not updating Do not use
-        ///Pivot_Node = Current_Node.RGT_NODE;
+
+        //*! Get the approiate player save based on the players type
+        save_data = GameManager.gameObject.GetComponent<XML_SaveLoad>().Get_Active_Save((int)player_type);
+
+        //*! Set the sticker count based on what level index
+        Set_Sticker_Count();
+
+        Init_Line_Segment_Traversability();
+    }
+
+    private void Set_Sticker_Count()
+    {
+        if (save_data == null)
+        {
+            Debug.LogError("Line Player has no save data");
+            return;
+        }
+
+
+        if (player_type == Player_Type.BLUE)
+        {
+            save_data.Level_Count[GameManager.lvDataIndex].sticker_count = new bool[GameManager.Blue_Sticker_Count];
+        }
+        else if (player_type == Player_Type.RED)
+        {
+            save_data.Level_Count[GameManager.lvDataIndex].sticker_count = new bool[GameManager.Red_Sticker_Count];
+        }
     }
 
     /// <summary>
@@ -187,8 +233,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
         for (int index = 0; index < Line_Points.Length - 1; index++)
         {
-            Node line_segment = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y)];
-            Node next_line_segment = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[index + 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index + 1].segment.transform.position.y)];
+            Node line_segment = GameManager.LI_Nodes[Mathf.RoundToInt(Line_Points[index].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index].segment.transform.position.y)];
+            Node next_line_segment = GameManager.LI_Nodes[Mathf.RoundToInt(Line_Points[index + 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[index + 1].segment.transform.position.y)];
 
             if (line_segment.UP_NODE == next_line_segment)
             {
@@ -257,8 +303,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
             line_renderer.SetPosition(index - 1, Line_Points[index].segment.transform.position);
         }
     }
-    #endregion
 
+    #endregion
 
 
 
@@ -268,6 +314,9 @@ public class PlayerStateMachine_Line : MonoBehaviour
 
     //*! Public Access
     #region Public Functions
+
+
+
     #endregion
 
 
@@ -352,33 +401,36 @@ public class PlayerStateMachine_Line : MonoBehaviour
     //*! Functiions in this are order dependent.
     private void Reached_Next_Node()
     {
+        //*! 1
         Snap_Line_Segments();
-
+        //*! 2
         Reset_Traversability();
-
+        //*! 3
         Reset_Flag_Checks();
-
+        //*! 4
         Collect_Sticker_Check();
-
-
+        //*! 5
         //*! Shift the next node into the current node
         Current_Node = Next_Node;
-
+        //*! 6
         //*! Clear the next node
         Next_Node = null;
-
-
+        //*! 7
         Update_Grid_Position();
-
+        //*! 8
         Was_Queued_Input();
+        //*! 9
+
     }
+
+
 
     /// <summary>
     /// Update the pivot nodes position
     /// </summary>
     private void Update_Pivot_Node()
     {
-        Pivot_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[3].segment.transform.position.x),
+        Pivot_Node = GameManager.LI_Nodes[Mathf.RoundToInt(Line_Points[3].segment.transform.position.x),
                                          Mathf.RoundToInt(Line_Points[3].segment.transform.position.y)];
     }
 
@@ -445,8 +497,8 @@ public class PlayerStateMachine_Line : MonoBehaviour
     /// </summary>
     private void Reset_Traversability()
     {
-        Node tail_node = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y)];
-        Node pivot_before_tail = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 2].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 2].segment.transform.position.y)];
+        Node tail_node = GameManager.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y)];
+        Node pivot_before_tail = GameManager.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 2].segment.transform.position.x), Mathf.RoundToInt(Line_Points[Line_Points.Length - 2].segment.transform.position.y)];
 
         if (tail_node.UP_NODE == pivot_before_tail)
         {
@@ -528,10 +580,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
         //*! Collect a sticker
         if (player_type == Player_Type.BLUE)
         {
-            if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Red_Goal)
+            if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Line_Blue_Goal)
             {
                 Next_Node.Node_Type = Node_Type.NONE;
                 Next_Node.Gizmos_GO.SetActive(false);
+                //*! Minus one from the current sticker count
+                GameManager.Blue_Sticker_Count--;
+                if (GameManager.Blue_Sticker_Count == 0 && GameManager.Red_Sticker_Count == 0)
+                {
+                    GameManager.Initialize_Level();
+                    Player_Initialise();
+                    Other_Player_Get_Map_Data();
+                }
             }
         }
         else
@@ -540,9 +600,32 @@ public class PlayerStateMachine_Line : MonoBehaviour
             {
                 Next_Node.Node_Type = Node_Type.NONE;
                 Next_Node.Gizmos_GO.SetActive(false);
+                //*! Minus one from the current sticker count
+                GameManager.Red_Sticker_Count--;
+                if (GameManager.Blue_Sticker_Count == 0 && GameManager.Red_Sticker_Count == 0)
+                {
+                    GameManager.Initialize_Level();
+                    Player_Initialise();
+                    Other_Player_Get_Map_Data();
+                }
             }
         }
+
     }
+
+
+    private void Other_Player_Get_Map_Data()
+    {
+        if (Other_Player.GetComponent<Line_Controller>() != null)
+        {
+            Other_Player.GetComponent<Line_Controller>().Player_Initialise();
+        }
+        else if (Other_Player.GetComponent<Block_Controller>() != null)
+        {
+            Other_Player.GetComponent<Block_Controller>().Player_Initialise();
+        }
+    }
+
 
     ///*! End of just move
 
@@ -615,7 +698,7 @@ public class PlayerStateMachine_Line : MonoBehaviour
         }
 
         //*! Current node to move from is now at the tails position converted into node
-        Current_Node = Node_Graph.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x),
+        Current_Node = GameManager.LI_Nodes[Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.x),
                                            Mathf.RoundToInt(Line_Points[Line_Points.Length - 1].segment.transform.position.y)];
 
         //*! Update the grid position
@@ -1034,9 +1117,18 @@ public class PlayerStateMachine_Line : MonoBehaviour
                 }
                 else
                 {
-                    Current_Node.LFT_EDGE.Set_Traversability(true);
-                    //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
-                    return Current_Node;
+                    if (Current_Node.Can_LFT == false)
+                    {
+                        //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
+                        return Current_Node;
+                    }
+                    else
+                    {
+                        Current_Node.LFT_EDGE.Set_Traversability(true);
+                        //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
+                        return Current_Node;
+                    }
+
                 }
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)

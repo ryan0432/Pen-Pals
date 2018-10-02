@@ -6,17 +6,24 @@
 using UnityEngine;
 
 
-public class PlayerStateMachine : MonoBehaviour
+public class Block_Controller : MonoBehaviour
 {
+
+    //*!----------------------------!*//
+    //*!    Player Save Data
+    //*!----------------------------!*//
+    public Player_Save save_data;
+
 
     //*!----------------------------!*//
     //*!    Private Variables
     //*!----------------------------!*//
     #region Private Variables
 
+    private GameObject Other_Player;
 
     //*! Graph Container
-    private Game_Manager Node_Graph;
+    private Game_Manager GameManager;
 
     /// <summary>
     /// As these are worded with past tense. In the action of doing so you set it to true, otherwise you have not done it, false
@@ -64,8 +71,8 @@ public class PlayerStateMachine : MonoBehaviour
 
     public enum Player_Type
     {
-        BLUE = 0,
-        RED = 1
+        RED = 1,
+        BLUE = 2
     }
     public Player_Type player_type;
 
@@ -101,21 +108,66 @@ public class PlayerStateMachine : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        Get_Other_Player();
+
+        Player_Initialise();
+    }
+
+    private void Get_Other_Player()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int index = 0; index < players.Length; index++)
+        {
+            if (players[index].GetInstanceID() != this.gameObject.GetInstanceID())
+            {
+                Other_Player = players[index];
+                ///Debug.Log("Blocks other player" + Other_Player.GetInstanceID());
+            }
+        }
+    }
+
+    public void Player_Initialise()
+    {
         //Node_Graph = GameObject.FindGameObjectWithTag("Game_Manager").GetComponent<Game_Manager>();
 
-        Node_Graph = FindObjectOfType<Game_Manager>();
+        GameManager = FindObjectOfType<Game_Manager>();
 
         //*! Assign the current grid position of the current world coodinates.
         grid_position.x = transform.position.x;
         grid_position.y = transform.position.y;
 
         //*! Current node is alligned to where it was placed
-        Current_Node = Node_Graph.BL_Nodes[Mathf.RoundToInt(grid_position.x), Mathf.RoundToInt(grid_position.y)];
+        Current_Node = GameManager.BL_Nodes[(int)(grid_position.x), (int)(grid_position.y)];
 
         is_grounded = Ground_Check();//false
 
+        //*! Get the approiate player save based on the players type
+        save_data = GameManager.gameObject.GetComponent<XML_SaveLoad>().Get_Active_Save((int)player_type);
 
+        //*! Set the sticker count based on what level index
+        Set_Sticker_Count();
     }
+
+    private void Set_Sticker_Count()
+    {
+
+        if (save_data == null)
+        {
+            Debug.LogError("Block Player has no save data");
+            return;
+        }
+
+        if (player_type == Player_Type.BLUE)
+        {
+            save_data.Level_Count[GameManager.lvDataIndex].sticker_count = new bool[GameManager.Blue_Sticker_Count];
+        }
+        else if (player_type == Player_Type.RED)
+        {
+            save_data.Level_Count[GameManager.lvDataIndex].sticker_count = new bool[GameManager.Red_Sticker_Count];
+        }
+    }
+
 
 
     /// <summary>
@@ -137,33 +189,211 @@ public class PlayerStateMachine : MonoBehaviour
     #endregion
 
 
-    void Just_Move_Input()
+
+    //*!----------------------------!*//
+    //*!    Custom Functions
+    //*!----------------------------!*//
+
+    //*! Public Access
+    #region Public Functions
+
+
+
+
+    #endregion
+
+
+    //*! Private Access
+    #region Private Functions
+
+    private void Just_Move_Input()
     {
         //*! Only when the player is not moving but are grounded
-        if (is_moving == false && is_grounded == true && is_falling == false)
-        {
-            //*! Current Position before the move
-            //Current_Node.Is_Occupied = true;
-            Current_Node.Set_Traversability(false);
-
-            //*! Player Input checks - based on Current Node position.
-            Queued_Node = Controller_Input();
-
-            //*! Does it have a value, did the player input something?
-            if (Queued_Node != null)
-            {
-                is_moving = true;
-
-                Queued_Node.Set_Traversability(false);
-                //Queued_Node.Is_Occupied = true;
-            }
-
-        }
+        Check_Input();
 
 
 
         /*-can second input to override the current Queued node-*/
         /*-when X% distance remaining of current to next -*/
+        Second_Input();
+
+
+        //*! Does Queued node have a value
+        Shift_Nodes();
+
+
+
+        //*! Move player next node is not null
+        if (Next_Node != null)
+        {
+            Move_And_Distance_Check();
+
+
+            //*! Reached the next node
+            Reached_Next_Node();
+        }
+    }
+
+    private void Reached_Next_Node()
+    {
+        if (transform.position == new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0))
+        {
+            //*! Finished moving, unless the below checks override that
+            is_moving = false;
+
+            //*! Reset the seond input permission
+            can_second = false;
+
+
+            //*! Collect a sticker
+            Sticker_Collect();
+
+            Reset_Traversability();
+
+
+            //*! Does Queued node have a value
+            Queued_Node_Check();
+
+        }
+    }
+
+    private void Queued_Node_Check()
+    {
+        if (Queued_Node != null)
+        {
+            Queued_Node.Set_Traversability(false);
+            //Queued_Node.Is_Occupied = true;
+            ///Debug.Log("Q: Not null" + Queued_Node.Position);
+            //*! Shift nodes if next is empty
+            if (Next_Node == null && Queued_Node != null)
+            {
+                Queued_Node.Set_Traversability(false);
+                //Queued_Node.Is_Occupied = true;
+                ///Debug.Log("N: null" + Next_Node);
+                //*! Shift Queued into the next node
+                Next_Node = Queued_Node;
+                ///Debug.Log("N: not null" + Next_Node.Position);
+                //*! Clear the Queued node
+                Queued_Node = null;
+                ///Debug.Log("Q: null" + Queued_Node);
+            }
+        }
+        else
+        {
+            ///Debug.Log("Q: null - Ground Check!");
+            //StartCoroutine(Ground_Check());
+            Ground_Check();
+        }
+    }
+
+    private void Reset_Traversability()
+    {
+        Previous_Node = Current_Node;
+        //*! When it is at the next node is not at the current node
+        Previous_Node.Set_Traversability(true);
+        //Previous_Node.Is_Occupied = false;
+
+        //*! Shift the next node into the current node
+        Current_Node = Next_Node;
+
+        //*! Clear the next node
+        Next_Node = null;
+
+        //*! Update the grid position
+        grid_position.x = Current_Node.Position.x;
+        grid_position.y = Current_Node.Position.y;
+    }
+
+    private void Sticker_Collect()
+    {
+        if (player_type == Player_Type.BLUE)
+        {
+            if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Block_Blue_Goal)
+            {
+                Next_Node.Node_Type = Node_Type.NONE;
+                Next_Node.Gizmos_GO.SetActive(false);
+
+                //*! Minus one from the current sticker count
+                GameManager.Blue_Sticker_Count--;
+                if (GameManager.Blue_Sticker_Count == 0 && GameManager.Red_Sticker_Count == 0)
+                {
+                    GameManager.Initialize_Level();
+                    Player_Initialise();
+                    Other_Player_Get_Map_Data();
+                }
+            }
+        }
+        else
+        {
+            if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Block_Red_Goal)
+            {
+                Next_Node.Node_Type = Node_Type.NONE;
+                Next_Node.Gizmos_GO.SetActive(false);
+
+                //*! Minus one from the current sticker count
+                GameManager.Red_Sticker_Count--;
+                if (GameManager.Blue_Sticker_Count == 0 && GameManager.Red_Sticker_Count == 0)
+                {
+                    GameManager.Initialize_Level();
+                    Player_Initialise();
+                    Other_Player_Get_Map_Data();
+                }
+            }
+        }
+
+    }
+
+    private void Other_Player_Get_Map_Data()
+    {
+        if (Other_Player.GetComponent<Line_Controller>() != null)
+        {
+            Other_Player.GetComponent<Line_Controller>().Player_Initialise();
+        }
+        else if (Other_Player.GetComponent<Block_Controller>() != null)
+        {
+            Other_Player.GetComponent<Block_Controller>().Player_Initialise();
+        }
+    }
+
+    private void Move_And_Distance_Check()
+    {
+        //*! Current Position before the move
+        Next_Node.Set_Traversability(false);
+
+        //*! Move towards with precision to have the player exactly reach the next node
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0), movement_speed * Time.deltaTime);
+
+
+        //*! Get the distance from the player to the next node
+        float mag_distance = (new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0) - transform.position).magnitude;
+
+        //*! If distance is less then the threshhold - allow player to override the Queued node
+        if (mag_distance < 0.5f)
+        {
+            can_second = true;
+        }
+    }
+
+    private void Shift_Nodes()
+    {
+        if (Queued_Node != null)
+        {
+            Queued_Node.Set_Traversability(false);
+            //Queued_Node.Is_Occupied = true;
+            //*! Shift nodes if next is empty
+            if (Next_Node == null && Queued_Node != null)
+            {
+                //*! Shift Queued into the next node
+                Next_Node = Queued_Node;
+
+                //*! Clear the Queued node
+                Queued_Node = null;
+            }
+        }
+    }
+
+    private void Second_Input()
+    {
         if (is_moving == true && can_second == true && is_falling == false)
         {
             //*! Player Input checks - based on Current Node position.
@@ -184,146 +414,30 @@ public class PlayerStateMachine : MonoBehaviour
             Queued_Node = Controller_Input();
 
         }
-
-
-        //*! Does Queued node have a value
-        if (Queued_Node != null)
-        {
-            Queued_Node.Set_Traversability(false);
-            //Queued_Node.Is_Occupied = true;
-            //*! Shift nodes if next is empty
-            if (Next_Node == null && Queued_Node != null)
-            {
-                //*! Shift Queued into the next node
-                Next_Node = Queued_Node;
-
-                //*! Clear the Queued node
-                Queued_Node = null;
-            }
-        }
-
-
-
-        //*! Move player next node is not null
-        if (Next_Node != null)
-        {
-
-            //*! Current Position before the move
-            Next_Node.Set_Traversability(false);
-
-            //*! Move towards with precision to have the player exactly reach the next node
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0), movement_speed * Time.deltaTime);
-
-
-            //*! Get the distance from the player to the next node
-            float mag_distance = (new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0) - transform.position).magnitude;
-
-            //*! If distance is less then the threshhold - allow player to override the Queued node
-            if (mag_distance < 0.5f)
-            {
-                can_second = true;
-            }
-
-
-            //*! Reached the next node
-            if (transform.position == new Vector3(Next_Node.Position.x, Next_Node.Position.y, 0))
-            {
-                //*! Finished moving, unless the below checks override that
-                is_moving = false;
-
-                //*! Reset the seond input permission
-                can_second = false;
-
-
-
-                //*! Collect a sticker
-                if (player_type == Player_Type.BLUE)
-                {
-                    if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Block_Blue_Goal)
-                    {
-                        Next_Node.Node_Type = Node_Type.NONE;
-                        Next_Node.Gizmos_GO.SetActive(false);
-                    }
-                }
-                else
-                {
-                    if (Next_Node.Gizmos_GO != null && Next_Node.Node_Type == Node_Type.Block_Red_Goal)
-                    {
-                        Next_Node.Node_Type = Node_Type.NONE;
-                        Next_Node.Gizmos_GO.SetActive(false);
-                    }
-                }
-
-
-
-
-                Previous_Node = Current_Node;
-                //*! When it is at the next node is not at the current node
-                Previous_Node.Set_Traversability(true);
-                //Previous_Node.Is_Occupied = false;
-
-                //*! Shift the next node into the current node
-                Current_Node = Next_Node;
-
-
-
-
-                //*! Clear the next node
-                Next_Node = null;
-
-                //*! Update the grid position
-                grid_position.x = Current_Node.Position.x;
-                grid_position.y = Current_Node.Position.y;
-
-
-                //*! Does Queued node have a value
-                if (Queued_Node != null)
-                {
-                    Queued_Node.Set_Traversability(false);
-                    //Queued_Node.Is_Occupied = true;
-                    ///Debug.Log("Q: Not null" + Queued_Node.Position);
-                    //*! Shift nodes if next is empty
-                    if (Next_Node == null && Queued_Node != null)
-                    {
-                        Queued_Node.Set_Traversability(false);
-                        //Queued_Node.Is_Occupied = true;
-                        ///Debug.Log("N: null" + Next_Node);
-                        //*! Shift Queued into the next node
-                        Next_Node = Queued_Node;
-                        ///Debug.Log("N: not null" + Next_Node.Position);
-                        //*! Clear the Queued node
-                        Queued_Node = null;
-                        ///Debug.Log("Q: null" + Queued_Node);
-                    }
-                }
-                else
-                {
-                    ///Debug.Log("Q: null - Ground Check!");
-                    //StartCoroutine(Ground_Check());
-                    Ground_Check();
-                }
-
-            }
-        }
     }
 
+    private void Check_Input()
+    {
+        if (is_moving == false && is_grounded == true && is_falling == false)
+        {
+            //*! Current Position before the move
+            //Current_Node.Is_Occupied = true;
+            Current_Node.Set_Traversability(false);
 
-    //*!----------------------------!*//
-    //*!    Custom Functions
-    //*!----------------------------!*//
+            //*! Player Input checks - based on Current Node position.
+            Queued_Node = Controller_Input();
 
-    //*! Public Access
-    #region Public Functions
+            //*! Does it have a value, did the player input something?
+            if (Queued_Node != null)
+            {
+                is_moving = true;
 
+                Queued_Node.Set_Traversability(false);
+                //Queued_Node.Is_Occupied = true;
+            }
 
-
-
-    #endregion
-
-
-    //*! Private Access
-    #region Private Functions
-
+        }
+    }
 
 
     /// <summary>
@@ -480,3 +594,6 @@ public class PlayerStateMachine : MonoBehaviour
     #endregion
 
 }
+
+
+

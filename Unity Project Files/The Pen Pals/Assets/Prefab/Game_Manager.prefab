@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4622100025655572}
   - component: {fileID: 114903831537596356}
+  - component: {fileID: 114174795837858706}
   m_Layer: 0
   m_Name: Game_Manager
   m_TagString: Untagged
@@ -69,6 +70,18 @@ Transform:
   m_Father: {fileID: 4622100025655572}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114174795837858706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1078046706339260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1462e5acb161dca49b123968276c7bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_Saves: []
 --- !u!114 &114903831537596356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81,7 +94,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lvData:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1cf50dfaab912874a81f7b0ea40b2310, type: 2}
+  - {fileID: 11400000, guid: 69d1db76b9e56aa49bde1ef10fbb128f, type: 2}
+  - {fileID: 11400000, guid: 3ae36011c74e20b42b2d5884ed088d08, type: 2}
+  - {fileID: 11400000, guid: f4ac95635d6f7984aa091051dd80ed7f, type: 2}
+  - {fileID: 11400000, guid: da8bfc1933496d647bbf89741d435a97, type: 2}
   lvDataIndex: -1
   Show_Gizmos: 1
   Gizmos_Size: 0.5

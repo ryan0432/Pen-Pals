@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <Player_Save xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>Player_02</Name>
+  <player_type>RED</player_type>
+  <active_save>true</active_save>
   <Level_Count>
     <Level_Data>
       <Name>Level Default_1</Name>

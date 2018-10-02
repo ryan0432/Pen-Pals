@@ -7,49 +7,6 @@
 using UnityEngine;
 
 
-//*!----------------------------!*//
-//*!    Commenting Style
-//*!----------------------------!*//
-#region Commenting style
-
-//*! Single Line
-
-
-/*--*/
-/*-
-* Multi-line
-*  
-*  
-* -*/
-
-/*!!*/
-/*!
- * Multi-line
- * 
- * !*/
-
-// Temporary comment
-/// Side Notes, not really worth a proper single line comment, but something to take note of.
-
-//*! If you can't explain the function in 1 short sentence. 
-/// <summary>
-/// Above complex funtions, otherwise use a single line comment.
-/// </summary>
-/// <param name="argument_name"> One space before and after the comment on the argument </param>
-
-
-/// Seperated by 32 '-' Minus symbols
-/// Title of the Region 1 tab space
-//*!----------------------------!*//
-//*!    Private Variables
-//*!----------------------------!*//
-#region Areas of code
-
-#endregion
-
-#endregion
-
-
 public class Level_Availability : MonoBehaviour
 {
 
@@ -80,17 +37,14 @@ public class Level_Availability : MonoBehaviour
     private void Start()
     {
         xml_file_data = XML_Manager.GetComponent<XML_SaveLoad>();
+
+        Unlock_Levels();
+
+        Set_Completed_Levels();
     }
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            transform.gameObject.GetComponent<Renderer>().material.color = (xml_file_data.Player_Saves[0].Level_Count[0].Unlocked) ? new Color(0, 1, 0) : new Color(1, 0, 0);
-        }
 
-    }
 
     #endregion
 
@@ -110,12 +64,44 @@ public class Level_Availability : MonoBehaviour
     #region Private Functions
 
 
-    #endregion
+    private void Set_Completed_Levels()
+    {
+        for (int player_index = 0; player_index < xml_file_data.Player_Saves.Count; player_index++)
+        {
+            for (int level_index = 0; level_index < transform.childCount; level_index++)
+            {
+                if (transform.GetChild(level_index).gameObject.activeSelf == true && xml_file_data.Player_Saves[player_index].Level_Count[level_index].Completed == true)
+                {
+                    transform.GetChild(level_index).GetComponent<Renderer>().material.color = new Color(0, 0, 1);
+                }
+            }
+
+        }
+    }
+
+
+    private void Unlock_Levels()
+    {
+        for (int player_index = 0; player_index < xml_file_data.Player_Saves.Count; player_index++)
+        {
+            for (int level_index = 0; level_index < transform.childCount; level_index++)
+            {
+                if (xml_file_data.Player_Saves[player_index].Level_Count[level_index].Unlocked == true)
+                {
+                    transform.GetChild(level_index).gameObject.SetActive(true);
+                    transform.GetChild(level_index).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
+                }
+                else
+                {
+                    transform.GetChild(level_index).gameObject.SetActive(true);
+                }
+            }
+        }
+    }
 
 
 
-    //*! Protected Access
-    #region Protected Functions
+
 
     #endregion
 

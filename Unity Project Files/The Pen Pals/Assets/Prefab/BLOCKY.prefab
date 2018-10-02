@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4324885896756856}
-  - component: {fileID: 114489347131702132}
+  - component: {fileID: 114195452133973270}
   m_Layer: 0
   m_Name: BLOCKY
   m_TagString: Untagged
@@ -155,7 +155,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114489347131702132
+--- !u!114 &114195452133973270
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -163,9 +163,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1589913466504476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d36796ff64e4edb4a87e7a6fb33a0aa0, type: 3}
+  m_Script: {fileID: 11500000, guid: 5031b24ea66387f4cadfb618545b6504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  save_data:
+    Name: 
+    player_type: 0
+    active_save: 0
+    Level_Count: []
   player_type: 1
   movement_speed: 4
 --- !u!212 &212305033821425310

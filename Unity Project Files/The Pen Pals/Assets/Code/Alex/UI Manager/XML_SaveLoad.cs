@@ -9,49 +9,10 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 
-//*!----------------------------!*//
-//*!    Commenting Style
-//*!----------------------------!*//
-#region Commenting style
 
-//*! Single Line
-
-
-/*--*/
-/*-
-* Multi-line
-*  
-*  
-* -*/
-
-/*!!*/
-/*!
- * Multi-line
- * 
- * !*/
-
-// Temporary comment
-/// Side Notes, not really worth a proper single line comment, but something to take note of.
-
-//*! If you can't explain the function in 1 short sentence. 
 /// <summary>
-/// Above complex funtions, otherwise use a single line comment.
+/// Loading of Players in Awake please use Start for accessing player save information
 /// </summary>
-/// <param name="argument_name"> One space before and after the comment on the argument </param>
-
-
-/// Seperated by 32 '-' Minus symbols
-/// Title of the Region 1 tab space
-//*!----------------------------!*//
-//*!    Private Variables
-//*!----------------------------!*//
-#region Areas of code
-
-#endregion
-
-#endregion
-
-
 public class XML_SaveLoad : MonoBehaviour
 {
     //*!----------------------------!*//
@@ -71,13 +32,8 @@ public class XML_SaveLoad : MonoBehaviour
     //*!----------------------------!*//
     #region Unity Functions
 
-    private void Start()
+    private void Awake()
     {
-        //*! Load Player One
-        ///player_saves[0] = Player_Save.Load("./Player Save Files/player_" + (index + 1) + ".xml");
-
-
-
         Load_All_Players();
     }
 
@@ -89,6 +45,37 @@ public class XML_SaveLoad : MonoBehaviour
 
     //*! Public Access
     #region Public Functions
+
+    public void Set_Player_Red_Save(int selected_index)
+    {
+        Player_Saves[selected_index].active_save = true;
+        Player_Saves[selected_index].player_type = Player_Save.Player_Type.RED;
+    }
+
+    public void Set_Player_Blue_Save(int selected_index)
+    {
+        Player_Saves[selected_index].active_save = true;
+        Player_Saves[selected_index].player_type = Player_Save.Player_Type.BLUE;
+    }
+
+    /// <summary>
+    /// Based on the player type returns the appropirate save back
+    /// </summary>
+    /// <param name="player_type"></param>
+    /// <returns> Player_Save Information </returns>
+    public Player_Save Get_Active_Save(int player_type)
+    {
+        for (int index = 0; index < Player_Saves.Count; index++)
+        {
+            if (Player_Saves[index].active_save == true && (int)Player_Saves[index].player_type == player_type)
+            {
+                return Player_Saves[index];
+            }
+        }
+
+        Debug.LogError("NO SAVE DATA FOUND");
+        return null;
+    }
 
     /// <summary>
     /// Removes the player save from the list and file directory
@@ -319,12 +306,20 @@ public class Player_Save
     //*! Name of player
     public string Name = "";
 
+    public enum Player_Type
+    {
+        NONE = 0,
+        RED = 1,
+        BLUE = 2
+    }
+
+    public Player_Type player_type;
+
+    public bool active_save;
+
     //*! Count of levels the game has.
     [XmlArray("Level_Count"), XmlArrayItem("Level_Data")]
     public List<Level_Data> Level_Count = new List<Level_Data>();
-
-
-
 
     /// <summary>
     /// Check Against the level Defaults - making sure the values are not blank
