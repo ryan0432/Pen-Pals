@@ -832,7 +832,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Next_Node.UP_EDGE.Set_Traversability(true);
+                    ///Next_Node.UP_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is,  the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -886,7 +886,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Current_Node.UP_EDGE.Set_Traversability(true);
+                    ///Current_Node.UP_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -946,7 +946,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Next_Node.DN_EDGE.Set_Traversability(true);
+                    ///Next_Node.DN_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1002,7 +1002,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Current_Node.DN_EDGE.Set_Traversability(true);
+                    ///Current_Node.DN_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1063,7 +1063,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Next_Node.LFT_EDGE.Set_Traversability(true);
+                    ///Next_Node.LFT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1109,6 +1109,7 @@ public class Line_Controller : MonoBehaviour
                 ///*! Default Value for the current position
                 Vector3Int t_current_position = Vector3Int.zero;
 
+
                 if (Current_Node.Can_LFT == true)
                 {
                     Current_Node.LFT_EDGE.Set_Traversability(false);
@@ -1117,18 +1118,8 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    if (Current_Node.Can_LFT == false)
-                    {
-                        //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
-                        return Current_Node;
-                    }
-                    else
-                    {
-                        Current_Node.LFT_EDGE.Set_Traversability(true);
-                        //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
-                        return Current_Node;
-                    }
-
+                    ///Current_Node.LFT_EDGE.Set_Traversability(true);
+                    return Current_Node;
                 }
                 //*! For all line points check for any potential overlap
                 for (int index = 0; index < Line_Points.Length; index++)
@@ -1185,7 +1176,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Next_Node.RGT_EDGE.Set_Traversability(true);
+                    ///Next_Node.RGT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
@@ -1238,7 +1229,7 @@ public class Line_Controller : MonoBehaviour
                 }
                 else
                 {
-                    Current_Node.RGT_EDGE.Set_Traversability(true);
+                    ///Current_Node.RGT_EDGE.Set_Traversability(true);
                     //*! The Current node can not go down from where it is, the Current_Node.'dir' is null
                     return Current_Node;
                 }
