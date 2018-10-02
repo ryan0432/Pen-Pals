@@ -34,10 +34,6 @@ public class UI_Manager : MonoBehaviour
     //*!----------------------------!*//
     #region Public Variables
 
-    //*! Target for mini messages
-    public GameObject target;
-    //*! Random List of mini messages
-    public List<string> mini_messages;
 
     //*! Menu States
     public enum Menu_State
@@ -56,16 +52,12 @@ public class UI_Manager : MonoBehaviour
     #region Unity Functions
     private void Start()
     {
-        
+
     }
 
     private void Update()
     {
-        //*! Click for a new message
-        if (Input.GetMouseButtonDown(0))
-        {
-            Set_Message_Of_The_Day();
-        }
+
 
     }
 
@@ -77,7 +69,7 @@ public class UI_Manager : MonoBehaviour
 
     //*! Public Access
     #region Public Functions
-    
+
     //*! Changing states of the menu
     public void Change_Panel(int a_menu_state)
     {
@@ -103,11 +95,11 @@ public class UI_Manager : MonoBehaviour
     //*! Closes the game in editor and build
     public void End_Game()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     //*! Changes scene by the index value of the build orders
@@ -124,11 +116,6 @@ public class UI_Manager : MonoBehaviour
     //*! Private Access
     #region Private Functions
 
-    private void Set_Message_Of_The_Day()
-    {
-        //*! Pick a random text message
-        target.GetComponent<Text>().text = "Message of the day: " +  mini_messages[Random.Range(0, mini_messages.Count)];
-    }
 
     #endregion
 

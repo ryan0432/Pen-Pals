@@ -124,8 +124,8 @@ public class Block_Controller : MonoBehaviour
         Get_Other_Player();
 
         Player_Initialise();
-    }
 
+    }
 
     /// <summary>
     ///  Main Update loop for the state machine
@@ -194,7 +194,8 @@ public class Block_Controller : MonoBehaviour
         {
             Other_Player.GetComponent<Line_Controller>().Player_Initialise();
         }
-        else if (Other_Player.GetComponent<Block_Controller>() != null)
+
+        if (Other_Player.GetComponent<Block_Controller>() != null)
         {
             Other_Player.GetComponent<Block_Controller>().Player_Initialise();
         }
@@ -354,6 +355,7 @@ public class Block_Controller : MonoBehaviour
         }
     }
 
+
     #endregion
 
     #region Input Functions
@@ -472,6 +474,10 @@ public class Block_Controller : MonoBehaviour
 
             //*! Not grounded, so they must be moving / falling
             is_moving = true;
+
+
+            Other_Player_Get_Map_Data();
+
         }
         else
         {
@@ -538,7 +544,7 @@ public class Block_Controller : MonoBehaviour
         else if (Input.GetKeyDown(Left_Key) == true && left_key_pressed == false)
         {
             //*! Has the player jumped
-            if (up_key_pressed == true /*&& Current_Node.UP_NODE.Can_LFT == true*/)
+            if (up_key_pressed == true && is_grounded == false)
             {
                 //*! Set the flag for later use
                 left_key_pressed = true;
@@ -547,7 +553,7 @@ public class Block_Controller : MonoBehaviour
                 right_key_pressed = true;
             }
             //*! Move along ground
-            else if (is_grounded == true /*&& Current_Node.Can_LFT == true*/)
+            else if (up_key_pressed == false && is_grounded == true)
             {
                 //*! Set the flag for later use
                 left_key_pressed = false;
@@ -564,7 +570,7 @@ public class Block_Controller : MonoBehaviour
         else if (Input.GetKeyDown(Right_Key) == true && right_key_pressed == false)
         {
             //*! Has the player jumped
-            if (up_key_pressed == true /*&& Current_Node.UP_NODE.Can_RGT == true*/)
+            if (up_key_pressed == true && is_grounded == false)
             {
                 //*! Set the flag for later use
                 left_key_pressed = true;
@@ -573,7 +579,7 @@ public class Block_Controller : MonoBehaviour
                 right_key_pressed = true;
             }
             //*! Move along ground
-            else if (is_grounded == true /*&& Current_Node.Can_RGT == true*/)
+            else if (up_key_pressed == false && is_grounded == true)
             {
                 //*! Set the flag for later use
                 right_key_pressed = false;

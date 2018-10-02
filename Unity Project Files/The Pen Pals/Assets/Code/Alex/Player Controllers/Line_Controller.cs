@@ -387,7 +387,8 @@ public class Line_Controller : MonoBehaviour
         {
             Other_Player.GetComponent<Line_Controller>().Player_Initialise();
         }
-        else if (Other_Player.GetComponent<Block_Controller>() != null)
+
+        if (Other_Player.GetComponent<Block_Controller>() != null)
         {
             Other_Player.GetComponent<Block_Controller>().Player_Initialise();
         }
@@ -677,10 +678,8 @@ public class Line_Controller : MonoBehaviour
         //*! 4
         Collect_Sticker_Check();
         //*! 5
-        //*! Shift the next node into the current node
         Current_Node = Next_Node;
         //*! 6
-        //*! Clear the next node
         Next_Node = null;
         //*! 7
         Update_Grid_Position();

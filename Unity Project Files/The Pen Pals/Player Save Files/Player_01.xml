@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <Player_Save xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>Player_01</Name>
-  <player_type>BLUE</player_type>
+  <player_type>RED</player_type>
   <active_save>true</active_save>
   <Level_Count>
     <Level_Data>
       <Name>Level Default_1</Name>
-      <Completed>true</Completed>
+      <Completed>false</Completed>
       <Unlocked>true</Unlocked>
       <Sticker_Count>
-        <Sticker_Count>false</Sticker_Count>
-        <Sticker_Count>false</Sticker_Count>
-        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>true</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
       </Sticker_Count>
@@ -41,7 +39,7 @@
     <Level_Data>
       <Name>Level Default_3</Name>
       <Completed>false</Completed>
-      <Unlocked>true</Unlocked>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -72,8 +70,8 @@
     </Level_Data>
     <Level_Data>
       <Name>Level Default_5</Name>
-      <Completed>true</Completed>
-      <Unlocked>true</Unlocked>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -105,7 +103,7 @@
     <Level_Data>
       <Name>Level Default_7</Name>
       <Completed>false</Completed>
-      <Unlocked>true</Unlocked>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -136,8 +134,8 @@
     </Level_Data>
     <Level_Data>
       <Name>Level Default_9</Name>
-      <Completed>true</Completed>
-      <Unlocked>true</Unlocked>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -153,7 +151,7 @@
     <Level_Data>
       <Name>Level Default_10</Name>
       <Completed>false</Completed>
-      <Unlocked>true</Unlocked>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -169,7 +167,7 @@
     <Level_Data>
       <Name>Level Default_11</Name>
       <Completed>false</Completed>
-      <Unlocked>true</Unlocked>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -200,8 +198,8 @@
     </Level_Data>
     <Level_Data>
       <Name>Level Default_13</Name>
-      <Completed>true</Completed>
-      <Unlocked>true</Unlocked>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -233,7 +231,7 @@
     <Level_Data>
       <Name>Level Default_15</Name>
       <Completed>false</Completed>
-      <Unlocked>true</Unlocked>
+      <Unlocked>false</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
