@@ -96,18 +96,21 @@ public class Block_Control : MonoBehaviour
 
         if (Input.GetKeyDown(UP_Key))
         {
+            isArrived = false;
             pressedKey = UP_Key;
             state = Block_State.JUMPING;
         }
 
         if (Input.GetKeyDown(LFT_Key))
         {
+            isArrived = false;
             pressedKey = LFT_Key;
             state = Block_State.MOVING;
         }
 
         if (Input.GetKeyDown(RGT_Key))
         {
+            isArrived = false;
             pressedKey = RGT_Key;
             state = Block_State.MOVING;
         }
@@ -118,16 +121,19 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Jumping_State_Update")]
     private void Jumping_State_Update()
     {
-        isArrived = false;
-        if(!isArrived) Move_Block(Return_Input_Node(UP_Key), jumpingSpeed);
-        if (isArrived) { state = Block_State.STATIC; }
+        if (!isArrived)
+        {
+            Move_Block(Return_Input_Node(UP_Key), jumpingSpeed);
+        } 
+        else
+        {
+            state = Block_State.STATIC;
+        }
     }
 
     [ContextMenu("Moving_State_Update")]
     private void Moving_State_Update()
     {
-        isArrived = false;
-
         if (pressedKey == LFT_Key && !isArrived)
         {
             Move_Block(Return_Input_Node(LFT_Key), movingSpeed);
@@ -179,8 +185,6 @@ public class Block_Control : MonoBehaviour
         //    transform.position = currNode.Position;
         //}
         #endregion
-
-        isArrived = false;
 
         Move_Block(currNode.DN_NODE, fallingSpeed);
 
@@ -262,6 +266,7 @@ public class Block_Control : MonoBehaviour
             qeueNode = null;
             transform.position = currNode.Position;
             isArrived = true;
+            Ground_Check();
         }
     }
 }
