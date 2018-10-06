@@ -991,3 +991,238 @@ public class Game_Manager : MonoBehaviour
         lvDataIndex++;
     }
 }
+
+//*!----------------------------!*//
+//*!       Custom Classes
+//*!----------------------------!*//
+
+#region [Node] and [Edge] classes
+//*! Classes for map elements [Node] and [Edge] 
+public class Node
+{
+    //*! [Node] Position reference holder
+    public Vector3 Position;
+
+    //*! Getter, Setter of [Node] Traversability boolean properties of 4 neighbor [Node]
+    //*! Return value according to if neighbor [Node] null && occupied
+    public bool Can_UP { get { return UP_NODE != null; } }
+    public bool Can_DN { get { return DN_NODE != null; } }
+    public bool Can_LFT { get { return LFT_NODE != null; } }
+    public bool Can_RGT { get { return RGT_NODE != null; } }
+
+    //*! Neighbor [Node] reference holder
+    public Node UP_NODE;
+    public Node DN_NODE;
+    public Node LFT_NODE;
+    public Node RGT_NODE;
+
+    //*! Connected [Edge] reference holder
+    public Edge UP_EDGE;
+    public Edge DN_EDGE;
+    public Edge LFT_EDGE;
+    public Edge RGT_EDGE;
+
+    //*! Temp [Node] for storing current [Node] reference
+    public Node Curr_Node;
+
+    //*! [Node] [Gizmos] reference holder
+    public GameObject Gizmos_GO;
+
+    //*! [Node] [Type] reference holder
+    public Node_Type Node_Type;
+
+    //*! [Node] is occupied boolean
+    public bool Is_Occupied;
+
+    //* Function to set neighbor [Node] traversability
+    public void Set_Traversability(bool Can_Traverse)
+    {
+        #region Setup current [Node] references
+        Curr_Node = new Node();
+
+        Curr_Node = this;
+        #endregion
+
+        //*! Switch traversability according to [Can_Traverse] argument
+        #region Switch traversability according to [Can_Traverse] argument
+        if (!Can_Traverse)
+        {
+            if (Can_UP) { UP_NODE.DN_NODE = null; }
+
+            if (Can_DN) { DN_NODE.UP_NODE = null; }
+
+            if (Can_LFT) { LFT_NODE.RGT_NODE = null; }
+
+            if (Can_RGT) { RGT_NODE.LFT_NODE = null; }
+        }
+        else
+        {
+            if (Curr_Node.UP_NODE != null) { UP_NODE.DN_NODE = Curr_Node; }
+
+            if (Curr_Node.DN_NODE != null) { DN_NODE.UP_NODE = Curr_Node; }
+
+            if (Curr_Node.LFT_NODE != null) { LFT_NODE.RGT_NODE = Curr_Node; }
+
+            if (Curr_Node.RGT_NODE != null) { RGT_NODE.LFT_NODE = Curr_Node; }
+        }
+
+        #endregion
+    }
+}
+
+public class Edge
+{
+    //*! [Edge] neighbor [Node] reference holder
+    public Node UP_Node;
+    public Node DN_Node;
+    public Node LFT_Node;
+    public Node RGT_Node;
+
+    //*! Temp [Edge] references for neighbor [Node] previous status
+    public Node Prev_UPsDN_Node;
+    public Node Prev_DNsUP_Node;
+    public Node Prev_LFTsRGT_Node;
+    public Node Prev_RGTsLFT_Node;
+
+    ////*! [Edge] reference that corsses with current [Edge]
+    //public Edge Cross_Edge;
+    //public Edge UP_or_RGT_Edge;
+    //public Edge DN_or_LFT_Edge;
+
+    //*! [Edge] Position reference holder
+    public Vector3 Position;
+    public Quaternion Rotation
+    {
+        get
+        {
+            switch (Edge_Direction)
+            {
+                case Edge_Direction.Horizontal:
+                    return Quaternion.AngleAxis(90, Vector3.forward);
+                case Edge_Direction.Vertical:
+                    return Quaternion.AngleAxis(0, Vector3.forward);
+                default:
+                    return Quaternion.AngleAxis(90, Vector3.forward);
+            }
+        }
+    }
+
+    //*! [Edge] [Gizmos] reference holder
+    public GameObject Gizmos_GO;
+
+    //*! [Edge] [Edge Type], [Boarder Type] and [Edge Direction] reference holder
+    public Edge_Type Edge_Type;
+    public Boarder_Type Boarder_Type;
+    public Edge_Direction Edge_Direction;
+
+    //* Function to set neighbor [Node] traversability
+    public void Set_Traversability(bool Can_Traverse)
+    {
+        //*! Setup temp [Node] references for 4 directions
+        #region Setup temp [Node] references for 4 directions
+        if (UP_Node != null && UP_Node.Can_DN) { Prev_UPsDN_Node = new Node(); Prev_UPsDN_Node = UP_Node.DN_NODE; }
+
+        if (DN_Node != null && DN_Node.Can_UP) { Prev_DNsUP_Node = new Node(); Prev_DNsUP_Node = DN_Node.UP_NODE; }
+
+        if (LFT_Node != null && LFT_Node.Can_RGT) { Prev_LFTsRGT_Node = new Node(); Prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
+
+        if (RGT_Node != null && RGT_Node.Can_LFT) { Prev_RGTsLFT_Node = new Node(); Prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
+        #endregion
+
+        //*! Switch traversability according to [Can_Traverse] argument
+        #region Switch traversability according to [Can_Traverse] argument
+        if (!Can_Traverse)
+        {
+            if (Edge_Direction == Edge_Direction.Horizontal)
+            {
+                if (UP_Node != null && UP_Node.Can_DN) { UP_Node.DN_NODE = null; }
+
+                if (DN_Node != null && DN_Node.Can_UP) { DN_Node.UP_NODE = null; }
+            }
+
+            if (Edge_Direction == Edge_Direction.Vertical)
+            {
+                if (LFT_Node != null && LFT_Node.Can_RGT) { LFT_Node.RGT_NODE = null; }
+
+                if (RGT_Node != null && RGT_Node.Can_LFT) { RGT_Node.LFT_NODE = null; }
+            }
+        }
+        else
+        {
+            if (Edge_Direction == Edge_Direction.Horizontal)
+            {
+                if (UP_Node != null) { UP_Node.DN_NODE = Prev_UPsDN_Node; }
+
+                if (DN_Node != null) { DN_Node.UP_NODE = Prev_DNsUP_Node; }
+            }
+
+            if (Edge_Direction == Edge_Direction.Vertical)
+            {
+                if (LFT_Node != null) { LFT_Node.RGT_NODE = Prev_LFTsRGT_Node; }
+
+                if (RGT_Node != null) { RGT_Node.LFT_NODE = Prev_RGTsLFT_Node; }
+            }
+        }
+        #endregion
+    }
+}
+#endregion
+
+
+//*!----------------------------!*//
+//*!    Custom Enum Classes
+//*!----------------------------!*//
+
+#region [Edge_Type] Enum class
+public enum Edge_Type
+{
+    NONE = 0,
+    Black_Pen = 1,
+    HighLighter_Red = 2,
+    HighLighter_Blue = 3,
+    Pencil = 4,
+    Colour_Pencil = 5,
+    Boarder = 6
+}
+#endregion
+
+#region [Boarder_Type] Enum class
+public enum Boarder_Type
+{
+    NONE,
+    UP,
+    DN,
+    LFT,
+    RGT
+}
+#endregion
+
+#region [Edge_Direction] Enum class
+public enum Edge_Direction
+{
+    Horizontal = 0,
+    Vertical = 1
+}
+#endregion
+
+#region [Node_Type] Enum class
+public enum Node_Type
+{
+    NONE = 0,
+    Block_Blue_Goal = 1,
+    Block_Red_Goal = 2,
+    Line_Blue_Goal = 3,
+    Line_Red_Goal = 4
+}
+#endregion
+
+#region [Move_Graph] Enum class
+public enum Move_Graph
+{
+    NONE = 0,
+    UP = 1,
+    DN = 2,
+    LFT = 3,
+    RGT = 4
+}
+#endregion
