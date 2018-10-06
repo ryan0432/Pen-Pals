@@ -62,7 +62,6 @@ public class Block_Control : MonoBehaviour
     private bool isArrived;
 
 
-
     //*!----------------------------!*//
     //*!      Unity Functions
     //*!----------------------------!*//
@@ -72,7 +71,7 @@ public class Block_Control : MonoBehaviour
     {
         gm = FindObjectOfType<Game_Manager>();
         BL_Nodes = gm.BL_Nodes;
-        currNode = BL_Nodes[0, 7];
+        currNode = BL_Nodes[1, 7];
         transform.position = currNode.Position;
         state = Block_State.STATIC;
     }
@@ -123,11 +122,31 @@ public class Block_Control : MonoBehaviour
     {
         if (!isArrived)
         {
+            if (Input.GetKeyDown(LFT_Key) && nextNode.Can_LFT)
+            {
+                qeueNode = nextNode.LFT_NODE;
+                pressedKey = LFT_Key;
+            }
+
+            if (Input.GetKeyDown(RGT_Key) && nextNode.Can_RGT)
+            {
+                qeueNode = nextNode.RGT_NODE;
+                pressedKey = RGT_Key;
+            }
+
             Move_Block(Return_Input_Node(UP_Key), jumpingSpeed);
         } 
         else
         {
-            state = Block_State.STATIC;
+            if (qeueNode != null)
+            {
+                isArrived = false;
+                state = Block_State.MOVING;
+            }
+            else
+            {
+                state = Block_State.STATIC;
+            }
         }
     }
 
@@ -144,48 +163,12 @@ public class Block_Control : MonoBehaviour
             Move_Block(Return_Input_Node(RGT_Key), movingSpeed);
         }
 
-        if (isArrived) { state = Block_State.STATIC; }
+        if (isArrived) { qeueNode = null; state = Block_State.STATIC; }
     }
 
     [ContextMenu("Falling_State_Update")]
     private void Falling_State_Update()
     {
-        #region "All the way down" falling method (Experimental)
-        //Node floorNode = currNode.DN_NODE;
-
-        //while (!Ground_Check())
-        //{
-        //    floorNode = floorNode.DN_NODE;
-        //}
-
-        //transform.position = Vector3.MoveTowards(transform.position, floorNode.Position, fallingSpeed * Time.deltaTime);
-
-        //float fallingDistance = (transform.position - floorNode.Position).magnitude;
-
-        //if (fallingDistance < snapDistance)
-        //{
-        //    currNode = floorNode;
-        //    transform.position = currNode.Position;
-        //}
-        #endregion
-
-        #region "One after another" falling method (Experimental)
-        //nextNode = currNode.DN_NODE;
-
-        //transform.position = Vector3.MoveTowards(transform.position, nextNode.Position, fallingSpeed * Time.deltaTime);
-
-        //float downDistance = (transform.position - nextNode.Position).magnitude;
-
-        //if (downDistance < snapDistance)
-        //{
-        //    currNode.Set_Traversability(true);
-        //    nextNode.Set_Traversability(false);
-        //    currNode = nextNode;
-        //    nextNode = null;
-        //    transform.position = currNode.Position;
-        //}
-        #endregion
-
         Move_Block(currNode.DN_NODE, fallingSpeed);
 
         if (isArrived) { state = Block_State.STATIC; }
@@ -224,6 +207,7 @@ public class Block_Control : MonoBehaviour
     {
         if (currNode.Can_DN)
         {
+            isArrived = false;
             state = Block_State.FALLING;
             return false;
         }
@@ -233,7 +217,7 @@ public class Block_Control : MonoBehaviour
         }
     }
 
-    [ContextMenu("Controller_Input")]
+    [ContextMenu("Return_Input_Node")]
     private Node Return_Input_Node(KeyCode direction)
     {
         if (direction == UP_Key && currNode.Can_UP) { return currNode.UP_NODE; }
@@ -263,15 +247,16 @@ public class Block_Control : MonoBehaviour
             nextNode.Set_Traversability(false);
             currNode = nextNode;
             nextNode = null;
-            qeueNode = null;
             transform.position = currNode.Position;
             isArrived = true;
-            Ground_Check();
         }
     }
 }
 
 
+//*!----------------------------!*//
+//*!    Custom Enum Classes
+//*!----------------------------!*//
 
 public enum Block_State
 {
