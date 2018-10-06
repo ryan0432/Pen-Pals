@@ -40,10 +40,10 @@ public class Camera_Control : MonoBehaviour
 
     private void Print_Corners()
     {
-        for (int i = 0; i < frustumCorners.Length; ++i)
-        {
-            Debug.Log("Corner " + i + ": " + frustumCorners[i]);
-        }
+        //for (int i = 0; i < frustumCorners.Length; ++i)
+        //{
+        //    Debug.Log("Corner " + i + ": " + frustumCorners[i]);
+        //}
     }
 
     private void Get_Trigger_Areas()

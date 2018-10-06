@@ -81,7 +81,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1462e5acb161dca49b123968276c7bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player_Saves: []
+  Player_Saves:
+  - Name: Player_01
+    player_type: 1
+    active_save: 1
+    Level_Count: []
+  - Name: Player_02
+    player_type: 2
+    active_save: 1
+    Level_Count: []
 --- !u!114 &114903831537596356
 MonoBehaviour:
   m_ObjectHideFlags: 1
