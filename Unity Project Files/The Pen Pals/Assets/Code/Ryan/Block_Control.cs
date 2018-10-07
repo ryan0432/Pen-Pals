@@ -37,8 +37,9 @@ public class Block_Control : MonoBehaviour
 
     private Game_Manager gm;
     private Node[,] BL_Nodes;
-    private Block_State state;
-    
+    private Block_State currState;
+    private Block_State prevState;
+
     private Node currNode;
     private Node nextNode;
     private Node qeueNode;
@@ -73,7 +74,7 @@ public class Block_Control : MonoBehaviour
         BL_Nodes = gm.BL_Nodes;
         currNode = BL_Nodes[1, 7];
         transform.position = currNode.Position;
-        state = Block_State.STATIC;
+        currState = Block_State.STATIC;
     }
 
     [ContextMenu("Update")]
@@ -97,21 +98,21 @@ public class Block_Control : MonoBehaviour
         {
             isArrived = false;
             pressedKey = UP_Key;
-            state = Block_State.JUMPING;
+            currState = Block_State.JUMPING;
         }
 
         if (Input.GetKeyDown(LFT_Key))
         {
             isArrived = false;
             pressedKey = LFT_Key;
-            state = Block_State.MOVING;
+            currState = Block_State.MOVING;
         }
 
         if (Input.GetKeyDown(RGT_Key))
         {
             isArrived = false;
             pressedKey = RGT_Key;
-            state = Block_State.MOVING;
+            currState = Block_State.MOVING;
         }
 
         Ground_Check();
@@ -122,13 +123,13 @@ public class Block_Control : MonoBehaviour
     {
         if (!isArrived)
         {
-            if (Input.GetKeyDown(LFT_Key) && nextNode.Can_LFT)
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT)
             {
                 qeueNode = nextNode.LFT_NODE;
                 pressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode.Can_RGT)
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT)
             {
                 qeueNode = nextNode.RGT_NODE;
                 pressedKey = RGT_Key;
@@ -141,11 +142,11 @@ public class Block_Control : MonoBehaviour
             if (qeueNode != null)
             {
                 isArrived = false;
-                state = Block_State.MOVING;
+                currState = Block_State.JUMP_MOVING;
             }
             else
             {
-                state = Block_State.STATIC;
+                currState = Block_State.STATIC;
             }
         }
     }
@@ -153,17 +154,57 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Moving_State_Update")]
     private void Moving_State_Update()
     {
-        if (pressedKey == LFT_Key && !isArrived)
+        if (!isArrived)
         {
-            Move_Block(Return_Input_Node(LFT_Key), movingSpeed);
-        }
+            Move_Block(Return_Input_Node(pressedKey), movingSpeed);
 
-        if (pressedKey == RGT_Key && !isArrived)
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP)
+            {
+                qeueNode = nextNode.UP_NODE;
+            }
+        }
+        else
         {
-            Move_Block(Return_Input_Node(RGT_Key), movingSpeed);
+            if (qeueNode != null)
+            {
+                isArrived = false;
+                currState = Block_State.MOVE_JUMPING;
+            }
+            else
+            {
+                currState = Block_State.STATIC;
+            }
         }
+    }
 
-        if (isArrived) { qeueNode = null; state = Block_State.STATIC; }
+    [ContextMenu("Move_Jumping_State_Update")]
+    private void Move_Jumping_State_Update()
+    {
+        Ground_Check();
+
+        if (!isArrived)
+        {
+            Move_Block(Return_Input_Node(UP_Key), jumpingSpeed);
+        }
+        else
+        {
+            qeueNode = null;
+            currState = Block_State.STATIC;
+        }
+    }
+
+    [ContextMenu("Jump_Moving_State_Update")]
+    private void Jump_Moving_State_Update()
+    {
+        if (!isArrived)
+        {
+            Move_Block(Return_Input_Node(pressedKey), movingSpeed);
+        }
+        else
+        {
+            qeueNode = null;
+            currState = Block_State.STATIC;
+        }
     }
 
     [ContextMenu("Falling_State_Update")]
@@ -171,34 +212,46 @@ public class Block_Control : MonoBehaviour
     {
         Move_Block(currNode.DN_NODE, fallingSpeed);
 
-        if (isArrived) { state = Block_State.STATIC; }
+        if (isArrived) { currState = Block_State.STATIC; }
     }
 
     [ContextMenu("Runtime_Update")]
     private void Runtime_Update()
     {
-        if (state == Block_State.STATIC)
+        if (currState == Block_State.STATIC)
         {
             Static_State_Update();
             Debug.Log("State: Static");
         }
 
-        if (state == Block_State.JUMPING)
+        if (currState == Block_State.JUMPING)
         {
             Jumping_State_Update();
             Debug.Log("State: Jumping");
         }
 
-        if (state == Block_State.MOVING)
+        if (currState == Block_State.MOVING)
         {
             Moving_State_Update();
             Debug.Log("State: Moving");
         }
 
-        if (state == Block_State.FALLING)
+        if (currState == Block_State.FALLING)
         {
             Falling_State_Update();
             Debug.Log("State: Falling");
+        }
+
+        if (currState == Block_State.MOVE_JUMPING)
+        {
+            Move_Jumping_State_Update();
+            Debug.Log("State: Move-Jumping");
+        }
+
+        if (currState == Block_State.JUMP_MOVING)
+        {
+            Jump_Moving_State_Update();
+            Debug.Log("State: Jump-Moving");
         }
     }
 
@@ -208,7 +261,7 @@ public class Block_Control : MonoBehaviour
         if (currNode.Can_DN)
         {
             isArrived = false;
-            state = Block_State.FALLING;
+            currState = Block_State.FALLING;
             return false;
         }
         else
@@ -229,6 +282,8 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Move_Block")]
     private void Move_Block(Node destNode, float speed)
     {
+        prevState = currState;
+
         if (destNode == null)
         {
             isArrived = true;
@@ -263,7 +318,9 @@ public enum Block_State
     STATIC = 0,
     JUMPING = 1,
     MOVING = 2,
-    FALLING = 3
+    FALLING = 3,
+    MOVE_JUMPING = 4,
+    JUMP_MOVING = 5
 }
 
 public enum Player_Type

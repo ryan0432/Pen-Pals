@@ -996,7 +996,7 @@ public class Game_Manager : MonoBehaviour
 //*!       Custom Classes
 //*!----------------------------!*//
 
-#region [Node] and [Edge] classes
+#region [Node] classes
 //*! Classes for map elements [Node] and [Edge] 
 public class Node
 {
@@ -1069,7 +1069,9 @@ public class Node
         #endregion
     }
 }
+#endregion
 
+#region [Edge] classes
 public class Edge
 {
     //*! [Edge] neighbor [Node] reference holder
