@@ -25,8 +25,7 @@ public class Block_Control : MonoBehaviour
 
     [Range(0f, 5f)]
     public float movingSpeed;
-    [Range(0f, 5f)]
-    public float jumpingSpeed;
+
     [Range(0f, 5f)]
     public float fallingSpeed;
 
@@ -42,7 +41,6 @@ public class Block_Control : MonoBehaviour
 
     private Node currNode;
     private Node nextNode;
-    private Node qeueNode;
 
     private float snapDistance = 0.01f;
 
@@ -58,7 +56,11 @@ public class Block_Control : MonoBehaviour
     private KeyCode RGT_Key
     { get { return (playerType == Player_Type.BLUE) ? KeyCode.RightArrow : KeyCode.D; } }
 
-    private KeyCode pressedKey;
+    private KeyCode NONE
+    { get { return KeyCode.None; } }
+
+    private KeyCode currPressedKey;
+    private KeyCode qeuePressedKey;
 
     private bool isArrived;
 
@@ -94,28 +96,33 @@ public class Block_Control : MonoBehaviour
     {
         currNode.Set_Traversability(false);
 
+        qeuePressedKey = NONE;
+
+        Ground_Check();
+
         if (Input.GetKeyDown(UP_Key))
         {
             isArrived = false;
-            pressedKey = UP_Key;
+            currPressedKey = UP_Key;
+            prevState = currState;
             currState = Block_State.JUMPING;
         }
 
         if (Input.GetKeyDown(LFT_Key))
         {
             isArrived = false;
-            pressedKey = LFT_Key;
+            currPressedKey = LFT_Key;
+            prevState = currState;
             currState = Block_State.MOVING;
         }
 
         if (Input.GetKeyDown(RGT_Key))
         {
             isArrived = false;
-            pressedKey = RGT_Key;
+            currPressedKey = RGT_Key;
+            prevState = currState;
             currState = Block_State.MOVING;
         }
-
-        Ground_Check();
     }
 
     [ContextMenu("Jumping_State_Update")]
@@ -125,27 +132,27 @@ public class Block_Control : MonoBehaviour
         {
             if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT)
             {
-                qeueNode = nextNode.LFT_NODE;
-                pressedKey = LFT_Key;
+                qeuePressedKey = LFT_Key;
             }
 
             if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT)
             {
-                qeueNode = nextNode.RGT_NODE;
-                pressedKey = RGT_Key;
+                qeuePressedKey = RGT_Key;
             }
 
-            Move_Block(Return_Input_Node(UP_Key), jumpingSpeed);
+            Move_Block(Return_Input_Node(UP_Key), movingSpeed);
         } 
         else
         {
-            if (qeueNode != null)
+            if (qeuePressedKey != NONE)
             {
                 isArrived = false;
+                prevState = currState;
                 currState = Block_State.JUMP_MOVING;
             }
             else
             {
+                prevState = currState;
                 currState = Block_State.STATIC;
             }
         }
@@ -156,40 +163,52 @@ public class Block_Control : MonoBehaviour
     {
         if (!isArrived)
         {
-            Move_Block(Return_Input_Node(pressedKey), movingSpeed);
-
             if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.Can_DN)
             {
-                qeueNode = nextNode.UP_NODE;
+                qeuePressedKey = UP_Key;
             }
+
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.Can_DN)
+            {
+                qeuePressedKey = LFT_Key;
+            }
+
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.Can_DN)
+            {
+                qeuePressedKey = RGT_Key;
+            }
+
+            Move_Block(Return_Input_Node(currPressedKey), movingSpeed);
         }
         else
         {
-            if (qeueNode != null)
+            if (qeuePressedKey != NONE)
             {
                 isArrived = false;
-                currState = Block_State.MOVE_JUMPING;
+                prevState = currState;
+                currState = Block_State.SECOND_MOVING;
             }
             else
             {
+                prevState = currState;
                 currState = Block_State.STATIC;
             }
         }
     }
 
-    [ContextMenu("Move_Jumping_State_Update")]
-    private void Move_Jumping_State_Update()
+    [ContextMenu("Second_Moving_State_Update")]
+    private void Second_Moving_State_Update()
     {
         Ground_Check();
-        qeueNode = null;
-
+        
         if (!isArrived)
         {
-            Move_Block(Return_Input_Node(UP_Key), jumpingSpeed);
+            Move_Block(Return_Input_Node(qeuePressedKey), movingSpeed);
         }
         else
         {
-            
+            qeuePressedKey = NONE;
+            prevState = currState;
             currState = Block_State.STATIC;
         }
     }
@@ -197,14 +216,14 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Jump_Moving_State_Update")]
     private void Jump_Moving_State_Update()
     {
-        qeueNode = null;
-
         if (!isArrived)
         {
-            Move_Block(Return_Input_Node(pressedKey), movingSpeed);
+            Move_Block(Return_Input_Node(qeuePressedKey), movingSpeed);
         }
         else
         {
+            qeuePressedKey = NONE;
+            prevState = currState;
             currState = Block_State.STATIC;
         }
     }
@@ -214,7 +233,11 @@ public class Block_Control : MonoBehaviour
     {
         Move_Block(currNode.DN_NODE, fallingSpeed);
 
-        if (isArrived) { currState = Block_State.STATIC; }
+        if (isArrived)
+        {
+            prevState = currState;
+            currState = Block_State.STATIC;
+        }
     }
 
     [ContextMenu("Runtime_Update")]
@@ -244,10 +267,10 @@ public class Block_Control : MonoBehaviour
             Debug.Log("State: Falling");
         }
 
-        if (currState == Block_State.MOVE_JUMPING)
+        if (currState == Block_State.SECOND_MOVING)
         {
-            Move_Jumping_State_Update();
-            Debug.Log("State: Move-Jumping");
+            Second_Moving_State_Update();
+            Debug.Log("State: Second-Moving");
         }
 
         if (currState == Block_State.JUMP_MOVING)
@@ -284,8 +307,6 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Move_Block")]
     private void Move_Block(Node destNode, float speed)
     {
-        prevState = currState;
-
         if (destNode == null)
         {
             isArrived = true;
@@ -321,7 +342,7 @@ public enum Block_State
     JUMPING = 1,
     MOVING = 2,
     FALLING = 3,
-    MOVE_JUMPING = 4,
+    SECOND_MOVING = 4,
     JUMP_MOVING = 5
 }
 
