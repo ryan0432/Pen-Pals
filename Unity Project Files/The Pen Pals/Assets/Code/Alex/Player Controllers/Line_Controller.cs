@@ -686,7 +686,7 @@ public class Line_Controller : MonoBehaviour
         //*! 8
         Was_Queued_Input();
         //*! 9
-        //Other_Player_Get_Map_Data();
+        Other_Player_Get_Map_Data();
     }
 
 

@@ -351,7 +351,7 @@ public class Block_Controller : MonoBehaviour
             Queued_Node_Check();
 
             //*! Update the other players map information
-            //Other_Player_Get_Map_Data();
+            Other_Player_Get_Map_Data();
         }
     }
 
@@ -476,7 +476,7 @@ public class Block_Controller : MonoBehaviour
             is_moving = true;
 
 
-            //Other_Player_Get_Map_Data();
+            Other_Player_Get_Map_Data();
 
         }
         else
