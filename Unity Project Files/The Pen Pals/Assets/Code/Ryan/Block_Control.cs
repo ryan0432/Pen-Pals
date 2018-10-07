@@ -158,7 +158,7 @@ public class Block_Control : MonoBehaviour
         {
             Move_Block(Return_Input_Node(pressedKey), movingSpeed);
 
-            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP)
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.Can_DN)
             {
                 qeueNode = nextNode.UP_NODE;
             }
@@ -181,6 +181,7 @@ public class Block_Control : MonoBehaviour
     private void Move_Jumping_State_Update()
     {
         Ground_Check();
+        qeueNode = null;
 
         if (!isArrived)
         {
@@ -188,7 +189,7 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
-            qeueNode = null;
+            
             currState = Block_State.STATIC;
         }
     }
@@ -196,13 +197,14 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Jump_Moving_State_Update")]
     private void Jump_Moving_State_Update()
     {
+        qeueNode = null;
+
         if (!isArrived)
         {
             Move_Block(Return_Input_Node(pressedKey), movingSpeed);
         }
         else
         {
-            qeueNode = null;
             currState = Block_State.STATIC;
         }
     }
