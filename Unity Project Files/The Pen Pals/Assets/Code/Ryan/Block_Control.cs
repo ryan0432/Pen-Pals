@@ -83,7 +83,7 @@ public class Block_Control : MonoBehaviour
     void Update()
     {
         Runtime_Update();
-        Debug.Log("Curr Node Pos:" + currNode.Position);
+        //Debug.Log("Curr Node Pos:" + currNode.Position);
     }
 
 
@@ -94,6 +94,8 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Static_State_Update")]
     private void Static_State_Update()
     {
+        Debug.Log("State: Static");
+
         currNode.Set_Traversability(false);
 
         qeuePressedKey = NONE;
@@ -128,6 +130,8 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Jumping_State_Update")]
     private void Jumping_State_Update()
     {
+        Debug.Log("State: Jumping");
+
         if (!isArrived)
         {
             if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT)
@@ -152,8 +156,9 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
+                isArrived = false;
                 prevState = currState;
-                currState = Block_State.STATIC;
+                currState = Block_State.FALLING;
             }
         }
     }
@@ -161,6 +166,10 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Moving_State_Update")]
     private void Moving_State_Update()
     {
+        Debug.Log("State: Moving");
+
+        Ground_Check();
+
         if (!isArrived)
         {
             if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.Can_DN)
@@ -199,6 +208,8 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Second_Moving_State_Update")]
     private void Second_Moving_State_Update()
     {
+        Debug.Log("State: Second-Moving");
+
         Ground_Check();
         
         if (!isArrived)
@@ -207,15 +218,27 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
-            qeuePressedKey = NONE;
-            prevState = currState;
-            currState = Block_State.STATIC;
+            if (qeuePressedKey == UP_Key)
+            {
+                qeuePressedKey = NONE;
+                isArrived = false;
+                prevState = currState;
+                currState = Block_State.FALLING;
+            }
+            else
+            {
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.STATIC;
+            }
         }
     }
 
     [ContextMenu("Jump_Moving_State_Update")]
     private void Jump_Moving_State_Update()
     {
+        Debug.Log("State: Jump-Moving");
+
         if (!isArrived)
         {
             Move_Block(Return_Input_Node(qeuePressedKey), movingSpeed);
@@ -223,20 +246,33 @@ public class Block_Control : MonoBehaviour
         else
         {
             qeuePressedKey = NONE;
+            isArrived = false;
             prevState = currState;
-            currState = Block_State.STATIC;
+            currState = Block_State.FALLING;
         }
     }
 
     [ContextMenu("Falling_State_Update")]
     private void Falling_State_Update()
     {
-        Move_Block(currNode.DN_NODE, fallingSpeed);
+        Debug.Log("State: Falling");
 
-        if (isArrived)
+        if (!isArrived)
         {
-            prevState = currState;
-            currState = Block_State.STATIC;
+            Move_Block(currNode.DN_NODE, fallingSpeed);
+        }
+        else
+        {
+            if (currNode.Can_DN)
+            {
+                isArrived = false;
+            }
+            else
+            {
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.STATIC;
+            }
         }
     }
 
@@ -246,37 +282,31 @@ public class Block_Control : MonoBehaviour
         if (currState == Block_State.STATIC)
         {
             Static_State_Update();
-            Debug.Log("State: Static");
         }
 
         if (currState == Block_State.JUMPING)
         {
             Jumping_State_Update();
-            Debug.Log("State: Jumping");
         }
 
         if (currState == Block_State.MOVING)
         {
             Moving_State_Update();
-            Debug.Log("State: Moving");
         }
 
         if (currState == Block_State.FALLING)
         {
             Falling_State_Update();
-            Debug.Log("State: Falling");
         }
 
         if (currState == Block_State.SECOND_MOVING)
         {
             Second_Moving_State_Update();
-            Debug.Log("State: Second-Moving");
         }
 
         if (currState == Block_State.JUMP_MOVING)
         {
             Jump_Moving_State_Update();
-            Debug.Log("State: Jump-Moving");
         }
     }
 
