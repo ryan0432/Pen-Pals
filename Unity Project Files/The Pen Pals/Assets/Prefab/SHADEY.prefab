@@ -19,10 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4882961838332656}
-  - component: {fileID: 114320775984234596}
+  - component: {fileID: 114508936372279434}
   m_Layer: 0
   m_Name: SHADEY
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,7 +112,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1106607075493534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.5, y: 4.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4932142860730572}
@@ -244,7 +244,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114320775984234596
+--- !u!114 &114508936372279434
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -252,14 +252,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1106607075493534}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d36796ff64e4edb4a87e7a6fb33a0aa0, type: 3}
+  m_Script: {fileID: 11500000, guid: 074fefcde33392e4c83e8d0e6e5a15eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  move_up_key: 273
-  move_down_key: 274
-  move_left_key: 276
-  move_right_key: 275
-  player_type: 0
+  playerType: 2
+  playerShape: 1
+  movingSpeed: 4
+  fallingSpeed: 4
+  save_data:
+    Name: SHADEY
+    player_type: 2
+    active_save: 1
+    Level_Count: []
 --- !u!212 &212243544939605738
 SpriteRenderer:
   m_ObjectHideFlags: 1

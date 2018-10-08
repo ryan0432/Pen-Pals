@@ -18,8 +18,10 @@ public class Block_Control : MonoBehaviour
     //*!      Public Variables
     //*!----------------------------!*//
 
+    //*! Player Colour
     public Player_Type playerType;
 
+    //*! Player Shape
     [HideInInspector]
     public Player_Shape playerShape = Player_Shape.BLOCK;
 
@@ -28,6 +30,8 @@ public class Block_Control : MonoBehaviour
 
     [Range(0f, 5f)]
     public float fallingSpeed;
+
+    public Player_Save save_data;
 
 
     //*!----------------------------!*//
@@ -74,16 +78,26 @@ public class Block_Control : MonoBehaviour
     {
         gm = FindObjectOfType<Game_Manager>();
         BL_Nodes = gm.BL_Nodes;
-        currNode = BL_Nodes[1, 7];
+
+        if (playerType == Player_Type.BLUE)
+        {
+            currNode = gm.Block_Blue_Start_Node;
+        }
+        else
+        {
+            currNode = gm.Block_Red_Start_Node;
+        }
+        
         transform.position = currNode.Position;
         currState = Block_State.STATIC;
+        save_data = gm.gameObject.GetComponent<XML_SaveLoad>().Get_Active_Save((int)playerType);
+        Set_Sticker_Count();
     }
 
     [ContextMenu("Update")]
     void Update()
     {
         Runtime_Update();
-        //Debug.Log("Curr Node Pos:" + currNode.Position);
     }
 
 
@@ -91,6 +105,7 @@ public class Block_Control : MonoBehaviour
     //*!      Custom Functions
     //*!----------------------------!*//
 
+    #region FSM Updates
     [ContextMenu("Static_State_Update")]
     private void Static_State_Update()
     {
@@ -205,6 +220,30 @@ public class Block_Control : MonoBehaviour
         }
     }
 
+    [ContextMenu("Falling_State_Update")]
+    private void Falling_State_Update()
+    {
+        Debug.Log("State: Falling");
+
+        if (!isArrived)
+        {
+            Move_Block(currNode.DN_NODE, fallingSpeed);
+        }
+        else
+        {
+            if (currNode.Can_DN)
+            {
+                isArrived = false;
+            }
+            else
+            {
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.STATIC;
+            }
+        }
+    }
+
     [ContextMenu("Second_Moving_State_Update")]
     private void Second_Moving_State_Update()
     {
@@ -251,30 +290,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.FALLING;
         }
     }
-
-    [ContextMenu("Falling_State_Update")]
-    private void Falling_State_Update()
-    {
-        Debug.Log("State: Falling");
-
-        if (!isArrived)
-        {
-            Move_Block(currNode.DN_NODE, fallingSpeed);
-        }
-        else
-        {
-            if (currNode.Can_DN)
-            {
-                isArrived = false;
-            }
-            else
-            {
-                qeuePressedKey = NONE;
-                prevState = currState;
-                currState = Block_State.STATIC;
-            }
-        }
-    }
+    #endregion
 
     [ContextMenu("Runtime_Update")]
     private void Runtime_Update()
@@ -356,7 +372,61 @@ public class Block_Control : MonoBehaviour
             currNode = nextNode;
             nextNode = null;
             transform.position = currNode.Position;
+            Collect_Sticker();
             isArrived = true;
+        }
+    }
+
+    [ContextMenu("Set_Sticker_Count")]
+    private void Set_Sticker_Count()
+    {
+        if (save_data == null)
+        {
+            Debug.LogError("Block Player has no save data");
+            return;
+        }
+
+        if (playerType == Player_Type.BLUE)
+        {
+            save_data.Level_Count[gm.lvDataIndex].sticker_count = new bool[gm.Blue_Sticker_Count];
+        }
+        else if (playerType == Player_Type.RED)
+        {
+            save_data.Level_Count[gm.lvDataIndex].sticker_count = new bool[gm.Red_Sticker_Count];
+        }
+    }
+
+    //*! Collect sticker when arrived.
+    [ContextMenu("Collect_Sticker")]
+    private void Collect_Sticker()
+    {
+        if (playerType == Player_Type.BLUE)
+        {
+            if (currNode.Gizmos_GO != null && currNode.Node_Type == Node_Type.Block_Blue_Goal)
+            {
+                currNode.Node_Type = Node_Type.NONE;
+                currNode.Gizmos_GO.SetActive(false);
+                gm.Blue_Sticker_Count--;
+
+                if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
+                {
+                    gm.Initialize_Level();
+                }
+            }
+        }
+        else
+        {
+            if (currNode.Gizmos_GO != null && currNode.Node_Type == Node_Type.Block_Red_Goal)
+            {
+                currNode.Node_Type = Node_Type.NONE;
+                currNode.Gizmos_GO.SetActive(false);
+                gm.Red_Sticker_Count--;
+
+                if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
+                {
+                    gm.Initialize_Level();
+                }
+            }
         }
     }
 }

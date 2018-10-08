@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1088160633708158
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,6 +43,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1564074522614790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4214248716349938}
+  m_Layer: 0
+  m_Name: Players
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4214248716349938
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1564074522614790}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4622100025655572}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4622100025655572
 Transform:
   m_ObjectHideFlags: 1
@@ -54,6 +82,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4910994847561606}
+  - {fileID: 4214248716349938}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -82,11 +111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player_Saves:
-  - Name: Player_01
+  - Name: BLOCKY
     player_type: 1
     active_save: 1
     Level_Count: []
-  - Name: Player_02
+  - Name: SHADEY
     player_type: 2
     active_save: 1
     Level_Count: []
@@ -102,11 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lvData:
-  - {fileID: 11400000, guid: 1cf50dfaab912874a81f7b0ea40b2310, type: 2}
-  - {fileID: 11400000, guid: 69d1db76b9e56aa49bde1ef10fbb128f, type: 2}
-  - {fileID: 11400000, guid: 3ae36011c74e20b42b2d5884ed088d08, type: 2}
-  - {fileID: 11400000, guid: f4ac95635d6f7984aa091051dd80ed7f, type: 2}
-  - {fileID: 11400000, guid: da8bfc1933496d647bbf89741d435a97, type: 2}
+  - {fileID: 0}
   lvDataIndex: -1
   Show_Gizmos: 1
   Gizmos_Size: 0.5
@@ -121,6 +146,8 @@ MonoBehaviour:
     type: 2}
   Line_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
     type: 2}
+  Blocky: {fileID: 1589913466504476, guid: 3117ec151c903f14a9215b5d6b342d7b, type: 2}
+  Shadey: {fileID: 1106607075493534, guid: b92b558f85985a54e884e9315992e0ab, type: 2}
   Blue_Sticker_Count: 0
   Red_Sticker_Count: 0
   arrw_giz_mesh: {fileID: 4300004, guid: 153535d1ad483ca4d98cf5629cea88ce, type: 3}

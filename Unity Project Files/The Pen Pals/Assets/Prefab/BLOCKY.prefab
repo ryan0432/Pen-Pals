@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4324885896756856}
-  - component: {fileID: 114195452133973270}
+  - component: {fileID: 114041513503743710}
   m_Layer: 0
   m_Name: BLOCKY
   m_TagString: Player
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1589913466504476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 4.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4708956198186516}
@@ -155,7 +155,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114195452133973270
+--- !u!114 &114041513503743710
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -163,16 +163,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1589913466504476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5031b24ea66387f4cadfb618545b6504, type: 3}
+  m_Script: {fileID: 11500000, guid: 074fefcde33392e4c83e8d0e6e5a15eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerType: 1
+  playerShape: 1
+  movingSpeed: 4
+  fallingSpeed: 4
   save_data:
-    Name: 
-    player_type: 0
-    active_save: 0
+    Name: BLOCKY
+    player_type: 1
+    active_save: 1
     Level_Count: []
-  player_type: 1
-  movement_speed: 4
 --- !u!212 &212305033821425310
 SpriteRenderer:
   m_ObjectHideFlags: 1

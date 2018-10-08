@@ -44,11 +44,18 @@ public class Game_Manager : MonoBehaviour
     public GameObject Block_Red_Goal;
     public GameObject Line_Blue_Goal;
     public GameObject Line_Red_Goal;
+    public GameObject Blocky;
+    public GameObject Shadey;
 
     [HideInInspector]
     public int Blue_Sticker_Count = 0;
     [HideInInspector]
     public int Red_Sticker_Count = 0;
+
+    [HideInInspector]
+    public Node Block_Blue_Start_Node;
+    [HideInInspector]
+    public Node Block_Red_Start_Node;
 
 
     //*!----------------------------!*//
@@ -88,14 +95,6 @@ public class Game_Manager : MonoBehaviour
 
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
-
-        //BL_U_Edges[0, 0].Is_Occupied = true;
-        //BL_U_Edges[0, 0].Set_Traversability();
-        //Debug.Log("BL_U_Edges[0, 0] UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
-
-        //BL_U_Edges[0, 0].Is_Occupied = false;
-        //BL_U_Edges[0, 0].Set_Traversability();
-        //Debug.Log("BL_U_Edges[0, 0] UP_Node Can_DN: " + BL_U_Edges[0, 0].UP_Node.Can_DN);
     }
 
 
@@ -179,6 +178,22 @@ public class Game_Manager : MonoBehaviour
                     GameObject new_Gizmos_GO = Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                     Red_Sticker_Count++;
+                }
+
+                //* Check [Node] [Type] == [Block_Blue_Start]
+                if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Blue_Start)
+                {
+                    Instantiate(Shadey, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Players"));
+                    Block_Blue_Start_Node = BL_Nodes[i, j];
+                    BL_Nodes[i, j].Node_Type = Node_Type.NONE;
+                }
+
+                //* Check [Node] [Type] == [Block_Red_Start]
+                if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Red_Start)
+                {
+                    Instantiate(Blocky, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Players"));
+                    Block_Red_Start_Node = BL_Nodes[i, j];
+                    BL_Nodes[i, j].Node_Type = Node_Type.NONE;
                 }
             }
         }
@@ -822,6 +837,22 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Clean_Up_Players")]
+    private void Clean_Up_Players()
+    {
+        bool is_Symbol_List_Empty = (transform.Find("Players").childCount < 1);
+
+        if (!is_Symbol_List_Empty)
+        {
+            foreach (Transform child in transform.Find("Players"))
+            {
+                Destroy(child.gameObject);
+            }
+
+            Debug.Log("Clean Up Players");
+        }
+    }
+
     [ContextMenu("Clear_Pencil_Case_Gizmos")]
     private void Clear_Pencil_Case_Gizmos()
     {
@@ -987,6 +1018,7 @@ public class Game_Manager : MonoBehaviour
 
         if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
         Clean_Up_Symbols();
+        Clean_Up_Players();
         Setup_Level_Data(lvDataIndex + 1);
         lvDataIndex++;
     }
@@ -1214,7 +1246,9 @@ public enum Node_Type
     Block_Blue_Goal = 1,
     Block_Red_Goal = 2,
     Line_Blue_Goal = 3,
-    Line_Red_Goal = 4
+    Line_Red_Goal = 4,
+    Block_Blue_Start = 5,
+    Block_Red_Start = 6
 }
 #endregion
 

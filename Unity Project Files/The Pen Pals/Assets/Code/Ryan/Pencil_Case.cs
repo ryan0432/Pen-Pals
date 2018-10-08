@@ -109,27 +109,43 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private Material bl_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material li_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material boarder_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material block_blue_sticker_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material block_red_sticker_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material line_blue_sticker_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material line_red_sticker_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material block_blue_start_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material block_red_start_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material black_pen_giz_mat;
+
     [SerializeField]
     [HideInInspector]
     private Material highlighter_red_giz_mat;
@@ -158,6 +174,7 @@ public class Pencil_Case : MonoBehaviour
         transform.Find("LI_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("BL_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("LI_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
         #endregion
 
@@ -1595,6 +1612,22 @@ public class Pencil_Case : MonoBehaviour
                 {
                     currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
                     currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = block_red_sticker_giz_mat;
+                }
+                #endregion
+
+                #region Check [Block] [Node] is [Block Blue Start]
+                if (currNode.Node_Type == Node_Type.Block_Blue_Start)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = block_blue_start_giz_mat;
+                }
+                #endregion
+
+                #region Check [Block] [Node] is [Block Red Start]
+                if (currNode.Node_Type == Node_Type.Block_Red_Start)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = block_red_start_giz_mat;
                 }
                 #endregion
             }

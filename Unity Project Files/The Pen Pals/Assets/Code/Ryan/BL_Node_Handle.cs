@@ -30,6 +30,8 @@ public enum BL_Node_Handle_Type
 {
     NONE = 0,
     Block_Blue_Goal = 1,
-    Block_Red_Goal = 2
+    Block_Red_Goal = 2,
+    Block_Blue_Start = 5,
+    Block_Red_Start = 6
 }
 #endregion
