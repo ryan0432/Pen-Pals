@@ -57,6 +57,11 @@ public class Game_Manager : MonoBehaviour
     [HideInInspector]
     public Node Block_Red_Start_Node;
 
+    [HideInInspector]
+    public Node[] Line_Blue_Start_Nodes;
+    [HideInInspector]
+    public Node[] Line_Red_Start_Nodes;
+
 
     //*!----------------------------!*//
     //*!    Private Variables
@@ -1020,7 +1025,23 @@ public class Game_Manager : MonoBehaviour
         Clean_Up_Symbols();
         Clean_Up_Players();
         Setup_Level_Data(lvDataIndex + 1);
+        Temp_Init_Line();
         lvDataIndex++;
+    }
+
+    public void Temp_Init_Line()
+    {
+        Line_Blue_Start_Nodes = new Node[3];
+
+        Line_Blue_Start_Nodes[0] = LI_Nodes[1, 5];
+        Line_Blue_Start_Nodes[1] = LI_Nodes[2, 5];
+        Line_Blue_Start_Nodes[2] = LI_Nodes[3, 5];
+
+        Line_Red_Start_Nodes = new Node[3];
+
+        Line_Red_Start_Nodes[0] = LI_Nodes[1, 6];
+        Line_Red_Start_Nodes[1] = LI_Nodes[2, 6];
+        Line_Red_Start_Nodes[2] = LI_Nodes[3, 6];
     }
 }
 

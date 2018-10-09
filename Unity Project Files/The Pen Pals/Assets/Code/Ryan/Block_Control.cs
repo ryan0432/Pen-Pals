@@ -5,7 +5,7 @@
 //*!              This class in an experimental class to test using
 //*!              FSM to control [Block Player]
 //*!
-//*! Last edit  : 05/10/2018
+//*! Last edit  : 09/10/2018
 //*!--------------------------------------------------------------!*//
 
 using System.Collections;
@@ -32,6 +32,9 @@ public class Block_Control : MonoBehaviour
     public float fallingSpeed;
 
     public Player_Save save_data;
+
+    [HideInInspector]
+    public bool isDead;
 
 
     //*!----------------------------!*//
@@ -67,6 +70,7 @@ public class Block_Control : MonoBehaviour
     private KeyCode qeuePressedKey;
 
     private bool isArrived;
+    
 
 
     //*!----------------------------!*//
@@ -159,7 +163,7 @@ public class Block_Control : MonoBehaviour
                 qeuePressedKey = RGT_Key;
             }
 
-            Move_Block(Return_Input_Node(UP_Key), movingSpeed);
+            Move_Towards(Return_Input_Node(UP_Key), movingSpeed);
         } 
         else
         {
@@ -202,7 +206,7 @@ public class Block_Control : MonoBehaviour
                 qeuePressedKey = RGT_Key;
             }
 
-            Move_Block(Return_Input_Node(currPressedKey), movingSpeed);
+            Move_Towards(Return_Input_Node(currPressedKey), movingSpeed);
         }
         else
         {
@@ -227,7 +231,7 @@ public class Block_Control : MonoBehaviour
 
         if (!isArrived)
         {
-            Move_Block(currNode.DN_NODE, fallingSpeed);
+            Move_Towards(currNode.DN_NODE, fallingSpeed);
         }
         else
         {
@@ -253,7 +257,7 @@ public class Block_Control : MonoBehaviour
         
         if (!isArrived)
         {
-            Move_Block(Return_Input_Node(qeuePressedKey), movingSpeed);
+            Move_Towards(Return_Input_Node(qeuePressedKey), movingSpeed);
         }
         else
         {
@@ -280,7 +284,7 @@ public class Block_Control : MonoBehaviour
 
         if (!isArrived)
         {
-            Move_Block(Return_Input_Node(qeuePressedKey), movingSpeed);
+            Move_Towards(Return_Input_Node(qeuePressedKey), movingSpeed);
         }
         else
         {
@@ -295,34 +299,43 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Runtime_Update")]
     private void Runtime_Update()
     {
-        if (currState == Block_State.STATIC)
+        switch (currState)
         {
-            Static_State_Update();
-        }
+            case Block_State.STATIC:
+                {
+                    Static_State_Update();
+                    break;
+                }
 
-        if (currState == Block_State.JUMPING)
-        {
-            Jumping_State_Update();
-        }
+            case Block_State.JUMPING:
+                {
+                    Jumping_State_Update();
+                    break;
+                }
 
-        if (currState == Block_State.MOVING)
-        {
-            Moving_State_Update();
-        }
+            case Block_State.MOVING:
+                {
+                    Moving_State_Update();
+                    break;
+                }
 
-        if (currState == Block_State.FALLING)
-        {
-            Falling_State_Update();
-        }
+            case Block_State.FALLING:
+                {
+                    Falling_State_Update();
+                    break;
+                }
 
-        if (currState == Block_State.SECOND_MOVING)
-        {
-            Second_Moving_State_Update();
-        }
+            case Block_State.SECOND_MOVING:
+                {
+                    Second_Moving_State_Update();
+                    break;
+                }
 
-        if (currState == Block_State.JUMP_MOVING)
-        {
-            Jump_Moving_State_Update();
+            case Block_State.JUMP_MOVING:
+                {
+                    Jump_Moving_State_Update();
+                    break;
+                }
         }
     }
 
@@ -350,8 +363,8 @@ public class Block_Control : MonoBehaviour
         return null;
     }
 
-    [ContextMenu("Move_Block")]
-    private void Move_Block(Node destNode, float speed)
+    [ContextMenu("Move_Towards")]
+    private void Move_Towards(Node destNode, float speed)
     {
         if (destNode == null)
         {
