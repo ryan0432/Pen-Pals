@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1088160633708158
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,11 +111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player_Saves:
-  - Name: BLOCKY
+  - Name: Player_01
     player_type: 1
     active_save: 1
     Level_Count: []
-  - Name: SHADEY
+  - Name: Player_02
     player_type: 2
     active_save: 1
     Level_Count: []
