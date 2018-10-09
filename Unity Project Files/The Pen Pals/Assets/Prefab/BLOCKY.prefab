@@ -172,7 +172,7 @@ MonoBehaviour:
   movingSpeed: 4
   fallingSpeed: 4
   save_data:
-    Name: BLOCKY
+    Name: Player_01
     player_type: 1
     active_save: 1
     Level_Count: []

@@ -262,7 +262,7 @@ MonoBehaviour:
   movingSpeed: 4
   fallingSpeed: 4
   save_data:
-    Name: SHADEY
+    Name: Player_02
     player_type: 2
     active_save: 1
     Level_Count: []
