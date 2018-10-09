@@ -134,7 +134,7 @@ MonoBehaviour:
   - {fileID: 0}
   lvDataIndex: -1
   Show_Gizmos: 1
-  Gizmos_Size: 0.5
+  Gizmos_Size: 0.8
   Black_Pen: {fileID: 1817040449023702, guid: b778286a76047a449a38ddcf03818624, type: 2}
   HighLighter_Red: {fileID: 1831989485835420, guid: 260b18fc5cd12674ebd6d5e44a9dc1db,
     type: 2}
