@@ -147,7 +147,7 @@ MonoBehaviour:
   - Position: {x: 7.5, y: 2.5, z: 0}
     Node_Type: 0
   - Position: {x: 7.5, y: 3.5, z: 0}
-    Node_Type: 0
+    Node_Type: 6
   - Position: {x: 7.5, y: 4.5, z: 0}
     Node_Type: 0
   - Position: {x: 7.5, y: 5.5, z: 0}
@@ -165,7 +165,7 @@ MonoBehaviour:
   - Position: {x: 8.5, y: 2.5, z: 0}
     Node_Type: 0
   - Position: {x: 8.5, y: 3.5, z: 0}
-    Node_Type: 0
+    Node_Type: 5
   - Position: {x: 8.5, y: 4.5, z: 0}
     Node_Type: 0
   - Position: {x: 8.5, y: 5.5, z: 0}
