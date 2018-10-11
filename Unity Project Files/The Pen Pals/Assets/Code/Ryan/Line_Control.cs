@@ -81,6 +81,7 @@ public class Line_Control : MonoBehaviour
     private bool isArrived;
     private bool isArrayMovedForward;
     private bool isReachedTail;
+    private int reversingTargetIndex = 1;
 
 
     //*!----------------------------!*//
@@ -148,7 +149,7 @@ public class Line_Control : MonoBehaviour
     private void Static_State_Update()
     {
         //Debug.Log("State: Static");
-        currPressedKey = NONE;
+        //currPressedKey = NONE;
         qeuePressedKey = NONE;
 
         if (Input.GetKeyDown(UP_Key))
@@ -159,6 +160,7 @@ public class Line_Control : MonoBehaviour
 
             if (Return_Input_Node(UP_Key) == anchors[1])
             {
+                isReachedTail = false;
                 currState = Line_State.REVERSING;
             }
             else
@@ -176,6 +178,7 @@ public class Line_Control : MonoBehaviour
 
             if (Return_Input_Node(DN_Key) == anchors[1])
             {
+                isReachedTail = false;
                 currState = Line_State.REVERSING;
             }
             else
@@ -193,6 +196,7 @@ public class Line_Control : MonoBehaviour
 
             if (Return_Input_Node(LFT_Key) == anchors[1])
             {
+                isReachedTail = false;
                 currState = Line_State.REVERSING;
             }
             else
@@ -210,6 +214,7 @@ public class Line_Control : MonoBehaviour
 
             if (Return_Input_Node(RGT_Key) == anchors[1])
             {
+                isReachedTail = false;
                 currState = Line_State.REVERSING;
             }
             else
@@ -233,8 +238,7 @@ public class Line_Control : MonoBehaviour
 
         if (!isArrayMovedForward)
         {
-            anchors[anchors.GetUpperBound(0)].Set_Traversability(true);
-
+            //anchors[anchors.GetUpperBound(0)].Set_Traversability(true);
             Set_Input_Edge_Traversability(currPressedKey);
 
             for (int i = anchors.GetUpperBound(0); i > 0; --i)
@@ -248,11 +252,11 @@ public class Line_Control : MonoBehaviour
 
         if (!isArrived)
         {
+            Reset_Tail_Edge_Traversability();
             Move_Towards(Return_Input_Node(currPressedKey), movingSpeed);
         }
         else
         {
-            Reset_Tail_Edge_Traversability();
             prevState = currState;
             currState = Line_State.STATIC;
         }
@@ -262,8 +266,59 @@ public class Line_Control : MonoBehaviour
     private void Reversing_State_Update()
     {
         //Debug.Log("State: Reversing");
+        
+        Node destNode = anchors[reversingTargetIndex];
+        Node finalNode = anchors[anchors.GetUpperBound(0)];
+
+        if (isReachedTail == false)
+        {
+            headGO.transform.position = Vector3.MoveTowards(headGO.transform.position, destNode.Position, reversingSpeed * Time.deltaTime);
+        }
+
+        float moveDistance = (headGO.transform.position - destNode.Position).magnitude;
+
+        if (moveDistance < snapDistance)
+        {
+            headGO.transform.position = destNode.Position;
+
+            if (destNode != finalNode)
+            {
+                reversingTargetIndex++;
+            }
+            else
+            {
+                isReachedTail = true;
+                reversingTargetIndex = 1;
+                Swap_Arrays();
+                prevState = currState;
+                currState = Line_State.STATIC;
+            }
+        }
     }
     #endregion
+
+    [ContextMenu("Swap_Array")]
+    private void Swap_Arrays()
+    {
+        int arrayMidIndex = anchors.Length / 2;
+        int arrayBound = anchors.GetUpperBound(0);
+
+        Node tmpNode;
+        GameObject tmpGO;
+
+        for (int i = 0; i <= arrayMidIndex; ++i)
+        {
+            tmpNode = anchors[i];
+            anchors[i] = anchors[arrayBound - i];
+            anchors[arrayBound - i] = tmpNode;
+
+            tmpGO = segments[i];
+            segments[i] = segments[arrayBound - i];
+            segments[arrayBound - i] = tmpGO;
+        }
+
+        currNode = anchors[0];
+    }
 
     [ContextMenu("Runtime_Update")]
     private void Runtime_Update()
@@ -369,7 +424,7 @@ public class Line_Control : MonoBehaviour
             for (int i = 0; i < segments.Length; ++i)
             {
                 segments[i].transform.position = anchors[i].Position;
-                anchors[i].Set_Traversability(false);
+                //anchors[i].Set_Traversability(false);
             }
             nextNode = null;
             Collect_Sticker();

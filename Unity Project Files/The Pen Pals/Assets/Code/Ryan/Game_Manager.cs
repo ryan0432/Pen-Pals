@@ -1031,17 +1031,21 @@ public class Game_Manager : MonoBehaviour
 
     public void Temp_Init_Line()
     {
-        Line_Blue_Start_Nodes = new Node[3];
+        Line_Blue_Start_Nodes = new Node[5];
 
         Line_Blue_Start_Nodes[0] = LI_Nodes[1, 5];
         Line_Blue_Start_Nodes[1] = LI_Nodes[2, 5];
         Line_Blue_Start_Nodes[2] = LI_Nodes[3, 5];
+        Line_Blue_Start_Nodes[3] = LI_Nodes[4, 5];
+        Line_Blue_Start_Nodes[4] = LI_Nodes[5, 5];
 
-        Line_Red_Start_Nodes = new Node[3];
+        Line_Red_Start_Nodes = new Node[5];
 
-        Line_Red_Start_Nodes[0] = LI_Nodes[1, 6];
-        Line_Red_Start_Nodes[1] = LI_Nodes[2, 6];
-        Line_Red_Start_Nodes[2] = LI_Nodes[3, 6];
+        Line_Red_Start_Nodes[0] = LI_Nodes[1, 5];
+        Line_Red_Start_Nodes[1] = LI_Nodes[2, 5];
+        Line_Red_Start_Nodes[2] = LI_Nodes[3, 5];
+        Line_Red_Start_Nodes[3] = LI_Nodes[4, 5];
+        Line_Red_Start_Nodes[4] = LI_Nodes[5, 5];
     }
 }
 
