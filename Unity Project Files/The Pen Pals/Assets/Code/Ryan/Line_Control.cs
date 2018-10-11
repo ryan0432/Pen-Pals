@@ -57,6 +57,9 @@ public class Line_Control : MonoBehaviour
     private Node nextNode;
     private Node[] anchors;
     private GameObject[] segments;
+    private LineRenderer lineRenderer;
+    private Color blue = Color.blue;
+    private Color red = Color.red;
 
     private float snapDistance = 0.01f;
 
@@ -94,6 +97,7 @@ public class Line_Control : MonoBehaviour
         gm = FindObjectOfType<Game_Manager>();
         LI_Nodes = gm.LI_Nodes;
         currState = Line_State.STATIC;
+        lineRenderer = GetComponent<LineRenderer>();
         Init_Line();
     }
 
@@ -105,14 +109,20 @@ public class Line_Control : MonoBehaviour
             case Player_Type.BLUE:
                 {
                     anchors = gm.Line_Blue_Start_Nodes;
+                    lineRenderer.startColor = blue;
+                    lineRenderer.endColor = blue;
                     break;
                 }
             case Player_Type.RED:
                 {
                     anchors = gm.Line_Red_Start_Nodes;
+                    lineRenderer.startColor = red;
+                    lineRenderer.endColor = red;
                     break;
                 }
         }
+
+        lineRenderer.positionCount = anchors.Length + 1;
 
         segments = new GameObject[anchors.Length];
 
@@ -297,6 +307,33 @@ public class Line_Control : MonoBehaviour
     }
     #endregion
 
+    [ContextMenu("Runtime_Update")]
+    private void Runtime_Update()
+    {
+        Render_Line();
+
+        switch (currState)
+        {
+            case Line_State.STATIC:
+                {
+                    Static_State_Update();
+                    break;
+                }
+
+            case Line_State.MOVING:
+                {
+                    Moving_State_Update();
+                    break;
+                }
+
+            case Line_State.REVERSING:
+                {
+                    Reversing_State_Update();
+                    break;
+                }
+        }
+    }
+
     [ContextMenu("Swap_Array")]
     private void Swap_Arrays()
     {
@@ -318,31 +355,6 @@ public class Line_Control : MonoBehaviour
         }
 
         currNode = anchors[0];
-    }
-
-    [ContextMenu("Runtime_Update")]
-    private void Runtime_Update()
-    {
-        switch(currState)
-        {
-            case Line_State.STATIC:
-                {
-                    Static_State_Update();
-                    break;
-                }
-
-            case Line_State.MOVING:
-                {
-                    Moving_State_Update();
-                    break;
-                }
-
-            case Line_State.REVERSING:
-                {
-                    Reversing_State_Update();
-                    break;
-                }
-        }
     }
 
     [ContextMenu("Return_Input_Node")]
@@ -464,6 +476,19 @@ public class Line_Control : MonoBehaviour
                 }
             }
         }
+    }
+
+    [ContextMenu("Render_Line")]
+    private void Render_Line()
+    {
+        lineRenderer.SetPosition(0, segments[0].transform.position);
+
+        for (int i = 1; i < segments.Length; ++i)
+        {
+            lineRenderer.SetPosition(i, anchors[i].Position);
+        }
+
+        lineRenderer.SetPosition(anchors.Length, segments[anchors.GetUpperBound(0)].transform.position);
     }
 }
 
