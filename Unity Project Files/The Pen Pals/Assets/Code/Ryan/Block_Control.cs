@@ -235,7 +235,7 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
-            if (currNode.Can_DN)
+            if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
             {
                 isArrived = false;
             }
@@ -380,7 +380,7 @@ public class Block_Control : MonoBehaviour
         float moveDistance = (transform.position - nextNode.Position).magnitude;
         float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
 
-        if (moveDistance < distBetweenNodes * 0.9f)
+        if (moveDistance < distBetweenNodes * 0.8f)
         {
             nextNode.Is_Occupied = true;
         }

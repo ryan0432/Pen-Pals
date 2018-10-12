@@ -923,7 +923,7 @@ public class Game_Manager : MonoBehaviour
         {
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
             {
-                if (BL_Nodes[i, j].Can_UP)
+                if (BL_Nodes[i, j].Can_UP && !BL_Nodes[i, j].UP_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size));
@@ -931,7 +931,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_DN)
+                if (BL_Nodes[i, j].Can_DN && !BL_Nodes[i, j].DN_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -940,7 +940,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_LFT)
+                if (BL_Nodes[i, j].Can_LFT && !BL_Nodes[i, j].LFT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -949,7 +949,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_RGT)
+                if (BL_Nodes[i, j].Can_RGT && !BL_Nodes[i, j].RGT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                            Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -966,7 +966,7 @@ public class Game_Manager : MonoBehaviour
         {
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
-                if (LI_Nodes[i, j].Can_UP)
+                if (LI_Nodes[i, j].Can_UP && !LI_Nodes[i, j].UP_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size));
@@ -974,7 +974,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_DN)
+                if (LI_Nodes[i, j].Can_DN && !LI_Nodes[i, j].DN_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -983,7 +983,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_LFT)
+                if (LI_Nodes[i, j].Can_LFT && !LI_Nodes[i, j].LFT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -992,7 +992,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_RGT)
+                if (LI_Nodes[i, j].Can_RGT && !LI_Nodes[i, j].RGT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1042,11 +1042,11 @@ public class Game_Manager : MonoBehaviour
 
         Line_Red_Start_Nodes = new Node[5];
 
-        Line_Red_Start_Nodes[0] = LI_Nodes[1, 5];
-        Line_Red_Start_Nodes[1] = LI_Nodes[2, 5];
-        Line_Red_Start_Nodes[2] = LI_Nodes[3, 5];
-        Line_Red_Start_Nodes[3] = LI_Nodes[4, 5];
-        Line_Red_Start_Nodes[4] = LI_Nodes[5, 5];
+        Line_Red_Start_Nodes[0] = LI_Nodes[1, 6];
+        Line_Red_Start_Nodes[1] = LI_Nodes[2, 6];
+        Line_Red_Start_Nodes[2] = LI_Nodes[3, 6];
+        Line_Red_Start_Nodes[3] = LI_Nodes[4, 6];
+        Line_Red_Start_Nodes[4] = LI_Nodes[5, 6];
     }
 }
 

@@ -138,6 +138,7 @@ public class Line_Control : MonoBehaviour
 
         headGO = Instantiate(head, anchors[0].Position, Quaternion.identity, transform);
         Init_Traversability();
+        Set_All_Nodes_Occupied();
         currNode = anchors[0];
     }
 
@@ -169,11 +170,14 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(UP_Key) == anchors[1])
             {
                 isReachedTail = false;
+                prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else
+            else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied)
             {
+                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
                 isArrayMovedForward = false;
+                prevState = currState;
                 currState = Line_State.MOVING;
             }
         }
@@ -187,11 +191,14 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(DN_Key) == anchors[1])
             {
                 isReachedTail = false;
+                prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else
+            else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
             {
+                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
                 isArrayMovedForward = false;
+                prevState = currState;
                 currState = Line_State.MOVING;
             }
         }
@@ -205,11 +212,14 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(LFT_Key) == anchors[1])
             {
                 isReachedTail = false;
+                prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else
+            else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied)
             {
+                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
                 isArrayMovedForward = false;
+                prevState = currState;
                 currState = Line_State.MOVING;
             }
         }
@@ -223,11 +233,14 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(RGT_Key) == anchors[1])
             {
                 isReachedTail = false;
+                prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else
+            else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied)
             {
+                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
                 isArrayMovedForward = false;
+                prevState = currState;
                 currState = Line_State.MOVING;
             }
         }
@@ -366,6 +379,15 @@ public class Line_Control : MonoBehaviour
         return null;
     }
 
+    [ContextMenu("Set_All_Nodes_Occupied")]
+    private void Set_All_Nodes_Occupied()
+    {
+        for (int i = 0; i < anchors.Length; ++i)
+        {
+            anchors[i].Is_Occupied = true;
+        }
+    }
+
     [ContextMenu("Init_Traversability")]
     private void Init_Traversability()
     {
@@ -393,6 +415,9 @@ public class Line_Control : MonoBehaviour
             {
                 currAnchor.RGT_EDGE.Set_Traversability(false);
             }
+
+            currAnchor.Is_Occupied = true;
+            nextAnchor.Is_Occupied = true;
         }
     }
 
@@ -457,6 +482,12 @@ public class Line_Control : MonoBehaviour
         }
 
         float moveDistance = (headGO.transform.position - destNode.Position).magnitude;
+        float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
+
+        if (moveDistance < distBetweenNodes * 0.8f)
+        {
+            nextNode.Is_Occupied = true;
+        }
 
         if (moveDistance < snapDistance)
         {
@@ -465,7 +496,6 @@ public class Line_Control : MonoBehaviour
             for (int i = 0; i < segments.Length; ++i)
             {
                 segments[i].transform.position = anchors[i].Position;
-                //anchors[i].Set_Traversability(false);
             }
 
             nextNode = null;
