@@ -187,7 +187,7 @@ public class Block_Control : MonoBehaviour
     {
         //Debug.Log("State: Moving");
 
-        Ground_Check();
+        //Ground_Check();
 
         if (!isArrived)
         {
@@ -210,6 +210,8 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
+            Ground_Check();
+
             if (qeuePressedKey != NONE)
             {
                 isArrived = false;
@@ -252,8 +254,6 @@ public class Block_Control : MonoBehaviour
     private void Second_Moving_State_Update()
     {
         //Debug.Log("State: Second-Moving");
-
-        Ground_Check();
         
         if (!isArrived)
         {
@@ -261,6 +261,8 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
+            Ground_Check();
+
             if (qeuePressedKey == UP_Key)
             {
                 qeuePressedKey = NONE;
@@ -342,7 +344,7 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Ground_Check")]
     private bool Ground_Check()
     {
-        if (currNode.Can_DN)
+        if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
         {
             isArrived = false;
             prevState = currState;
@@ -380,7 +382,7 @@ public class Block_Control : MonoBehaviour
         float moveDistance = (transform.position - nextNode.Position).magnitude;
         float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
 
-        if (moveDistance < distBetweenNodes * 0.8f)
+        if (moveDistance < distBetweenNodes * 0.9f)
         {
             nextNode.Is_Occupied = true;
         }
