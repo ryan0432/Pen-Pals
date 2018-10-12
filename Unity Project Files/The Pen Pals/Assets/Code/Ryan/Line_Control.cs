@@ -25,7 +25,7 @@ public class Line_Control : MonoBehaviour
     [HideInInspector]
     public Player_Shape playerShape = Player_Shape.LINE;
 
-    [Range(0f, 5f)]
+    [Range(0f, 10f)]
     public float movingSpeed;
 
     [Range(0f, 10f)]
@@ -48,7 +48,6 @@ public class Line_Control : MonoBehaviour
     private GameObject headGO;
 
     private Game_Manager gm;
-    private Node[,] LI_Nodes;
 
     private Line_State currState;
     private Line_State prevState;
@@ -79,7 +78,6 @@ public class Line_Control : MonoBehaviour
     { get { return KeyCode.None; } }
 
     private KeyCode currPressedKey;
-    private KeyCode qeuePressedKey;
 
     private bool isArrived;
     private bool isArrayMovedForward;
@@ -95,7 +93,6 @@ public class Line_Control : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<Game_Manager>();
-        LI_Nodes = gm.LI_Nodes;
         currState = Line_State.STATIC;
         lineRenderer = GetComponent<LineRenderer>();
         Init_Line();
@@ -140,6 +137,7 @@ public class Line_Control : MonoBehaviour
         }
 
         headGO = Instantiate(head, anchors[0].Position, Quaternion.identity, transform);
+        Init_Traversability();
         currNode = anchors[0];
     }
 
@@ -159,8 +157,8 @@ public class Line_Control : MonoBehaviour
     private void Static_State_Update()
     {
         //Debug.Log("State: Static");
-        //currPressedKey = NONE;
-        qeuePressedKey = NONE;
+
+        currPressedKey = NONE;
 
         if (Input.GetKeyDown(UP_Key))
         {
@@ -239,6 +237,7 @@ public class Line_Control : MonoBehaviour
     private void Moving_State_Update()
     {
         //Debug.Log("State: Moving");
+
         if (Return_Input_Node(currPressedKey) == null)
         {
             isArrayMovedForward = true;
@@ -367,6 +366,36 @@ public class Line_Control : MonoBehaviour
         return null;
     }
 
+    [ContextMenu("Init_Traversability")]
+    private void Init_Traversability()
+    {
+        for (int i = 0; i < anchors.GetUpperBound(0); ++i)
+        {
+            Node currAnchor = anchors[i];
+            Node nextAnchor = anchors[i + 1];
+
+            if (currAnchor.UP_NODE == nextAnchor && currAnchor.UP_EDGE != null)
+            {
+                currAnchor.UP_EDGE.Set_Traversability(false);
+            }
+
+            if (currAnchor.DN_NODE == nextAnchor && currAnchor.DN_EDGE != null)
+            {
+                currAnchor.DN_EDGE.Set_Traversability(false);
+            }
+
+            if (currAnchor.LFT_NODE == nextAnchor && currAnchor.LFT_EDGE != null)
+            {
+                currAnchor.LFT_EDGE.Set_Traversability(false);
+            }
+
+            if (currAnchor.RGT_NODE == nextAnchor && currAnchor.RGT_EDGE != null)
+            {
+                currAnchor.RGT_EDGE.Set_Traversability(false);
+            }
+        }
+    }
+
     [ContextMenu("Set_Input_Edge_Traversability")]
     private void Set_Input_Edge_Traversability(KeyCode direction)
     {
@@ -438,6 +467,7 @@ public class Line_Control : MonoBehaviour
                 segments[i].transform.position = anchors[i].Position;
                 //anchors[i].Set_Traversability(false);
             }
+
             nextNode = null;
             Collect_Sticker();
             isArrived = true;

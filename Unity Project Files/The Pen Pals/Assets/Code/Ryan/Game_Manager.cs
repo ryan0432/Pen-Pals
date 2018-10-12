@@ -100,6 +100,7 @@ public class Game_Manager : MonoBehaviour
 
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
+        Debug.Log("bl[6,2] is occupied: "+ BL_Nodes[6, 2].Is_Occupied);
     }
 
 

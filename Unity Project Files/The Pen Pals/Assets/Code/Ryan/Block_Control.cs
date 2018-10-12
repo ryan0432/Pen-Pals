@@ -25,10 +25,10 @@ public class Block_Control : MonoBehaviour
     [HideInInspector]
     public Player_Shape playerShape = Player_Shape.BLOCK;
 
-    [Range(0f, 5f)]
+    [Range(0f, 10f)]
     public float movingSpeed;
 
-    [Range(0f, 5f)]
+    [Range(0f, 10f)]
     public float fallingSpeed;
 
     public Player_Save save_data;
@@ -42,7 +42,6 @@ public class Block_Control : MonoBehaviour
     //*!----------------------------!*//
 
     private Game_Manager gm;
-    private Node[,] BL_Nodes;
     private Block_State currState;
     private Block_State prevState;
 
@@ -81,7 +80,6 @@ public class Block_Control : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<Game_Manager>();
-        BL_Nodes = gm.BL_Nodes;
 
         if (playerType == Player_Type.BLUE)
         {
@@ -94,7 +92,7 @@ public class Block_Control : MonoBehaviour
         
         transform.position = currNode.Position;
         currState = Block_State.STATIC;
-        save_data = gm.gameObject.GetComponent<XML_SaveLoad>().Get_Active_Save((int)playerType);
+        save_data = gm.GetComponent<XML_SaveLoad>().Get_Active_Save((int)playerType);
         Set_Sticker_Count();
     }
 
@@ -113,15 +111,17 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Static_State_Update")]
     private void Static_State_Update()
     {
-        Debug.Log("State: Static");
+        //Debug.Log("State: Static");
 
+        currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
 
+        currPressedKey = NONE;
         qeuePressedKey = NONE;
 
         Ground_Check();
 
-        if (Input.GetKeyDown(UP_Key))
+        if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && !currNode.UP_NODE.Is_Occupied)
         {
             isArrived = false;
             currPressedKey = UP_Key;
@@ -129,7 +129,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.JUMPING;
         }
 
-        if (Input.GetKeyDown(LFT_Key))
+        if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && !currNode.LFT_NODE.Is_Occupied)
         {
             isArrived = false;
             currPressedKey = LFT_Key;
@@ -137,7 +137,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.MOVING;
         }
 
-        if (Input.GetKeyDown(RGT_Key))
+        if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && !currNode.RGT_NODE.Is_Occupied)
         {
             isArrived = false;
             currPressedKey = RGT_Key;
@@ -149,16 +149,16 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Jumping_State_Update")]
     private void Jumping_State_Update()
     {
-        Debug.Log("State: Jumping");
+        //Debug.Log("State: Jumping");
 
         if (!isArrived)
         {
-            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT)
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied)
             {
                 qeuePressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT)
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied)
             {
                 qeuePressedKey = RGT_Key;
             }
@@ -185,23 +185,23 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Moving_State_Update")]
     private void Moving_State_Update()
     {
-        Debug.Log("State: Moving");
+        //Debug.Log("State: Moving");
 
         Ground_Check();
 
         if (!isArrived)
         {
-            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.Can_DN)
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied && !nextNode.Can_DN)
             {
                 qeuePressedKey = UP_Key;
             }
 
-            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.Can_DN)
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied && !nextNode.Can_DN)
             {
                 qeuePressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.Can_DN)
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied && !nextNode.Can_DN)
             {
                 qeuePressedKey = RGT_Key;
             }
@@ -227,7 +227,7 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Falling_State_Update")]
     private void Falling_State_Update()
     {
-        Debug.Log("State: Falling");
+        //Debug.Log("State: Falling");
 
         if (!isArrived)
         {
@@ -251,7 +251,7 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Second_Moving_State_Update")]
     private void Second_Moving_State_Update()
     {
-        Debug.Log("State: Second-Moving");
+        //Debug.Log("State: Second-Moving");
 
         Ground_Check();
         
@@ -280,7 +280,7 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Jump_Moving_State_Update")]
     private void Jump_Moving_State_Update()
     {
-        Debug.Log("State: Jump-Moving");
+        //Debug.Log("State: Jump-Moving");
 
         if (!isArrived)
         {
@@ -345,6 +345,7 @@ public class Block_Control : MonoBehaviour
         if (currNode.Can_DN)
         {
             isArrived = false;
+            prevState = currState;
             currState = Block_State.FALLING;
             return false;
         }
@@ -357,9 +358,9 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Return_Input_Node")]
     private Node Return_Input_Node(KeyCode direction)
     {
-        if (direction == UP_Key && currNode.Can_UP) { return currNode.UP_NODE; }
-        if (direction == LFT_Key && currNode.Can_LFT) { return currNode.LFT_NODE; }
-        if (direction == RGT_Key && currNode.Can_RGT) { return currNode.RGT_NODE; }
+        if (direction == UP_Key) { return currNode.UP_NODE; }
+        if (direction == LFT_Key) { return currNode.LFT_NODE; }
+        if (direction == RGT_Key) { return currNode.RGT_NODE; }
         return null;
     }
 
@@ -377,9 +378,16 @@ public class Block_Control : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, nextNode.Position, speed * Time.deltaTime);
 
         float moveDistance = (transform.position - nextNode.Position).magnitude;
+        float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
+
+        if (moveDistance < distBetweenNodes * 0.9f)
+        {
+            nextNode.Is_Occupied = true;
+        }
 
         if (moveDistance < snapDistance)
         {
+            currNode.Is_Occupied = false;
             currNode.Set_Traversability(true);
             nextNode.Set_Traversability(false);
             currNode = nextNode;

@@ -169,8 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 1
   playerShape: 1
-  movingSpeed: 4
-  fallingSpeed: 4
+  movingSpeed: 5
+  fallingSpeed: 7
   save_data:
     Name: Player_01
     player_type: 1
