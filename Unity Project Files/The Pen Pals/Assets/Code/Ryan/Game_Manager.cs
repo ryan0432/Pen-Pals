@@ -60,9 +60,9 @@ public class Game_Manager : MonoBehaviour
     public Node Block_Red_Start_Node;
 
     [HideInInspector]
-    public Node[] Line_Blue_Start_Nodes;
+    public List<Node> Line_Blue_Start_Nodes;
     [HideInInspector]
-    public Node[] Line_Red_Start_Nodes;
+    public List<Node> Line_Red_Start_Nodes;
 
 
     //*!----------------------------!*//
@@ -86,12 +86,7 @@ public class Game_Manager : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private Material li_giz_mat;
-
-    [HideInInspector]
-    private int line_blue_segment_count;
-    [HideInInspector]
-    private int line_red_segment_count;
-
+    
 
     void Awake()
     {
@@ -121,12 +116,6 @@ public class Game_Manager : MonoBehaviour
             Debug.Log("There is no Level Data loaded in [Game_Manager]. Please select a Level Data to play.");
             return;
         }
-        #endregion
-
-        //*! Reset [Line] segment count
-        #region Reset [Line] segment count
-        line_blue_segment_count = 0;
-        line_red_segment_count = 0;
         #endregion
 
         //*! Setup row/col for each [Node] & [Edge] array
@@ -1072,21 +1061,21 @@ public class Game_Manager : MonoBehaviour
 
     public void Temp_Init_Line()
     {
-        Line_Blue_Start_Nodes = new Node[5];
+        Line_Blue_Start_Nodes = new List<Node>();
 
-        Line_Blue_Start_Nodes[0] = LI_Nodes[1, 5];
-        Line_Blue_Start_Nodes[1] = LI_Nodes[2, 5];
-        Line_Blue_Start_Nodes[2] = LI_Nodes[3, 5];
-        Line_Blue_Start_Nodes[3] = LI_Nodes[4, 5];
-        Line_Blue_Start_Nodes[4] = LI_Nodes[5, 5];
+        Line_Blue_Start_Nodes.Add(LI_Nodes[1, 5]);
+        Line_Blue_Start_Nodes.Add(LI_Nodes[2, 5]);
+        Line_Blue_Start_Nodes.Add(LI_Nodes[3, 5]);
+        Line_Blue_Start_Nodes.Add(LI_Nodes[4, 5]);
+        Line_Blue_Start_Nodes.Add(LI_Nodes[5, 5]);
 
-        Line_Red_Start_Nodes = new Node[5];
+        Line_Red_Start_Nodes = new List<Node>();
 
-        Line_Red_Start_Nodes[0] = LI_Nodes[1, 6];
-        Line_Red_Start_Nodes[1] = LI_Nodes[2, 6];
-        Line_Red_Start_Nodes[2] = LI_Nodes[3, 6];
-        Line_Red_Start_Nodes[3] = LI_Nodes[4, 6];
-        Line_Red_Start_Nodes[4] = LI_Nodes[5, 6];
+        Line_Red_Start_Nodes.Add(LI_Nodes[1, 6]);
+        Line_Red_Start_Nodes.Add(LI_Nodes[2, 6]);
+        Line_Red_Start_Nodes.Add(LI_Nodes[3, 6]);
+        Line_Red_Start_Nodes.Add(LI_Nodes[4, 6]);
+        Line_Red_Start_Nodes.Add(LI_Nodes[5, 6]);
     }
 }
 

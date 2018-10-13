@@ -54,7 +54,7 @@ public class Line_Control : MonoBehaviour
 
     private Node currNode;
     private Node nextNode;
-    private Node[] anchors;
+    private List<Node> anchors;
     private GameObject[] segments;
     private LineRenderer lineRenderer;
     private Color blue = Color.blue;
@@ -121,9 +121,9 @@ public class Line_Control : MonoBehaviour
                 }
         }
 
-        lineRenderer.positionCount = anchors.Length + 1;
+        lineRenderer.positionCount = anchors.Count + 1;
 
-        segments = new GameObject[anchors.Length];
+        segments = new GameObject[anchors.Count];
 
         for (int i = 0; i < segments.Length; ++i)
         {
@@ -177,7 +177,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied)
             {
-                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
+                anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
@@ -198,7 +198,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
             {
-                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
+                anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
@@ -219,7 +219,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied)
             {
-                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
+                anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
@@ -240,7 +240,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied)
             {
-                anchors[anchors.GetUpperBound(0)].Is_Occupied = false;
+                anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
@@ -264,7 +264,7 @@ public class Line_Control : MonoBehaviour
         {
             Set_Input_Edge_Traversability(currPressedKey);
 
-            for (int i = anchors.GetUpperBound(0); i > 0; --i)
+            for (int i = anchors.Count - 1; i > 0; --i)
             {
                 anchors[i] = anchors[i - 1];
             }
@@ -291,7 +291,7 @@ public class Line_Control : MonoBehaviour
         //Debug.Log("State: Reversing");
         
         Node destNode = anchors[reversingTargetIndex];
-        Node finalNode = anchors[anchors.GetUpperBound(0)];
+        Node finalNode = anchors[anchors.Count - 1];
 
         if (isReachedTail == false)
         {
@@ -350,8 +350,8 @@ public class Line_Control : MonoBehaviour
     [ContextMenu("Swap_Array")]
     private void Swap_Arrays()
     {
-        int arrayMidIndex = anchors.Length / 2;
-        int arrayBound = anchors.GetUpperBound(0);
+        int arrayMidIndex = anchors.Count / 2;
+        int arrayBound = anchors.Count - 1;
 
         Node tmpNode;
         GameObject tmpGO;
@@ -383,7 +383,7 @@ public class Line_Control : MonoBehaviour
     [ContextMenu("Set_All_Nodes_Occupied")]
     private void Set_All_Nodes_Occupied()
     {
-        for (int i = 0; i < anchors.Length; ++i)
+        for (int i = 0; i < anchors.Count; ++i)
         {
             anchors[i].Is_Occupied = true;
         }
@@ -392,7 +392,7 @@ public class Line_Control : MonoBehaviour
     [ContextMenu("Init_Traversability")]
     private void Init_Traversability()
     {
-        for (int i = 0; i < anchors.GetUpperBound(0); ++i)
+        for (int i = 0; i < anchors.Count - 1; ++i)
         {
             Node currAnchor = anchors[i];
             Node nextAnchor = anchors[i + 1];
@@ -434,8 +434,8 @@ public class Line_Control : MonoBehaviour
     [ContextMenu("Reset_Tail_Edge_Traversability")]
     private void Reset_Tail_Edge_Traversability()
     {
-        Node tail_node = anchors[anchors.GetUpperBound(0)];
-        Node before_tail = anchors[anchors.GetUpperBound(0) - 1];
+        Node tail_node = anchors[anchors.Count - 1];
+        Node before_tail = anchors[anchors.Count - 2];
 
         if (tail_node.UP_NODE == before_tail)
         {
@@ -568,7 +568,7 @@ public class Line_Control : MonoBehaviour
             lineRenderer.SetPosition(i, anchors[i].Position);
         }
 
-        lineRenderer.SetPosition(anchors.Length, segments[anchors.GetUpperBound(0)].transform.position);
+        lineRenderer.SetPosition(anchors.Count, segments[anchors.Count - 1].transform.position);
     }
 }
 
