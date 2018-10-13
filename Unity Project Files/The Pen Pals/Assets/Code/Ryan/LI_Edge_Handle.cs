@@ -35,6 +35,8 @@ public enum LI_Edge_Handle_Type
 {
     NONE = 0,
     Black_Pen = 1,
-    Boarder = 6
+    Boarder = 6,
+    Line_Blue_Edge = 7,
+    Line_Red_Edge = 8
 }
 #endregion

@@ -75,7 +75,7 @@ public class Game_Manager : MonoBehaviour
     private int col;
 
     [HideInInspector]
-    private bool is_Pencil_Case;
+    private bool is_pencil_case;
 
     [SerializeField]
     [HideInInspector]
@@ -87,6 +87,11 @@ public class Game_Manager : MonoBehaviour
     [HideInInspector]
     private Material li_giz_mat;
 
+    [HideInInspector]
+    private int line_blue_segment_count;
+    [HideInInspector]
+    private int line_red_segment_count;
+
 
     void Awake()
     {
@@ -95,14 +100,10 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.X))
-        {
-            Initialize_Level();
-        }
-
+        Check_Shortcut_Input();
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
-        Debug.Log("bl[6,2] is occupied: "+ BL_Nodes[6, 2].Is_Occupied);
+        Debug.Log("bl[6,2] is occupied: " + BL_Nodes[6, 2].Is_Occupied);
     }
 
 
@@ -120,6 +121,12 @@ public class Game_Manager : MonoBehaviour
             Debug.Log("There is no Level Data loaded in [Game_Manager]. Please select a Level Data to play.");
             return;
         }
+        #endregion
+
+        //*! Reset [Line] segment count
+        #region Reset [Line] segment count
+        line_blue_segment_count = 0;
+        line_red_segment_count = 0;
         #endregion
 
         //*! Setup row/col for each [Node] & [Edge] array
@@ -866,7 +873,7 @@ public class Game_Manager : MonoBehaviour
     {
         //*! If there is a [Pencil_Case_Handle] in the scene,
         //*! clean up gizmos by setting the mesh renderer to enable = false
-        if (is_Pencil_Case)
+        if (is_pencil_case)
         {
             bool is_BL_Node_Gizmos_List_Empty = (transform.Find("BL_Node_Gizmos").childCount < 1);
             bool is_LI_Node_Gizmos_List_Empty = (transform.Find("LI_Node_Gizmos").childCount < 1);
@@ -905,7 +912,7 @@ public class Game_Manager : MonoBehaviour
                 }
             }
 
-            is_Pencil_Case = false;
+            is_pencil_case = false;
 
             Debug.Log("Clear Pencil Case Gizmos in Play Mode!");
         }
@@ -1007,11 +1014,42 @@ public class Game_Manager : MonoBehaviour
         #endregion
     }
 
+    [ContextMenu("Check_Shortcut_Input")]
+    private void Check_Shortcut_Input()
+    {
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            Initialize_Level();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            switch (Show_Gizmos)
+            {
+                case true:
+                    {
+                        Show_Gizmos = false;
+                        break;
+                    }
+                case false:
+                    {
+                        Show_Gizmos = true;
+                        break;
+                    }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
 
     //*!----------------------------!*//
     //*!    Public Functions
     //*!----------------------------!*//
-    
+
     //*! Initialize the level data and set level data index to current playing level index
     [ContextMenu("Initialize_Level")]
     public void Initialize_Level()
@@ -1024,7 +1062,7 @@ public class Game_Manager : MonoBehaviour
             lvDataIndex = lvData.GetUpperBound(0) - 1;
         }
 
-        if (FindObjectOfType<Pencil_Case>() != null) is_Pencil_Case = true;
+        if (FindObjectOfType<Pencil_Case>() != null) is_pencil_case = true;
         Clean_Up_Symbols();
         Clean_Up_Players();
         Setup_Level_Data(lvDataIndex + 1);
@@ -1244,7 +1282,9 @@ public enum Edge_Type
     HighLighter_Blue = 3,
     Pencil = 4,
     Colour_Pencil = 5,
-    Boarder = 6
+    Boarder = 6,
+    Line_Blue_Edge = 7,
+    Line_Red_Edge = 8
 }
 #endregion
 
@@ -1276,7 +1316,11 @@ public enum Node_Type
     Line_Blue_Goal = 3,
     Line_Red_Goal = 4,
     Block_Blue_Start = 5,
-    Block_Red_Start = 6
+    Block_Red_Start = 6,
+    Line_Blue_Head = 7,
+    Line_Blue_Segment = 8,
+    Line_Red_Head = 9,
+    Line_Red_Segment = 10
 }
 #endregion
 

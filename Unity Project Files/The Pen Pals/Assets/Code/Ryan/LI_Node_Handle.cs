@@ -30,6 +30,10 @@ public enum LI_Node_Handle_Type
 {
     NONE = 0,
     Line_Blue_Goal = 3,
-    Line_Red_Goal = 4
+    Line_Red_Goal = 4,
+    Line_Blue_Head = 7,
+    Line_Blue_Segment = 8,
+    Line_Red_Head = 9,
+    Line_Red_Segment = 10
 }
 #endregion
