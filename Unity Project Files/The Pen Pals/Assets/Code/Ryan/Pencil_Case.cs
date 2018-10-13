@@ -144,6 +144,30 @@ public class Pencil_Case : MonoBehaviour
 
     [SerializeField]
     [HideInInspector]
+    private Material line_blue_head_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material line_blue_edge_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material line_blue_segment_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material line_red_head_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material line_red_edge_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
+    private Material line_red_segment_giz_mat;
+
+    [SerializeField]
+    [HideInInspector]
     private Material black_pen_giz_mat;
 
     [SerializeField]

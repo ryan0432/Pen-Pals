@@ -13073,6 +13073,18 @@ MonoBehaviour:
     type: 2}
   block_red_start_giz_mat: {fileID: 2100000, guid: 2defddd80d4aafb47b6768f82dd9bbee,
     type: 2}
+  line_blue_head_giz_mat: {fileID: 2100000, guid: 9091f81d3d0de474f995b8094abfec09,
+    type: 2}
+  line_blue_edge_giz_mat: {fileID: 2100000, guid: a68148e80a7f710438040d11fd37d1f7,
+    type: 2}
+  line_blue_segment_giz_mat: {fileID: 2100000, guid: 55501bd39f11ae24988864d249f4b22d,
+    type: 2}
+  line_red_head_giz_mat: {fileID: 2100000, guid: fbf703f40235072418180ce5eff48c3a,
+    type: 2}
+  line_red_edge_giz_mat: {fileID: 2100000, guid: ad1f3648a9d99864183d35017328216f,
+    type: 2}
+  line_red_segment_giz_mat: {fileID: 2100000, guid: f9250258c906bec4a88f846beacc9238,
+    type: 2}
   black_pen_giz_mat: {fileID: 2100000, guid: 0bf6327c596b1b8458264b19259618bb, type: 2}
   highlighter_red_giz_mat: {fileID: 2100000, guid: 453ff52ba87ad204d8ba3bd61a19a92d,
     type: 2}
