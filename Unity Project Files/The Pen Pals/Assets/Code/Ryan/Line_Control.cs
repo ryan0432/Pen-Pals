@@ -140,7 +140,6 @@ public class Line_Control : MonoBehaviour
 
         headGO = Instantiate(head, anchors[0].Position, Quaternion.identity, transform);
         Init_Traversability();
-        Set_All_Nodes_Occupied();
         currNode = anchors[0];
     }
 
@@ -353,11 +352,11 @@ public class Line_Control : MonoBehaviour
         int arrayMidIndex = anchors.Count / 2;
         int arrayBound = anchors.Count - 1;
 
-        Node tmpNode;
-        GameObject tmpGO;
-
-        for (int i = 0; i <= arrayMidIndex; ++i)
+        for (int i = 0; i < arrayMidIndex; ++i)
         {
+            Node tmpNode;
+            GameObject tmpGO;
+
             tmpNode = anchors[i];
             anchors[i] = anchors[arrayBound - i];
             anchors[arrayBound - i] = tmpNode;
@@ -378,15 +377,6 @@ public class Line_Control : MonoBehaviour
         if (direction == LFT_Key) { return currNode.LFT_NODE; }
         if (direction == RGT_Key) { return currNode.RGT_NODE; }
         return null;
-    }
-
-    [ContextMenu("Set_All_Nodes_Occupied")]
-    private void Set_All_Nodes_Occupied()
-    {
-        for (int i = 0; i < anchors.Count; ++i)
-        {
-            anchors[i].Is_Occupied = true;
-        }
     }
 
     [ContextMenu("Init_Traversability")]

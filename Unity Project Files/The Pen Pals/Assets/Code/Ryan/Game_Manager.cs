@@ -152,6 +152,12 @@ public class Game_Manager : MonoBehaviour
         LI_V_Edges = new Edge[li_V_edge_row, li_V_edge_col];
         #endregion
 
+        //*! Setup new instances for [Line Start Nodes] lists
+        #region Setup new instances for [Line Start Nodes] lists
+        Line_Blue_Start_Nodes = new List<Node>();
+        Line_Red_Start_Nodes = new List<Node>();
+        #endregion
+
         //*! Setup [Block] - [Node] data
         #region Setup [Block] Nodes and Preset Neighbor Nodes to Null
         for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
@@ -275,6 +281,28 @@ public class Game_Manager : MonoBehaviour
                     GameObject new_Gizmos_GO = Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                     Red_Sticker_Count++;
+                }
+
+                //* Check [Node] [Type] == [Line_Blue_Head] or [Line_Blue_Segment]
+                if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Blue_Head || LI_Nodes[i, j].Node_Type == Node_Type.Line_Blue_Segment)
+                {
+                    if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Blue_Head)
+                    {
+                        Instantiate(Linel, transform.Find("Players"));
+                    }
+
+                    Line_Blue_Start_Nodes.Add(LI_Nodes[i, j]);
+                }
+
+                //* Check [Node] [Type] == [Line_Red_Head] or [Line_Red_Segment]
+                if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Red_Head || LI_Nodes[i, j].Node_Type == Node_Type.Line_Red_Segment)
+                {
+                    if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Red_Head)
+                    {
+                        Instantiate(Careline, transform.Find("Players"));
+                    }
+
+                    Line_Red_Start_Nodes.Add(LI_Nodes[i, j]);
                 }
             }
         }
@@ -823,6 +851,100 @@ public class Game_Manager : MonoBehaviour
             }
         }
         #endregion
+
+        //*! -------------------------------------------- !*//
+
+        //*! Sort [Line Start Nodes] list for [Line] player to grab
+        #region Sort [Line Start Nodes] list for [Line] player to grab
+        Init_Line();
+        #endregion
+    }
+
+    [ContextMenu("Init_Line")]
+    private void Init_Line()
+    {
+        //*! If no [Line] player in the scene, return
+        if (Line_Blue_Start_Nodes.Count == 0 && Line_Red_Start_Nodes.Count == 0) return;
+
+        //*! Sort [Line Blue Start Nodes] List
+        #region Sort [Line Blue Start Nodes] List
+        for (int i = 0; i < Line_Blue_Start_Nodes.Count; ++i)
+        {
+            if (Line_Blue_Start_Nodes[i].Node_Type == Node_Type.Line_Blue_Head)
+            {
+                Swap_Nodes(Line_Blue_Start_Nodes, i, 0);
+            }
+        }
+        
+        for (int i = 0; i < Line_Blue_Start_Nodes.Count - 1; ++i)
+        {
+            for (int j = i + 1; j < Line_Blue_Start_Nodes.Count; ++j)
+            {
+                Node currNode = Line_Blue_Start_Nodes[i];
+                Node examNode = Line_Blue_Start_Nodes[j];
+
+                if (currNode.UP_NODE == examNode && currNode.UP_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge && examNode.DN_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge)
+                {
+                    Swap_Nodes(Line_Blue_Start_Nodes, i + 1, j);
+                }
+
+                if (currNode.DN_NODE == examNode && currNode.DN_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge && examNode.UP_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge)
+                {
+                    Swap_Nodes(Line_Blue_Start_Nodes, i + 1, j);
+                }
+
+                if (currNode.LFT_NODE == examNode && currNode.LFT_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge && examNode.RGT_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge)
+                {
+                    Swap_Nodes(Line_Blue_Start_Nodes, i + 1, j);
+                }
+
+                if (currNode.RGT_NODE == examNode && currNode.RGT_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge && examNode.LFT_EDGE.Edge_Type == Edge_Type.Line_Blue_Edge)
+                {
+                    Swap_Nodes(Line_Blue_Start_Nodes, i + 1, j);
+                }
+            }
+        }
+        #endregion
+
+        //*! Sort [Line Red Start Nodes] List
+        #region Sort [Line Red Start Nodes] List
+        for (int i = 0; i < Line_Red_Start_Nodes.Count; ++i)
+        {
+            if (Line_Red_Start_Nodes[i].Node_Type == Node_Type.Line_Red_Head)
+            {
+                Swap_Nodes(Line_Red_Start_Nodes, i, 0);
+            }
+        }
+
+        for (int i = 0; i < Line_Red_Start_Nodes.Count - 1; ++i)
+        {
+            for (int j = i + 1; j < Line_Red_Start_Nodes.Count; ++j)
+            {
+                Node currNode = Line_Red_Start_Nodes[i];
+                Node examNode = Line_Red_Start_Nodes[j];
+
+                if (currNode.UP_NODE == examNode && currNode.UP_EDGE.Edge_Type == Edge_Type.Line_Red_Edge && examNode.DN_EDGE.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    Swap_Nodes(Line_Red_Start_Nodes, i + 1, j);
+                }
+
+                if (currNode.DN_NODE == examNode && currNode.DN_EDGE.Edge_Type == Edge_Type.Line_Red_Edge && examNode.UP_EDGE.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    Swap_Nodes(Line_Red_Start_Nodes, i + 1, j);
+                }
+
+                if (currNode.LFT_NODE == examNode && currNode.LFT_EDGE.Edge_Type == Edge_Type.Line_Red_Edge && examNode.RGT_EDGE.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    Swap_Nodes(Line_Red_Start_Nodes, i + 1, j);
+                }
+
+                if (currNode.RGT_NODE == examNode && currNode.RGT_EDGE.Edge_Type == Edge_Type.Line_Red_Edge && examNode.LFT_EDGE.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    Swap_Nodes(Line_Red_Start_Nodes, i + 1, j);
+                }
+            }
+        }
+        #endregion
     }
 
     [ContextMenu("Clean_Up_Symbols")]
@@ -1034,6 +1156,15 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
+    [ContextMenu("Swap_Nodes")]
+    private void Swap_Nodes(List<Node> nodes, int indexA, int indexB)
+    {
+        Node tmp_node;
+        tmp_node = nodes[indexA];
+        nodes[indexA] = nodes[indexB];
+        nodes[indexB] = tmp_node;
+    }
+
 
     //*!----------------------------!*//
     //*!    Public Functions
@@ -1055,29 +1186,11 @@ public class Game_Manager : MonoBehaviour
         Clean_Up_Symbols();
         Clean_Up_Players();
         Setup_Level_Data(lvDataIndex + 1);
-        Temp_Init_Line();
+
         lvDataIndex++;
     }
-
-    public void Temp_Init_Line()
-    {
-        Line_Blue_Start_Nodes = new List<Node>();
-
-        Line_Blue_Start_Nodes.Add(LI_Nodes[1, 5]);
-        Line_Blue_Start_Nodes.Add(LI_Nodes[2, 5]);
-        Line_Blue_Start_Nodes.Add(LI_Nodes[3, 5]);
-        Line_Blue_Start_Nodes.Add(LI_Nodes[4, 5]);
-        Line_Blue_Start_Nodes.Add(LI_Nodes[5, 5]);
-
-        Line_Red_Start_Nodes = new List<Node>();
-
-        Line_Red_Start_Nodes.Add(LI_Nodes[1, 6]);
-        Line_Red_Start_Nodes.Add(LI_Nodes[2, 6]);
-        Line_Red_Start_Nodes.Add(LI_Nodes[3, 6]);
-        Line_Red_Start_Nodes.Add(LI_Nodes[4, 6]);
-        Line_Red_Start_Nodes.Add(LI_Nodes[5, 6]);
-    }
 }
+
 
 //*!----------------------------!*//
 //*!       Custom Classes
