@@ -46,6 +46,8 @@ public class Game_Manager : MonoBehaviour
     public GameObject Line_Red_Goal;
     public GameObject Blocky;
     public GameObject Shadey;
+    public GameObject Careline;
+    public GameObject Linel;
 
     [HideInInspector]
     public int Blue_Sticker_Count = 0;
@@ -93,7 +95,7 @@ public class Game_Manager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.X))
         {
             Initialize_Level();
         }

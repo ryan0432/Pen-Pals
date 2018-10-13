@@ -35,7 +35,7 @@ public class Line_Control : MonoBehaviour
 
     public Sprite headTailCap;
 
-    //public Player_Save save_data;
+    public Player_Save save_data;
 
     [HideInInspector]
     public bool isDead;
@@ -95,7 +95,9 @@ public class Line_Control : MonoBehaviour
         gm = FindObjectOfType<Game_Manager>();
         currState = Line_State.STATIC;
         lineRenderer = GetComponent<LineRenderer>();
+        save_data = gm.GetComponent<XML_SaveLoad>().Get_Active_Save((int)playerType);
         Init_Line();
+        Set_Sticker_Count();
     }
 
     [ContextMenu("Init_Line")]
@@ -260,7 +262,6 @@ public class Line_Control : MonoBehaviour
 
         if (!isArrayMovedForward)
         {
-            //anchors[anchors.GetUpperBound(0)].Set_Traversability(true);
             Set_Input_Edge_Traversability(currPressedKey);
 
             for (int i = anchors.GetUpperBound(0); i > 0; --i)
@@ -501,6 +502,25 @@ public class Line_Control : MonoBehaviour
             nextNode = null;
             Collect_Sticker();
             isArrived = true;
+        }
+    }
+
+    [ContextMenu("Set_Sticker_Count")]
+    private void Set_Sticker_Count()
+    {
+        if (save_data == null)
+        {
+            Debug.LogError("[Line] Player has no save data");
+            return;
+        }
+
+        if (playerType == Player_Type.BLUE)
+        {
+            save_data.Level_Count[gm.lvDataIndex].sticker_count = new bool[gm.Blue_Sticker_Count];
+        }
+        else if (playerType == Player_Type.RED)
+        {
+            save_data.Level_Count[gm.lvDataIndex].sticker_count = new bool[gm.Red_Sticker_Count];
         }
     }
 

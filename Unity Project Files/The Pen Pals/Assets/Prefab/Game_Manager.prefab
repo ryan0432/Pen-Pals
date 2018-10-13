@@ -148,6 +148,8 @@ MonoBehaviour:
     type: 2}
   Blocky: {fileID: 1589913466504476, guid: 3117ec151c903f14a9215b5d6b342d7b, type: 2}
   Shadey: {fileID: 1106607075493534, guid: b92b558f85985a54e884e9315992e0ab, type: 2}
+  Careline: {fileID: 1082733210430636, guid: e98804366b717b646a279fb85a75a904, type: 2}
+  Linel: {fileID: 1602034562056392, guid: 92a6c69c284902b4da88136a75c75846, type: 2}
   Blue_Sticker_Count: 0
   Red_Sticker_Count: 0
   arrw_giz_mesh: {fileID: 4300004, guid: 153535d1ad483ca4d98cf5629cea88ce, type: 3}

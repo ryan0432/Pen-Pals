@@ -405,7 +405,7 @@ public class Block_Control : MonoBehaviour
     {
         if (save_data == null)
         {
-            Debug.LogError("Block Player has no save data");
+            Debug.LogError("[Block] Player has no save data");
             return;
         }
 
