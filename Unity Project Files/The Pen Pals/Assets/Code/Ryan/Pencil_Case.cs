@@ -1689,6 +1689,38 @@ public class Pencil_Case : MonoBehaviour
                     currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_red_sticker_giz_mat;
                 }
                 #endregion
+
+                #region Check [Line] [Node] is [Line Blue Head]
+                if (currNode.Node_Type == Node_Type.Line_Blue_Head)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_blue_head_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [Node] is [Line Blue Segment]
+                if (currNode.Node_Type == Node_Type.Line_Blue_Segment)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_blue_segment_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [Node] is [Line Red Head]
+                if (currNode.Node_Type == Node_Type.Line_Red_Head)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_red_head_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [Node] is [Line Red Segment]
+                if (currNode.Node_Type == Node_Type.Line_Red_Segment)
+                {
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = sticker_giz_mesh;
+                    currNode.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_red_segment_giz_mat;
+                }
+                #endregion
             }
         }
 
@@ -1714,6 +1746,22 @@ public class Pencil_Case : MonoBehaviour
                 {
                     currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = obstacle_giz_mesh;
                     currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = black_pen_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [U-Edge] is [Line_Blue_Edge]
+                if (currEdge.Edge_Type == Edge_Type.Line_Blue_Edge)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = obstacle_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_blue_edge_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [U-Edge] is [Line_Red_Edge]
+                if (currEdge.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = obstacle_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_red_edge_giz_mat;
                 }
                 #endregion
 
@@ -1749,6 +1797,22 @@ public class Pencil_Case : MonoBehaviour
                 {
                     currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = obstacle_giz_mesh;
                     currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = black_pen_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [V-Edge] is [Line_Blue_Edge]
+                if (currEdge.Edge_Type == Edge_Type.Line_Blue_Edge)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = obstacle_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_blue_edge_giz_mat;
+                }
+                #endregion
+
+                #region Check [Line] [V-Edge] is [Line_Red_Edge]
+                if (currEdge.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshFilter>().mesh = obstacle_giz_mesh;
+                    currEdge.Gizmos_GO.GetComponentInChildren<MeshRenderer>().material = line_red_edge_giz_mat;
                 }
                 #endregion
 
