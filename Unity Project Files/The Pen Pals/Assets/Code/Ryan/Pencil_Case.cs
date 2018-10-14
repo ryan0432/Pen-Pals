@@ -2755,8 +2755,8 @@ public class Pencil_Case : MonoBehaviour
 
                 //*! Assign [Lv_Data] camera settings to the camera in scene
                 #region Assign [Lv_Data] camera settings to the camera in scene
-                cam.transform.position = lv_Data.Cam.Position;
-                cam.orthographicSize = lv_Data.Cam.Size;
+                //cam.transform.position = lv_Data.Cam.Position;
+                //cam.orthographicSize = lv_Data.Cam.Size;
                 #endregion
 
                 //*! Initiate Repaint Level Process initiate
