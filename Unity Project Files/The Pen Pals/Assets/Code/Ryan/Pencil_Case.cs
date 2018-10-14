@@ -3,7 +3,7 @@
 //*!
 //*! Description: A class for operating [Pencil Case] in edit mode.
 //*!
-//*! Last edit  : 30/09/2018
+//*! Last edit  : 15/10/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -205,6 +205,7 @@ public class Pencil_Case : MonoBehaviour
         transform.Find("LI_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Backgrounds").hideFlags = HideFlags.HideInHierarchy;
         #endregion
 
         #region Get [Camera] reference

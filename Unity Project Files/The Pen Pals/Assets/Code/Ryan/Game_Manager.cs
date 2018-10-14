@@ -2,11 +2,9 @@
 //*! Programmer : Ryan Chung
 //*!
 //*! Description: This is the [Game Manager], handles [Level Data]
-//*!              and convert it into a playable level
-//*!              This class in an experimental class to test using
-//*!              editor with MonoBehavior.
+//*!              and convert it into playable levels
 //*!
-//*! Last edit  : 17/09/2018
+//*! Last edit  : 15/10/2018
 //*!--------------------------------------------------------------!*//
 
 //*! Using namespaces
@@ -48,6 +46,7 @@ public class Game_Manager : MonoBehaviour
     public GameObject Shadey;
     public GameObject Careline;
     public GameObject Linel;
+    public GameObject[] Backgrounds; 
 
     [HideInInspector]
     public int Blue_Sticker_Count = 0;
@@ -862,6 +861,14 @@ public class Game_Manager : MonoBehaviour
         cam.orthographicSize = lvData[lvIndex].Cam.Size;
         #endregion
 
+        //*! Setup [Backgrounds]. Instantiate a [Background] object from array
+        #region Setup [Backgrounds]. Instantiate a [Background] object from array
+        if (Backgrounds.Length == lvData.Length)
+        {
+            Instantiate(Backgrounds[lvIndex], transform.Find("Backgrounds"));
+        }
+        #endregion
+
         //*! Sort [Line Start Nodes] list for [Line] player to grab
         #region Sort [Line Start Nodes] list for [Line] player to grab
         Init_Line();
@@ -955,35 +962,19 @@ public class Game_Manager : MonoBehaviour
         #endregion
     }
 
-    [ContextMenu("Clean_Up_Symbols")]
-    private void Clean_Up_Symbols()
+    [ContextMenu("Clean_Up_Child_Objects")]
+    private void Clean_Up_Child_Objects(string name)
     {
-        bool is_Symbol_List_Empty = (transform.Find("Symbols").childCount < 1);
+        bool is_List_Empty = (transform.Find(name).childCount < 1);
 
-        if (!is_Symbol_List_Empty)
+        if (!is_List_Empty)
         {
-            foreach (Transform child in transform.Find("Symbols"))
+            foreach (Transform child in transform.Find(name))
             {
                 Destroy(child.gameObject);
             }
 
-            Debug.Log("Clean Up Symbols");
-        }
-    }
-
-    [ContextMenu("Clean_Up_Players")]
-    private void Clean_Up_Players()
-    {
-        bool is_Symbol_List_Empty = (transform.Find("Players").childCount < 1);
-
-        if (!is_Symbol_List_Empty)
-        {
-            foreach (Transform child in transform.Find("Players"))
-            {
-                Destroy(child.gameObject);
-            }
-
-            Debug.Log("Clean Up Players");
+            Debug.Log("Cleaned Up " + name);
         }
     }
 
@@ -1136,11 +1127,27 @@ public class Game_Manager : MonoBehaviour
     [ContextMenu("Check_Shortcut_Input")]
     private void Check_Shortcut_Input()
     {
+        //*! Press [X] to skip current level
         if (Input.GetKeyUp(KeyCode.X))
         {
             Initialize_Level();
         }
 
+        //*! Press [Z] go to previous level
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            lvDataIndex -= 2;
+            Initialize_Level();
+        }
+
+        //*! Press [C] restart current level
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            lvDataIndex--;
+            Initialize_Level();
+        }
+
+        //*! Press [Space] to show/hide gizmos
         if (Input.GetKeyUp(KeyCode.Space))
         {
             switch (Show_Gizmos)
@@ -1158,6 +1165,7 @@ public class Game_Manager : MonoBehaviour
             }
         }
 
+        //*! Press [ESC] to quit
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -1190,10 +1198,19 @@ public class Game_Manager : MonoBehaviour
             lvDataIndex = lvData.GetUpperBound(0) - 1;
         }
 
+        if (lvDataIndex < -1)
+        {
+            Debug.Log("Level Index Array is out of bound.\n Load the first level in the array instead.");
+            lvDataIndex = -1;
+        }
+
         if (FindObjectOfType<Pencil_Case>() != null) is_pencil_case = true;
         cam = FindObjectOfType<Camera>();
-        Clean_Up_Symbols();
-        Clean_Up_Players();
+
+        Clean_Up_Child_Objects("Symbols");
+        Clean_Up_Child_Objects("Players");
+        Clean_Up_Child_Objects("Backgrounds");
+
         Setup_Level_Data(lvDataIndex + 1);
 
         lvDataIndex++;

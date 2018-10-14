@@ -58,6 +58,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1682636563484368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4452968442964828}
+  m_Layer: 0
+  m_Name: Backgrounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4214248716349938
 Transform:
   m_ObjectHideFlags: 1
@@ -71,6 +86,19 @@ Transform:
   m_Father: {fileID: 4622100025655572}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4452968442964828
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1682636563484368}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4622100025655572}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4622100025655572
 Transform:
   m_ObjectHideFlags: 1
@@ -83,6 +111,7 @@ Transform:
   m_Children:
   - {fileID: 4910994847561606}
   - {fileID: 4214248716349938}
+  - {fileID: 4452968442964828}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -133,7 +162,7 @@ MonoBehaviour:
   lvData:
   - {fileID: 0}
   lvDataIndex: -1
-  Show_Gizmos: 1
+  Show_Gizmos: 0
   Gizmos_Size: 0.8
   Black_Pen: {fileID: 1817040449023702, guid: b778286a76047a449a38ddcf03818624, type: 2}
   HighLighter_Red: {fileID: 1831989485835420, guid: 260b18fc5cd12674ebd6d5e44a9dc1db,
@@ -150,6 +179,7 @@ MonoBehaviour:
   Shadey: {fileID: 1106607075493534, guid: b92b558f85985a54e884e9315992e0ab, type: 2}
   Careline: {fileID: 1082733210430636, guid: e98804366b717b646a279fb85a75a904, type: 2}
   Linel: {fileID: 1602034562056392, guid: 92a6c69c284902b4da88136a75c75846, type: 2}
+  Backgrounds: []
   Blue_Sticker_Count: 0
   Red_Sticker_Count: 0
   arrw_giz_mesh: {fileID: 4300004, guid: 153535d1ad483ca4d98cf5629cea88ce, type: 3}

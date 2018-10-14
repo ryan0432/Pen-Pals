@@ -1,13 +1,12 @@
-﻿//*!--------------------------------------------------------------!*//
+﻿//*!-----------------------------------------------------------------!*//
 //*! Programmer : Ryan Chung
 //*!
 //*! Description: This is the [Lv_Data], creates scriptable objects
 //*!              that store essential information of [Node], [Edge]
-//*!              This class in an experimental class to test using
-//*!              editor with MonoBehavior.
+//*!              and [Camera]
 //*!
-//*! Last edit  : 17/09/2018
-//*!--------------------------------------------------------------!*//
+//*! Last edit  : 15/10/2018
+//*!-----------------------------------------------------------------!*//
 
 using System.Collections;
 using System.Collections.Generic;
