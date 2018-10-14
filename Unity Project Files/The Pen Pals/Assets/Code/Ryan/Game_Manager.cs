@@ -75,6 +75,9 @@ public class Game_Manager : MonoBehaviour
     private int col;
 
     [HideInInspector]
+    private Camera cam;
+
+    [HideInInspector]
     private bool is_pencil_case;
 
     [SerializeField]
@@ -98,7 +101,6 @@ public class Game_Manager : MonoBehaviour
         Check_Shortcut_Input();
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
-        Debug.Log("bl[6,2] is occupied: " + BL_Nodes[6, 2].Is_Occupied);
     }
 
 
@@ -854,6 +856,12 @@ public class Game_Manager : MonoBehaviour
 
         //*! -------------------------------------------- !*//
 
+        //*! Setup [Camera], load in settings from [Lv_Data]
+        #region Setup [Camera], load in settings from [Lv_Data]
+        cam.transform.position = lvData[lvIndex].Cam.Position;
+        cam.orthographicSize = lvData[lvIndex].Cam.Size;
+        #endregion
+
         //*! Sort [Line Start Nodes] list for [Line] player to grab
         #region Sort [Line Start Nodes] list for [Line] player to grab
         Init_Line();
@@ -1183,6 +1191,7 @@ public class Game_Manager : MonoBehaviour
         }
 
         if (FindObjectOfType<Pencil_Case>() != null) is_pencil_case = true;
+        cam = FindObjectOfType<Camera>();
         Clean_Up_Symbols();
         Clean_Up_Players();
         Setup_Level_Data(lvDataIndex + 1);

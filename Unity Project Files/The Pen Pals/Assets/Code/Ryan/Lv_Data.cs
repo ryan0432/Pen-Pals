@@ -24,6 +24,7 @@ public class Lv_Data : ScriptableObject
     public Inter_Edge[] BL_V_Edges;
     public Inter_Edge[] LI_U_Edges;
     public Inter_Edge[] LI_V_Edges;
+    public Inter_Cam Cam;
 }
 
 [System.Serializable]
@@ -39,4 +40,11 @@ public class Inter_Edge
     public Vector3 Position;
     public Edge_Type Edge_Type;
     public Edge_Direction Edge_Direction;
+}
+
+[System.Serializable]
+public class Inter_Cam
+{
+    public Vector3 Position;
+    public float Size;
 }

@@ -182,6 +182,11 @@ public class Pencil_Case : MonoBehaviour
     [SerializeField]
     private bool isLoaded;
 
+    //*! Main camera instance
+    [HideInInspector]
+    [SerializeField]
+    private Camera cam;
+
     //*! Move Graph according to Enum
     [HideInInspector]
     [SerializeField]
@@ -202,8 +207,13 @@ public class Pencil_Case : MonoBehaviour
         transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
         #endregion
 
+        #region Get [Camera] reference
+        cam = FindObjectOfType<Camera>();
+        #endregion
+
         if (startEditing)
         {
+            cam = FindObjectOfType<Camera>();
             Clear_Graph_Init_Mode();
             Layout_Graph_Init_Mode();
             Render_Node_Gizmos_Init_Mode();
@@ -2590,6 +2600,12 @@ public class Pencil_Case : MonoBehaviour
             }
             #endregion
 
+            //*! Assign Camera settings in scene to [Lv_Data]
+            #region Assign Camera settings in scene to [Lv_Data]
+            lv_Data.Cam.Position = cam.transform.position;
+            lv_Data.Cam.Size = cam.orthographicSize;
+            #endregion
+
             //*! UnityEditor - Refresh, SetDirty, SaveAssets
             #region Call UnityEditor - Refresh, SetDirty, SaveAssets
             UnityEditor.AssetDatabase.Refresh();
@@ -2736,8 +2752,14 @@ public class Pencil_Case : MonoBehaviour
                 }
                 #endregion
 
+                //*! Assign [Lv_Data] camera settings to the camera in scene
+                #region Assign [Lv_Data] camera settings to the camera in scene
+                cam.transform.position = lv_Data.Cam.Position;
+                cam.orthographicSize = lv_Data.Cam.Size;
+                #endregion
+
                 //*! Initiate Repaint Level Process initiate
-                # region Initiate Repaint Level Process initiate
+                #region Initiate Repaint Level Process initiate
                 //*! Render all [Edge] base on row/col and set [Boarder] data
                 Render_Edge_Handles_Edit_Mode();
 

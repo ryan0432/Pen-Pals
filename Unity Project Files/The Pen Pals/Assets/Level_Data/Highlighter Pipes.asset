@@ -3605,3 +3605,6 @@ MonoBehaviour:
   - Position: {x: 19, y: 10.5, z: 0}
     Edge_Type: 6
     Edge_Direction: 1
+  Cam:
+    Position: {x: 9.38, y: 5.52, z: -21.11}
+    Size: 5
