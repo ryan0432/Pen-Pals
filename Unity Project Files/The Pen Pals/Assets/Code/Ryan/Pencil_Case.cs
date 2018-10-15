@@ -203,13 +203,13 @@ public class Pencil_Case : MonoBehaviour
         transform.Find("LI_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("BL_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("LI_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
-        transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
-        transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
-        transform.Find("Backgrounds").hideFlags = HideFlags.HideInHierarchy;
+        //transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
+        //transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
+        //transform.Find("Backgrounds").hideFlags = HideFlags.HideInHierarchy;
         #endregion
 
         #region Get [Camera] reference
-        cam = FindObjectOfType<Camera>();
+        //cam = FindObjectOfType<Camera>();
         #endregion
 
         if (startEditing)
@@ -2755,8 +2755,8 @@ public class Pencil_Case : MonoBehaviour
 
                 //*! Assign [Lv_Data] camera settings to the camera in scene
                 #region Assign [Lv_Data] camera settings to the camera in scene
-                //cam.transform.position = lv_Data.Cam.Position;
-                //cam.orthographicSize = lv_Data.Cam.Size;
+                cam.transform.position = lv_Data.Cam.Position;
+                cam.orthographicSize = lv_Data.Cam.Size;
                 #endregion
 
                 //*! Initiate Repaint Level Process initiate

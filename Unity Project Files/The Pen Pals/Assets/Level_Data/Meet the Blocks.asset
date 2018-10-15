@@ -2133,13 +2133,13 @@ MonoBehaviour:
     Edge_Type: 1
     Edge_Direction: 1
   - Position: {x: 2, y: 4.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 6
     Edge_Direction: 1
   - Position: {x: 2, y: 5.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 6
     Edge_Direction: 1
   - Position: {x: 2, y: 6.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 6
     Edge_Direction: 1
   - Position: {x: 2, y: 7.5, z: 0}
     Edge_Type: 0
@@ -2457,13 +2457,13 @@ MonoBehaviour:
     Edge_Type: 1
     Edge_Direction: 1
   - Position: {x: 14, y: 4.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 6
     Edge_Direction: 1
   - Position: {x: 14, y: 5.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 6
     Edge_Direction: 1
   - Position: {x: 14, y: 6.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 6
     Edge_Direction: 1
   - Position: {x: 14, y: 7.5, z: 0}
     Edge_Type: 0
@@ -2526,5 +2526,5 @@ MonoBehaviour:
     Edge_Type: 6
     Edge_Direction: 1
   Cam:
-    Position: {x: 8, y: 4.5, z: -20}
-    Size: 4.4635615
+    Position: {x: 8, y: 5, z: -20}
+    Size: 5
