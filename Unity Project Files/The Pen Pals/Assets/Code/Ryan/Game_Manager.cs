@@ -1207,6 +1207,9 @@ public class Game_Manager : MonoBehaviour
         if (FindObjectOfType<Pencil_Case>() != null) is_pencil_case = true;
         cam = FindObjectOfType<Camera>();
 
+        Blue_Sticker_Count = 0;
+        Red_Sticker_Count = 0;
+
         Clean_Up_Child_Objects("Symbols");
         Clean_Up_Child_Objects("Players");
         Clean_Up_Child_Objects("Backgrounds");
