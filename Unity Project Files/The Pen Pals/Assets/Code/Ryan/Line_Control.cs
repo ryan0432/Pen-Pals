@@ -57,8 +57,8 @@ public class Line_Control : MonoBehaviour
     private List<Node> anchors;
     private GameObject[] segments;
     private LineRenderer lineRenderer;
-    private Color blue = Color.blue;
-    private Color red = Color.red;
+    //private Color blue = Color.blue;
+    //private Color red = Color.red;
 
     private float snapDistance = 0.01f;
 
@@ -108,15 +108,15 @@ public class Line_Control : MonoBehaviour
             case Player_Type.BLUE:
                 {
                     anchors = gm.Line_Blue_Start_Nodes;
-                    lineRenderer.startColor = blue;
-                    lineRenderer.endColor = blue;
+                    //lineRenderer.startColor = blue;
+                    //lineRenderer.endColor = blue;
                     break;
                 }
             case Player_Type.RED:
                 {
                     anchors = gm.Line_Red_Start_Nodes;
-                    lineRenderer.startColor = red;
-                    lineRenderer.endColor = red;
+                    //lineRenderer.startColor = red;
+                    //lineRenderer.endColor = red;
                     break;
                 }
         }
