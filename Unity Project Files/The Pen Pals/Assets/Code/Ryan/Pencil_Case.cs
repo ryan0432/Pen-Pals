@@ -209,12 +209,12 @@ public class Pencil_Case : MonoBehaviour
         #endregion
 
         #region Get [Camera] reference
-        //cam = FindObjectOfType<Camera>();
+        Get_Camera();
         #endregion
 
         if (startEditing)
         {
-            cam = FindObjectOfType<Camera>();
+            Get_Camera();
             Clear_Graph_Init_Mode();
             Layout_Graph_Init_Mode();
             Render_Node_Gizmos_Init_Mode();
@@ -237,6 +237,9 @@ public class Pencil_Case : MonoBehaviour
         #endregion
 
         /// Write your tools below. Only excuted in [Edit Mode] runtime ///
+
+        //*! Get Camera reference
+        Get_Camera();
 
         if (!startEditing)
         {
@@ -2782,6 +2785,12 @@ public class Pencil_Case : MonoBehaviour
 
             isLoaded = false;
         }
+    }
+
+    [ContextMenu("Get_Camera")]
+    private void Get_Camera()
+    {
+        if (cam == null) cam = FindObjectOfType<Camera>();
     }
 
     //*! Only running this function when game runtime
