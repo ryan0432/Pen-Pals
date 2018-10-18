@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerType: 2
   playerShape: 2
-  movingSpeed: 6
+  movingSpeed: 5.5
   reversingSpeed: 10
   head: {fileID: 1649063105955044, guid: c0f3786d5a7f083489466e0911948592, type: 2}
   headTailCap: {fileID: 21300030, guid: fb053e1857d274f46bd2f70d9d0f51c1, type: 3}

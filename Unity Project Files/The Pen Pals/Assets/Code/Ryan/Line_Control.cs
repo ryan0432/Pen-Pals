@@ -57,8 +57,6 @@ public class Line_Control : MonoBehaviour
     private List<Node> anchors;
     private GameObject[] segments;
     private LineRenderer lineRenderer;
-    //private Color blue = Color.blue;
-    //private Color red = Color.red;
 
     private float snapDistance = 0.01f;
 
@@ -78,6 +76,7 @@ public class Line_Control : MonoBehaviour
     { get { return KeyCode.None; } }
 
     private KeyCode currPressedKey;
+    private KeyCode qeuePressedKey;
 
     private bool isArrived;
     private bool isArrayMovedForward;
@@ -108,15 +107,11 @@ public class Line_Control : MonoBehaviour
             case Player_Type.BLUE:
                 {
                     anchors = gm.Line_Blue_Start_Nodes;
-                    //lineRenderer.startColor = blue;
-                    //lineRenderer.endColor = blue;
                     break;
                 }
             case Player_Type.RED:
                 {
                     anchors = gm.Line_Red_Start_Nodes;
-                    //lineRenderer.startColor = red;
-                    //lineRenderer.endColor = red;
                     break;
                 }
         }
@@ -161,6 +156,7 @@ public class Line_Control : MonoBehaviour
         //Debug.Log("State: Static");
 
         currPressedKey = NONE;
+        qeuePressedKey = NONE;
 
         if (Input.GetKeyDown(UP_Key))
         {
@@ -274,13 +270,46 @@ public class Line_Control : MonoBehaviour
 
         if (!isArrived)
         {
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied)
+            {
+                qeuePressedKey = UP_Key;
+            }
+
+            if (Input.GetKeyDown(DN_Key) && nextNode != null && nextNode.Can_DN && !nextNode.DN_NODE.Is_Occupied)
+            {
+                qeuePressedKey = DN_Key;
+            }
+
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied)
+            {
+                qeuePressedKey = LFT_Key;
+            }
+
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied)
+            {
+                qeuePressedKey = RGT_Key;
+            }
+
             Reset_Tail_Edge_Traversability();
             Move_Towards(Return_Input_Node(currPressedKey), movingSpeed);
         }
         else
         {
-            prevState = currState;
-            currState = Line_State.STATIC;
+            if (qeuePressedKey != NONE)
+            {
+                currPressedKey = qeuePressedKey;
+                qeuePressedKey = NONE;
+                isArrived = false;
+                isArrayMovedForward = false;
+                anchors[anchors.Count - 1].Is_Occupied = false;
+                prevState = currState;
+                currState = Line_State.MOVING;
+            }
+            else
+            {
+                prevState = currState;
+                currState = Line_State.STATIC;
+            }
         }
     }
 
