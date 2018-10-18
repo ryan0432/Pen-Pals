@@ -153,6 +153,8 @@ public class Block_Control : MonoBehaviour
 
         if (!isArrived)
         {
+            Move_Towards(Return_Input_Node(UP_Key), movingSpeed);
+
             if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied)
             {
                 qeuePressedKey = LFT_Key;
@@ -161,9 +163,7 @@ public class Block_Control : MonoBehaviour
             if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied)
             {
                 qeuePressedKey = RGT_Key;
-            }
-
-            Move_Towards(Return_Input_Node(UP_Key), movingSpeed);
+            }           
         } 
         else
         {
@@ -191,6 +191,8 @@ public class Block_Control : MonoBehaviour
 
         if (!isArrived)
         {
+            Move_Towards(Return_Input_Node(currPressedKey), movingSpeed);
+
             if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied && !nextNode.Can_DN)
             {
                 qeuePressedKey = UP_Key;
@@ -205,18 +207,24 @@ public class Block_Control : MonoBehaviour
             {
                 qeuePressedKey = RGT_Key;
             }
-
-            Move_Towards(Return_Input_Node(currPressedKey), movingSpeed);
         }
         else
         {
             Ground_Check();
 
-            if (qeuePressedKey != NONE)
+            if (qeuePressedKey == UP_Key)
             {
                 isArrived = false;
                 prevState = currState;
-                currState = Block_State.SECOND_MOVING;
+                currState = Block_State.MOVE_JUMPING;
+            }
+            else if (qeuePressedKey == LFT_Key || qeuePressedKey == RGT_Key)
+            {
+                isArrived = false;
+                currPressedKey = qeuePressedKey;
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.MOVING;
             }
             else
             {
@@ -240,6 +248,7 @@ public class Block_Control : MonoBehaviour
             if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
             {
                 isArrived = false;
+                prevState = currState;
             }
             else
             {
@@ -251,26 +260,17 @@ public class Block_Control : MonoBehaviour
     }
 
     [ContextMenu("Second_Moving_State_Update")]
-    private void Second_Moving_State_Update()
+    private void Move_Jumping_State_Update()
     {
-        //Debug.Log("State: Second-Moving");
-        
+        //Debug.Log("State: Move-Jumping");
+
         if (!isArrived)
         {
             Move_Towards(Return_Input_Node(qeuePressedKey), movingSpeed);
         }
         else
         {
-            Ground_Check();
-
-            if (qeuePressedKey == UP_Key)
-            {
-                qeuePressedKey = NONE;
-                isArrived = false;
-                prevState = currState;
-                currState = Block_State.FALLING;
-            }
-            else
+            if (Ground_Check())
             {
                 qeuePressedKey = NONE;
                 prevState = currState;
@@ -290,10 +290,12 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
-            qeuePressedKey = NONE;
-            isArrived = false;
-            prevState = currState;
-            currState = Block_State.FALLING;
+            if (Ground_Check())
+            {
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.STATIC;
+            }
         }
     }
     #endregion
@@ -327,9 +329,9 @@ public class Block_Control : MonoBehaviour
                     break;
                 }
 
-            case Block_State.SECOND_MOVING:
+            case Block_State.MOVE_JUMPING:
                 {
-                    Second_Moving_State_Update();
+                    Move_Jumping_State_Update();
                     break;
                 }
 
@@ -385,12 +387,12 @@ public class Block_Control : MonoBehaviour
         if (moveDistance < distBetweenNodes * 0.9f)
         {
             nextNode.Is_Occupied = true;
+            currNode.Is_Occupied = false;
+            currNode.Set_Traversability(true);
         }
 
         if (moveDistance < snapDistance)
         {
-            currNode.Is_Occupied = false;
-            currNode.Set_Traversability(true);
             nextNode.Set_Traversability(false);
             currNode = nextNode;
             nextNode = null;
@@ -465,7 +467,7 @@ public enum Block_State
     JUMPING = 1,
     MOVING = 2,
     FALLING = 3,
-    SECOND_MOVING = 4,
+    MOVE_JUMPING = 4,
     JUMP_MOVING = 5
 }
 
