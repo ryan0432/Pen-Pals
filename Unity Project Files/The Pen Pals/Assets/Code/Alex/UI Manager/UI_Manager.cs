@@ -95,11 +95,11 @@ public class UI_Manager : MonoBehaviour
     //*! Closes the game in editor and build
     public void End_Game()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                Application.Quit();
+        #endif
     }
 
     //*! Changes scene by the index value of the build orders

@@ -25,7 +25,15 @@ public class XML_SaveLoad : MonoBehaviour
 
     #endregion
 
+    //*!----------------------------!*//
+    //*!    Private Variables
+    //*!----------------------------!*//
+    #region Public Variables
 
+    //*! Player Saves File Path
+    private string data_path = "./Player Save Files/";
+
+    #endregion
 
     //*!----------------------------!*//
     //*!    Unity Functions
@@ -35,7 +43,7 @@ public class XML_SaveLoad : MonoBehaviour
     private void Awake()
     {
         Load_All_Players();
-    }
+    }  
 
     #endregion
 
@@ -77,11 +85,11 @@ public class XML_SaveLoad : MonoBehaviour
         return null;
     }
 
+
     /// <summary>
     /// Removes the player save from the list and file directory
     /// </summary>
     /// <param name="player_number"> Used to index into the array of player saves </param>
-
     public void Remove_Player(int player_number)
     {
         if (Player_Saves.Count == 0)
@@ -123,6 +131,8 @@ public class XML_SaveLoad : MonoBehaviour
 
     }
 
+    //*! Save all function
+    #region Not Needed, but handy to have if need be.
     /// <summary>
     /// Saving all players to file from the Player_Saves List
     /// </summary>
@@ -156,19 +166,24 @@ public class XML_SaveLoad : MonoBehaviour
             }
 
 
-            //*! Save each player
             if (index + 1 <= 9)
             {
-                Player_Saves[index].Save("./Player Save Files/Player_0" + (index + 1) + ".xml");
+                //*! Construct the Player objects save file path
+                Player_Saves[index].Data_Path = (data_path + "Player_0" + (index + 1) + ".xml");
+                //*! Save each player
+                Player_Saves[index].Save();
             }
             else
             {
-                Player_Saves[index].Save("./Player Save Files/Player_" + (index + 1) + ".xml");
+                //*! Construct the Player objects save file path
+                Player_Saves[index].Data_Path = (data_path + "Player_" + (index + 1) + ".xml");
+                //*! Save each player
+                Player_Saves[index].Save();
             }
 
         }
     }
-
+    #endregion
 
     /// <summary>
     /// Load in all the save files and adding them to the Player_Saves List
@@ -177,7 +192,7 @@ public class XML_SaveLoad : MonoBehaviour
     public void Load_All_Players()
     {
         //*! Get some information on the directory 
-        DirectoryInfo info = new DirectoryInfo("./Player Save Files/");
+        DirectoryInfo info = new DirectoryInfo(data_path);
 
         //*! Get the count of files in that directory
         List<FileInfo> save_files = new List<FileInfo>();
@@ -202,12 +217,9 @@ public class XML_SaveLoad : MonoBehaviour
         //*! Load All Players
         for (int index = 0; index < save_files.Count; index++)
         {
-            Player_Saves[index] = Player_Save.Load("./Player Save Files/" + save_files[index].Name);
+            Player_Saves[index] = Load<Player_Save>(data_path + save_files[index].Name);
         }
-
-
-
-
+                     
         //*! Remove any null objects in the list
         while (Player_Saves.Remove(null))
         {
@@ -215,6 +227,21 @@ public class XML_SaveLoad : MonoBehaviour
         };
 
     }
+
+
+    [ContextMenu("Unlock all levels for all players")]
+    public void Unlock_All_For_All()
+    {
+        for (int player_index = 0; player_index < Player_Saves.Count; player_index++)
+        {
+            for (int level_index = 0; level_index < Player_Saves[player_index].Level_Count.Count; level_index++)
+            {
+                Player_Saves[player_index].Level_Count[level_index].Unlocked = true;
+            }
+        }
+    }
+
+
 
     #endregion
 
@@ -242,27 +269,53 @@ public class XML_SaveLoad : MonoBehaviour
             }
 
 
-            for (int inner_index = 0; inner_index < 15; inner_index++)
+            for (int inner_index = 0; inner_index < 21; inner_index++)
             {
                 Player_Saves[player_id].Level_Count.Add(new Level_Data());
             }
         }
 
+        //*!----------------------------!*//
+        //*!    Reminder - for each player the data path needs to be set.
+        //*!    Then clear the data path stored for that player.
+        //*!    Side note it allows for each player object to saved in different locations.
+        //*!    Also allows for the player_save reference can just call player.Save(); and done.
+        //*!----------------------------!*//
+        
+
         if (player_id + 1 <= 9)
         {
+            //*! Construct the Player objects save file path
+            Player_Saves[player_id].Data_Path = (data_path + "Player_0" + (player_id + 1) + ".xml");
             //*! Save each player
-            Player_Saves[player_id].Save("./Player Save Files/Player_0" + (player_id + 1) + ".xml");
+            Player_Saves[player_id].Save();
         }
         else
         {
+            //*! Construct the Player objects save file path
+            Player_Saves[player_id].Data_Path = (data_path + "Player_" + (player_id + 1) + ".xml");
             //*! Save each player
-            Player_Saves[player_id].Save("./Player Save Files/Player_" + (player_id + 1) + ".xml");
+            Player_Saves[player_id].Save(); 
+        }
+ 
+    }
+
+    //*! Player Load 
+    private static T Load<T>(string target_save_path)
+    {
+        //*! Create the XML Serializer
+        XmlSerializer serializer = new XmlSerializer(typeof(T));
+        //*! Create a file stream and open file
+        using (FileStream stream = new FileStream(target_save_path, FileMode.Open))
+        {
+            //*! Return the file information casted as a Player Save Class
+            return (T)serializer.Deserialize(stream);
         }
     }
 
+    #endregion
 }
 
-#endregion
 
 
 /// <summary>
@@ -292,10 +345,7 @@ public class Level_Data
     [XmlArray("Sticker_Count"), XmlArrayItem("Sticker_Count")]
     public bool[] sticker_count = new bool[3];
 
-    //*! Star Count
-    [XmlArray("Star_Count"), XmlArrayItem("Star_Count")]
-    public bool[] star_count = new bool[3];
-
+ 
 }
 
 
@@ -303,6 +353,10 @@ public class Level_Data
 [System.Serializable]
 public class Player_Save
 {
+    //*! Private get for internal use, but the public set allows the information to dynamically set it.
+    //*! Also not writable to file.
+    public string Data_Path { get; set; }
+
     //*! Name of player
     public string Name = "";
 
@@ -345,20 +399,14 @@ public class Player_Save
             {
                 level.sticker_count = new bool[1];
             }
-
-            //*! Was empty, puting in three stars
-            if (level.star_count.Length == 0)
-            {
-                level.star_count = new bool[3];
-            }
-
+  
             //*! Increase the level count number
             count++;
         }
     }
 
     //*! Player Save 
-    public void Save(string path)
+    public void Save()
     {
         //*! Check Against the level Defaults
         Check_Level_Defaults();
@@ -366,23 +414,10 @@ public class Player_Save
         //*! Create the XML Serializer
         XmlSerializer serializer = new XmlSerializer(typeof(Player_Save));
         //*! Create a file stream and write file
-        using (FileStream stream = new FileStream(path, FileMode.Create))
+        using (FileStream stream = new FileStream(Data_Path, FileMode.Create))
         {
             //*! Write the XML file
             serializer.Serialize(stream, this);
-        }
-    }
-
-    //*! Player Load 
-    public static Player_Save Load(string path)
-    {
-        //*! Create the XML Serializer
-        XmlSerializer serializer = new XmlSerializer(typeof(Player_Save));
-        //*! Create a file stream and open file
-        using (FileStream stream = new FileStream(path, FileMode.Open))
-        {
-            //*! Return the file information casted as a Player Save Class
-            return serializer.Deserialize(stream) as Player_Save;
         }
     }
 }

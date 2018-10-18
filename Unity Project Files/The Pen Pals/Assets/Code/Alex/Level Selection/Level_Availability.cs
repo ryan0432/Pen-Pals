@@ -15,10 +15,34 @@ public class Level_Availability : MonoBehaviour
     //*!----------------------------!*//
     #region Private Variables
 
-    private XML_SaveLoad xml_file_data;
+    //*! Red
+    private Player_Save player_one;
+
+    //*! Blue
+    private Player_Save player_two;
+
+    private int p1_pos = 0;
+    private KeyCode P1_UP_Key
+    { get { return KeyCode.UpArrow; } }
+    private KeyCode P1_DOWN_Key
+    { get { return KeyCode.DownArrow; } }
+    private KeyCode P1_LEFT_Key
+    { get { return KeyCode.LeftArrow; } }
+    private KeyCode P1_RIGHT_Key
+    { get { return KeyCode.RightArrow; } }
+
+    private int p2_pos = 0;
+    private KeyCode P2_UP_Key
+    { get { return KeyCode.W; } }
+    private KeyCode P2_DOWN_Key
+    { get { return KeyCode.S; } }
+    private KeyCode P2_LEFT_Key
+    { get { return KeyCode.A; } }
+    private KeyCode P2_RIGHT_Key
+    { get { return KeyCode.D; } }
+
 
     #endregion
-
 
     //*!----------------------------!*//
     //*!    Public Variables
@@ -27,7 +51,10 @@ public class Level_Availability : MonoBehaviour
 
     public GameObject XML_Manager;
 
-    public GameObject[] level_store;
+    public GameObject Player_RED_Selection = null;
+    public GameObject Player_BLUE_Selection = null;
+
+    public Level_Container[] Level_Selection;
 
     #endregion
 
@@ -38,120 +65,131 @@ public class Level_Availability : MonoBehaviour
     #region Unity Functions
     private void Start()
     {
-        xml_file_data = XML_Manager.GetComponent<XML_SaveLoad>();
+        player_one = XML_Manager.GetComponent<XML_SaveLoad>().Get_Active_Save(1);
+        player_two = XML_Manager.GetComponent<XML_SaveLoad>().Get_Active_Save(2);
 
-        Unlock_Levels();
+        Player_RED_Selection.transform.position = Level_Selection[p1_pos].UI_Level.transform.position;
+        Player_BLUE_Selection.transform.position = Level_Selection[Level_Selection.Length - 1].UI_Level.transform.position;
+        p2_pos = Level_Selection.Length - 1;
 
-        Load_Star_Count();
+        Load_Available_Levels();
+
     }
 
-
-
-
+    private void Update()
+    {
+        Input_Check();
+    }
     #endregion
 
     //*!----------------------------!*//
     //*!    Custom Functions
     //*!----------------------------!*//
 
-    //*! Public Access
-    #region Public Functions
-
-
-    #endregion
-
-
-
     //*! Private Access
     #region Private Functions
 
-
-    private void Load_Star_Count()
+    private void Input_Check()
     {
-        for (int player_index = 0; player_index < xml_file_data.Player_Saves.Count; player_index++)
+        Player_One_Input();
+        Player_Two_Input();
+    }
+
+    //*! Red
+    private void Player_One_Input()
+    {
+        if (Input.GetKeyDown(P1_UP_Key))
         {
-            for (int level_index = 0; level_index < level_store.Length; level_index++)
-            {
-                int score = 0;
-                for (int sticker_index = 0; sticker_index < xml_file_data.Player_Saves[player_index].Level_Count[level_index].sticker_count.Length; sticker_index++)
-                {
-                    if (xml_file_data.Player_Saves[player_index].Level_Count[level_index].sticker_count[sticker_index] == true)
-                    {
-                        score++;
-                    }
-                }
+            Player_RED_Selection.transform.position = Level_Selection[p1_pos -= 7].UI_Level.transform.position;// new Vector3(0, 1, 0);
+        }
+        else if (Input.GetKeyDown(P1_DOWN_Key))
+        {
+            Player_RED_Selection.transform.position = Level_Selection[p1_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
+        }
+        else if (Input.GetKeyDown(P1_LEFT_Key))
+        {
+            Player_RED_Selection.transform.position = Level_Selection[--p1_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
+        }
+        else if (Input.GetKeyDown(P1_RIGHT_Key))
+        {
+            Player_RED_Selection.transform.position = Level_Selection[++p1_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
+        }
 
-                float percentage = 0.0f;
-                float completion = 0.0f;
-                if (score > 0)
-                {
-                    completion = 1.0f;
-                    percentage = (xml_file_data.Player_Saves[player_index].Level_Count[level_index].sticker_count.Length / score);
-                    percentage /= xml_file_data.Player_Saves[player_index].Level_Count[level_index].sticker_count.Length;
-                    completion -= percentage;
-                }
+    }
 
-
-                int stars_to_show = 0;
-
-                if (completion < 0.2f)
-                {
-                    stars_to_show = 0;
-                }
-                else if (completion >= 0.2f && completion <= 0.59f)
-                {
-                    stars_to_show = 1;
-                }
-                else if (completion >= 0.6f && completion <= 0.84f)
-                {
-                    stars_to_show = 2;
-                }
-                else if (completion >= 0.85f)
-                {
-                    stars_to_show = 3;
-                }
-
-                if (score == xml_file_data.Player_Saves[player_index].Level_Count[level_index].sticker_count.Length)
-                {
-                    stars_to_show = 3;
-                }
-
-                Debug.Log(completion);
-
-                for (int star_index = 0; star_index < stars_to_show; star_index++)
-                {
-                    level_store[level_index].transform.GetChild(star_index + 1).gameObject.SetActive(true);
-                    //if (xml_file_data.Player_Saves[player_index].Level_Count[level_index].star_count[star_index] == true)
-                    //{
-                    //}
-                }
-            }
+    //*! Blue
+    private void Player_Two_Input()
+    {
+        if (Input.GetKeyDown(P2_UP_Key))
+        {
+            Player_BLUE_Selection.transform.position = Level_Selection[p2_pos -= 7].UI_Level.transform.position;// new Vector3(0, 1, 0);
+        }
+        else if (Input.GetKeyDown(P2_DOWN_Key))
+        {
+            Player_BLUE_Selection.transform.position = Level_Selection[p2_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
+        }
+        else if (Input.GetKeyDown(P2_LEFT_Key))
+        {
+            Player_BLUE_Selection.transform.position = Level_Selection[--p2_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
+        }
+        else if (Input.GetKeyDown(P2_RIGHT_Key))
+        {
+            Player_BLUE_Selection.transform.position = Level_Selection[++p2_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
         }
     }
 
 
-
-    private void Unlock_Levels()
+    private void Load_Available_Levels()
     {
-        for (int player_index = 0; player_index < xml_file_data.Player_Saves.Count; player_index++)
+        for (int index = 0; index < Level_Selection.Length; index++)
         {
-            for (int level_index = 0; level_index < level_store.Length; level_index++)
+            if (player_one.Level_Count[index].Unlocked)
             {
-                if (xml_file_data.Player_Saves[player_index].Level_Count[level_index].Unlocked == true)
+                Level_Selection[index].UI_Level.SetActive(true);
+
+                if (player_one.Level_Count[index].Completed)
                 {
-                    if (level_store[level_index].transform.Find("Lock") != null)
-                    {
-                        //level_store[level_index].gameObject.SetActive(true);
-                        level_store[level_index].transform.Find("Lock").gameObject.SetActive(false);
-                    }
+                    Level_Selection[index].UI_Level.transform.GetChild(1).gameObject.SetActive(true);
+                }
+            }
+
+            if (player_two.Level_Count[index].Unlocked)
+            {
+                Level_Selection[index].UI_Level.SetActive(true);
+
+                if (player_two.Level_Count[index].Completed)
+                {
+                    Level_Selection[index].UI_Level.transform.GetChild(1).gameObject.SetActive(true);
                 }
             }
         }
+ 
     }
-
-
 
     #endregion
 
 
+    /// <summary>
+    /// Helper Function
+    /// </summary>
+    #region Public Functions
+    [ContextMenu("Populate_Level_List")]
+    public void Populate_Level_List()
+    {
+        for (int i = 1; i < transform.childCount; i++)
+        {
+            Level_Selection[i - 1].UI_Level = transform.GetChild(i).gameObject;
+        }
+    } 
+    #endregion
+
+}
+
+
+[System.Serializable]
+public class Level_Container
+{
+    [Range(0, 32)]
+    public int Game_Manager_Index;
+    public GameObject UI_Level;
 }
