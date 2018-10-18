@@ -121,7 +121,7 @@ public class Block_Control : MonoBehaviour
 
         Ground_Check();
 
-        if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && !currNode.UP_NODE.Is_Occupied)
+        if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && !currNode.UP_NODE.Is_Occupied && !currNode.Can_DN)
         {
             isArrived = false;
             currPressedKey = UP_Key;
@@ -129,7 +129,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.JUMPING;
         }
 
-        if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && !currNode.LFT_NODE.Is_Occupied)
+        if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && !currNode.LFT_NODE.Is_Occupied && !currNode.Can_DN)
         {
             isArrived = false;
             currPressedKey = LFT_Key;
@@ -137,7 +137,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.MOVING;
         }
 
-        if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && !currNode.RGT_NODE.Is_Occupied)
+        if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && !currNode.RGT_NODE.Is_Occupied && !currNode.Can_DN)
         {
             isArrived = false;
             currPressedKey = RGT_Key;
@@ -228,6 +228,7 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
+                Ground_Check();
                 prevState = currState;
                 currState = Block_State.STATIC;
             }
