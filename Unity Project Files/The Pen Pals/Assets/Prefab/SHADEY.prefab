@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 212490864462672130}
   - component: {fileID: 95414666248127512}
   m_Layer: 0
-  m_Name: sprite
+  m_Name: shadey_sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

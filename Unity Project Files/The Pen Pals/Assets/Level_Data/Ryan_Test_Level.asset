@@ -107,7 +107,7 @@ MonoBehaviour:
   - Position: {x: 4.5, y: 5.5, z: 0}
     Node_Type: 0
   - Position: {x: 4.5, y: 6.5, z: 0}
-    Node_Type: 0
+    Node_Type: 6
   - Position: {x: 4.5, y: 7.5, z: 0}
     Node_Type: 0
   - Position: {x: 4.5, y: 8.5, z: 0}
@@ -137,7 +137,7 @@ MonoBehaviour:
   - Position: {x: 6.5, y: 0.5, z: 0}
     Node_Type: 0
   - Position: {x: 6.5, y: 1.5, z: 0}
-    Node_Type: 0
+    Node_Type: 5
   - Position: {x: 6.5, y: 2.5, z: 0}
     Node_Type: 0
   - Position: {x: 6.5, y: 3.5, z: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   - Position: {x: 8.5, y: 1.5, z: 0}
     Node_Type: 0
   - Position: {x: 8.5, y: 2.5, z: 0}
-    Node_Type: 5
+    Node_Type: 0
   - Position: {x: 8.5, y: 3.5, z: 0}
     Node_Type: 0
   - Position: {x: 8.5, y: 4.5, z: 0}
@@ -378,7 +378,7 @@ MonoBehaviour:
   - Position: {x: 2, y: 8, z: 0}
     Node_Type: 0
   - Position: {x: 2, y: 9, z: 0}
-    Node_Type: 7
+    Node_Type: 0
   - Position: {x: 2, y: 10, z: 0}
     Node_Type: 0
   - Position: {x: 3, y: 0, z: 0}
@@ -396,11 +396,11 @@ MonoBehaviour:
   - Position: {x: 3, y: 6, z: 0}
     Node_Type: 0
   - Position: {x: 3, y: 7, z: 0}
-    Node_Type: 8
+    Node_Type: 0
   - Position: {x: 3, y: 8, z: 0}
     Node_Type: 0
   - Position: {x: 3, y: 9, z: 0}
-    Node_Type: 8
+    Node_Type: 0
   - Position: {x: 3, y: 10, z: 0}
     Node_Type: 0
   - Position: {x: 4, y: 0, z: 0}
@@ -418,11 +418,11 @@ MonoBehaviour:
   - Position: {x: 4, y: 6, z: 0}
     Node_Type: 0
   - Position: {x: 4, y: 7, z: 0}
-    Node_Type: 8
+    Node_Type: 0
   - Position: {x: 4, y: 8, z: 0}
-    Node_Type: 8
+    Node_Type: 0
   - Position: {x: 4, y: 9, z: 0}
-    Node_Type: 8
+    Node_Type: 0
   - Position: {x: 4, y: 10, z: 0}
     Node_Type: 0
   - Position: {x: 5, y: 0, z: 0}
@@ -434,9 +434,9 @@ MonoBehaviour:
   - Position: {x: 5, y: 3, z: 0}
     Node_Type: 0
   - Position: {x: 5, y: 4, z: 0}
-    Node_Type: 10
+    Node_Type: 0
   - Position: {x: 5, y: 5, z: 0}
-    Node_Type: 10
+    Node_Type: 0
   - Position: {x: 5, y: 6, z: 0}
     Node_Type: 0
   - Position: {x: 5, y: 7, z: 0}
@@ -456,11 +456,11 @@ MonoBehaviour:
   - Position: {x: 6, y: 3, z: 0}
     Node_Type: 0
   - Position: {x: 6, y: 4, z: 0}
-    Node_Type: 9
+    Node_Type: 0
   - Position: {x: 6, y: 5, z: 0}
-    Node_Type: 10
+    Node_Type: 0
   - Position: {x: 6, y: 6, z: 0}
-    Node_Type: 10
+    Node_Type: 0
   - Position: {x: 6, y: 7, z: 0}
     Node_Type: 0
   - Position: {x: 6, y: 8, z: 0}
@@ -504,7 +504,7 @@ MonoBehaviour:
   - Position: {x: 8, y: 5, z: 0}
     Node_Type: 0
   - Position: {x: 8, y: 6, z: 0}
-    Node_Type: 3
+    Node_Type: 0
   - Position: {x: 8, y: 7, z: 0}
     Node_Type: 0
   - Position: {x: 8, y: 8, z: 0}
@@ -963,7 +963,7 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 9, y: 8.5, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 9, y: 9.5, z: 0}
     Edge_Type: 0
@@ -993,7 +993,7 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 10, y: 8.5, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 10, y: 9.5, z: 0}
     Edge_Type: 0
@@ -1023,7 +1023,7 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 11, y: 8.5, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 11, y: 9.5, z: 0}
     Edge_Type: 0
@@ -1053,7 +1053,7 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 12, y: 8.5, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 12, y: 9.5, z: 0}
     Edge_Type: 0
@@ -1384,16 +1384,16 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 7.5, y: 1, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 7.5, y: 2, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 7.5, y: 3, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 7.5, y: 4, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 7.5, y: 5, z: 0}
     Edge_Type: 0
@@ -1552,16 +1552,16 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 12.5, y: 2, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 12.5, y: 3, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 12.5, y: 4, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 12.5, y: 5, z: 0}
-    Edge_Type: 2
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 12.5, y: 6, z: 0}
     Edge_Type: 0
@@ -1739,7 +1739,7 @@ MonoBehaviour:
     Edge_Type: 1
     Edge_Direction: 0
   - Position: {x: 2.5, y: 9, z: 0}
-    Edge_Type: 7
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 2.5, y: 10, z: 0}
     Edge_Type: 6
@@ -1766,13 +1766,13 @@ MonoBehaviour:
     Edge_Type: 1
     Edge_Direction: 0
   - Position: {x: 3.5, y: 7, z: 0}
-    Edge_Type: 7
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 3.5, y: 8, z: 0}
     Edge_Type: 1
     Edge_Direction: 0
   - Position: {x: 3.5, y: 9, z: 0}
-    Edge_Type: 7
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 3.5, y: 10, z: 0}
     Edge_Type: 6
@@ -1817,16 +1817,16 @@ MonoBehaviour:
     Edge_Type: 1
     Edge_Direction: 0
   - Position: {x: 5.5, y: 2, z: 0}
-    Edge_Type: 1
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 5.5, y: 3, z: 0}
     Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 5.5, y: 4, z: 0}
-    Edge_Type: 8
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 5.5, y: 5, z: 0}
-    Edge_Type: 8
+    Edge_Type: 0
     Edge_Direction: 0
   - Position: {x: 5.5, y: 6, z: 0}
     Edge_Type: 0
@@ -2283,10 +2283,10 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 4, y: 7.5, z: 0}
-    Edge_Type: 7
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 4, y: 8.5, z: 0}
-    Edge_Type: 7
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 4, y: 9.5, z: 0}
     Edge_Type: 0
@@ -2304,7 +2304,7 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 5, y: 4.5, z: 0}
-    Edge_Type: 8
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 5, y: 5.5, z: 0}
     Edge_Type: 0
@@ -2337,7 +2337,7 @@ MonoBehaviour:
     Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 6, y: 5.5, z: 0}
-    Edge_Type: 8
+    Edge_Type: 0
     Edge_Direction: 1
   - Position: {x: 6, y: 6.5, z: 0}
     Edge_Type: 0

@@ -176,6 +176,7 @@ public class Block_Control : MonoBehaviour
             else
             {
                 isArrived = false;
+                qeuePressedKey = NONE;
                 prevState = currState;
                 currState = Block_State.FALLING;
             }
@@ -186,8 +187,6 @@ public class Block_Control : MonoBehaviour
     private void Moving_State_Update()
     {
         //Debug.Log("State: Moving");
-
-        //Ground_Check();
 
         if (!isArrived)
         {
@@ -243,6 +242,21 @@ public class Block_Control : MonoBehaviour
         if (!isArrived)
         {
             Move_Towards(currNode.DN_NODE, fallingSpeed);
+
+            if (Input.GetKeyDown(UP_Key) && Ground_Node().Can_UP && !Ground_Node().UP_NODE.Is_Occupied)
+            {
+                qeuePressedKey = UP_Key;
+            }
+
+            if (Input.GetKeyDown(LFT_Key) && Ground_Node().Can_LFT && !Ground_Node().LFT_NODE.Is_Occupied)
+            {
+                qeuePressedKey = LFT_Key;
+            }
+
+            if (Input.GetKeyDown(RGT_Key) && Ground_Node().Can_RGT && !Ground_Node().RGT_NODE.Is_Occupied)
+            {
+                qeuePressedKey = RGT_Key;
+            }
         }
         else
         {
@@ -253,9 +267,28 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
-                qeuePressedKey = NONE;
-                prevState = currState;
-                currState = Block_State.STATIC;
+                if (qeuePressedKey == UP_Key)
+                {
+                    isArrived = false;
+                    currPressedKey = qeuePressedKey;
+                    qeuePressedKey = NONE;
+                    prevState = currState;
+                    currState = Block_State.JUMPING;
+                }
+                else if (qeuePressedKey == LFT_Key || qeuePressedKey == RGT_Key)
+                {
+                    isArrived = false;
+                    currPressedKey = qeuePressedKey;
+                    qeuePressedKey = NONE;
+                    prevState = currState;
+                    currState = Block_State.MOVING;
+                }
+                else
+                {
+                    Ground_Check();
+                    prevState = currState;
+                    currState = Block_State.STATIC;
+                }
             }
         }
     }
@@ -350,6 +383,7 @@ public class Block_Control : MonoBehaviour
         if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
         {
             isArrived = false;
+            qeuePressedKey = NONE;
             prevState = currState;
             currState = Block_State.FALLING;
             return false;
@@ -358,6 +392,19 @@ public class Block_Control : MonoBehaviour
         {
             return true;
         }
+    }
+
+    [ContextMenu("Find_Ground_Node")]
+    private Node Ground_Node()
+    {
+        Node groundNode = currNode;
+
+        while (groundNode.Can_DN && !groundNode.DN_NODE.Is_Occupied)
+        {
+            groundNode = groundNode.DN_NODE;
+        }
+
+        return groundNode;
     }
 
     [ContextMenu("Return_Input_Node")]
