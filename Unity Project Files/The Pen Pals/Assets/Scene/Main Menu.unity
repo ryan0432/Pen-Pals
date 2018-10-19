@@ -2222,183 +2222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1462e5acb161dca49b123968276c7bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player_Saves:
-  - Name: Player_01
-    player_type: 0
-    active_save: 0
-    Level_Count:
-    - Name: Level Default_1
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_2
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_3
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_4
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_5
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_6
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_7
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_8
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_9
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_10
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_11
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_12
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_13
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_14
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_15
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_16
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_17
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_18
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_19
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_20
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_21
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-  - Name: Player_02
-    player_type: 2
-    active_save: 1
-    Level_Count:
-    - Name: Level Default_1
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_2
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_3
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_4
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_5
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_6
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_7
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_8
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_9
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_10
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_11
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_12
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_13
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_14
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_15
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_16
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_17
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_18
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_19
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_20
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
-    - Name: Level Default_21
-      Completed: 0
-      Unlocked: 0
-      sticker_count: 000000
+  Player_Saves: []
 --- !u!4 &519303436
 Transform:
   m_ObjectHideFlags: 0
@@ -3242,47 +3066,47 @@ MonoBehaviour:
   Player_RED_Selection: {fileID: 1766237371}
   Player_BLUE_Selection: {fileID: 202008318}
   Level_Selection:
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 1
     UI_Level: {fileID: 341653413}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 3
     UI_Level: {fileID: 960713721}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 5
     UI_Level: {fileID: 1700404097}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 7
     UI_Level: {fileID: 1492374820}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 9
     UI_Level: {fileID: 2085867477}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 11
     UI_Level: {fileID: 995857363}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 13
     UI_Level: {fileID: 987458800}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 15
     UI_Level: {fileID: 1775870517}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 17
     UI_Level: {fileID: 628149946}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 19
     UI_Level: {fileID: 1363047159}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 21
     UI_Level: {fileID: 229172578}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 23
     UI_Level: {fileID: 486235178}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 25
     UI_Level: {fileID: 1223768707}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 27
     UI_Level: {fileID: 1607312969}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 29
     UI_Level: {fileID: 1741396716}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 31
     UI_Level: {fileID: 1926981693}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 33
     UI_Level: {fileID: 1486700444}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 35
     UI_Level: {fileID: 1746798997}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 37
     UI_Level: {fileID: 619771827}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 39
     UI_Level: {fileID: 1781398275}
-  - Game_Manager_Index: 0
+  - Game_Manager_Index: 41
     UI_Level: {fileID: 2129205436}
 --- !u!1 &695471154
 GameObject:
