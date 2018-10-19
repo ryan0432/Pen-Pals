@@ -170,8 +170,10 @@ public class Block_Control : MonoBehaviour
             if (qeuePressedKey != NONE)
             {
                 isArrived = false;
+                currPressedKey = qeuePressedKey;
+                qeuePressedKey = NONE;
                 prevState = currState;
-                currState = Block_State.JUMP_MOVING;
+                currState = Block_State.MOVING;
             }
             else
             {
@@ -214,8 +216,10 @@ public class Block_Control : MonoBehaviour
             if (qeuePressedKey == UP_Key)
             {
                 isArrived = false;
+                currPressedKey = qeuePressedKey;
+                qeuePressedKey = NONE;
                 prevState = currState;
-                currState = Block_State.MOVE_JUMPING;
+                currState = Block_State.JUMPING;
             }
             else if (qeuePressedKey == LFT_Key || qeuePressedKey == RGT_Key)
             {
@@ -292,46 +296,6 @@ public class Block_Control : MonoBehaviour
             }
         }
     }
-
-    [ContextMenu("Second_Moving_State_Update")]
-    private void Move_Jumping_State_Update()
-    {
-        //Debug.Log("State: Move-Jumping");
-
-        if (!isArrived)
-        {
-            Move_Towards(Return_Input_Node(qeuePressedKey), movingSpeed);
-        }
-        else
-        {
-            if (Ground_Check())
-            {
-                qeuePressedKey = NONE;
-                prevState = currState;
-                currState = Block_State.STATIC;
-            }
-        }
-    }
-
-    [ContextMenu("Jump_Moving_State_Update")]
-    private void Jump_Moving_State_Update()
-    {
-        //Debug.Log("State: Jump-Moving");
-
-        if (!isArrived)
-        {
-            Move_Towards(Return_Input_Node(qeuePressedKey), movingSpeed);
-        }
-        else
-        {
-            if (Ground_Check())
-            {
-                qeuePressedKey = NONE;
-                prevState = currState;
-                currState = Block_State.STATIC;
-            }
-        }
-    }
     #endregion
 
     [ContextMenu("Runtime_Update")]
@@ -362,18 +326,6 @@ public class Block_Control : MonoBehaviour
                     Falling_State_Update();
                     break;
                 }
-
-            case Block_State.MOVE_JUMPING:
-                {
-                    Move_Jumping_State_Update();
-                    break;
-                }
-
-            case Block_State.JUMP_MOVING:
-                {
-                    Jump_Moving_State_Update();
-                    break;
-                }
         }
     }
 
@@ -394,7 +346,7 @@ public class Block_Control : MonoBehaviour
         }
     }
 
-    [ContextMenu("Find_Ground_Node")]
+    [ContextMenu("Ground_Node")]
     private Node Ground_Node()
     {
         Node groundNode = currNode;
@@ -514,9 +466,7 @@ public enum Block_State
     STATIC = 0,
     JUMPING = 1,
     MOVING = 2,
-    FALLING = 3,
-    MOVE_JUMPING = 4,
-    JUMP_MOVING = 5
+    FALLING = 3
 }
 
 public enum Player_Type
