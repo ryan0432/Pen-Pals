@@ -18,6 +18,7 @@ public class Level_Availability : MonoBehaviour
     //*! Game Manager
     private Game_Manager game_manager = null;
 
+    private float current_timer = 0f;
 
     //*! Red
     private Player_Save player_one;
@@ -33,7 +34,7 @@ public class Level_Availability : MonoBehaviour
 
     //*! Blue
     private Player_Save player_two;
-    private int p2_pos = 0;
+    private int p2_pos = 1;
     private KeyCode P2_UP_Key
     { get { return KeyCode.W; } }
     private KeyCode P2_DOWN_Key
@@ -58,6 +59,9 @@ public class Level_Availability : MonoBehaviour
 
     public Level_Container[] Level_Selection;
 
+
+    [Range(0.1f, 2.5f)]
+    public float selection_timer = 0f;
     #endregion
 
 
@@ -71,9 +75,8 @@ public class Level_Availability : MonoBehaviour
         player_two = XML_Manager.GetComponent<XML_SaveLoad>().Get_Active_Save(2);
 
         Player_RED_Selection.transform.position = Level_Selection[p1_pos].UI_Level.transform.position;
-        Player_BLUE_Selection.transform.position = Level_Selection[Level_Selection.Length - 1].UI_Level.transform.position;
-        p2_pos = Level_Selection.Length - 1;
-
+        Player_BLUE_Selection.transform.position = Level_Selection[p2_pos].UI_Level.transform.position;
+        
         Load_Available_Levels();
 
         game_manager = FindObjectOfType<Game_Manager>();
@@ -88,14 +91,18 @@ public class Level_Availability : MonoBehaviour
 
     private void Update()
     {
+            
         Input_Check();
 
         //*! Sudo for when this executes.
         //if (game_manager.game_state == State::Menu)
-        //{
+        {
+            current_timer += Time.deltaTime;
             //*! Made a selection - Pass it to game manager
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || current_timer >= selection_timer)
             {
+                current_timer = 0f;
+
                 Debug.Log("Player One RED : Current Selection index: " + Level_Selection[p1_pos].Game_Manager_Index);
                 Debug.Log("Player One BLUE : Current Selection index: " + Level_Selection[p2_pos].Game_Manager_Index);
                 //*! They are on the same level selection 
@@ -105,7 +112,7 @@ public class Level_Availability : MonoBehaviour
                     //game_manager.Initialize_Level(Level_Selection[p1_pos].Game_Manager_Index);
                 }
             }
-        //}
+        }
     }
     #endregion
 
@@ -125,7 +132,7 @@ public class Level_Availability : MonoBehaviour
     //*! Red
     private void Player_One_Input()
     {
-        if (Input.GetKeyDown(P1_UP_Key))
+       /* if (Input.GetKeyDown(P1_UP_Key))
         {
             Player_RED_Selection.transform.position = Level_Selection[p1_pos -= 7].UI_Level.transform.position;// new Vector3(0, 1, 0);
         }
@@ -133,7 +140,7 @@ public class Level_Availability : MonoBehaviour
         {
             Player_RED_Selection.transform.position = Level_Selection[p1_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
         }
-        else if (Input.GetKeyDown(P1_LEFT_Key))
+        else */if (Input.GetKeyDown(P1_LEFT_Key))
         {
             Player_RED_Selection.transform.position = Level_Selection[--p1_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
         }
@@ -146,7 +153,7 @@ public class Level_Availability : MonoBehaviour
     //*! Blue
     private void Player_Two_Input()
     {
-        if (Input.GetKeyDown(P2_UP_Key))
+        /*if (Input.GetKeyDown(P2_UP_Key))
         {
             Player_BLUE_Selection.transform.position = Level_Selection[p2_pos -= 7].UI_Level.transform.position;// new Vector3(0, 1, 0);
         }
@@ -154,7 +161,7 @@ public class Level_Availability : MonoBehaviour
         {
             Player_BLUE_Selection.transform.position = Level_Selection[p2_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
         }
-        else if (Input.GetKeyDown(P2_LEFT_Key))
+        else */if (Input.GetKeyDown(P2_LEFT_Key))
         {
             Player_BLUE_Selection.transform.position = Level_Selection[--p2_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
         }
