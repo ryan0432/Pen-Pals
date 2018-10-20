@@ -5,7 +5,7 @@
 //*!              This class in an experimental class to test using
 //*!              FSM to control [Block Player]
 //*!
-//*! Last edit  : 13/10/2018
+//*! Last edit  : 20/10/2018
 //*!--------------------------------------------------------------!*//
 
 using System.Collections;
