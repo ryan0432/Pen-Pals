@@ -544,11 +544,11 @@ MonoBehaviour:
   - Position: {x: 10, y: 3, z: 0}
     Node_Type: 8
   - Position: {x: 10, y: 4, z: 0}
-    Node_Type: 7
+    Node_Type: 8
   - Position: {x: 10, y: 5, z: 0}
-    Node_Type: 0
+    Node_Type: 8
   - Position: {x: 10, y: 6, z: 0}
-    Node_Type: 0
+    Node_Type: 7
   - Position: {x: 10, y: 7, z: 0}
     Node_Type: 0
   - Position: {x: 10, y: 8, z: 0}
@@ -2454,10 +2454,10 @@ MonoBehaviour:
     Edge_Type: 7
     Edge_Direction: 1
   - Position: {x: 10, y: 4.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 7
     Edge_Direction: 1
   - Position: {x: 10, y: 5.5, z: 0}
-    Edge_Type: 0
+    Edge_Type: 7
     Edge_Direction: 1
   - Position: {x: 10, y: 6.5, z: 0}
     Edge_Type: 0

@@ -115,6 +115,8 @@ public class Block_Control : MonoBehaviour
 
         currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
+        Set_Line_Traversability(UP_Key, false);
+        Set_Line_Traversability(DN_Key, false);
 
         currPressedKey = NONE;
         qeuePressedKey = NONE;
@@ -123,6 +125,7 @@ public class Block_Control : MonoBehaviour
 
         if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && !currNode.UP_NODE.Is_Occupied && !currNode.Can_DN)
         {
+            Set_Line_Traversability(UP_Key, true);
             isArrived = false;
             currPressedKey = UP_Key;
             prevState = currState;
@@ -131,6 +134,7 @@ public class Block_Control : MonoBehaviour
 
         if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && !currNode.LFT_NODE.Is_Occupied && !currNode.Can_DN)
         {
+            Set_Line_Traversability(LFT_Key, true);
             isArrived = false;
             currPressedKey = LFT_Key;
             prevState = currState;
@@ -139,6 +143,7 @@ public class Block_Control : MonoBehaviour
 
         if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && !currNode.RGT_NODE.Is_Occupied && !currNode.Can_DN)
         {
+            Set_Line_Traversability(RGT_Key, true);
             isArrived = false;
             currPressedKey = RGT_Key;
             prevState = currState;
@@ -167,8 +172,13 @@ public class Block_Control : MonoBehaviour
         } 
         else
         {
+            Set_Line_Traversability(UP_Key, false);
+            Set_Line_Traversability(DN_Key, false);
+
             if (qeuePressedKey != NONE)
             {
+                if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
+                if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -211,10 +221,14 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
+            Set_Line_Traversability(UP_Key, false);
+            Set_Line_Traversability(DN_Key, false);
+
             Ground_Check();
 
             if (qeuePressedKey == UP_Key)
             {
+                Set_Line_Traversability(UP_Key, true);
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -223,6 +237,8 @@ public class Block_Control : MonoBehaviour
             }
             else if (qeuePressedKey == LFT_Key || qeuePressedKey == RGT_Key)
             {
+                if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
+                if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -245,6 +261,7 @@ public class Block_Control : MonoBehaviour
 
         if (!isArrived)
         {
+            Set_Line_Traversability(DN_Key, true);
             Move_Towards(currNode.DN_NODE, fallingSpeed);
 
             if (Input.GetKeyDown(UP_Key) && Ground_Node().Can_UP && !Ground_Node().UP_NODE.Is_Occupied)
@@ -264,8 +281,12 @@ public class Block_Control : MonoBehaviour
         }
         else
         {
+            Set_Line_Traversability(UP_Key, false);
+            Set_Line_Traversability(DN_Key, false);
+
             if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
             {
+                Set_Line_Traversability(DN_Key, true);
                 isArrived = false;
                 prevState = currState;
             }
@@ -273,6 +294,7 @@ public class Block_Control : MonoBehaviour
             {
                 if (qeuePressedKey == UP_Key)
                 {
+                    Set_Line_Traversability(UP_Key, true);
                     isArrived = false;
                     currPressedKey = qeuePressedKey;
                     qeuePressedKey = NONE;
@@ -281,6 +303,8 @@ public class Block_Control : MonoBehaviour
                 }
                 else if (qeuePressedKey == LFT_Key || qeuePressedKey == RGT_Key)
                 {
+                    if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
+                    if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
                     isArrived = false;
                     currPressedKey = qeuePressedKey;
                     qeuePressedKey = NONE;
@@ -366,6 +390,34 @@ public class Block_Control : MonoBehaviour
         if (direction == LFT_Key) { return currNode.LFT_NODE; }
         if (direction == RGT_Key) { return currNode.RGT_NODE; }
         return null;
+    }
+
+    [ContextMenu("Set_Line_Traversability")]
+    private void Set_Line_Traversability(KeyCode direction, bool isOccupied)
+    {
+        if (direction == UP_Key)
+        {
+            currNode.UP_LFT_NODE.Is_Occupied = isOccupied;
+            currNode.UP_RGT_NODE.Is_Occupied = isOccupied;
+        }
+
+        if (direction == DN_Key)
+        {
+            currNode.DN_LFT_NODE.Is_Occupied = isOccupied;
+            currNode.DN_RGT_NODE.Is_Occupied = isOccupied;
+        }
+
+        if (direction == LFT_Key)
+        {
+            currNode.UP_LFT_NODE.Is_Occupied = isOccupied;
+            currNode.DN_LFT_NODE.Is_Occupied = isOccupied;
+        }
+
+        if (direction == RGT_Key)
+        {
+            currNode.UP_RGT_NODE.Is_Occupied = isOccupied;
+            currNode.DN_RGT_NODE.Is_Occupied = isOccupied;
+        }
     }
 
     [ContextMenu("Move_Towards")]

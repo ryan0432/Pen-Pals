@@ -632,6 +632,22 @@ public class Game_Manager : MonoBehaviour
 
         //*! -------------------------------------------- !*//
 
+        //*! Setup [Block] - [Node] corner [Node]
+        #region Setup [Block] - [Node]'s corner [Nodes]
+        for (int i = 0; i < bl_node_row; ++i)
+        {
+            for (int j = 0; j < bl_node_col; ++j)
+            {
+                BL_Nodes[i, j].UP_LFT_NODE = LI_Nodes[i, j + 1];
+                BL_Nodes[i, j].UP_RGT_NODE = LI_Nodes[i + 1, j + 1];
+                BL_Nodes[i, j].DN_LFT_NODE = LI_Nodes[i, j];
+                BL_Nodes[i, j].DN_RGT_NODE = LI_Nodes[i + 1, j];
+            }
+        }
+        #endregion
+
+        //*! -------------------------------------------- !*//
+
         //*! Check [Edge] Enums flags to decide every [Node] tracersability to neighbor
         #region Check [Line] - [U-Edge] and set [Block] - [Node] Traversability
         for (int i = 0; i < li_U_edge_row; ++i)
@@ -1244,6 +1260,12 @@ public class Node
     public Node DN_NODE;
     public Node LFT_NODE;
     public Node RGT_NODE;
+
+    //*! Corner [Node] reference holder
+    public Node UP_LFT_NODE;
+    public Node UP_RGT_NODE;
+    public Node DN_LFT_NODE;
+    public Node DN_RGT_NODE;
 
     //*! Connected [Edge] reference holder
     public Edge UP_EDGE;
