@@ -158,6 +158,8 @@ public class Line_Control : MonoBehaviour
         currPressedKey = NONE;
         qeuePressedKey = NONE;
 
+        Set_Anchors_Occupied();
+
         if (Input.GetKeyDown(UP_Key))
         {
             currPressedKey = UP_Key;
@@ -438,6 +440,15 @@ public class Line_Control : MonoBehaviour
 
             currAnchor.Is_Occupied = true;
             nextAnchor.Is_Occupied = true;
+        }
+    }
+
+    [ContextMenu("Set_Anchors_Occupied")]
+    private void Set_Anchors_Occupied()
+    {
+        for (int i = 0; i < anchors.Count; ++i)
+        {
+            anchors[i].Is_Occupied = true;
         }
     }
 

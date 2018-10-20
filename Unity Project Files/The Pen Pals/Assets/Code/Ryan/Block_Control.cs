@@ -115,8 +115,6 @@ public class Block_Control : MonoBehaviour
 
         currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
-        Set_Line_Traversability(UP_Key, false);
-        Set_Line_Traversability(DN_Key, false);
 
         currPressedKey = NONE;
         qeuePressedKey = NONE;
