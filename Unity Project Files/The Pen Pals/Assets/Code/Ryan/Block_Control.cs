@@ -39,6 +39,9 @@ public class Block_Control : MonoBehaviour
     [HideInInspector]
     public bool isDead;
 
+    public Node currNode;
+    public Node nextNode;
+
 
     //*!----------------------------!*//
     //*!      Private Variables
@@ -47,9 +50,6 @@ public class Block_Control : MonoBehaviour
     private Game_Manager gm;
     private Block_State currState;
     private Block_State prevState;
-
-    private Node currNode;
-    private Node nextNode;
 
     private float snapDistance = 0.01f;
 

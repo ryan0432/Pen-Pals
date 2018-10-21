@@ -81,6 +81,7 @@ public class Line_Control : MonoBehaviour
     private bool isArrived;
     private bool isArrayMovedForward;
     private bool isReachedTail;
+    private bool isBlockRiding;
     private int reversingTargetIndex = 1;
 
 
@@ -172,7 +173,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied)
+            else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -193,7 +194,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
+            else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -214,7 +215,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied)
+            else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -235,7 +236,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied)
+            else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -272,22 +273,22 @@ public class Line_Control : MonoBehaviour
 
         if (!isArrived)
         {
-            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied)
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 qeuePressedKey = UP_Key;
             }
 
-            if (Input.GetKeyDown(DN_Key) && nextNode != null && nextNode.Can_DN && !nextNode.DN_NODE.Is_Occupied)
+            if (Input.GetKeyDown(DN_Key) && nextNode != null && nextNode.Can_DN && !nextNode.DN_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 qeuePressedKey = DN_Key;
             }
 
-            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 qeuePressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied && !Is_Block_Riding())
             {
                 qeuePressedKey = RGT_Key;
             }
@@ -375,6 +376,45 @@ public class Line_Control : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    [ContextMenu("Is_Block_Riding")]
+    private bool Is_Block_Riding()
+    {
+        if (!FindObjectOfType<Block_Control>()) return false;
+
+        Block_Control blc = FindObjectOfType<Block_Control>();
+
+        if (anchors.Count == 2 &&
+            ((blc.currNode.DN_LFT_NODE == anchors[0] && blc.currNode.DN_RGT_NODE == anchors[1]) ||
+                (blc.currNode.DN_RGT_NODE == anchors[0] && blc.currNode.DN_LFT_NODE == anchors[1])) &&
+                blc.currNode.DN_LFT_NODE.RGT_EDGE.Edge_Type == Edge_Type.NONE)
+        {
+            return isBlockRiding = true;
+        }
+        else if (anchors.Count == 2 &&
+            !((blc.currNode.DN_LFT_NODE == anchors[0] && blc.currNode.DN_RGT_NODE == anchors[1]) ||
+                (blc.currNode.DN_RGT_NODE == anchors[0] && blc.currNode.DN_LFT_NODE == anchors[1])) &&
+                blc.currNode.DN_LFT_NODE.RGT_EDGE.Edge_Type != Edge_Type.NONE)
+        {
+            return isBlockRiding = false;
+        }
+
+        for (int i = 0; i < anchors.Count - 1; ++i)
+        {
+            if (((blc.currNode.DN_LFT_NODE == anchors[i] && blc.currNode.DN_RGT_NODE == anchors[i + 1]) ||
+                (blc.currNode.DN_RGT_NODE == anchors[i] && blc.currNode.DN_LFT_NODE == anchors[i + 1])) &&
+                blc.currNode.DN_LFT_NODE.RGT_EDGE.Edge_Type == Edge_Type.NONE)
+            {
+                return isBlockRiding = true;
+            }
+            else
+            {
+                isBlockRiding = false;
+            }
+        }
+
+        return isBlockRiding;
     }
 
     [ContextMenu("Swap_Array")]
