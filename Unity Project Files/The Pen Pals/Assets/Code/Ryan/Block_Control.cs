@@ -31,6 +31,9 @@ public class Block_Control : MonoBehaviour
     [Range(0f, 10f)]
     public float fallingSpeed;
 
+    public float floatingTime;
+    public float timer;
+
     public Player_Save save_data;
 
     [HideInInspector]
@@ -69,7 +72,6 @@ public class Block_Control : MonoBehaviour
     private KeyCode qeuePressedKey;
 
     private bool isArrived;
-    
 
 
     //*!----------------------------!*//
@@ -80,6 +82,7 @@ public class Block_Control : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<Game_Manager>();
+        timer = floatingTime;
 
         if (playerType == Player_Type.BLUE)
         {
@@ -188,7 +191,7 @@ public class Block_Control : MonoBehaviour
                 isArrived = false;
                 qeuePressedKey = NONE;
                 prevState = currState;
-                currState = Block_State.FALLING;
+                currState = Block_State.FLOATING;
             }
         }
     }
@@ -245,7 +248,54 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
-                Ground_Check();
+                if (Ground_Check())
+                {
+                    prevState = currState;
+                    currState = Block_State.STATIC;
+                }
+            }
+        }
+    }
+
+    [ContextMenu("Floating_State_Update")]
+    private void Floating_State_Update()
+    {
+        //Debug.Log("State: Floating");
+
+        timer -= Time.deltaTime;
+
+        if (timer > 0f)
+        {
+            if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied)
+            {
+                timer = floatingTime;
+                qeuePressedKey = LFT_Key;
+                Set_Line_Traversability(LFT_Key, true);
+                isArrived = false;
+                currPressedKey = qeuePressedKey;
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.MOVING;
+            }
+
+            if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied)
+            {
+                timer = floatingTime;
+                qeuePressedKey = RGT_Key;
+                Set_Line_Traversability(RGT_Key, true);
+                isArrived = false;
+                currPressedKey = qeuePressedKey;
+                qeuePressedKey = NONE;
+                prevState = currState;
+                currState = Block_State.MOVING;
+            }
+        }
+        else
+        {
+            timer = floatingTime;
+
+            if (Ground_Check())
+            {
                 prevState = currState;
                 currState = Block_State.STATIC;
             }
@@ -334,6 +384,12 @@ public class Block_Control : MonoBehaviour
             case Block_State.JUMPING:
                 {
                     Jumping_State_Update();
+                    break;
+                }
+
+            case Block_State.FLOATING:
+                {
+                    Floating_State_Update();
                     break;
                 }
 
@@ -515,8 +571,9 @@ public enum Block_State
 {
     STATIC = 0,
     JUMPING = 1,
-    MOVING = 2,
-    FALLING = 3
+    FLOATING = 2,
+    MOVING = 3,
+    FALLING = 4
 }
 
 public enum Player_Type
