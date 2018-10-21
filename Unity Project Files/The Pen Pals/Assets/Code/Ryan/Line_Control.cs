@@ -408,13 +408,9 @@ public class Line_Control : MonoBehaviour
             {
                 return isBlockRiding = true;
             }
-            else
-            {
-                isBlockRiding = false;
-            }
         }
 
-        return isBlockRiding;
+        return isBlockRiding = false;
     }
 
     [ContextMenu("Swap_Array")]

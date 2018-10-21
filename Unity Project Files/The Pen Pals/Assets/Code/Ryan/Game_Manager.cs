@@ -889,6 +889,11 @@ public class Game_Manager : MonoBehaviour
         #region Sort [Line Start Nodes] list for [Line] player to grab
         Init_Line();
         #endregion
+
+        //*! Clean up [Node] [Edge] Type if they are relevent to [Block] or [Line] initial positions
+        #region Clean up [Node] [Edge] Type if they are relevent to [Block] or [Line] initial positions
+        Clean_Up_Node_Edge_Type();
+        #endregion
     }
 
     [ContextMenu("Init_Line")]
@@ -972,6 +977,80 @@ public class Game_Manager : MonoBehaviour
                 if (currNode.RGT_NODE == examNode && currNode.RGT_EDGE.Edge_Type == Edge_Type.Line_Red_Edge && examNode.LFT_EDGE.Edge_Type == Edge_Type.Line_Red_Edge)
                 {
                     Swap_Nodes(Line_Red_Start_Nodes, i + 1, j);
+                }
+            }
+        }
+        #endregion
+    }
+
+    [ContextMenu("Clean_Up_Node_Edge_Type")]
+    private void Clean_Up_Node_Edge_Type()
+    {
+        //*! Clean up [Block] - [Node] Type
+        #region Clean up [Block] - [Node] Type
+        for (int i = 0; i < BL_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
+            {
+                Node currNode = BL_Nodes[i,j];
+
+                if (currNode.Node_Type == Node_Type.Block_Blue_Start ||
+                    currNode.Node_Type == Node_Type.Block_Red_Start)
+                {
+                    currNode.Node_Type = Node_Type.NONE;
+                }
+            }
+        }
+        #endregion
+
+        //*! Clean up [Line] - [Node] Type
+        #region Clean up [Line] - [Node] Type
+        for (int i = 0; i < LI_Nodes.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
+            {
+                Node currNode = LI_Nodes[i, j];
+
+                if (currNode.Node_Type == Node_Type.Line_Blue_Head ||
+                    currNode.Node_Type == Node_Type.Line_Blue_Segment ||
+                    currNode.Node_Type == Node_Type.Line_Red_Head ||
+                    currNode.Node_Type == Node_Type.Line_Red_Segment)
+                {
+                    currNode.Node_Type = Node_Type.NONE;
+                }
+            }
+        }
+        #endregion
+
+        //*! Clean up [Line - U] - [Edge] Type
+        #region Clean up [Line - U] - [Edge] Type
+        for (int i = 0; i < LI_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_U_Edges.GetLength(1); ++j)
+            {
+                Edge currEdge = LI_U_Edges[i, j];
+
+                if (currEdge.Edge_Type == Edge_Type.Line_Blue_Edge ||
+                    currEdge.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    currEdge.Edge_Type = Edge_Type.NONE;
+                }
+            }
+        }
+        #endregion
+
+        //*! Clean up [Line - V] - [Edge] Type
+        #region Clean up [Line - V] - [Edge] Type
+        for (int i = 0; i < LI_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < LI_V_Edges.GetLength(1); ++j)
+            {
+                Edge currEdge = LI_V_Edges[i, j];
+
+                if (currEdge.Edge_Type == Edge_Type.Line_Blue_Edge ||
+                    currEdge.Edge_Type == Edge_Type.Line_Red_Edge)
+                {
+                    currEdge.Edge_Type = Edge_Type.NONE;
                 }
             }
         }
