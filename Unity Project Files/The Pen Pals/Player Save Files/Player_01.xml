@@ -18,7 +18,7 @@
     <Level_Data>
       <Name>Level Default_2</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -29,7 +29,7 @@
     <Level_Data>
       <Name>Level Default_3</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -40,7 +40,7 @@
     <Level_Data>
       <Name>Level Default_4</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -51,7 +51,7 @@
     <Level_Data>
       <Name>Level Default_5</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -62,7 +62,7 @@
     <Level_Data>
       <Name>Level Default_6</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -73,7 +73,7 @@
     <Level_Data>
       <Name>Level Default_7</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -84,7 +84,7 @@
     <Level_Data>
       <Name>Level Default_8</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -95,7 +95,7 @@
     <Level_Data>
       <Name>Level Default_9</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -106,7 +106,7 @@
     <Level_Data>
       <Name>Level Default_10</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -117,7 +117,7 @@
     <Level_Data>
       <Name>Level Default_11</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -128,7 +128,7 @@
     <Level_Data>
       <Name>Level Default_12</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -139,7 +139,7 @@
     <Level_Data>
       <Name>Level Default_13</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -150,7 +150,7 @@
     <Level_Data>
       <Name>Level Default_14</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -161,7 +161,7 @@
     <Level_Data>
       <Name>Level Default_15</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -172,7 +172,7 @@
     <Level_Data>
       <Name>Level Default_16</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -183,7 +183,7 @@
     <Level_Data>
       <Name>Level Default_17</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -194,7 +194,7 @@
     <Level_Data>
       <Name>Level Default_18</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -205,7 +205,7 @@
     <Level_Data>
       <Name>Level Default_19</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -216,7 +216,7 @@
     <Level_Data>
       <Name>Level Default_20</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
@@ -227,7 +227,7 @@
     <Level_Data>
       <Name>Level Default_21</Name>
       <Completed>false</Completed>
-      <Unlocked>false</Unlocked>
+      <Unlocked>true</Unlocked>
       <Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
         <Sticker_Count>false</Sticker_Count>
