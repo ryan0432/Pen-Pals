@@ -92,7 +92,7 @@ public class Game_Manager : MonoBehaviour
 
     void Awake()
     {
-        Initialize_Level(lvDataIndex++);
+        Initialize_Level(lvDataIndex + 1);
     }
 
     void Update()
@@ -1069,7 +1069,7 @@ public class Game_Manager : MonoBehaviour
                 Destroy(child.gameObject);
             }
 
-            Debug.Log("Cleaned Up " + name);
+            //Debug.Log("Cleaned Up " + name);
         }
     }
 
