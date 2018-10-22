@@ -248,7 +248,7 @@ public class Line_Controller : MonoBehaviour
                 GameManager.Blue_Sticker_Count--;
                 if (GameManager.Blue_Sticker_Count == 0 && GameManager.Red_Sticker_Count == 0)
                 {
-                    GameManager.Initialize_Level();
+                    //GameManager.Initialize_Level();
                     Player_Initialise();
                     Other_Player_Get_Map_Data();
                 }
@@ -264,7 +264,7 @@ public class Line_Controller : MonoBehaviour
                 GameManager.Red_Sticker_Count--;
                 if (GameManager.Blue_Sticker_Count == 0 && GameManager.Red_Sticker_Count == 0)
                 {
-                    GameManager.Initialize_Level();
+                    //GameManager.Initialize_Level();
                     Player_Initialise();
                     Other_Player_Get_Map_Data();
                 }

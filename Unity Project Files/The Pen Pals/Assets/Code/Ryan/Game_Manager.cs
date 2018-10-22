@@ -92,7 +92,7 @@ public class Game_Manager : MonoBehaviour
 
     void Awake()
     {
-        Initialize_Level();
+        Initialize_Level(lvDataIndex++);
     }
 
     void Update()
@@ -1225,21 +1225,19 @@ public class Game_Manager : MonoBehaviour
         //*! Press [X] to skip current level
         if (Input.GetKeyUp(KeyCode.X))
         {
-            Initialize_Level();
+            Initialize_Level(lvDataIndex + 1);
         }
 
         //*! Press [Z] go to previous level
         if (Input.GetKeyUp(KeyCode.Z))
         {
-            lvDataIndex -= 2;
-            Initialize_Level();
+            Initialize_Level(lvDataIndex - 1);
         }
 
         //*! Press [C] restart current level
         if (Input.GetKeyUp(KeyCode.C))
         {
-            lvDataIndex--;
-            Initialize_Level();
+            Initialize_Level(lvDataIndex);
         }
 
         //*! Press [Space] to show/hide gizmos
@@ -1283,8 +1281,10 @@ public class Game_Manager : MonoBehaviour
 
     //*! Initialize the level data and set level data index to current playing level index
     [ContextMenu("Initialize_Level")]
-    public void Initialize_Level()
+    public void Initialize_Level(int LvIndex)
     {
+        lvDataIndex = LvIndex - 1;
+
         //*! Safe check if the next level index to load is out of bound
         //*! If next index is out of bound, display warning message and load the last level in array instead
         if (lvDataIndex >= lvData.GetUpperBound(0))
