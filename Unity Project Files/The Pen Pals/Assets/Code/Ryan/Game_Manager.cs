@@ -36,6 +36,7 @@ public class Game_Manager : MonoBehaviour
     [Range(0.5f, 1.5f)]
     public float Gizmos_Size;
 
+    //*! Scene Objects References
     public GameObject Black_Pen;
     public GameObject HighLighter_Red;
     public GameObject Block_Blue_Goal;
@@ -46,7 +47,11 @@ public class Game_Manager : MonoBehaviour
     public GameObject Shadey;
     public GameObject Careline;
     public GameObject Linel;
-    public GameObject[] Backgrounds; 
+    public GameObject[] Backgrounds;
+
+    //*! Get Player saves
+    public Player_Save player_one;
+    public Player_Save player_two;
 
     [HideInInspector]
     public int Blue_Sticker_Count = 0;
@@ -93,6 +98,7 @@ public class Game_Manager : MonoBehaviour
     void Awake()
     {
         Initialize_Level(lvDataIndex + 1);
+        Get_Players_Saves();
     }
 
     void Update()
@@ -1312,6 +1318,39 @@ public class Game_Manager : MonoBehaviour
         Setup_Level_Data(lvDataIndex + 1);
 
         lvDataIndex++;
+    }
+
+    [ContextMenu("Get_Player_Saves")]
+    private void Get_Players_Saves()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject go in players)
+        {
+            if (go.GetComponent<Block_Control>() &&
+                go.GetComponent<Block_Control>().playerType == Player_Type.RED)
+            {
+                player_one = go.GetComponent<Block_Control>().save_data;
+            }
+
+            if (go.GetComponent<Line_Control>() &&
+                go.GetComponent<Line_Control>().playerType == Player_Type.RED)
+            {
+                player_one = go.GetComponent<Line_Control>().save_data;
+            }
+
+            if (go.GetComponent<Block_Control>() &&
+                go.GetComponent<Block_Control>().playerType == Player_Type.BLUE)
+            {
+                player_two = go.GetComponent<Block_Control>().save_data;
+            }
+
+            if (go.GetComponent<Line_Control>() &&
+                go.GetComponent<Line_Control>().playerType == Player_Type.BLUE)
+            {
+                player_two = go.GetComponent<Line_Control>().save_data;
+            }
+        }
     }
 }
 
