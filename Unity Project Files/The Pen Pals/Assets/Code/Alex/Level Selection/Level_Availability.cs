@@ -76,40 +76,40 @@ public class Level_Availability : MonoBehaviour
 
         Player_RED_Selection.transform.position = Level_Selection[p1_pos].UI_Level.transform.position;
         Player_BLUE_Selection.transform.position = Level_Selection[p2_pos].UI_Level.transform.position;
-        
+
         Load_Available_Levels();
 
         game_manager = FindObjectOfType<Game_Manager>();
 
-        //*! Hand over the player save data
-        /*-
-        /*- game_manager.player_one = player_one;
-        /*- game_manager.player_two = player_two;
-        /*-
-        //-*/
+        game_manager.player_one = player_one;
+        game_manager.player_two = player_two;
+
+
     }
 
     private void Update()
     {
-            
+
         Input_Check();
 
         //*! Sudo for when this executes.
-        //if (game_manager.game_state == State::Menu)
+        //*! 0 is the Menu Level
+        if (game_manager.lvDataIndex == 0)
         {
             current_timer += Time.deltaTime;
             //*! Made a selection - Pass it to game manager
-            if (Input.GetKeyDown(KeyCode.Space) || current_timer >= selection_timer)
+            if (Input.GetKeyDown(KeyCode.Y) || current_timer >= selection_timer)
             {
                 current_timer = 0f;
 
-                Debug.Log("Player One RED : Current Selection index: " + Level_Selection[p1_pos].Game_Manager_Index);
-                Debug.Log("Player One BLUE : Current Selection index: " + Level_Selection[p2_pos].Game_Manager_Index);
+                //Debug.Log("Player One RED : Current Selection index: " + Level_Selection[p1_pos].Game_Manager_Index);
+                //Debug.Log("Player One BLUE : Current Selection index: " + Level_Selection[p2_pos].Game_Manager_Index);
                 //*! They are on the same level selection 
-                if (Level_Selection[p1_pos].Game_Manager_Index  == Level_Selection[p2_pos].Game_Manager_Index)
+                if (Level_Selection[p1_pos].Game_Manager_Index == Level_Selection[p2_pos].Game_Manager_Index)
                 {
+                    //Debug.Log("LOADING THE NEXT LEVEL");
                     //*! Either player can initialize the level based on the level index that it is on.
-                    //game_manager.Initialize_Level(Level_Selection[p1_pos].Game_Manager_Index);
+                    game_manager.Initialize_Level(Level_Selection[p1_pos].Game_Manager_Index);
                 }
             }
         }
@@ -132,15 +132,16 @@ public class Level_Availability : MonoBehaviour
     //*! Red
     private void Player_One_Input()
     {
-       /* if (Input.GetKeyDown(P1_UP_Key))
-        {
-            Player_RED_Selection.transform.position = Level_Selection[p1_pos -= 7].UI_Level.transform.position;// new Vector3(0, 1, 0);
-        }
-        else if (Input.GetKeyDown(P1_DOWN_Key))
-        {
-            Player_RED_Selection.transform.position = Level_Selection[p1_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
-        }
-        else */if (Input.GetKeyDown(P1_LEFT_Key))
+        /* if (Input.GetKeyDown(P1_UP_Key))
+         {
+             Player_RED_Selection.transform.position = Level_Selection[p1_pos -= 7].UI_Level.transform.position;// new Vector3(0, 1, 0);
+         }
+         else if (Input.GetKeyDown(P1_DOWN_Key))
+         {
+             Player_RED_Selection.transform.position = Level_Selection[p1_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
+         }
+         else */
+        if (Input.GetKeyDown(P1_LEFT_Key))
         {
             Player_RED_Selection.transform.position = Level_Selection[--p1_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
         }
@@ -161,7 +162,8 @@ public class Level_Availability : MonoBehaviour
         {
             Player_BLUE_Selection.transform.position = Level_Selection[p2_pos += 7].UI_Level.transform.position; //new Vector3(0, 1, 0);
         }
-        else */if (Input.GetKeyDown(P2_LEFT_Key))
+        else */
+        if (Input.GetKeyDown(P2_LEFT_Key))
         {
             Player_BLUE_Selection.transform.position = Level_Selection[--p2_pos].UI_Level.transform.position;// new Vector3(1, 0, 0);
         }
@@ -196,7 +198,7 @@ public class Level_Availability : MonoBehaviour
                 }
             }
         }
- 
+
     }
 
     #endregion
@@ -213,7 +215,7 @@ public class Level_Availability : MonoBehaviour
         {
             Level_Selection[i - 1].UI_Level = transform.GetChild(i).gameObject;
         }
-    } 
+    }
     #endregion
 
 }
