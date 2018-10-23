@@ -1326,6 +1326,7 @@ public class Game_Manager : MonoBehaviour
             if (go.GetComponent<Block_Control>() &&
                 go.GetComponent<Block_Control>().playerType == Player_Type.RED)
             {
+                go.GetComponent<Block_Control>().save_data.Completed_Level(lvDataIndex);
                 go.GetComponent<Block_Control>().save_data.Save();
                 Debug.Log("Player One [Block - Red] Data Saved!");
             }
@@ -1333,6 +1334,7 @@ public class Game_Manager : MonoBehaviour
             if (go.GetComponent<Line_Control>() &&
                 go.GetComponent<Line_Control>().playerType == Player_Type.RED)
             {
+                go.GetComponent<Line_Control>().save_data.Completed_Level(lvDataIndex);
                 go.GetComponent<Line_Control>().save_data.Save();
                 Debug.Log("Player One [Block - Red] Data Saved!");
             }
@@ -1340,6 +1342,7 @@ public class Game_Manager : MonoBehaviour
             if (go.GetComponent<Block_Control>() &&
                 go.GetComponent<Block_Control>().playerType == Player_Type.BLUE)
             {
+                go.GetComponent<Block_Control>().save_data.Completed_Level(lvDataIndex);
                 go.GetComponent<Block_Control>().save_data.Save();
                 Debug.Log("Player Two [Line - Red] Data Saved!");
             }
@@ -1347,6 +1350,7 @@ public class Game_Manager : MonoBehaviour
             if (go.GetComponent<Line_Control>() &&
                 go.GetComponent<Line_Control>().playerType == Player_Type.BLUE)
             {
+                go.GetComponent<Line_Control>().save_data.Completed_Level(lvDataIndex);
                 go.GetComponent<Line_Control>().save_data.Save();
                 Debug.Log("Player Two [Line - Blue] Data Saved!");
             }
