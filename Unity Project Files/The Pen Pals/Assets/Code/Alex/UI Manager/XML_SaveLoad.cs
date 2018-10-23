@@ -43,7 +43,7 @@ public class XML_SaveLoad : MonoBehaviour
     private void Awake()
     {
         Load_All_Players();
-    }  
+    }
 
     #endregion
 
@@ -219,7 +219,7 @@ public class XML_SaveLoad : MonoBehaviour
         {
             Player_Saves[index] = Load<Player_Save>(data_path + save_files[index].Name);
         }
-                     
+
         //*! Remove any null objects in the list
         while (Player_Saves.Remove(null))
         {
@@ -281,7 +281,7 @@ public class XML_SaveLoad : MonoBehaviour
         //*!    Side note it allows for each player object to saved in different locations.
         //*!    Also allows for the player_save reference can just call player.Save(); and done.
         //*!----------------------------!*//
-        
+
 
         if (player_id + 1 <= 9)
         {
@@ -295,9 +295,9 @@ public class XML_SaveLoad : MonoBehaviour
             //*! Construct the Player objects save file path
             Player_Saves[player_id].Data_Path = (data_path + "Player_" + (player_id + 1) + ".xml");
             //*! Save each player
-            Player_Saves[player_id].Save(); 
+            Player_Saves[player_id].Save();
         }
- 
+
     }
 
     //*! Player Load 
@@ -345,7 +345,7 @@ public class Level_Data
     [XmlArray("Sticker_Count"), XmlArrayItem("Sticker_Count")]
     public bool[] sticker_count = new bool[3];
 
- 
+
 }
 
 
@@ -399,11 +399,24 @@ public class Player_Save
             {
                 level.sticker_count = new bool[1];
             }
-  
+
             //*! Increase the level count number
             count++;
         }
     }
+
+
+    //*! When Completed a level
+    public void Completed_Level(int level_index)
+    {
+        Level_Count[level_index].Completed = true;
+
+        if (level_index < Level_Count.Count - 1)
+        {
+            Level_Count[level_index + 1].Unlocked = true;
+        }
+    }
+
 
     //*! Player Save 
     public void Save()
