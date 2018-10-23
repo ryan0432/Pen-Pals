@@ -49,10 +49,6 @@ public class Game_Manager : MonoBehaviour
     public GameObject Linel;
     public GameObject[] Backgrounds;
 
-    //*! Get Player saves
-    public Player_Save player_one;
-    public Player_Save player_two;
-
     [HideInInspector]
     public int Blue_Sticker_Count = 0;
     [HideInInspector]
@@ -98,7 +94,6 @@ public class Game_Manager : MonoBehaviour
     void Awake()
     {
         Initialize_Level(lvDataIndex + 1);
-        Get_Players_Saves();
     }
 
     void Update()
@@ -1320,9 +1315,10 @@ public class Game_Manager : MonoBehaviour
         lvDataIndex++;
     }
 
-    [ContextMenu("Get_Player_Saves")]
-    private void Get_Players_Saves()
+    [ContextMenu("Save_Players_Data")]
+    public void Save_Players_Data()
     {
+        #region Get Scene Player instances and Call Save()
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (GameObject go in players)
@@ -1330,27 +1326,32 @@ public class Game_Manager : MonoBehaviour
             if (go.GetComponent<Block_Control>() &&
                 go.GetComponent<Block_Control>().playerType == Player_Type.RED)
             {
-                player_one = go.GetComponent<Block_Control>().save_data;
+                go.GetComponent<Block_Control>().save_data.Save();
+                Debug.Log("Player One [Block - Red] Data Saved!");
             }
 
             if (go.GetComponent<Line_Control>() &&
                 go.GetComponent<Line_Control>().playerType == Player_Type.RED)
             {
-                player_one = go.GetComponent<Line_Control>().save_data;
+                go.GetComponent<Line_Control>().save_data.Save();
+                Debug.Log("Player One [Block - Red] Data Saved!");
             }
 
             if (go.GetComponent<Block_Control>() &&
                 go.GetComponent<Block_Control>().playerType == Player_Type.BLUE)
             {
-                player_two = go.GetComponent<Block_Control>().save_data;
+                go.GetComponent<Block_Control>().save_data.Save();
+                Debug.Log("Player Two [Line - Red] Data Saved!");
             }
 
             if (go.GetComponent<Line_Control>() &&
                 go.GetComponent<Line_Control>().playerType == Player_Type.BLUE)
             {
-                player_two = go.GetComponent<Line_Control>().save_data;
+                go.GetComponent<Line_Control>().save_data.Save();
+                Debug.Log("Player Two [Line - Blue] Data Saved!");
             }
         }
+        #endregion
     }
 }
 

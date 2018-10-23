@@ -604,6 +604,7 @@ public class Line_Control : MonoBehaviour
 
                 if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
                 {
+                    gm.Save_Players_Data();
                     gm.Initialize_Level(gm.lvDataIndex + 1);
                 }
             }
@@ -618,6 +619,7 @@ public class Line_Control : MonoBehaviour
 
                 if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
                 {
+                    gm.Save_Players_Data();
                     gm.Initialize_Level(gm.lvDataIndex + 1);
                 }
             }
