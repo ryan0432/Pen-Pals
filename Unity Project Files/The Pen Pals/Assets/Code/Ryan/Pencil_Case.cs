@@ -622,7 +622,7 @@ public class Pencil_Case : MonoBehaviour
         {
             for (int j = 1; j < LI_Nodes.GetLength(1) - 1; ++j)
             {
-                LI_Nodes[i, j].UP_EDGE = LI_V_Edges[i,j];
+                LI_Nodes[i, j].UP_EDGE = LI_V_Edges[i, j];
                 LI_Nodes[i, j].DN_EDGE = LI_V_Edges[i, j - 1];
                 LI_Nodes[i, j].LFT_EDGE = LI_U_Edges[i - 1, j];
                 LI_Nodes[i, j].RGT_EDGE = LI_U_Edges[i, j];
@@ -758,7 +758,7 @@ public class Pencil_Case : MonoBehaviour
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
             {
                 GameObject newNodeGiz = Instantiate(bl_node_giz, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("BL_Node_Gizmos"));
-                newNodeGiz.transform.localScale = new Vector3 (handle_size, handle_size, handle_size);
+                newNodeGiz.transform.localScale = new Vector3(handle_size, handle_size, handle_size);
                 BL_Nodes[i, j].Gizmos_GO = newNodeGiz;
 
                 if (BL_Nodes[i, j].Can_UP)
@@ -990,7 +990,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     LI_U_Edges[i, j].Gizmos_GO.GetComponentInChildren<MeshRenderer>().enabled = false;
                 }
-                
+
                 if (j == 0)
                 {
                     LI_U_Edges[i, j].Edge_Type = Edge_Type.Boarder;
@@ -1963,7 +1963,7 @@ public class Pencil_Case : MonoBehaviour
                 {
                     move_Graph_Direction = Move_Graph.NONE;
                     return;
-                } 
+                }
             }
 
             for (int i = 0; i < li_node_row; ++i)
@@ -2015,7 +2015,7 @@ public class Pencil_Case : MonoBehaviour
             #region Assign Lower [Node] or [Edge] - [Type] to Upper ones
             for (int i = 0; i < bl_node_row; ++i)
             {
-                for (int j = bl_node_col - 1; j > 0 ; --j)
+                for (int j = bl_node_col - 1; j > 0; --j)
                 {
                     BL_Nodes[i, j].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType = BL_Nodes[i, j - 1].Gizmos_GO.GetComponentInChildren<BL_Node_Handle>().nodeType;
                     BL_Nodes[i, j].Node_Type = BL_Nodes[i, j - 1].Node_Type;

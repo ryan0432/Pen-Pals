@@ -262,6 +262,7 @@ public class Block_Control : MonoBehaviour
         //Debug.Log("State: Floating");
         currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
+        Set_Line_Traversability(DN_Key, true);
 
         timer -= Time.deltaTime;
 
@@ -272,6 +273,7 @@ public class Block_Control : MonoBehaviour
                 timer = floatingTime;
                 qeuePressedKey = LFT_Key;
                 Set_Line_Traversability(LFT_Key, true);
+                Set_Line_Traversability(DN_Key, false);
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -284,6 +286,7 @@ public class Block_Control : MonoBehaviour
                 timer = floatingTime;
                 qeuePressedKey = RGT_Key;
                 Set_Line_Traversability(RGT_Key, true);
+                Set_Line_Traversability(DN_Key, false);
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
