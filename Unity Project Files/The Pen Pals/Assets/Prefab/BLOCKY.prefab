@@ -103,7 +103,8 @@ MonoBehaviour:
   playerShape: 1
   movingSpeed: 5
   fallingSpeed: 7
-  floatingTime: 0.5
+  floatingTime: 0.25
+  timer: 0
   save_data:
     Name: Player_01
     player_type: 1

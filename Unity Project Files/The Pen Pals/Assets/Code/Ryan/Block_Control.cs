@@ -188,7 +188,6 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
-                isArrived = false;
                 qeuePressedKey = NONE;
                 prevState = currState;
                 currState = Block_State.FLOATING;
@@ -363,9 +362,11 @@ public class Block_Control : MonoBehaviour
                 }
                 else
                 {
-                    Ground_Check();
-                    prevState = currState;
-                    currState = Block_State.STATIC;
+                    if (Ground_Check())
+                    {
+                        prevState = currState;
+                        currState = Block_State.STATIC;
+                    }
                 }
             }
         }
@@ -414,6 +415,7 @@ public class Block_Control : MonoBehaviour
     {
         if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
         {
+            Set_Line_Traversability(DN_Key, true);
             isArrived = false;
             qeuePressedKey = NONE;
             prevState = currState;
@@ -492,7 +494,7 @@ public class Block_Control : MonoBehaviour
         float moveDistance = (transform.position - nextNode.Position).magnitude;
         float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
 
-        if (moveDistance < distBetweenNodes * 0.9f)
+        if (moveDistance < distBetweenNodes * 0.99f)
         {
             nextNode.Is_Occupied = true;
             currNode.Is_Occupied = false;
@@ -543,7 +545,7 @@ public class Block_Control : MonoBehaviour
 
                 if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
                 {
-                    gm.Save_Players_Data();
+                    //gm.Save_Players_Data();
                     gm.Initialize_Level(gm.lvDataIndex + 1);
                 }
             }
@@ -558,7 +560,7 @@ public class Block_Control : MonoBehaviour
 
                 if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
                 {
-                    gm.Save_Players_Data();
+                    //gm.Save_Players_Data();
                     gm.Initialize_Level(gm.lvDataIndex + 1);
                 }
             }

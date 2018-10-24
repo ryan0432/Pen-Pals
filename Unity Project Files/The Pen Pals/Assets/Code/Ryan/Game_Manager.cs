@@ -1421,23 +1421,25 @@ public class Node
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
-            if (Can_UP) { UP_NODE.DN_NODE = null; }
+            //if (Can_UP) { UP_NODE.DN_NODE = null; }
 
-            if (Can_DN) { DN_NODE.UP_NODE = null; }
+            //if (Can_DN) { DN_NODE.UP_NODE = null; }
 
-            if (Can_LFT) { LFT_NODE.RGT_NODE = null; }
+            //if (Can_LFT) { LFT_NODE.RGT_NODE = null; }
 
-            if (Can_RGT) { RGT_NODE.LFT_NODE = null; }
+            //if (Can_RGT) { RGT_NODE.LFT_NODE = null; }
+            Is_Occupied = true;
         }
         else
         {
-            if (Curr_Node.UP_NODE != null) { UP_NODE.DN_NODE = Curr_Node; }
+            //if (Curr_Node.UP_NODE != null) { UP_NODE.DN_NODE = Curr_Node; }
 
-            if (Curr_Node.DN_NODE != null) { DN_NODE.UP_NODE = Curr_Node; }
+            //if (Curr_Node.DN_NODE != null) { DN_NODE.UP_NODE = Curr_Node; }
 
-            if (Curr_Node.LFT_NODE != null) { LFT_NODE.RGT_NODE = Curr_Node; }
+            //if (Curr_Node.LFT_NODE != null) { LFT_NODE.RGT_NODE = Curr_Node; }
 
-            if (Curr_Node.RGT_NODE != null) { RGT_NODE.LFT_NODE = Curr_Node; }
+            //if (Curr_Node.RGT_NODE != null) { RGT_NODE.LFT_NODE = Curr_Node; }
+            Is_Occupied = false;
         }
 
         #endregion
@@ -1527,16 +1529,16 @@ public class Edge
         {
             if (Edge_Direction == Edge_Direction.Horizontal)
             {
-                if (UP_Node != null) { UP_Node.DN_NODE = Prev_UPsDN_Node; }
+                if (UP_Node != null) { if (Prev_UPsDN_Node != null) Prev_UPsDN_Node.Is_Occupied = false; UP_Node.DN_NODE = Prev_UPsDN_Node; }
 
-                if (DN_Node != null) { DN_Node.UP_NODE = Prev_DNsUP_Node; }
+                if (DN_Node != null) { if (Prev_DNsUP_Node != null) Prev_DNsUP_Node.Is_Occupied = false; DN_Node.UP_NODE = Prev_DNsUP_Node; }
             }
 
             if (Edge_Direction == Edge_Direction.Vertical)
             {
-                if (LFT_Node != null) { LFT_Node.RGT_NODE = Prev_LFTsRGT_Node; }
+                if (LFT_Node != null) { if (Prev_LFTsRGT_Node != null) Prev_LFTsRGT_Node.Is_Occupied = false; LFT_Node.RGT_NODE = Prev_LFTsRGT_Node; }
 
-                if (RGT_Node != null) { RGT_Node.LFT_NODE = Prev_RGTsLFT_Node; }
+                if (RGT_Node != null) { if (Prev_RGTsLFT_Node != null) Prev_RGTsLFT_Node.Is_Occupied = false; RGT_Node.LFT_NODE = Prev_RGTsLFT_Node; }
             }
         }
         #endregion
