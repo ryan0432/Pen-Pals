@@ -91,6 +91,12 @@ public class Level_Availability : MonoBehaviour
     {
         if (game_manager.lvDataIndex == 0)
         {
+            if (GameObject.FindGameObjectWithTag("UI_Manager").activeSelf == false)
+            {
+                GameObject.FindGameObjectWithTag("UI_Manager").SetActive(true);
+            }
+
+
             if (Player_Blue_Selection.activeSelf == false)
             {
                 Player_Blue_Selection.SetActive(true);
@@ -116,10 +122,7 @@ public class Level_Availability : MonoBehaviour
                     //*! Either player can initialize the level based on the level index that it is on.
                     game_manager.Initialize_Level(Level_Selection[p1_pos].Game_Manager_Index);
 
-                    for (int index = 0; index < Level_Selection.Length; index++)
-                    {
-                        Level_Selection[index].UI_Level.SetActive(false);
-                    }
+                    GameObject.FindGameObjectWithTag("UI_Manager").SetActive(false);
 
                 }
             }
