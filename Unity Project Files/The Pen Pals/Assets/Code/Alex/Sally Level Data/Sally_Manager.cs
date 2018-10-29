@@ -55,8 +55,8 @@ public class Sally_Manager : MonoBehaviour
         //*!Assign the file data into the custom level list
         for (int index = 0; index < c_level_files.Count / 2; index++)
         {
-            Custom_Level[index] = sally.Load_JSON(Custom_Level[index], data_path + (index) + "_Custom_Level.json");
-            Custom_Level[index].name = (index) + "_Custom_Level";
+            Custom_Level[index] = sally.Load_JSON(Custom_Level[index], data_path + (index + 1) + "_Custom_Level.json");
+            Custom_Level[index].name = (index + 1) + "_Custom_Level";
         }
 
 
@@ -67,8 +67,13 @@ public class Sally_Manager : MonoBehaviour
     public void Create_Custom_Level()
     {
         data_path = Application.dataPath + "/Custom/";
-        sally.Save_JSON((Lv_Data)ScriptableObject.CreateInstance(typeof(Lv_Data)), data_path + (Custom_Level.Count + 1) + "_Custom_Level.json", true);
+        level_data_template = (Lv_Data)ScriptableObject.CreateInstance(typeof(Lv_Data));
+        sally.Save_JSON(level_data_template, data_path + (Custom_Level.Count + 1) + "_Custom_Level.json", true);
+        level_data_template.name = (Custom_Level.Count + 1) + "_Custom_Level";
+        Custom_Level.Add(level_data_template);
+        level_data_template = null;
     }
+
 
 
     [ContextMenu("Custom Level Save All")]
@@ -77,7 +82,7 @@ public class Sally_Manager : MonoBehaviour
         data_path = Application.dataPath + "/Custom/";
         for (int index = 0; index < Custom_Level.Count; index++)
         {
-            sally.Save_JSON(Custom_Level[index], data_path + (index) + "_Custom_Level.json", true);
+            sally.Save_JSON(Custom_Level[index], data_path + (index + 1) + "_Custom_Level.json", true);
         }
     }
 
