@@ -2569,47 +2569,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfd35b32e347fb499f8fdbb3a8d1ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XML_Manager: {fileID: 0}
-  Player_RED_Selection: {fileID: 1477779594179156}
-  Player_BLUE_Selection: {fileID: 1375107465103120}
+  Player_Blue_Selection: {fileID: 1375107465103120}
+  Player_Red_Selection: {fileID: 1477779594179156}
   Level_Selection:
   - Game_Manager_Index: 1
     UI_Level: {fileID: 1147674931607002}
+    up: 0
+    down: 3
   - Game_Manager_Index: 3
     UI_Level: {fileID: 1724034306041238}
+    up: 1
+    down: 4
   - Game_Manager_Index: 5
     UI_Level: {fileID: 1462468723131698}
+    up: 2
+    down: 5
   - Game_Manager_Index: 7
     UI_Level: {fileID: 1339661161439634}
+    up: 0
+    down: 12
   - Game_Manager_Index: 9
     UI_Level: {fileID: 1302185671221522}
+    up: 1
+    down: 13
   - Game_Manager_Index: 11
     UI_Level: {fileID: 1612829504179038}
+    up: 2
+    down: 14
   - Game_Manager_Index: 13
     UI_Level: {fileID: 1083082509811536}
+    up: 6
+    down: 9
   - Game_Manager_Index: 15
     UI_Level: {fileID: 1536999927017602}
+    up: 7
+    down: 10
   - Game_Manager_Index: 17
     UI_Level: {fileID: 1555810017120328}
+    up: 8
+    down: 11
   - Game_Manager_Index: 19
     UI_Level: {fileID: 1267973863195938}
+    up: 6
+    down: 15
   - Game_Manager_Index: 21
     UI_Level: {fileID: 1587146137021256}
+    up: 7
+    down: 16
   - Game_Manager_Index: 23
     UI_Level: {fileID: 1303364168773756}
+    up: 8
+    down: 17
   - Game_Manager_Index: 25
     UI_Level: {fileID: 1479322321869528}
+    up: 3
+    down: 12
   - Game_Manager_Index: 27
     UI_Level: {fileID: 1080635101800824}
+    up: 4
+    down: 13
   - Game_Manager_Index: 29
     UI_Level: {fileID: 1149194524983176}
+    up: 5
+    down: 14
   - Game_Manager_Index: 31
     UI_Level: {fileID: 1438299091492186}
+    up: 9
+    down: 15
   - Game_Manager_Index: 33
     UI_Level: {fileID: 1120907937395896}
+    up: 10
+    down: 16
   - Game_Manager_Index: 35
     UI_Level: {fileID: 1608256579461778}
-  selection_timer: 2.5
+    up: 11
+    down: 17
 --- !u!114 &114215085740596882
 MonoBehaviour:
   m_ObjectHideFlags: 1

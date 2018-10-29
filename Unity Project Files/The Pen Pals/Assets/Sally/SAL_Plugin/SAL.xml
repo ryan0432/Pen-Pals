@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SAL</name>
+    </assembly>
+    <members>
+        <member name="T:APS.SALLY.SAL">
+            <summary>
+            SAL - Save and Load
+            </summary>
+        </member>
+        <member name="M:APS.SALLY.SAL.Save_XML``1(``0,System.String)">
+            <summary>
+            Save of type T - Not Safe for Scriptable Objects
+            </summary>
+            <typeparam name="T"> Data Type </typeparam>
+            <param name="object_save"> Object of data type to save to file </param>
+            <param name="data_path"> Output Location </param>
+        </member>
+        <member name="M:APS.SALLY.SAL.Load_XML``1(``0,System.String)">
+            <summary>
+            Load from file deserialized XML format as type T
+            </summary>
+            <typeparam name="T"> Data Type </typeparam>
+            <param name="object_to_load"> Object to load the file data into. </param>
+            <param name="data_path"> Location of File </param>
+            <returns> The Object casted from the file loaded. </returns>
+        </member>
+        <member name="M:APS.SALLY.SAL.Save_JSON_BINF``1(``0,System.String)">
+            <summary>
+            Save T as a JSON file with the Binary Formatter
+            </summary>
+            <typeparam name="T"> Data Type </typeparam>
+            <param name="object_save"> Object of data type to save to file </param>
+            <param name="data_path"> Location of File </param>
+        </member>
+        <member name="M:APS.SALLY.SAL.Load_JSON_BINF``1(``0,System.String)">
+            <summary>
+            Load from file deserialized JSON in Binary Format
+            </summary>
+            <typeparam name="T"> Data Type </typeparam>
+            <param name="object_to_load"> Object to load from file </param>
+            <param name="data_path"> Location of the file </param>
+            <returns> The Object casted from the file loaded. </returns>
+        </member>
+        <member name="M:APS.SALLY.SAL.Save_JSON``1(``0,System.String,System.Boolean)">
+            <summary>
+            Save T as a JSON file with plain text format
+            </summary>
+            <typeparam name="T"> Data Type </typeparam>
+            <param name="object_save"> Object of data type to save to file </param>
+            <param name="data_path"> Location of File </param>
+            <param name="tabbed_format"> Internal JSON File Tabbed format </param>
+        </member>
+        <member name="M:APS.SALLY.SAL.Load_JSON``1(``0,System.String)">
+            <summary>
+            Load from JSON file with no Binary Format
+            </summary>
+            <typeparam name="T"> Data Type </typeparam>
+            <param name="object_to_load"> Object to load from file </param>
+            <param name="data_path">Location of File </param>
+            <returns> The Object casted from the file loaded. </returns>
+        </member>
+        <member name="M:APS.SALLY.SAL.Version">
+            <summary>
+            Current Version Number
+            </summary>
+            <returns> Version Number </returns>
+        </member>
+    </members>
+</doc>

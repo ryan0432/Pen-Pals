@@ -1,10 +1,8 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Code\Ryan\Pencil_Case.cs">
+﻿<Properties StartupItem="The Pen Pals.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Assets\Code\Alex\State Machine\PlayerStateMachine.cs" Line="105" Column="1" />
-      <File FileName="Assets\Code\Alex\State Machine\PlayerStateMachine_Line.cs" Line="1" Column="1" />
-      <File FileName="Assets\Code\Ryan\Pencil_Case.cs" Line="932" Column="1" />
+      <File FileName="Assets\Code\Ryan\Pencil_Case.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

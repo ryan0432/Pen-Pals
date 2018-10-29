@@ -124,6 +124,13 @@ public class Line_Controller : MonoBehaviour
 
     private void Awake()
     {
+        if (is_moving || can_second || head_at_tail || head_traversing_body)
+        {
+            if (up_key_pressed || down_key_pressed || left_key_pressed || right_key_pressed)
+            {
+                ///Assigned but never used debug warning
+            }
+        }
 
         //*! Line Render component
         line_renderer = GetComponent<LineRenderer>();

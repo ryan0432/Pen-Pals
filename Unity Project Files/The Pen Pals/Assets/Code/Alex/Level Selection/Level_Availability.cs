@@ -18,7 +18,7 @@ public class Level_Availability : MonoBehaviour
     //*! Game Manager
     private Game_Manager game_manager = null;
 
-    private float current_timer = 0f;
+
 
     //*! Blue
     private Player_Save player_one;

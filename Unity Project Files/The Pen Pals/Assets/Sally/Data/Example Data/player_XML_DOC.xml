@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Player_Save_SALLY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Sally Player Save Example Data</Name>
+  <player_type>BLUE</player_type>
+  <active_save>true</active_save>
+  <health>42</health>
+</Player_Save_SALLY>
