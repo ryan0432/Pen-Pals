@@ -81,19 +81,20 @@ public class Level_Availability : MonoBehaviour
 
     private void Update()
     {
-
-        Input_Check();
-
         Menu_Check();
     }
+
+
 
     private void Menu_Check()
     {
         if (game_manager.lvDataIndex == 1)
         {
-            if (GameObject.FindGameObjectWithTag("UI_Manager").activeSelf == false)
+            Input_Check();
+
+            if (GameObject.FindGameObjectWithTag("UI_Manager").transform.GetChild(0).gameObject.activeSelf == false)
             {
-                GameObject.FindGameObjectWithTag("UI_Manager").SetActive(true);
+                GameObject.FindGameObjectWithTag("UI_Manager").transform.GetChild(0).gameObject.SetActive(true);
             }
 
 
@@ -122,13 +123,15 @@ public class Level_Availability : MonoBehaviour
                     //*! Either player can initialize the level based on the level index that it is on.
                     game_manager.Initialize_Level(Level_Selection[p1_pos].Game_Manager_Index);
 
-                    GameObject.FindGameObjectWithTag("UI_Manager").SetActive(false);
+                    GameObject.FindGameObjectWithTag("UI_Manager").transform.GetChild(0).gameObject.SetActive(false);
 
                 }
             }
         }
         else
         {
+            GameObject.FindGameObjectWithTag("UI_Manager").transform.GetChild(0).gameObject.SetActive(false);
+
             if (Player_Blue_Selection.activeSelf == true)
             {
                 Player_Blue_Selection.SetActive(false);
@@ -310,6 +313,7 @@ public class Level_Availability : MonoBehaviour
     }
 
     #endregion
+
 
 
 
