@@ -103,6 +103,7 @@ public class Block_Control : MonoBehaviour
     void Update()
     {
         Runtime_Update();
+        //Debug.Log("Gnd Pos:" + Ground_Node().Position);
     }
 
 
@@ -124,7 +125,7 @@ public class Block_Control : MonoBehaviour
 
         Ground_Check();
 
-        if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && !currNode.UP_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
+        if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
         {
             Set_Line_Traversability(UP_Key, true);
             isArrived = false;
@@ -133,7 +134,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.JUMPING;
         }
 
-        if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && !currNode.LFT_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
+        if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
         {
             Set_Line_Traversability(LFT_Key, true);
             isArrived = false;
@@ -142,7 +143,7 @@ public class Block_Control : MonoBehaviour
             currState = Block_State.MOVING;
         }
 
-        if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && !currNode.RGT_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
+        if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
         {
             Set_Line_Traversability(RGT_Key, true);
             isArrived = false;
@@ -161,12 +162,12 @@ public class Block_Control : MonoBehaviour
         {
             Move_Towards(Return_Input_Node(UP_Key), movingSpeed);
 
-            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.LFT_NODE != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied)
             {
                 qeuePressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.RGT_NODE != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied)
             {
                 qeuePressedKey = RGT_Key;
             }           
@@ -204,17 +205,17 @@ public class Block_Control : MonoBehaviour
         {
             Move_Towards(Return_Input_Node(currPressedKey), movingSpeed);
 
-            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied && !nextNode.Can_DN)
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.UP_NODE != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied/* && !nextNode.Can_DN && nextNode.DN_NODE != null*/)
             {
                 qeuePressedKey = UP_Key;
             }
 
-            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied && !nextNode.Can_DN)
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.LFT_NODE != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied/* && !nextNode.Can_DN && nextNode.DN_NODE != null*/)
             {
                 qeuePressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied && !nextNode.Can_DN)
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.RGT_NODE != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied/* && !nextNode.Can_DN && nextNode.DN_NODE != null*/)
             {
                 qeuePressedKey = RGT_Key;
             }
@@ -262,7 +263,7 @@ public class Block_Control : MonoBehaviour
         //Debug.Log("State: Floating");
         currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
-        Set_Line_Traversability(DN_Key, true);
+        //Set_Line_Traversability(DN_Key, true);
 
         timer -= Time.deltaTime;
 
@@ -316,17 +317,18 @@ public class Block_Control : MonoBehaviour
             Set_Line_Traversability(DN_Key, true);
             Move_Towards(currNode.DN_NODE, fallingSpeed);
 
-            if (Input.GetKeyDown(UP_Key) && Ground_Node().Can_UP && !Ground_Node().UP_NODE.Is_Occupied)
+            if (Input.GetKeyDown(UP_Key) && Ground_Node().UP_NODE != null && Ground_Node().Can_UP && !Ground_Node().UP_NODE.Is_Occupied)
             {
                 qeuePressedKey = UP_Key;
             }
 
-            if (Input.GetKeyDown(LFT_Key) && Ground_Node().Can_LFT && !Ground_Node().LFT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(LFT_Key) && Ground_Node().LFT_NODE != null && Ground_Node().Can_LFT && !Ground_Node().LFT_NODE.Is_Occupied)
             {
                 qeuePressedKey = LFT_Key;
+                Debug.Log("Gnd LFT Pos:" + Ground_Node().LFT_NODE.Position);
             }
 
-            if (Input.GetKeyDown(RGT_Key) && Ground_Node().Can_RGT && !Ground_Node().RGT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(RGT_Key) && Ground_Node().RGT_NODE != null && Ground_Node().Can_RGT && !Ground_Node().RGT_NODE.Is_Occupied)
             {
                 qeuePressedKey = RGT_Key;
             }
@@ -336,7 +338,7 @@ public class Block_Control : MonoBehaviour
             Set_Line_Traversability(UP_Key, false);
             Set_Line_Traversability(DN_Key, false);
 
-            if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
+            if (currNode.DN_NODE != null && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
             {
                 Set_Line_Traversability(DN_Key, true);
                 isArrived = false;
@@ -416,7 +418,7 @@ public class Block_Control : MonoBehaviour
     [ContextMenu("Ground_Check")]
     private bool Ground_Check()
     {
-        if (currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
+        if (currNode.DN_NODE != null && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
         {
             Set_Line_Traversability(DN_Key, true);
             isArrived = false;
@@ -436,7 +438,7 @@ public class Block_Control : MonoBehaviour
     {
         Node groundNode = currNode;
 
-        while (groundNode.Can_DN && !groundNode.DN_NODE.Is_Occupied)
+        while (groundNode.DN_NODE != null && groundNode.Can_DN && !groundNode.DN_NODE.Is_Occupied)
         {
             groundNode = groundNode.DN_NODE;
         }

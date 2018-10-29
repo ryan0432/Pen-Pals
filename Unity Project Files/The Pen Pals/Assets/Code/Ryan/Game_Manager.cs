@@ -218,17 +218,21 @@ public class Game_Manager : MonoBehaviour
             {
                 BL_Nodes[i, j].UP_NODE = BL_Nodes[i, j + 1];
                 BL_Nodes[i, j].RGT_NODE = BL_Nodes[i + 1, j];
+                BL_Nodes[i, j].Can_UP = true;
+                BL_Nodes[i, j].Can_RGT = true;
             }
         }
 
         for (int i = 0; i < BL_Nodes.GetUpperBound(0); ++i)
         {
             BL_Nodes[i, BL_Nodes.GetUpperBound(1)].RGT_NODE = BL_Nodes[i + 1, BL_Nodes.GetUpperBound(1)];
+            BL_Nodes[i, BL_Nodes.GetUpperBound(1)].Can_RGT = true;
         }
 
         for (int i = 0; i < BL_Nodes.GetUpperBound(1); ++i)
         {
             BL_Nodes[BL_Nodes.GetUpperBound(0), i].UP_NODE = BL_Nodes[BL_Nodes.GetUpperBound(0), i + 1];
+            BL_Nodes[BL_Nodes.GetUpperBound(0), i].Can_UP = true;
         }
         #endregion
 
@@ -239,17 +243,21 @@ public class Game_Manager : MonoBehaviour
             {
                 BL_Nodes[i, j].DN_NODE = BL_Nodes[i, j - 1];
                 BL_Nodes[i, j].LFT_NODE = BL_Nodes[i - 1, j];
+                BL_Nodes[i, j].Can_DN = true;
+                BL_Nodes[i, j].Can_LFT = true;
             }
         }
 
         for (int i = BL_Nodes.GetUpperBound(0); i > 0; --i)
         {
             BL_Nodes[i, BL_Nodes.GetLowerBound(1)].LFT_NODE = BL_Nodes[i - 1, BL_Nodes.GetLowerBound(1)];
+            BL_Nodes[i, BL_Nodes.GetLowerBound(1)].Can_LFT = true;
         }
 
         for (int i = BL_Nodes.GetUpperBound(1); i > 0; --i)
         {
             BL_Nodes[BL_Nodes.GetLowerBound(0), i].DN_NODE = BL_Nodes[BL_Nodes.GetLowerBound(0), i - 1];
+            BL_Nodes[BL_Nodes.GetLowerBound(0), i].Can_DN = true;
         }
         #endregion
 
@@ -317,17 +325,21 @@ public class Game_Manager : MonoBehaviour
             {
                 LI_Nodes[i, j].UP_NODE = LI_Nodes[i, j + 1];
                 LI_Nodes[i, j].RGT_NODE = LI_Nodes[i + 1, j];
+                LI_Nodes[i, j].Can_UP = true;
+                LI_Nodes[i, j].Can_RGT = true;
             }
         }
 
         for (int i = 0; i < LI_Nodes.GetUpperBound(0); ++i)
         {
             LI_Nodes[i, LI_Nodes.GetUpperBound(1)].RGT_NODE = LI_Nodes[i + 1, LI_Nodes.GetUpperBound(1)];
+            LI_Nodes[i, LI_Nodes.GetUpperBound(1)].Can_RGT = true;
         }
 
         for (int i = 0; i < LI_Nodes.GetUpperBound(1); ++i)
         {
             LI_Nodes[LI_Nodes.GetUpperBound(0), i].UP_NODE = LI_Nodes[LI_Nodes.GetUpperBound(0), i + 1];
+            LI_Nodes[LI_Nodes.GetUpperBound(0), i].Can_UP = true;
         }
         #endregion
 
@@ -338,17 +350,21 @@ public class Game_Manager : MonoBehaviour
             {
                 LI_Nodes[i, j].DN_NODE = LI_Nodes[i, j - 1];
                 LI_Nodes[i, j].LFT_NODE = LI_Nodes[i - 1, j];
+                LI_Nodes[i, j].Can_DN = true;
+                LI_Nodes[i, j].Can_LFT = true;
             }
         }
 
         for (int i = LI_Nodes.GetUpperBound(0); i > 0; --i)
         {
             LI_Nodes[i, LI_Nodes.GetLowerBound(1)].LFT_NODE = LI_Nodes[i - 1, LI_Nodes.GetLowerBound(1)];
+            LI_Nodes[i, LI_Nodes.GetLowerBound(1)].Can_LFT = true;
         }
 
         for (int i = LI_Nodes.GetUpperBound(1); i > 0; --i)
         {
             LI_Nodes[LI_Nodes.GetLowerBound(0), i].DN_NODE = LI_Nodes[LI_Nodes.GetLowerBound(0), i - 1];
+            LI_Nodes[LI_Nodes.GetLowerBound(0), i].Can_DN = true;
         }
         #endregion
 
@@ -1138,7 +1154,7 @@ public class Game_Manager : MonoBehaviour
         {
             for (int j = 0; j < BL_Nodes.GetLength(1); ++j)
             {
-                if (BL_Nodes[i, j].Can_UP && !BL_Nodes[i, j].UP_NODE.Is_Occupied)
+                if (BL_Nodes[i, j].UP_NODE != null && BL_Nodes[i, j].Can_UP && !BL_Nodes[i, j].UP_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size));
@@ -1146,7 +1162,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_DN && !BL_Nodes[i, j].DN_NODE.Is_Occupied)
+                if (BL_Nodes[i, j].DN_NODE != null && BL_Nodes[i, j].Can_DN && !BL_Nodes[i, j].DN_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1155,7 +1171,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_LFT && !BL_Nodes[i, j].LFT_NODE.Is_Occupied)
+                if (BL_Nodes[i, j].LFT_NODE != null && BL_Nodes[i, j].Can_LFT && !BL_Nodes[i, j].LFT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1164,7 +1180,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_RGT && !BL_Nodes[i, j].RGT_NODE.Is_Occupied)
+                if (BL_Nodes[i, j].RGT_NODE != null && BL_Nodes[i, j].Can_RGT && !BL_Nodes[i, j].RGT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                            Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1181,7 +1197,7 @@ public class Game_Manager : MonoBehaviour
         {
             for (int j = 0; j < LI_Nodes.GetLength(1); ++j)
             {
-                if (LI_Nodes[i, j].Can_UP && !LI_Nodes[i, j].UP_NODE.Is_Occupied)
+                if (LI_Nodes[i, j].UP_NODE != null && LI_Nodes[i, j].Can_UP && !LI_Nodes[i, j].UP_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size));
@@ -1189,7 +1205,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_DN && !LI_Nodes[i, j].DN_NODE.Is_Occupied)
+                if (LI_Nodes[i, j].DN_NODE != null && LI_Nodes[i, j].Can_DN && !LI_Nodes[i, j].DN_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1198,7 +1214,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_LFT && !LI_Nodes[i, j].LFT_NODE.Is_Occupied)
+                if (LI_Nodes[i, j].LFT_NODE != null && LI_Nodes[i, j].Can_LFT && !LI_Nodes[i, j].LFT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1207,7 +1223,7 @@ public class Game_Manager : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_RGT && !LI_Nodes[i, j].RGT_NODE.Is_Occupied)
+                if (LI_Nodes[i, j].RGT_NODE != null && LI_Nodes[i, j].Can_RGT && !LI_Nodes[i, j].RGT_NODE.Is_Occupied)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(Gizmos_Size, Gizmos_Size, Gizmos_Size)) *
@@ -1373,10 +1389,15 @@ public class Node
 
     //*! Getter, Setter of [Node] Traversability boolean properties of 4 neighbor [Node]
     //*! Return value according to if neighbor [Node] null && occupied
-    public bool Can_UP { get { return UP_NODE != null; } }
-    public bool Can_DN { get { return DN_NODE != null; } }
-    public bool Can_LFT { get { return LFT_NODE != null; } }
-    public bool Can_RGT { get { return RGT_NODE != null; } }
+    //public bool Can_UP { get { return UP_NODE != null; } }
+    //public bool Can_DN { get { return DN_NODE != null; } }
+    //public bool Can_LFT { get { return LFT_NODE != null; } }
+    //public bool Can_RGT { get { return RGT_NODE != null; } }
+
+    public bool Can_UP;
+    public bool Can_DN;
+    public bool Can_LFT;
+    public bool Can_RGT;
 
     //*! Neighbor [Node] reference holder
     public Node UP_NODE;
@@ -1397,7 +1418,7 @@ public class Node
     public Edge RGT_EDGE;
 
     //*! Temp [Node] for storing current [Node] reference
-    public Node Curr_Node;
+    //public Node Curr_Node;
 
     //*! [Node] [Gizmos] reference holder
     public GameObject Gizmos_GO;
@@ -1412,34 +1433,50 @@ public class Node
     public void Set_Traversability(bool Can_Traverse)
     {
         #region Setup current [Node] references
-        Curr_Node = new Node();
+        //Curr_Node = new Node();
 
-        Curr_Node = this;
+        //Curr_Node = this;
         #endregion
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
-            if (Can_UP) { UP_NODE.DN_NODE = null; }
+            //if (Can_UP) { UP_NODE.DN_NODE = null; }
 
-            if (Can_DN) { DN_NODE.UP_NODE = null; }
+            //if (Can_DN) { DN_NODE.UP_NODE = null; }
 
-            if (Can_LFT) { LFT_NODE.RGT_NODE = null; }
+            //if (Can_LFT) { LFT_NODE.RGT_NODE = null; }
 
-            if (Can_RGT) { RGT_NODE.LFT_NODE = null; }
+            //if (Can_RGT) { RGT_NODE.LFT_NODE = null; }
+
+            if (UP_NODE != null) { UP_NODE.Can_DN = false; }
+
+            if (DN_NODE != null) { DN_NODE.Can_UP = false; }
+
+            if (LFT_NODE != null) { LFT_NODE.Can_RGT = false; }
+
+            if (RGT_NODE != null) { RGT_NODE.Can_LFT = false; }
 
             Is_Occupied = true;
         }
         else
         {
-            if (Curr_Node.UP_NODE != null) { UP_NODE.DN_NODE = Curr_Node; }
+            //if (Curr_Node.UP_NODE != null) { UP_NODE.DN_NODE = Curr_Node; }
 
-            if (Curr_Node.DN_NODE != null) { DN_NODE.UP_NODE = Curr_Node; }
+            //if (Curr_Node.DN_NODE != null) { DN_NODE.UP_NODE = Curr_Node; }
 
-            if (Curr_Node.LFT_NODE != null) { LFT_NODE.RGT_NODE = Curr_Node; }
+            //if (Curr_Node.LFT_NODE != null) { LFT_NODE.RGT_NODE = Curr_Node; }
 
-            if (Curr_Node.RGT_NODE != null) { RGT_NODE.LFT_NODE = Curr_Node; }
+            //if (Curr_Node.RGT_NODE != null) { RGT_NODE.LFT_NODE = Curr_Node; }
+
+            if (UP_NODE != null) { UP_NODE.Can_DN = true; }
+
+            if (DN_NODE != null) { DN_NODE.Can_UP = true; }
+
+            if (LFT_NODE != null) { LFT_NODE.Can_RGT = true; }
+
+            if (RGT_NODE != null) { RGT_NODE.Can_LFT = true; }
 
             Is_Occupied = false;
         }
@@ -1459,10 +1496,10 @@ public class Edge
     public Node RGT_Node;
 
     //*! Temp [Edge] references for neighbor [Node] previous status
-    public Node Prev_UPsDN_Node;
-    public Node Prev_DNsUP_Node;
-    public Node Prev_LFTsRGT_Node;
-    public Node Prev_RGTsLFT_Node;
+    //public Node Prev_UPsDN_Node;
+    //public Node Prev_DNsUP_Node;
+    //public Node Prev_LFTsRGT_Node;
+    //public Node Prev_RGTsLFT_Node;
 
     ////*! [Edge] reference that corsses with current [Edge]
     //public Edge Cross_Edge;
@@ -1500,51 +1537,67 @@ public class Edge
     {
         //*! Setup temp [Node] references for 4 directions
         #region Setup temp [Node] references for 4 directions
-        if (UP_Node != null && UP_Node.Can_DN) { Prev_UPsDN_Node = new Node(); Prev_UPsDN_Node = UP_Node.DN_NODE; }
+        //if (UP_Node != null && UP_Node.Can_DN) { Prev_UPsDN_Node = new Node(); Prev_UPsDN_Node = UP_Node.DN_NODE; }
 
-        if (DN_Node != null && DN_Node.Can_UP) { Prev_DNsUP_Node = new Node(); Prev_DNsUP_Node = DN_Node.UP_NODE; }
+        //if (DN_Node != null && DN_Node.Can_UP) { Prev_DNsUP_Node = new Node(); Prev_DNsUP_Node = DN_Node.UP_NODE; }
 
-        if (LFT_Node != null && LFT_Node.Can_RGT) { Prev_LFTsRGT_Node = new Node(); Prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
+        //if (LFT_Node != null && LFT_Node.Can_RGT) { Prev_LFTsRGT_Node = new Node(); Prev_LFTsRGT_Node = LFT_Node.RGT_NODE; }
 
-        if (RGT_Node != null && RGT_Node.Can_LFT) { Prev_RGTsLFT_Node = new Node(); Prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
+        //if (RGT_Node != null && RGT_Node.Can_LFT) { Prev_RGTsLFT_Node = new Node(); Prev_RGTsLFT_Node = RGT_Node.LFT_NODE; }
         #endregion
 
         //*! Switch traversability according to [Can_Traverse] argument
         #region Switch traversability according to [Can_Traverse] argument
         if (!Can_Traverse)
         {
-            if (Edge_Direction == Edge_Direction.Horizontal)
+            if (Edge_Direction == Edge_Direction.Horizontal && Edge_Type == Edge_Type.NONE)
             {
-                if (UP_Node != null && UP_Node.Can_DN) { UP_Node.DN_NODE = null; }
+                //if (UP_Node != null && UP_Node.Can_DN) { UP_Node.DN_NODE = null; }
 
-                if (DN_Node != null && DN_Node.Can_UP) { DN_Node.UP_NODE = null; }
+                //if (DN_Node != null && DN_Node.Can_UP) { DN_Node.UP_NODE = null; }
+
+                if (UP_Node != null) { UP_Node.Can_DN = false; }
+
+                if (DN_Node != null) { DN_Node.Can_UP = false; }
             }
 
-            if (Edge_Direction == Edge_Direction.Vertical)
+            if (Edge_Direction == Edge_Direction.Vertical && Edge_Type == Edge_Type.NONE)
             {
-                if (LFT_Node != null && LFT_Node.Can_RGT) { LFT_Node.RGT_NODE = null; }
+                //if (LFT_Node != null && LFT_Node.Can_RGT) { LFT_Node.RGT_NODE = null; }
 
-                if (RGT_Node != null && RGT_Node.Can_LFT) { RGT_Node.LFT_NODE = null; }
+                //if (RGT_Node != null && RGT_Node.Can_LFT) { RGT_Node.LFT_NODE = null; }
+
+                if (LFT_Node != null) { LFT_Node.Can_RGT = false; }
+                
+                if (RGT_Node != null) { RGT_Node.Can_LFT = false; }
             }
         }
         else
         {
-            if (Edge_Direction == Edge_Direction.Horizontal)
+            if (Edge_Direction == Edge_Direction.Horizontal && Edge_Type == Edge_Type.NONE)
             {
-                if (Prev_UPsDN_Node != null) Prev_UPsDN_Node.Is_Occupied = false;
-                if (UP_Node != null) { UP_Node.DN_NODE = Prev_UPsDN_Node; }
+                //if (Prev_UPsDN_Node != null) Prev_UPsDN_Node.Is_Occupied = false;
+                //if (UP_Node != null) { UP_Node.DN_NODE = Prev_UPsDN_Node; }
 
-                if (Prev_DNsUP_Node != null) Prev_DNsUP_Node.Is_Occupied = false;
-                if (DN_Node != null) { DN_Node.UP_NODE = Prev_DNsUP_Node; }
+                //if (Prev_DNsUP_Node != null) Prev_DNsUP_Node.Is_Occupied = false;
+                //if (DN_Node != null) { DN_Node.UP_NODE = Prev_DNsUP_Node; }
+
+                if (UP_Node != null) { UP_Node.Can_DN = true; }
+
+                if (DN_Node != null) { DN_Node.Can_UP = true; }
             }
 
-            if (Edge_Direction == Edge_Direction.Vertical)
+            if (Edge_Direction == Edge_Direction.Vertical && Edge_Type == Edge_Type.NONE)
             {
-                if (Prev_LFTsRGT_Node != null) Prev_LFTsRGT_Node.Is_Occupied = false;
-                if (LFT_Node != null) {  LFT_Node.RGT_NODE = Prev_LFTsRGT_Node; }
+                //if (Prev_LFTsRGT_Node != null) Prev_LFTsRGT_Node.Is_Occupied = false;
+                //if (LFT_Node != null) {  LFT_Node.RGT_NODE = Prev_LFTsRGT_Node; }
 
-                if (Prev_RGTsLFT_Node != null) Prev_RGTsLFT_Node.Is_Occupied = false;
-                if (RGT_Node != null) {  RGT_Node.LFT_NODE = Prev_RGTsLFT_Node; }
+                //if (Prev_RGTsLFT_Node != null) Prev_RGTsLFT_Node.Is_Occupied = false;
+                //if (RGT_Node != null) {  RGT_Node.LFT_NODE = Prev_RGTsLFT_Node; }
+
+                if (LFT_Node != null) { LFT_Node.Can_RGT = true; }
+
+                if (RGT_Node != null) { RGT_Node.Can_LFT = true; }
             }
         }
         #endregion

@@ -761,7 +761,7 @@ public class Pencil_Case : MonoBehaviour
                 newNodeGiz.transform.localScale = new Vector3(handle_size, handle_size, handle_size);
                 BL_Nodes[i, j].Gizmos_GO = newNodeGiz;
 
-                if (BL_Nodes[i, j].Can_UP)
+                if (BL_Nodes[i, j].UP_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
@@ -769,7 +769,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_DN)
+                if (BL_Nodes[i, j].DN_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -778,7 +778,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_LFT)
+                if (BL_Nodes[i, j].LFT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -787,7 +787,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_RGT)
+                if (BL_Nodes[i, j].RGT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                            Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -813,7 +813,7 @@ public class Pencil_Case : MonoBehaviour
                 newNodeGiz.transform.localScale = new Vector3(handle_size, handle_size, handle_size);
                 LI_Nodes[i, j].Gizmos_GO = newNodeGiz;
 
-                if (LI_Nodes[i, j].Can_UP)
+                if (LI_Nodes[i, j].UP_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
@@ -821,7 +821,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_DN)
+                if (LI_Nodes[i, j].DN_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -830,7 +830,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_LFT)
+                if (LI_Nodes[i, j].LFT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -839,7 +839,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_RGT)
+                if (LI_Nodes[i, j].RGT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -1348,7 +1348,7 @@ public class Pencil_Case : MonoBehaviour
                     BL_Nodes[i, j].Gizmos_GO.transform.GetComponentInChildren<MeshRenderer>().enabled = false;
                 }
 
-                if (BL_Nodes[i, j].Can_UP)
+                if (BL_Nodes[i, j].UP_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
@@ -1356,7 +1356,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_DN)
+                if (BL_Nodes[i, j].DN_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -1365,7 +1365,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_LFT)
+                if (BL_Nodes[i, j].LFT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -1374,7 +1374,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, bl_giz_mat, 0);
                 }
 
-                if (BL_Nodes[i, j].Can_RGT)
+                if (BL_Nodes[i, j].RGT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(BL_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                            Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -1401,7 +1401,7 @@ public class Pencil_Case : MonoBehaviour
                 }
 
 
-                if (LI_Nodes[i, j].Can_UP)
+                if (LI_Nodes[i, j].UP_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size));
@@ -1409,7 +1409,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_DN)
+                if (LI_Nodes[i, j].DN_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(0, -gizmos_spacing, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -1418,7 +1418,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_LFT)
+                if (LI_Nodes[i, j].LFT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(-gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
@@ -1427,7 +1427,7 @@ public class Pencil_Case : MonoBehaviour
                     Graphics.DrawMesh(arrw_giz_mesh, arrHandleMatx, li_giz_mat, 0);
                 }
 
-                if (LI_Nodes[i, j].Can_RGT)
+                if (LI_Nodes[i, j].RGT_NODE != null)
                 {
                     Matrix4x4 arrHandleMatx = Matrix4x4.Translate(LI_Nodes[i, j].Position + new Vector3(gizmos_spacing, 0, 0)) *
                                               Matrix4x4.Scale(new Vector3(handle_size, handle_size, handle_size)) *
