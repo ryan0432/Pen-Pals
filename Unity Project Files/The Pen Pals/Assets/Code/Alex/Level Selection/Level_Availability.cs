@@ -89,7 +89,7 @@ public class Level_Availability : MonoBehaviour
 
     private void Menu_Check()
     {
-        if (game_manager.lvDataIndex == 0)
+        if (game_manager.lvDataIndex == 1)
         {
             if (GameObject.FindGameObjectWithTag("UI_Manager").activeSelf == false)
             {
@@ -312,19 +312,6 @@ public class Level_Availability : MonoBehaviour
     #endregion
 
 
-    /// <summary>
-    /// Helper Function
-    /// </summary>
-    #region Public Functions
-    [ContextMenu("Populate_Level_List")]
-    public void Populate_Level_List()
-    {
-        for (int i = 1; i < transform.childCount; i++)
-        {
-            Level_Selection[i - 1].UI_Level = transform.GetChild(i).gameObject;
-        }
-    }
-    #endregion
 
 }
 
