@@ -410,8 +410,17 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Edge] [Type] == [Black_Pen]
                 if (LI_U_Edges[i, j].Edge_Type == Edge_Type.Black_Pen)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
-                    LI_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    if (Black_Pen.transform.childCount <= 0)
+                    {
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
+                        LI_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    }
+                    else
+                    {
+                        int rand = Random.Range(0, Black_Pen.transform.childCount - 1);
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen.transform.GetChild(rand).gameObject, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
+                        LI_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    }
                 }
             }
         }
@@ -454,11 +463,20 @@ public class Game_Manager : MonoBehaviour
                 new_edge_V.Position = lvData[lvIndex].LI_V_Edges[colSize * i + j].Position;
                 LI_V_Edges[i, j] = new_edge_V;
 
-                //* Check [Edge] [Type] = [Black_Pen]
+                //* Check [Edge] [Type] == [Black_Pen]
                 if (LI_V_Edges[i, j].Edge_Type == Edge_Type.Black_Pen)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
-                    LI_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    if (Black_Pen.transform.childCount <= 0)
+                    {
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
+                        LI_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    }
+                    else
+                    {
+                        int rand = Random.Range(0, Black_Pen.transform.childCount - 1);
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen.transform.GetChild(rand).gameObject, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
+                        LI_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    }
                 }
             }
         }
