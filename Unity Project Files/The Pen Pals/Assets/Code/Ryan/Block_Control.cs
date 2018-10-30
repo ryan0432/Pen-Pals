@@ -317,18 +317,17 @@ public class Block_Control : MonoBehaviour
             Set_Line_Traversability(DN_Key, true);
             Move_Towards(currNode.DN_NODE, fallingSpeed);
 
-            if (Input.GetKeyDown(UP_Key) && Ground_Node().UP_NODE != null && Ground_Node().Can_UP && !Ground_Node().UP_NODE.Is_Occupied)
+            if (Input.GetKeyDown(UP_Key))
             {
                 qeuePressedKey = UP_Key;
             }
 
-            if (Input.GetKeyDown(LFT_Key) && Ground_Node().LFT_NODE != null && Ground_Node().Can_LFT && !Ground_Node().LFT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(LFT_Key))
             {
                 qeuePressedKey = LFT_Key;
-                Debug.Log("Gnd LFT Pos:" + Ground_Node().LFT_NODE.Position);
             }
 
-            if (Input.GetKeyDown(RGT_Key) && Ground_Node().RGT_NODE != null && Ground_Node().Can_RGT && !Ground_Node().RGT_NODE.Is_Occupied)
+            if (Input.GetKeyDown(RGT_Key))
             {
                 qeuePressedKey = RGT_Key;
             }
@@ -346,7 +345,7 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
-                if (qeuePressedKey == UP_Key)
+                if (qeuePressedKey == UP_Key && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied)
                 {
                     Set_Line_Traversability(UP_Key, true);
                     isArrived = false;
@@ -355,7 +354,8 @@ public class Block_Control : MonoBehaviour
                     prevState = currState;
                     currState = Block_State.JUMPING;
                 }
-                else if (qeuePressedKey == LFT_Key || qeuePressedKey == RGT_Key)
+                else if ((qeuePressedKey == LFT_Key && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied) ||
+                    (qeuePressedKey == RGT_Key && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied))
                 {
                     if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
                     if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
@@ -431,19 +431,6 @@ public class Block_Control : MonoBehaviour
         {
             return true;
         }
-    }
-
-    [ContextMenu("Ground_Node")]
-    private Node Ground_Node()
-    {
-        Node groundNode = currNode;
-
-        while (groundNode.DN_NODE != null && groundNode.Can_DN && !groundNode.DN_NODE.Is_Occupied)
-        {
-            groundNode = groundNode.DN_NODE;
-        }
-
-        return groundNode;
     }
 
     [ContextMenu("Return_Input_Node")]

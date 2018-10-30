@@ -95,7 +95,7 @@ public class Sound_Manager : MonoBehaviour
     {
         switch (game_sound)
         {
-            case Game_Sound.STICKER:
+            case Game_Sound.STICKER_COLLECT:
                 Game_Sounds.sticker_collect.Play();
                 break;
             case Game_Sound.LEVEL_COMPLETE:
