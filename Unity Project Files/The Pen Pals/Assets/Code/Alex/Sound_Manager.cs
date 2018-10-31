@@ -22,73 +22,81 @@ public class Sound_Manager : MonoBehaviour
         LEVEL_COMPLETE = 1,
         BUTTON_SELECT = 2,
         BUTTON_CONFIRM = 3,
-        BACKGROUND = 4
+        BACKGROUND_SOUND = 4
     }
+
+    private void Range_Sound_Play(Sound_Container sound_object)
+    {
+        if (sound_object.sound.isPlaying == false)
+        {
+            sound_object.sound.pitch = Random.Range(sound_object.r_range_below, sound_object.r_range_below);
+            sound_object.sound.Play();
+        }
+    }
+
 
 
     /// <summary>
     /// Block Player Sounds
     /// </summary>
-    /// <param name="current_key"></param>
-    /// <param name="in_air"></param>
+    /// <param name="current_key"> Current input of the player </param>
+    /// <param name="in_air"> is the player in the air </param>
     public void Block_PlaySound(KeyCode current_key, bool in_air)
     {
         if (current_key == KeyCode.W || current_key == KeyCode.UpArrow)
         {
-            if (in_air == true)
-            {
-                Block_Sounds.move.Play();//*! Higher
-            }
-            else
-            {
-                Block_Sounds.move.Play();//*! Lower
-            }
+            Range_Sound_Play(Block_Sounds.jump);
         }
         else if (current_key == KeyCode.A || current_key == KeyCode.LeftArrow)
         {
             if (in_air == true)
             {
-                Block_Sounds.move.Play();//*! Higher
+                Range_Sound_Play(Block_Sounds.jump_step);
             }
             else
             {
-                Block_Sounds.move.Play();//*! Lower
+                Range_Sound_Play(Block_Sounds.move);
             }
         }
         else if (current_key == KeyCode.S || current_key == KeyCode.DownArrow)
         {
             if (in_air == true)
             {
-                Block_Sounds.move.Play();//*! Higher
+                if (Block_Sounds.falling.sound.isPlaying == false)
+                {
+                    Block_Sounds.falling.sound.Play();
+                }
             }
             else
             {
-                Block_Sounds.land.Play();//*! Lower
+                Range_Sound_Play(Block_Sounds.land);
             }
+
         }
         else if (current_key == KeyCode.D || current_key == KeyCode.RightArrow)
         {
             if (in_air == true)
             {
-                Block_Sounds.move.Play();//*! Higher
+                Range_Sound_Play(Block_Sounds.jump_step);
             }
             else
             {
-                Block_Sounds.move.Play();//*! Lower
+                Range_Sound_Play(Block_Sounds.move);
             }
         }
     }
 
 
 
+
     /// <summary>
-    /// Line Player Sounds
+    /// Line Player Sound - Move
     /// </summary>
-    /// <param name="current_key"></param>
-    public void Line_PlaySound(KeyCode current_key)
+    public void Line_PlaySound()
     {
-        Line_Sounds.move.Play();
+        Range_Sound_Play(Line_Sounds.move);
     }
+
 
 
     public void Game_PlaySound(Game_Sound game_sound)
@@ -96,31 +104,39 @@ public class Sound_Manager : MonoBehaviour
         switch (game_sound)
         {
             case Game_Sound.STICKER_COLLECT:
-                Game_Sounds.sticker_collect.Play();
+                Range_Sound_Play(Game_Sounds.sticker_collect);
                 break;
             case Game_Sound.LEVEL_COMPLETE:
-                Game_Sounds.level_complete.Play();
+                Range_Sound_Play(Game_Sounds.level_complete);
                 break;
             case Game_Sound.BUTTON_SELECT:
-                Game_Sounds.button_select.Play();
+                Range_Sound_Play(Game_Sounds.button_select);
                 break;
             case Game_Sound.BUTTON_CONFIRM:
-                Game_Sounds.button_confirm.Play();
+                Range_Sound_Play(Game_Sounds.button_confirm);
+                break;
+            case Game_Sound.BACKGROUND_SOUND:
+                if (Game_Sounds.background.sound.isPlaying == false)
+                {
+                    Game_Sounds.background.sound.Play();
+                    Game_Sounds.background.sound.loop = true;
+                }
                 break;
             default:
                 break;
         }
     }
-
 }
+
 
 [System.Serializable]
 public struct Block_Sounds
 {
-    public AudioSource move;
-    public AudioSource land;
-    public AudioSource jump;
-    public AudioSource jump_step;
+    public Sound_Container move;
+    public Sound_Container land;
+    public Sound_Container jump;
+    public Sound_Container jump_step;
+    public Sound_Container falling;
 }
 
 
@@ -128,15 +144,29 @@ public struct Block_Sounds
 [System.Serializable]
 public struct Line_Sounds
 {
-    public AudioSource move;
+    public Sound_Container move;
 }
 
 
 [System.Serializable]
 public struct Game_Sounds
 {
-    public AudioSource sticker_collect;
-    public AudioSource level_complete;
-    public AudioSource button_select;
-    public AudioSource button_confirm;
+    public Sound_Container sticker_collect;
+    public Sound_Container level_complete;
+    public Sound_Container button_select;
+    public Sound_Container button_confirm;
+    public Sound_Container background;
 }
+
+
+[System.Serializable]
+public struct Sound_Container
+{
+    [Range(0.1f, 5.0f)]
+    public float r_range_above;
+    [Range(0.1f, 5.0f)]
+    public float r_range_below;
+
+    public AudioSource sound;
+}
+

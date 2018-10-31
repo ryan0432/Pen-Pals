@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Wall
   - Game_Manager
+  - UI_Manager
   layers:
   - Default
   - TransparentFX

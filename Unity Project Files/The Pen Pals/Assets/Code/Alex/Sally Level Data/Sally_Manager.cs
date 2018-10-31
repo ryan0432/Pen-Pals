@@ -52,6 +52,7 @@ public class Sally_Manager : MonoBehaviour
             Custom_Level.Add((Lv_Data)ScriptableObject.CreateInstance(typeof(Lv_Data)));
         }
 
+
         //*!Assign the file data into the custom level list
         for (int index = 0; index < c_level_files.Count / 2; index++)
         {
