@@ -404,24 +404,7 @@ public class Game_Manager : MonoBehaviour
                 }
 
                 new_edge_U.Position = lvData[lvIndex].LI_U_Edges[colSize * i + j].Position;
-
                 LI_U_Edges[i, j] = new_edge_U;
-
-                //* Check [Edge] [Type] == [Black_Pen]
-                if (LI_U_Edges[i, j].Edge_Type == Edge_Type.Black_Pen)
-                {
-                    if (Black_Pen.transform.childCount <= 0)
-                    {
-                        GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
-                        LI_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
-                    }
-                    else
-                    {
-                        int rand = Random.Range(0, Black_Pen.transform.childCount - 1);
-                        GameObject new_Gizmos_GO = Instantiate(Black_Pen.transform.GetChild(rand).gameObject, LI_U_Edges[i, j].Position, LI_U_Edges[i, j].Rotation, transform.Find("Symbols"));
-                        LI_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
-                    }
-                }
             }
         }
         #endregion
@@ -462,22 +445,6 @@ public class Game_Manager : MonoBehaviour
 
                 new_edge_V.Position = lvData[lvIndex].LI_V_Edges[colSize * i + j].Position;
                 LI_V_Edges[i, j] = new_edge_V;
-
-                //* Check [Edge] [Type] == [Black_Pen]
-                if (LI_V_Edges[i, j].Edge_Type == Edge_Type.Black_Pen)
-                {
-                    if (Black_Pen.transform.childCount <= 0)
-                    {
-                        GameObject new_Gizmos_GO = Instantiate(Black_Pen, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
-                        LI_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
-                    }
-                    else
-                    {
-                        int rand = Random.Range(0, Black_Pen.transform.childCount - 1);
-                        GameObject new_Gizmos_GO = Instantiate(Black_Pen.transform.GetChild(rand).gameObject, LI_V_Edges[i, j].Position, LI_V_Edges[i, j].Rotation, transform.Find("Symbols"));
-                        LI_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
-                    }
-                }
             }
         }
         #endregion
@@ -500,13 +467,29 @@ public class Game_Manager : MonoBehaviour
                 new_edge_U.Boarder_Type = Boarder_Type.NONE;
                 new_edge_U.Edge_Direction = lvData[lvIndex].BL_U_Edges[colSize * i + j].Edge_Direction;
                 BL_U_Edges[i, j] = new_edge_U;
+            }
+        }
+        #endregion
 
-                //* Check [Edge] [Type] = [HighLighter_Red]
-                if (BL_U_Edges[i, j].Edge_Type == Edge_Type.HighLighter_Red)
+        #region Setup [Block] - [U] - [Edge]'s neighbor [Edge]
+        for (int i = 0; i < BL_U_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_U_Edges.GetLength(1); ++j)
+            {
+                if (i == 0)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(HighLighter_Red, BL_U_Edges[i, j].Position, BL_U_Edges[i, j].Rotation, transform.Find("Symbols"));
-                    BL_U_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
-
+                    BL_U_Edges[i, j].UP_or_RGT_Edge = BL_U_Edges[i + 1, j];
+                    BL_U_Edges[i, j].DN_or_LFT_Edge = null;
+                }
+                else if (i == BL_U_Edges.GetUpperBound(0))
+                {
+                    BL_U_Edges[i, j].UP_or_RGT_Edge = null;
+                    BL_U_Edges[i, j].DN_or_LFT_Edge = BL_U_Edges[i - 1, j];
+                }
+                else
+                {
+                    BL_U_Edges[i, j].UP_or_RGT_Edge = BL_U_Edges[i + 1, j];
+                    BL_U_Edges[i, j].DN_or_LFT_Edge = BL_U_Edges[i - 1, j];
                 }
             }
         }
@@ -528,12 +511,29 @@ public class Game_Manager : MonoBehaviour
                 new_edge_V.Boarder_Type = Boarder_Type.NONE;
                 new_edge_V.Edge_Direction = lvData[lvIndex].BL_V_Edges[colSize * i + j].Edge_Direction;
                 BL_V_Edges[i, j] = new_edge_V;
+            }
+        }
+        #endregion
 
-                //* Check [Edge] [Type] = [HighLighter_Red]
-                if (BL_V_Edges[i, j].Edge_Type == Edge_Type.HighLighter_Red)
+        #region Setup [Block] - [V] - [Edge]'s neighbor [Edge]
+        for (int i = 0; i < BL_V_Edges.GetLength(0); ++i)
+        {
+            for (int j = 0; j < BL_V_Edges.GetLength(1); ++j)
+            {
+                if (j == 0)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(HighLighter_Red, BL_V_Edges[i, j].Position, BL_V_Edges[i, j].Rotation, transform.Find("Symbols"));
-                    BL_V_Edges[i, j].Gizmos_GO = new_Gizmos_GO;
+                    BL_V_Edges[i, j].UP_or_RGT_Edge = BL_V_Edges[i, j + 1];
+                    BL_V_Edges[i, j].DN_or_LFT_Edge = null;
+                }
+                else if (j == BL_V_Edges.GetUpperBound(1))
+                {
+                    BL_V_Edges[i, j].UP_or_RGT_Edge = null;
+                    BL_V_Edges[i, j].DN_or_LFT_Edge = BL_V_Edges[i, j - 1];
+                }
+                else
+                {
+                    BL_V_Edges[i, j].UP_or_RGT_Edge = BL_V_Edges[i, j + 1];
+                    BL_V_Edges[i, j].DN_or_LFT_Edge = BL_V_Edges[i, j - 1];
                 }
             }
         }
@@ -684,6 +684,7 @@ public class Game_Manager : MonoBehaviour
         //*! -------------------------------------------- !*//
 
         //*! Check [Edge] Enums flags to decide every [Node] tracersability to neighbor
+        //*! Also instantiate [Obstacle GameObject] according to [Edge] - [Type]
         #region Check [Line] - [U-Edge] and set [Block] - [Node] Traversability
         for (int i = 0; i < li_U_edge_row; ++i)
         {
@@ -738,9 +739,11 @@ public class Game_Manager : MonoBehaviour
                 #endregion
 
                 //*! Check if [U-Edge] is [Black_Pen]. If true, shut [UP] [DN] traversabilities
+                //*! Also instantiate [Black_Pen] GameObject
                 #region Check if [Line] [U-Edge] is [Black_Pen]
                 if (curEdge.Edge_Type == Edge_Type.Black_Pen)
                 {
+                    //*! Set traversability
                     if (curEdge.UP_Node == null || curEdge.DN_Node == null)
                     {
                         if (curEdge.UP_Node == null)
@@ -757,6 +760,19 @@ public class Game_Manager : MonoBehaviour
                     {
                         curEdge.UP_Node.DN_NODE = null;
                         curEdge.DN_Node.UP_NODE = null;
+                    }
+
+                    //*! Instantiate GameObject
+                    if (Black_Pen.transform.childCount <= 0)
+                    {
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                        curEdge.Gizmos_GO = new_Gizmos_GO;
+                    }
+                    else
+                    {
+                        int rand = Random.Range(0, Black_Pen.transform.childCount - 1);
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen.transform.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                        curEdge.Gizmos_GO = new_Gizmos_GO;
                     }
                 }
                 #endregion
@@ -818,9 +834,11 @@ public class Game_Manager : MonoBehaviour
                 #endregion
 
                 //*! Check if [V-Edge] is [Black_Pen]. If true, shut [LFT] [RGT] traversabilities
+                //*! Also instantiate [Black_Pen] GameObject
                 #region Check if [Line] [V-Edge] is [Black_Pen]
                 if (curEdge.Edge_Type == Edge_Type.Black_Pen)
                 {
+                    //*! Set traversability
                     if (curEdge.LFT_Node == null || curEdge.RGT_Node == null)
                     {
                         if (curEdge.LFT_Node == null)
@@ -837,6 +855,19 @@ public class Game_Manager : MonoBehaviour
                     {
                         curEdge.LFT_Node.RGT_NODE = null;
                         curEdge.RGT_Node.LFT_NODE = null;
+                    }
+
+                    //*! Instantiate GameObject
+                    if (Black_Pen.transform.childCount <= 0)
+                    {
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                        curEdge.Gizmos_GO = new_Gizmos_GO;
+                    }
+                    else
+                    {
+                        int rand = Random.Range(0, Black_Pen.transform.childCount - 1);
+                        GameObject new_Gizmos_GO = Instantiate(Black_Pen.transform.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                        curEdge.Gizmos_GO = new_Gizmos_GO;
                     }
                 }
                 #endregion
@@ -861,11 +892,90 @@ public class Game_Manager : MonoBehaviour
                 #endregion
 
                 //*! Check if [Block] [U-Edge] is [HighLighter_Red]
+                //*! Also instantiate [HighLighter_Red] GameObject
                 #region Check if [Block] [U-Edge] is [HighLighter_Red]
                 if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
                 {
+                    //*! Set traversability
+                    #region Set traversability
                     curEdge.UP_Node.DN_NODE = null;
                     curEdge.DN_Node.UP_NODE = null;
+                    #endregion
+
+                    //*! Instantiate GameObject
+                    #region Instantiate GameObject
+                    Transform HighLighter_Red_Head = HighLighter_Red.transform.Find("Head");
+                    Transform HighLighter_Red_Body = HighLighter_Red.transform.Find("Body");
+                    Transform HighLighter_Red_Tail = HighLighter_Red.transform.Find("Tail");
+                    Transform HighLighter_Red_Sing = HighLighter_Red.transform.Find("Single");
+
+                    if (curEdge.UP_or_RGT_Edge == null || curEdge.DN_or_LFT_Edge == null)
+                    {
+                        if (curEdge.DN_or_LFT_Edge == null)
+                        {
+                            if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.NONE)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Sing.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Sing.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+
+                            if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Head.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Head.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge == null)
+                        {
+                            if (curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.NONE)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Sing.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Sing.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+
+                            if (curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Tail.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Tail.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.NONE && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.NONE)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Sing.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Sing.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.HighLighter_Red && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.NONE)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Head.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Head.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.NONE && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Tail.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Tail.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.HighLighter_Red && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Body.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Body.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+                    }
+                    #endregion
                 }
                 #endregion
             }
@@ -891,13 +1001,90 @@ public class Game_Manager : MonoBehaviour
                 #endregion
 
                 //*! Check if [Block] [V-Edge] is [HighLighter_Red]
+                //*! Also instantiate [HighLighter_Red] GameObject
                 #region Check if [Block] [V-Edge] is [HighLighter_Red]
                 if (curEdge.Edge_Type == Edge_Type.HighLighter_Red)
                 {
-
+                    //*! Set traversability
+                    #region Set traversability
                     curEdge.LFT_Node.RGT_NODE = null;
                     curEdge.RGT_Node.LFT_NODE = null;
+                    #endregion
 
+                    //*! Instantiate GameObject
+                    #region Instantiate GameObject
+                    Transform HighLighter_Red_Head = HighLighter_Red.transform.Find("Head");
+                    Transform HighLighter_Red_Body = HighLighter_Red.transform.Find("Body");
+                    Transform HighLighter_Red_Tail = HighLighter_Red.transform.Find("Tail");
+                    Transform HighLighter_Red_Sing = HighLighter_Red.transform.Find("Single");
+
+                    if (curEdge.UP_or_RGT_Edge == null || curEdge.DN_or_LFT_Edge == null)
+                    {
+                        if (curEdge.DN_or_LFT_Edge == null)
+                        {
+                            if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.NONE)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Sing.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Sing.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+
+                            if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Tail.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Tail.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge == null)
+                        {
+                            if (curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.NONE)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Sing.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Sing.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+
+                            if (curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                            {
+                                int rand = Random.Range(0, HighLighter_Red_Head.childCount - 1);
+                                GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Head.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                                curEdge.Gizmos_GO = new_Gizmos_GO;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.NONE && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.NONE)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Sing.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Sing.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.NONE && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Head.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Head.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.HighLighter_Red && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.NONE)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Tail.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Tail.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+
+                        if (curEdge.UP_or_RGT_Edge.Edge_Type == Edge_Type.HighLighter_Red && curEdge.DN_or_LFT_Edge.Edge_Type == Edge_Type.HighLighter_Red)
+                        {
+                            int rand = Random.Range(0, HighLighter_Red_Body.childCount - 1);
+                            GameObject new_Gizmos_GO = Instantiate(HighLighter_Red_Body.GetChild(rand).gameObject, curEdge.Position, curEdge.Rotation, transform.Find("Symbols"));
+                            curEdge.Gizmos_GO = new_Gizmos_GO;
+                        }
+                    }
+                    #endregion
                 }
                 #endregion
             }
@@ -1521,8 +1708,8 @@ public class Edge
 
     ////*! [Edge] reference that corsses with current [Edge]
     //public Edge Cross_Edge;
-    //public Edge UP_or_RGT_Edge;
-    //public Edge DN_or_LFT_Edge;
+    public Edge UP_or_RGT_Edge;
+    public Edge DN_or_LFT_Edge;
 
     //*! [Edge] Position reference holder
     public Vector3 Position;
