@@ -17,10 +17,10 @@ public class Pencil_CaseEditor : Editor
 {
     Texture logo;
 
+    SerializedProperty lv_Data;
+
     SerializedProperty startEditing;
 
-    SerializedProperty lv_Data;
-    
     SerializedProperty showBlockNode;
     SerializedProperty showBlockEdge;
     SerializedProperty showLineNode;
@@ -90,18 +90,29 @@ public class Pencil_CaseEditor : Editor
         GUILayout.EndHorizontal();
         #endregion
 
-        #region [Start Editing] toggle
+        #region [Start Editing] button
         GUILayout.Space(5);
         GUILayout.BeginHorizontal();
         {
-            if (GUILayout.Toggle(startEditing.boolValue, " Start Editing"))
+            Color editingStatusColor;
+            string editingStatusText;
+            if (startEditing.boolValue) { editingStatusText = "Finish Editing\n(Don't forget to save level data!)"; editingStatusColor = Color.red; }
+            else { editingStatusText = "Start Editing"; editingStatusColor = Color.green; }
+            GUI.backgroundColor = editingStatusColor;
+
+            if (GUILayout.Button(editingStatusText, GUILayout.Height(40)))
             {
-                startEditing.boolValue = true;
+                if (startEditing.boolValue == true)
+                {
+                    startEditing.boolValue = false;
+                }
+                else
+                {
+                    startEditing.boolValue = true;
+                }
             }
-            else
-            {
-                startEditing.boolValue = false;
-            }
+            GUI.backgroundColor = Color.white;
+
         }
         GUILayout.EndHorizontal();
         #endregion
