@@ -81,6 +81,15 @@ public class Pencil_CaseEditor : Editor
         GUILayout.EndHorizontal();
         #endregion
 
+        #region [Level Data] field
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        {
+            EditorGUILayout.PropertyField(lv_Data, new GUIContent("Insert Level Data"));
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
         #region [Start Editing] toggle
         GUILayout.Space(5);
         GUILayout.BeginHorizontal();

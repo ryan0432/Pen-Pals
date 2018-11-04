@@ -59,6 +59,7 @@ public class Pencil_Case : MonoBehaviour
     public Edge[,] LI_U_Edges;
     public Edge[,] LI_V_Edges;
 
+    [HideInInspector]
     public Lv_Data lv_Data;
     #endregion
 
