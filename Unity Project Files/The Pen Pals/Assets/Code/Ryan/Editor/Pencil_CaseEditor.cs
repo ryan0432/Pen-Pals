@@ -15,19 +15,24 @@ using UnityEditor;
 [CustomEditor(typeof(Pencil_Case))]
 public class Pencil_CaseEditor : Editor
 {
+    Texture logo;
+
+    SerializedProperty startEditing;
+
+    SerializedProperty lv_Data;
+    
+    SerializedProperty showBlockNode;
+    SerializedProperty showBlockEdge;
+    SerializedProperty showLineNode;
+    SerializedProperty showLineEdge;
+
+    SerializedProperty handle_size;
+
     SerializedProperty initialRow;
     SerializedProperty initialCol;
-    SerializedProperty startEditing;
 
     SerializedProperty row;
     SerializedProperty col;
-
-    SerializedProperty BL_Nodes;
-    SerializedProperty LI_Nodes;
-    SerializedProperty BL_U_Edges;
-    SerializedProperty BL_V_Edges;
-    SerializedProperty LI_U_Edges;
-    SerializedProperty LI_V_Edges;
 
     SerializedProperty isSaved;
     SerializedProperty isLoaded;
@@ -36,9 +41,21 @@ public class Pencil_CaseEditor : Editor
 
     private void OnEnable()
     {
+        logo = Resources.Load("Pencil_Case_UI/Pencil_Case_Logo") as Texture;
+
+        lv_Data = serializedObject.FindProperty("lv_Data");
+
+        startEditing = serializedObject.FindProperty("startEditing");
+
+        showBlockNode = serializedObject.FindProperty("showBlockNode");
+        showBlockEdge = serializedObject.FindProperty("showBlockEdge");
+        showLineNode = serializedObject.FindProperty("showLineNode");
+        showLineEdge = serializedObject.FindProperty("showLineEdge");
+
+        handle_size = serializedObject.FindProperty("handle_size");
+
         initialRow = serializedObject.FindProperty("initialRow");
         initialCol = serializedObject.FindProperty("initialCol");
-        startEditing = serializedObject.FindProperty("startEditing");
 
         row = serializedObject.FindProperty("row");
         col = serializedObject.FindProperty("col");
@@ -54,6 +71,104 @@ public class Pencil_CaseEditor : Editor
         base.OnInspectorGUI();
 
         serializedObject.Update();
+
+        #region Pencil Case Logo
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        {
+            GUILayout.Label(logo, GUILayout.MinWidth(100f), GUILayout.MaxWidth(300f));
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
+        #region [Start Editing] toggle
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Toggle(startEditing.boolValue, " Start Editing"))
+            {
+                startEditing.boolValue = true;
+            }
+            else
+            {
+                startEditing.boolValue = false;
+            }
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
+        #region [Show/Hide Block Nodes] toggle
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Toggle(showBlockNode.boolValue, " Show/Hide [Block] Nodes"))
+            {
+                showBlockNode.boolValue = true;
+            }
+            else
+            {
+                showBlockNode.boolValue = false;
+            }
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
+        #region [Show/Hide Block Edges] toggle
+        GUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Toggle(showBlockEdge.boolValue, " Show/Hide [Block] Edges"))
+            {
+                showBlockEdge.boolValue = true;
+            }
+            else
+            {
+                showBlockEdge.boolValue = false;
+            }
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
+        #region [Show/Hide Line Nodes] toggle
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Toggle(showLineNode.boolValue, " Show/Hide [Line] Nodes"))
+            {
+                showLineNode.boolValue = true;
+            }
+            else
+            {
+                showLineNode.boolValue = false;
+            }
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
+        #region [Show/Hide Line Edges] toggle
+        GUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Toggle(showLineEdge.boolValue, " Show/Hide [Line] Edges"))
+            {
+                showLineEdge.boolValue = true;
+            }
+            else
+            {
+                showLineEdge.boolValue = false;
+            }
+        }
+        GUILayout.EndHorizontal();
+        #endregion
+
+        #region [Handle Size] Label, FloatSlider
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        {
+            GUILayout.Label("Gizmos Size", GUILayout.Width(80f));
+
+            handle_size.floatValue = EditorGUILayout.Slider(handle_size.floatValue, 0.5f, 1.5f);
+        }
+        GUILayout.EndHorizontal();
+        #endregion
 
         #region [Initial Row/Col] Label, IntSlider
         GUILayout.Space(5);
@@ -135,7 +250,7 @@ public class Pencil_CaseEditor : Editor
             }
             else
             {
-                GUILayout.Label("Pleasue Initialize Level Size", EditorStyles.boldLabel);
+                GUILayout.Label("Please Initialize Level Graph Size", EditorStyles.boldLabel);
             }
 
         }

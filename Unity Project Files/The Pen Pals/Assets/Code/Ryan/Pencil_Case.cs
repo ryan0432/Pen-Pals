@@ -20,10 +20,15 @@ public class Pencil_Case : MonoBehaviour
     //*!----------------------------!*//
 
     #region Public Vars
+    [HideInInspector]
     public bool startEditing = false;
+    [HideInInspector]
     public bool showBlockNode = true;
+    [HideInInspector]
     public bool showBlockEdge = true;
+    [HideInInspector]
     public bool showLineNode = true;
+    [HideInInspector]
     public bool showLineEdge = true;
 
     [Range(2, 50)]
@@ -35,15 +40,14 @@ public class Pencil_Case : MonoBehaviour
 
     [Range(2, 50)]
     [HideInInspector]
-    [SerializeField]
     public int row;
 
     [Range(2, 50)]
     [HideInInspector]
-    [SerializeField]
     public int col;
 
     [Range(0.5f, 1.5f)]
+    [HideInInspector]
     public float handle_size = 1.0f;
 
     public Node[,] BL_Nodes;
@@ -55,7 +59,6 @@ public class Pencil_Case : MonoBehaviour
     public Edge[,] LI_U_Edges;
     public Edge[,] LI_V_Edges;
 
-    [SerializeField]
     public Lv_Data lv_Data;
     #endregion
 
@@ -199,13 +202,15 @@ public class Pencil_Case : MonoBehaviour
     public void Awake()
     {
         #region Hide [Gizmos], [Handle] and [Symbol] parent objects in Hierarchy
+        transform.hideFlags = HideFlags.HideInInspector;
         transform.Find("BL_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("LI_Node_Gizmos").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("BL_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("LI_Edges_Handles").hideFlags = HideFlags.HideInHierarchy;
-        //transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
-        //transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
-        //transform.Find("Backgrounds").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Backgrounds").hideFlags = HideFlags.HideInHierarchy;
+        transform.GetComponent<XML_SaveLoad>().hideFlags = HideFlags.HideInInspector;
         #endregion
 
         #region Get [Camera] reference
