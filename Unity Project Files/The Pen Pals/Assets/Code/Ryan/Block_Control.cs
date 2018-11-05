@@ -32,6 +32,7 @@ public class Block_Control : MonoBehaviour
     public float fallingSpeed;
 
     public float floatingTime;
+    [HideInInspector]
     public float timer;
 
     public Player_Save save_data;
@@ -71,7 +72,11 @@ public class Block_Control : MonoBehaviour
     private KeyCode currPressedKey;
     private KeyCode qeuePressedKey;
 
+    private Animator ani;
+    private SpriteRenderer spr;
+
     private bool isArrived;
+    private bool isLanded;
 
 
     //*!----------------------------!*//
@@ -82,6 +87,8 @@ public class Block_Control : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<Game_Manager>();
+        ani = transform.GetChild(0).GetComponent<Animator>();
+        spr = transform.GetChild(0).GetComponent<SpriteRenderer>();
         timer = floatingTime;
 
         if (playerType == Player_Type.BLUE)
@@ -116,6 +123,10 @@ public class Block_Control : MonoBehaviour
     private void Static_State_Update()
     {
         //Debug.Log("State: Static");
+
+        if (prevState == Block_State.FALLING && !isLanded) { ani.Play("landing", 0); }
+
+        isLanded = true;
 
         currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
@@ -157,6 +168,8 @@ public class Block_Control : MonoBehaviour
     private void Jumping_State_Update()
     {
         //Debug.Log("State: Jumping");
+
+        ani.Play("jumping", 0);
 
         if (!isArrived)
         {
@@ -200,6 +213,9 @@ public class Block_Control : MonoBehaviour
     private void Moving_State_Update()
     {
         //Debug.Log("State: Moving");
+
+        if (currPressedKey == RGT_Key) { spr.flipX = false; ani.Play("sidestep", 0); }
+        if (currPressedKey == LFT_Key) { spr.flipX = true; ani.Play("sidestep", 0); }
 
         if (!isArrived)
         {
@@ -261,9 +277,12 @@ public class Block_Control : MonoBehaviour
     private void Floating_State_Update()
     {
         //Debug.Log("State: Floating");
+
         currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
         //Set_Line_Traversability(DN_Key, true);
+
+        ani.Play("stopping", 0);
 
         timer -= Time.deltaTime;
 
@@ -312,6 +331,10 @@ public class Block_Control : MonoBehaviour
     {
         //Debug.Log("State: Falling");
 
+        isLanded = false;
+
+        ani.Play("falling", 0);
+        
         if (!isArrived)
         {
             Set_Line_Traversability(DN_Key, true);
