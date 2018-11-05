@@ -1,0 +1,434 @@
+fileFormatVersion: 2
+guid: 5e0be6803354b804e83ddf25b9974030
+timeCreated: 1540858270
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Blocky Green Boxes_0
+    21300002: Blocky Green Boxes_1
+    21300004: Blocky Green Boxes_2
+    21300006: Blocky Green Boxes_3
+    21300008: Blocky Green Boxes_4
+    21300010: Blocky Green Boxes_5
+    21300012: Blocky Green Boxes_6
+    21300014: Blocky Green Boxes_7
+    21300016: Blocky Green Boxes_8
+    21300018: Blocky Green Boxes_9
+    21300020: Blocky Green Boxes_10
+    21300022: Blocky Green Boxes_11
+    21300024: Blocky Green Boxes_12
+    21300026: Blocky Green Boxes_13
+    21300028: Blocky Green Boxes_14
+    21300030: Blocky Green Boxes_15
+    21300032: Blocky Green Boxes_16
+    21300034: Blocky Green Boxes_17
+    21300036: Blocky Green Boxes_18
+    21300038: Blocky Green Boxes_19
+    21300040: Blocky Green Boxes_20
+    21300042: Blocky Green Boxes_21
+    21300044: Blocky Green Boxes_22
+    21300046: Blocky Green Boxes_23
+    21300048: Blocky Green Boxes_24
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 256
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Blocky Green Boxes_0
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 4213
+        width: 777
+        height: 757
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_1
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 4217
+        width: 777
+        height: 752
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_2
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 4213
+        width: 778
+        height: 757
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_3
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 4217
+        width: 781
+        height: 752
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_4
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 4213
+        width: 779
+        height: 757
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_5
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 3225
+        width: 778
+        height: 750
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_6
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 3226
+        width: 781
+        height: 749
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_7
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 3226
+        width: 778
+        height: 749
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_8
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 3227
+        width: 781
+        height: 748
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_9
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 3225
+        width: 779
+        height: 750
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_10
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 2234
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_11
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 2234
+        width: 777
+        height: 750
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_12
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 2234
+        width: 779
+        height: 748
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_13
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 2234
+        width: 781
+        height: 748
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_14
+      rect:
+        serializedVersion: 2
+        x: 4350
+        y: 2234
+        width: 777
+        height: 748
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_15
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 1241
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_16
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 1239
+        width: 777
+        height: 753
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_17
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 1239
+        width: 779
+        height: 753
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_18
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 1240
+        width: 781
+        height: 752
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_19
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 1239
+        width: 779
+        height: 757
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_20
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 248
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_21
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 248
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Blocky Green Boxes_22
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 248
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,432 @@
+fileFormatVersion: 2
+guid: 118b2c1f1eb868f42a0038d2c2cf5fd7
+timeCreated: 1540858536
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Shady_sprites_0
+    21300002: Shady_sprites_1
+    21300004: Shady_sprites_2
+    21300006: Shady_sprites_3
+    21300008: Shady_sprites_4
+    21300010: Shady_sprites_5
+    21300012: Shady_sprites_6
+    21300014: Shady_sprites_7
+    21300016: Shady_sprites_8
+    21300018: Shady_sprites_9
+    21300020: Shady_sprites_10
+    21300022: Shady_sprites_11
+    21300024: Shady_sprites_12
+    21300026: Shady_sprites_13
+    21300028: Shady_sprites_14
+    21300030: Shady_sprites_15
+    21300032: Shady_sprites_16
+    21300034: Shady_sprites_17
+    21300036: Shady_sprites_18
+    21300038: Shady_sprites_19
+    21300040: Shady_sprites_20
+    21300042: Shady_sprites_21
+    21300044: Shady_sprites_23
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 256
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Shady_sprites_0
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 4213
+        width: 777
+        height: 757
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_1
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 4217
+        width: 777
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_2
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 4213
+        width: 778
+        height: 757
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_3
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 4217
+        width: 781
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_4
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 4213
+        width: 779
+        height: 757
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_5
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 3225
+        width: 778
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_6
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 3226
+        width: 781
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_7
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 3226
+        width: 778
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_8
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 3227
+        width: 781
+        height: 748
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_9
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 3225
+        width: 779
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_10
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 2234
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_11
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 2234
+        width: 777
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_12
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 2234
+        width: 779
+        height: 748
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_13
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 2234
+        width: 781
+        height: 748
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_14
+      rect:
+        serializedVersion: 2
+        x: 4350
+        y: 2234
+        width: 777
+        height: 748
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_15
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 1241
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_16
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 1239
+        width: 777
+        height: 753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_17
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 1239
+        width: 779
+        height: 753
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_18
+      rect:
+        serializedVersion: 2
+        x: 3319
+        y: 1240
+        width: 781
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_19
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 1239
+        width: 779
+        height: 757
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_20
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 248
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_21
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 248
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shady_sprites_23
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 248
+        width: 777
+        height: 751
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

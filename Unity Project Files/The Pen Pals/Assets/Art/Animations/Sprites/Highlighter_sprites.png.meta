@@ -1,0 +1,537 @@
+fileFormatVersion: 2
+guid: 67b0c98751fd2aa42bacc79f92167ee5
+timeCreated: 1540873723
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Highlighter Green_0
+    21300002: Highlighter Green_1
+    21300004: Highlighter Green_2
+    21300006: Highlighter Green_3
+    21300008: Highlighter Green_4
+    21300010: Highlighter Green_5
+    21300012: Highlighter Green_6
+    21300014: Highlighter Green_7
+    21300016: Highlighter Green_8
+    21300018: Highlighter Green_9
+    21300020: Highlighter Green_10
+    21300022: Highlighter Green_11
+    21300024: Highlighter Green_12
+    21300026: Highlighter Green_13
+    21300028: Highlighter Green_14
+    21300030: Highlighter Green_15
+    21300032: Highlighter Green_16
+    21300034: Highlighter Green_17
+    21300036: Highlighter Green_18
+    21300038: Highlighter Green_19
+    21300040: Highlighter Green_20
+    21300042: Highlighter Green_21
+    21300044: Highlighter Green_22
+    21300046: Highlighter Green_23
+    21300048: Highlighter Green_24
+    21300050: Highlighter Green_25
+    21300052: Highlighter Green_26
+    21300054: Highlighter Green_27
+    21300056: Highlighter Green_28
+    21300058: Highlighter Green_29
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 256
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Highlighter Green_0
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 5112
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_1
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 5112
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_2
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 5112
+        width: 778
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_3
+      rect:
+        serializedVersion: 2
+        x: 3324
+        y: 5112
+        width: 777
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_4
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 5112
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_5
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 4119
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_6
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 4119
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_7
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 4119
+        width: 778
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_8
+      rect:
+        serializedVersion: 2
+        x: 3324
+        y: 4119
+        width: 777
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_9
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 4119
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_10
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 3129
+        width: 779
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_11
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 3129
+        width: 779
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_12
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 3129
+        width: 778
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_13
+      rect:
+        serializedVersion: 2
+        x: 3324
+        y: 3129
+        width: 777
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_14
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 3129
+        width: 779
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_15
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 2136
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_16
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 2136
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_17
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 2136
+        width: 778
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_18
+      rect:
+        serializedVersion: 2
+        x: 3324
+        y: 2136
+        width: 777
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_19
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 2136
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_20
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 1143
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_21
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 1143
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_22
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 1143
+        width: 778
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_23
+      rect:
+        serializedVersion: 2
+        x: 3324
+        y: 1143
+        width: 777
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_24
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 1143
+        width: 779
+        height: 752
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_25
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 153
+        width: 779
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_26
+      rect:
+        serializedVersion: 2
+        x: 1277
+        y: 153
+        width: 779
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_27
+      rect:
+        serializedVersion: 2
+        x: 2300
+        y: 153
+        width: 778
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_28
+      rect:
+        serializedVersion: 2
+        x: 3324
+        y: 153
+        width: 777
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Highlighter Green_29
+      rect:
+        serializedVersion: 2
+        x: 4348
+        y: 153
+        width: 779
+        height: 749
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
