@@ -14131,13 +14131,13 @@ MonoBehaviour:
   Black_Pen: {fileID: 1657187589527414, guid: de98af6fe608e32469d3767f5cab8ca4, type: 2}
   HighLighter_Red: {fileID: 1787914267275156, guid: 049430322a2e4c547a424d4fdf230efc,
     type: 2}
-  Block_Blue_Goal: {fileID: 1196781030308194, guid: 86c90e700398be74191212c6a58d5aeb,
+  Block_Blue_Goal: {fileID: 1039971235044352, guid: 9283362b8a4e7b144b805cae1a30eb2e,
     type: 2}
-  Block_Red_Goal: {fileID: 1365616581065350, guid: 53eae94e93d81a1449adec4c1441a09f,
+  Block_Red_Goal: {fileID: 1158582394025202, guid: 97a2f8f12f169ff4bbffc5fc431a5274,
     type: 2}
-  Line_Blue_Goal: {fileID: 1891366900479438, guid: f6e9ee916ed16e848b7868271c374345,
+  Line_Blue_Goal: {fileID: 1039971235044352, guid: 9283362b8a4e7b144b805cae1a30eb2e,
     type: 2}
-  Line_Red_Goal: {fileID: 1989470694099786, guid: 2309ce72cc4b8b1448041c428a02b404,
+  Line_Red_Goal: {fileID: 1158582394025202, guid: 97a2f8f12f169ff4bbffc5fc431a5274,
     type: 2}
   Blocky: {fileID: 1589913466504476, guid: 3117ec151c903f14a9215b5d6b342d7b, type: 2}
   Shadey: {fileID: 1106607075493534, guid: b92b558f85985a54e884e9315992e0ab, type: 2}
