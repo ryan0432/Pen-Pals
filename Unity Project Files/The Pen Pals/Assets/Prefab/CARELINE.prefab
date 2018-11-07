@@ -57,7 +57,8 @@ MonoBehaviour:
   movingSpeed: 5.5
   reversingSpeed: 10
   head: {fileID: 1929580886535562, guid: 16bc63e649c7fbf41aa26973702ca57c, type: 2}
-  headTailCap: {fileID: 21300030, guid: 69f2fa43bcb3bc14fb7530407d9177e3, type: 3}
+  headTailCap: {fileID: 1218132918332660, guid: 762fb2c1a1f305843abb9cc7ca88ef52,
+    type: 2}
   save_data:
     Name: Player_01
     player_type: 1
