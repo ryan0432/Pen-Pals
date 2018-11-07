@@ -33,7 +33,7 @@ public class Line_Control : MonoBehaviour
 
     public GameObject head;
 
-    public Sprite headTailCap;
+    public GameObject headTailCap;
 
     public Player_Save save_data;
 
@@ -123,14 +123,16 @@ public class Line_Control : MonoBehaviour
 
         for (int i = 0; i < segments.Length; ++i)
         {
-            segments[i] = new GameObject("segment" + i);
-            segments[i].transform.position = anchors[i].Position;
-            segments[i].transform.SetParent(transform);
-
             if (i == 0 || i == segments.GetUpperBound(0))
             {
-                segments[i].AddComponent<SpriteRenderer>();
-                segments[i].GetComponent<SpriteRenderer>().sprite = headTailCap;
+                segments[i] = Instantiate(headTailCap, anchors[i].Position, Quaternion.identity, transform);
+                segments[i].name = "segment" + i;
+            }
+            else
+            {
+                segments[i] = new GameObject("segment" + i);
+                segments[i].transform.position = anchors[i].Position;
+                segments[i].transform.SetParent(transform);
             }
         }
 
