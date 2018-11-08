@@ -545,6 +545,83 @@ Prefab:
       value: 
       objectReference: {fileID: 1760860774766858, guid: e9cb08e9be3c72043970c07931b16384,
         type: 2}
+    - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.move.r_range_above
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.move.r_range_below
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.jump.sound
+      value: 
+      objectReference: {fileID: 82546276465000630, guid: 643c4d69e3752384599f4f0f09b8e80d,
+        type: 2}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.land.r_range_above
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.land.r_range_below
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.jump.r_range_above
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.jump.r_range_below
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.jump_step.r_range_above
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.jump_step.r_range_below
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Line_Sounds.move.r_range_above
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Line_Sounds.move.r_range_below
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Line_Sounds.move.sound
+      value: 
+      objectReference: {fileID: 82156923849647760, guid: 758c4a88724f3884aa3ba856910a8e8a,
+        type: 2}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.falling.r_range_above
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Block_Sounds.falling.r_range_below
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71b11316df5366b45a20dcd3e049dd85, type: 2}
   m_IsPrefabParent: 0

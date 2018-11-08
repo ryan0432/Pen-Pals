@@ -16,6 +16,42 @@ public class Sound_Manager : MonoBehaviour
 
     public Game_Sounds Game_Sounds;
 
+    private void Awake()
+    {
+        if (Block_Sounds.move.sound != null)
+            Block_Sounds.move.sound = Instantiate(Block_Sounds.move.sound, transform.Find("Sounds"));
+
+        if (Block_Sounds.land.sound != null)
+            Block_Sounds.land.sound = Instantiate(Block_Sounds.land.sound, transform.Find("Sounds"));
+
+        if (Block_Sounds.jump.sound != null)
+            Block_Sounds.jump.sound = Instantiate(Block_Sounds.jump.sound, transform.Find("Sounds"));
+
+        if (Block_Sounds.jump_step.sound != null)
+            Block_Sounds.jump_step.sound = Instantiate(Block_Sounds.jump_step.sound, transform.Find("Sounds"));
+
+        if (Block_Sounds.falling.sound != null)
+            Block_Sounds.falling.sound = Instantiate(Block_Sounds.falling.sound, transform.Find("Sounds"));
+
+        if (Line_Sounds.move.sound != null)
+            Line_Sounds.move.sound = Instantiate(Line_Sounds.move.sound, transform.Find("Sounds"));
+
+        if (Game_Sounds.sticker_collect.sound != null)
+            Game_Sounds.sticker_collect.sound = Instantiate(Game_Sounds.sticker_collect.sound, transform.Find("Sounds"));
+
+        if (Game_Sounds.level_complete.sound != null)
+            Game_Sounds.level_complete.sound = Instantiate(Game_Sounds.level_complete.sound, transform.Find("Sounds"));
+
+        if (Game_Sounds.button_select.sound != null)
+            Game_Sounds.button_select.sound = Instantiate(Game_Sounds.button_select.sound, transform.Find("Sounds"));
+
+        if (Game_Sounds.button_confirm.sound != null)
+            Game_Sounds.button_confirm.sound = Instantiate(Game_Sounds.button_confirm.sound, transform.Find("Sounds"));
+
+        if (Game_Sounds.background.sound != null)
+            Game_Sounds.background.sound = Instantiate(Game_Sounds.background.sound, transform.Find("Sounds"));
+    }
+
     public enum Game_Sound
     {
         STICKER_COLLECT = 0,
@@ -27,10 +63,13 @@ public class Sound_Manager : MonoBehaviour
 
     private void Range_Sound_Play(Sound_Container sound_object)
     {
-        if (sound_object.sound.isPlaying == false)
+        if (sound_object.sound != null)
         {
-            sound_object.sound.pitch = Random.Range(sound_object.r_range_below, sound_object.r_range_below);
-            sound_object.sound.Play();
+            if (sound_object.sound.isPlaying == false)
+            {
+                sound_object.sound.pitch = Random.Range(sound_object.r_range_below, sound_object.r_range_below);
+                sound_object.sound.Play();
+            }
         }
     }
 
@@ -62,10 +101,7 @@ public class Sound_Manager : MonoBehaviour
         {
             if (in_air == true)
             {
-                if (Block_Sounds.falling.sound.isPlaying == false)
-                {
-                    Block_Sounds.falling.sound.Play();
-                }
+                Range_Sound_Play(Block_Sounds.falling);
             }
             else
             {

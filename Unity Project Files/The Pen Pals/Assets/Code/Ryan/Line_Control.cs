@@ -48,6 +48,7 @@ public class Line_Control : MonoBehaviour
     private GameObject headGO;
 
     private Game_Manager gm;
+    private Sound_Manager snd;
 
     private Line_State currState;
     private Line_State prevState;
@@ -82,6 +83,7 @@ public class Line_Control : MonoBehaviour
     private bool isArrayMovedForward;
     private bool isReachedTail;
     private bool isBlockRiding;
+    private bool isSoundPlayed;
     private int reversingTargetIndex = 1;
 
 
@@ -93,6 +95,7 @@ public class Line_Control : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<Game_Manager>();
+        snd = FindObjectOfType<Sound_Manager>();
         currState = Line_State.STATIC;
         lineRenderer = GetComponent<LineRenderer>();
         save_data = gm.GetComponent<XML_SaveLoad>().Get_Active_Save((int)playerType);
@@ -173,6 +176,7 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(UP_Key) == anchors[1])
             {
                 isReachedTail = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
@@ -180,6 +184,7 @@ public class Line_Control : MonoBehaviour
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
             }
@@ -194,6 +199,7 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(DN_Key) == anchors[1])
             {
                 isReachedTail = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
@@ -201,6 +207,7 @@ public class Line_Control : MonoBehaviour
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
             }
@@ -215,6 +222,7 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(LFT_Key) == anchors[1])
             {
                 isReachedTail = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
@@ -222,6 +230,7 @@ public class Line_Control : MonoBehaviour
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
             }
@@ -236,6 +245,7 @@ public class Line_Control : MonoBehaviour
             if (Return_Input_Node(RGT_Key) == anchors[1])
             {
                 isReachedTail = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
@@ -243,6 +253,7 @@ public class Line_Control : MonoBehaviour
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Line_State.MOVING;
             }
@@ -253,6 +264,8 @@ public class Line_Control : MonoBehaviour
     private void Moving_State_Update()
     {
         //Debug.Log("State: Moving");
+
+        if (!isSoundPlayed) { snd.Line_PlaySound(); isSoundPlayed = true; }
 
         if (Return_Input_Node(currPressedKey) == null)
         {
@@ -326,6 +339,8 @@ public class Line_Control : MonoBehaviour
         
         Node destNode = anchors[reversingTargetIndex];
         Node finalNode = anchors[anchors.Count - 1];
+
+        if (!isSoundPlayed) { snd.Line_PlaySound(); isSoundPlayed = true; }
 
         if (isReachedTail == false)
         {

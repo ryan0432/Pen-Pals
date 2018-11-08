@@ -32,13 +32,11 @@ public class Block_Control : MonoBehaviour
     public float fallingSpeed;
 
     public float floatingTime;
+
     [HideInInspector]
     public float timer;
 
     public Player_Save save_data;
-
-    [HideInInspector]
-    public bool isDead;
 
     public Node currNode;
     public Node nextNode;
@@ -74,9 +72,12 @@ public class Block_Control : MonoBehaviour
 
     private Animator ani;
     private SpriteRenderer spr;
+    private Sound_Manager snd;
 
+    private bool isDead;
     private bool isArrived;
     private bool isLanded;
+    private bool isSoundPlayed;
 
 
     //*!----------------------------!*//
@@ -87,6 +88,7 @@ public class Block_Control : MonoBehaviour
     void Start()
     {
         gm = FindObjectOfType<Game_Manager>();
+        snd = FindObjectOfType<Sound_Manager>();
         ani = transform.GetChild(0).GetComponent<Animator>();
         spr = transform.GetChild(0).GetComponent<SpriteRenderer>();
         timer = floatingTime;
@@ -124,7 +126,7 @@ public class Block_Control : MonoBehaviour
     {
         //Debug.Log("State: Static");
 
-        if (prevState == Block_State.FALLING && !isLanded) { ani.Play("landing", 0); }
+        if (prevState == Block_State.FALLING && !isLanded) { ani.Play("landing", 0); snd.Block_PlaySound(DN_Key, false); }
 
         isLanded = true;
 
@@ -139,6 +141,7 @@ public class Block_Control : MonoBehaviour
         if (Input.GetKeyDown(UP_Key) && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
         {
             Set_Line_Traversability(UP_Key, true);
+            isSoundPlayed = false;
             isArrived = false;
             currPressedKey = UP_Key;
             prevState = currState;
@@ -148,6 +151,7 @@ public class Block_Control : MonoBehaviour
         if (Input.GetKeyDown(LFT_Key) && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
         {
             Set_Line_Traversability(LFT_Key, true);
+            isSoundPlayed = false;
             isArrived = false;
             currPressedKey = LFT_Key;
             prevState = currState;
@@ -157,6 +161,7 @@ public class Block_Control : MonoBehaviour
         if (Input.GetKeyDown(RGT_Key) && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied /*&& !currNode.Can_DN*/)
         {
             Set_Line_Traversability(RGT_Key, true);
+            isSoundPlayed = false;
             isArrived = false;
             currPressedKey = RGT_Key;
             prevState = currState;
@@ -170,6 +175,8 @@ public class Block_Control : MonoBehaviour
         //Debug.Log("State: Jumping");
 
         ani.Play("jumping", 0);
+
+        if (!isSoundPlayed) { snd.Block_PlaySound(UP_Key, true); isSoundPlayed = true; }
 
         if (!isArrived)
         {
@@ -194,6 +201,7 @@ public class Block_Control : MonoBehaviour
             {
                 if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
                 if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
+                isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -202,6 +210,7 @@ public class Block_Control : MonoBehaviour
             }
             else
             {
+                isSoundPlayed = false;
                 qeuePressedKey = NONE;
                 prevState = currState;
                 currState = Block_State.FLOATING;
@@ -216,6 +225,9 @@ public class Block_Control : MonoBehaviour
 
         if (currPressedKey == RGT_Key) { spr.flipX = false; ani.Play("sidestep", 0); }
         if (currPressedKey == LFT_Key) { spr.flipX = true; ani.Play("sidestep", 0); }
+
+        if ((prevState == Block_State.FLOATING || prevState == Block_State.JUMPING) && !isSoundPlayed) { snd.Block_PlaySound(currPressedKey, true); isSoundPlayed = true; }
+        else if (!isSoundPlayed) { snd.Block_PlaySound(currPressedKey, false); isSoundPlayed = true; }
 
         if (!isArrived)
         {
@@ -246,6 +258,7 @@ public class Block_Control : MonoBehaviour
             if (qeuePressedKey == UP_Key)
             {
                 Set_Line_Traversability(UP_Key, true);
+                isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -256,6 +269,7 @@ public class Block_Control : MonoBehaviour
             {
                 if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
                 if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
+                isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -266,6 +280,7 @@ public class Block_Control : MonoBehaviour
             {
                 if (Ground_Check())
                 {
+                    isSoundPlayed = false;
                     prevState = currState;
                     currState = Block_State.STATIC;
                 }
@@ -294,6 +309,7 @@ public class Block_Control : MonoBehaviour
                 qeuePressedKey = LFT_Key;
                 Set_Line_Traversability(LFT_Key, true);
                 Set_Line_Traversability(DN_Key, false);
+                isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -307,6 +323,7 @@ public class Block_Control : MonoBehaviour
                 qeuePressedKey = RGT_Key;
                 Set_Line_Traversability(RGT_Key, true);
                 Set_Line_Traversability(DN_Key, false);
+                isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
                 qeuePressedKey = NONE;
@@ -320,6 +337,7 @@ public class Block_Control : MonoBehaviour
 
             if (Ground_Check())
             {
+                isSoundPlayed = false;
                 prevState = currState;
                 currState = Block_State.STATIC;
             }
@@ -334,7 +352,9 @@ public class Block_Control : MonoBehaviour
         isLanded = false;
 
         ani.Play("falling", 0);
-        
+
+        if (!isSoundPlayed) { snd.Block_PlaySound(DN_Key, true); isSoundPlayed = true; }
+
         if (!isArrived)
         {
             Set_Line_Traversability(DN_Key, true);
@@ -371,6 +391,7 @@ public class Block_Control : MonoBehaviour
                 if (qeuePressedKey == UP_Key && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied)
                 {
                     Set_Line_Traversability(UP_Key, true);
+                    isSoundPlayed = false;
                     isArrived = false;
                     currPressedKey = qeuePressedKey;
                     qeuePressedKey = NONE;
@@ -382,6 +403,7 @@ public class Block_Control : MonoBehaviour
                 {
                     if (qeuePressedKey == LFT_Key) { Set_Line_Traversability(LFT_Key, true); }
                     if (qeuePressedKey == RGT_Key) { Set_Line_Traversability(RGT_Key, true); }
+                    isSoundPlayed = false;
                     isArrived = false;
                     currPressedKey = qeuePressedKey;
                     qeuePressedKey = NONE;
@@ -392,6 +414,7 @@ public class Block_Control : MonoBehaviour
                 {
                     if (Ground_Check())
                     {
+                        isSoundPlayed = false;
                         prevState = currState;
                         currState = Block_State.STATIC;
                     }
