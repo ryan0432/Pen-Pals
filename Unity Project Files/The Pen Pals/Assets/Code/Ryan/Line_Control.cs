@@ -31,6 +31,9 @@ public class Line_Control : MonoBehaviour
     [Range(0f, 10f)]
     public float reversingSpeed;
 
+    [Range(0.01f, 0.99f)]
+    public float reversingMagnification;
+
     public GameObject head;
 
     public GameObject headTailCap;
@@ -148,6 +151,7 @@ public class Line_Control : MonoBehaviour
     void Update()
     {
         Runtime_Update();
+        Debug.Log("Reversing Speed: " + Reversing_Speed());
     }
 
 
@@ -344,7 +348,7 @@ public class Line_Control : MonoBehaviour
 
         if (isReachedTail == false)
         {
-            headGO.transform.position = Vector3.MoveTowards(headGO.transform.position, destNode.Position, reversingSpeed * Time.deltaTime);
+            headGO.transform.position = Vector3.MoveTowards(headGO.transform.position, destNode.Position, Reversing_Speed() * Time.deltaTime);
         }
 
         float moveDistance = (headGO.transform.position - destNode.Position).magnitude;
@@ -655,6 +659,24 @@ public class Line_Control : MonoBehaviour
         }
 
         lineRenderer.SetPosition(anchors.Count, segments[anchors.Count - 1].transform.position);
+    }
+
+    [ContextMenu("Set_Reversing_Speed")]
+    private float Reversing_Speed()
+    {
+        float resultSpeed = reversingSpeed;
+        float tmpSpeed_bf = 0;
+        float tmpSpeed_af = reversingSpeed;
+
+        for (int i = 1; i < anchors.Count; ++i)
+        {
+            tmpSpeed_bf = tmpSpeed_af;
+            tmpSpeed_bf *= reversingMagnification;
+            tmpSpeed_af = tmpSpeed_bf;
+            resultSpeed += tmpSpeed_af;
+        }
+
+        return resultSpeed;
     }
 }
 
