@@ -65,11 +65,12 @@ public class Sound_Manager : MonoBehaviour
     {
         if (sound_object.sound != null)
         {
-            if (sound_object.sound.isPlaying == false)
-            {
-                sound_object.sound.pitch = Random.Range(sound_object.r_range_below, sound_object.r_range_below);
-                sound_object.sound.Play();
-            }
+            ///if (sound_object.sound.isPlaying == false)
+            ///{
+            ///}
+            ///sound_object.sound.pitch = Random.Range(sound_object.r_range_below, sound_object.r_range_below);
+            sound_object.sound.Play();
+
         }
     }
 
