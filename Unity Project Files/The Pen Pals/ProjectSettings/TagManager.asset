@@ -42,6 +42,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
+  - name: Backgrounds
     uniqueID: 0
+    locked: 0
+  - name: Obstacles
+    uniqueID: 1
+    locked: 0
+  - name: Stickers
+    uniqueID: 2
+    locked: 0
+  - name: Players
+    uniqueID: 3
     locked: 0

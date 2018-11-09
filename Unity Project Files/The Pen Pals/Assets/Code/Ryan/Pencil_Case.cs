@@ -211,6 +211,7 @@ public class Pencil_Case : MonoBehaviour
         transform.Find("Players").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("Symbols").hideFlags = HideFlags.HideInHierarchy;
         transform.Find("Backgrounds").hideFlags = HideFlags.HideInHierarchy;
+        transform.Find("Sounds").hideFlags = HideFlags.HideInHierarchy;
         transform.GetComponent<XML_SaveLoad>().hideFlags = HideFlags.HideInInspector;
         #endregion
 
