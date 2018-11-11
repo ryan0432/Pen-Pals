@@ -191,6 +191,12 @@ public class XML_SaveLoad : MonoBehaviour
     [ContextMenu("Load all Players")]
     public void Load_All_Players()
     {
+        //*! Create the directory if it doesnt exist
+        if (!Directory.Exists(data_path))
+        {
+            Directory.CreateDirectory(data_path);
+        }
+
         //*! Get some information on the directory 
         DirectoryInfo info = new DirectoryInfo(data_path);
 
