@@ -55,8 +55,8 @@ MonoBehaviour:
   playerType: 1
   playerShape: 2
   movingSpeed: 5.5
-  reversingSpeed: 10
-  reversingMagnification: 0.7
+  reversingSpeed: 8
+  reversingMagnification: 0.8
   head: {fileID: 1929580886535562, guid: 16bc63e649c7fbf41aa26973702ca57c, type: 2}
   headTailCap: {fileID: 1218132918332660, guid: 762fb2c1a1f305843abb9cc7ca88ef52,
     type: 2}

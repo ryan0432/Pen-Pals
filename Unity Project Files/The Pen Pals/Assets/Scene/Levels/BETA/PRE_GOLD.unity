@@ -622,6 +622,36 @@ Prefab:
       propertyPath: Block_Sounds.falling.r_range_below
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Game_Sounds.background.sound
+      value: 
+      objectReference: {fileID: 82946819150178494, guid: 77bdebdfd7bda304c8e32397a7d29605,
+        type: 2}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Game_Sounds.button_confirm.sound
+      value: 
+      objectReference: {fileID: 82806602848033758, guid: 93ba350ed7dcbdf48ab2634017f2c8cc,
+        type: 2}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Game_Sounds.button_select.sound
+      value: 
+      objectReference: {fileID: 82244728200076606, guid: 30e8617040bc09047af1fac84bd2461a,
+        type: 2}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Game_Sounds.level_complete.sound
+      value: 
+      objectReference: {fileID: 82722303509066700, guid: d2b07bd60d2da104dbfe5964252aee33,
+        type: 2}
+    - target: {fileID: 114936709323161114, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Game_Sounds.sticker_collect.sound
+      value: 
+      objectReference: {fileID: 82961249885679212, guid: df40281fef7131b429203e46b65e9377,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71b11316df5366b45a20dcd3e049dd85, type: 2}
   m_IsPrefabParent: 0
