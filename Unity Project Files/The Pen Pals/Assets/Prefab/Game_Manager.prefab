@@ -256,20 +256,20 @@ MonoBehaviour:
     sticker_collect:
       r_range_above: 1
       r_range_below: 1
-      sound: {fileID: 0}
+      sound: {fileID: 82961249885679212, guid: df40281fef7131b429203e46b65e9377, type: 2}
     level_complete:
       r_range_above: 1
       r_range_below: 1
-      sound: {fileID: 0}
+      sound: {fileID: 82722303509066700, guid: d2b07bd60d2da104dbfe5964252aee33, type: 2}
     button_select:
       r_range_above: 1
       r_range_below: 1
-      sound: {fileID: 0}
+      sound: {fileID: 82244728200076606, guid: 30e8617040bc09047af1fac84bd2461a, type: 2}
     button_confirm:
       r_range_above: 1
       r_range_below: 1
-      sound: {fileID: 0}
+      sound: {fileID: 82806602848033758, guid: 93ba350ed7dcbdf48ab2634017f2c8cc, type: 2}
     background:
       r_range_above: 0
       r_range_below: 0
-      sound: {fileID: 0}
+      sound: {fileID: 82946819150178494, guid: 77bdebdfd7bda304c8e32397a7d29605, type: 2}

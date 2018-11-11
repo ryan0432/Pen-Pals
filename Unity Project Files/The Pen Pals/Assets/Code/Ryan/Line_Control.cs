@@ -620,12 +620,14 @@ public class Line_Control : MonoBehaviour
         {
             if (currNode.Gizmos_GO != null && currNode.Node_Type == Node_Type.Line_Blue_Goal)
             {
+                snd.Game_PlaySound(Game_Sound.STICKER_COLLECT);
                 currNode.Node_Type = Node_Type.NONE;
                 currNode.Gizmos_GO.SetActive(false);
                 gm.Blue_Sticker_Count--;
 
                 if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
                 {
+                    snd.Game_PlaySound(Game_Sound.LEVEL_COMPLETE);
                     //gm.Save_Players_Data();
                     gm.Initialize_Level(gm.lvDataIndex + 1);
                 }
@@ -635,12 +637,14 @@ public class Line_Control : MonoBehaviour
         {
             if (currNode.Gizmos_GO != null && currNode.Node_Type == Node_Type.Line_Red_Goal)
             {
+                snd.Game_PlaySound(Game_Sound.STICKER_COLLECT);
                 currNode.Node_Type = Node_Type.NONE;
                 currNode.Gizmos_GO.SetActive(false);
                 gm.Red_Sticker_Count--;
 
                 if (gm.Blue_Sticker_Count == 0 && gm.Red_Sticker_Count == 0)
                 {
+                    snd.Game_PlaySound(Game_Sound.LEVEL_COMPLETE);
                     //gm.Save_Players_Data();
                     gm.Initialize_Level(gm.lvDataIndex + 1);
                 }

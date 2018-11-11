@@ -89,6 +89,9 @@ public class Game_Manager : MonoBehaviour
     [SerializeField]
     [HideInInspector]
     private Material li_giz_mat;
+
+    [HideInInspector]
+    private Sound_Manager snd;
     
 
     void Awake()
@@ -101,6 +104,7 @@ public class Game_Manager : MonoBehaviour
         Check_Shortcut_Input();
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
+        snd.Game_PlaySound(Game_Sound.BACKGROUND_SOUND);
     }
 
 
@@ -1523,6 +1527,7 @@ public class Game_Manager : MonoBehaviour
 
         if (FindObjectOfType<Pencil_Case>() != null) is_pencil_case = true;
         cam = FindObjectOfType<Camera>();
+        snd = GetComponent<Sound_Manager>();
 
         Blue_Sticker_Count = 0;
         Red_Sticker_Count = 0;
