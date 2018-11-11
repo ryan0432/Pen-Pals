@@ -52,14 +52,7 @@ public class Sound_Manager : MonoBehaviour
             Game_Sounds.background.sound = Instantiate(Game_Sounds.background.sound, transform.Find("Sounds"));
     }
 
-    public enum Game_Sound
-    {
-        STICKER_COLLECT = 0,
-        LEVEL_COMPLETE = 1,
-        BUTTON_SELECT = 2,
-        BUTTON_CONFIRM = 3,
-        BACKGROUND_SOUND = 4
-    }
+
 
     private void Range_Sound_Play(Sound_Container sound_object)
     {
@@ -205,5 +198,15 @@ public struct Sound_Container
     public float r_range_below;
 
     public AudioSource sound;
+}
+
+
+public enum Game_Sound
+{
+    STICKER_COLLECT = 0,
+    LEVEL_COMPLETE = 1,
+    BUTTON_SELECT = 2,
+    BUTTON_CONFIRM = 3,
+    BACKGROUND_SOUND = 4
 }
 
