@@ -184,7 +184,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied && !Is_Block_Riding())
+            else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -207,7 +207,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.DN_NODE != null && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied && !Is_Block_Riding())
+            else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.DN_NODE != null && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -230,7 +230,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied && !Is_Block_Riding())
+            else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -253,7 +253,7 @@ public class Line_Control : MonoBehaviour
                 prevState = currState;
                 currState = Line_State.REVERSING;
             }
-            else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied && !Is_Block_Riding())
+            else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 anchors[anchors.Count - 1].Is_Occupied = false;
                 isArrayMovedForward = false;
@@ -293,22 +293,22 @@ public class Line_Control : MonoBehaviour
 
         if (!isArrived)
         {
-            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.UP_NODE != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied && !Is_Block_Riding())
+            if (Input.GetKeyDown(UP_Key) && nextNode != null && nextNode.UP_NODE != null && nextNode.Can_UP && !nextNode.UP_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 qeuePressedKey = UP_Key;
             }
 
-            if (Input.GetKeyDown(DN_Key) && nextNode != null && nextNode.DN_NODE != null && nextNode.Can_DN && !nextNode.DN_NODE.Is_Occupied && !Is_Block_Riding())
+            if (Input.GetKeyDown(DN_Key) && nextNode != null && nextNode.DN_NODE != null && nextNode.Can_DN && !nextNode.DN_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 qeuePressedKey = DN_Key;
             }
 
-            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.LFT_NODE != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied && !Is_Block_Riding())
+            if (Input.GetKeyDown(LFT_Key) && nextNode != null && nextNode.LFT_NODE != null && nextNode.Can_LFT && !nextNode.LFT_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 qeuePressedKey = LFT_Key;
             }
 
-            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.RGT_NODE != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied && !Is_Block_Riding())
+            if (Input.GetKeyDown(RGT_Key) && nextNode != null && nextNode.RGT_NODE != null && nextNode.Can_RGT && !nextNode.RGT_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
                 qeuePressedKey = RGT_Key;
             }
