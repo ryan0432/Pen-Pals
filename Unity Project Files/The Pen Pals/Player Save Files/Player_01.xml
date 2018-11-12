@@ -175,6 +175,51 @@
       </Sticker_Count>
       <Level_ID>19</Level_ID>
     </Level_Data>
+    <Level_Data>
+      <Name>Level Default_20</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>20</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_21</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>21</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_22</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>22</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_23</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>23</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_24</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>24</Level_ID>
+    </Level_Data>
   </Level_Count>
   <Data_Path>./Player Save Files/Player_01.xml</Data_Path>
 </Player_Save>

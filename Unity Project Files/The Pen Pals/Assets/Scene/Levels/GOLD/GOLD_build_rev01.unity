@@ -113,7 +113,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &596191859
+--- !u!1001 &73994183
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -151,14 +151,6 @@ Prefab:
     - target: {fileID: 4667367182086858, guid: de226d5151cb32d40902d75e449c54fb, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1626869966218484, guid: de226d5151cb32d40902d75e449c54fb, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1016012443284664, guid: de226d5151cb32d40902d75e449c54fb, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: de226d5151cb32d40902d75e449c54fb, type: 2}
@@ -319,12 +311,12 @@ Prefab:
     - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
         type: 2}
       propertyPath: lvData.Array.size
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
         type: 2}
       propertyPath: Backgrounds.Array.size
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4622100025655572, guid: 71b11316df5366b45a20dcd3e049dd85, type: 2}
       propertyPath: m_LocalPosition.x
@@ -426,7 +418,7 @@ Prefab:
         type: 2}
       propertyPath: Backgrounds.Array.data[1]
       value: 
-      objectReference: {fileID: 1623888986087134, guid: 4b1b30bc81650aa4289e157b27990ea9,
+      objectReference: {fileID: 1564867510236108, guid: 9faf5b8c41867294bb121158872c92cd,
         type: 2}
     - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
         type: 2}
@@ -581,7 +573,7 @@ Prefab:
         type: 2}
       propertyPath: Backgrounds.Array.data[16]
       value: 
-      objectReference: {fileID: 1252924438389864, guid: 72202c86bd69a1a45aa6a02ece203028,
+      objectReference: {fileID: 1896096945369422, guid: 72202c86bd69a1a45aa6a02ece203028,
         type: 2}
     - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
         type: 2}
@@ -730,7 +722,7 @@ Prefab:
         type: 2}
       propertyPath: lvData.Array.data[23]
       value: 
-      objectReference: {fileID: 11400000, guid: a4c7649b494a8b74885926f2c4e506b3,
+      objectReference: {fileID: 11400000, guid: 9e0c2842f4e93c840b2246ab936d2544,
         type: 2}
     - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
         type: 2}
@@ -760,7 +752,19 @@ Prefab:
         type: 2}
       propertyPath: Backgrounds.Array.data[23]
       value: 
-      objectReference: {fileID: 1623888986087134, guid: 4b1b30bc81650aa4289e157b27990ea9,
+      objectReference: {fileID: 1484615877595304, guid: 40b3979acf0cbe84e9666466b91705af,
+        type: 2}
+    - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: Backgrounds.Array.data[24]
+      value: 
+      objectReference: {fileID: 1635514495992752, guid: 51bc80176af3a2448bff0399eb541601,
+        type: 2}
+    - target: {fileID: 114903831537596356, guid: 71b11316df5366b45a20dcd3e049dd85,
+        type: 2}
+      propertyPath: lvData.Array.data[24]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d39be70f6afd12429d7b611e9dc53ae,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 71b11316df5366b45a20dcd3e049dd85, type: 2}

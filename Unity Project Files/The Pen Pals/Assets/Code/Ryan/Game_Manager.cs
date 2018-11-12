@@ -1448,6 +1448,12 @@ public class Game_Manager : MonoBehaviour
     [ContextMenu("Check_Shortcut_Input")]
     private void Check_Shortcut_Input()
     {
+        //*! Press [V] to go to [Level Selection] screen
+        if (Input.GetKeyUp(KeyCode.V))
+        {
+            Initialize_Level(1);
+        }
+
         //*! Press [X] to skip current level
         if (Input.GetKeyUp(KeyCode.X))
         {
