@@ -18,11 +18,9 @@ public class Level_Availability : MonoBehaviour
     //*! Game Manager
     private Game_Manager game_manager = null;
 
-
-
     //*! Blue
     private Player_Save player_one;
-    private int p1_pos = 1;
+    private int p1_pos = 0;
 
     private KeyCode P1_LEFT_Key
     { get { return KeyCode.A; } }
@@ -295,9 +293,10 @@ public class Level_Availability : MonoBehaviour
 
                 if (player_one.Level_Count[index].Completed)
                 {
-                    Level_Selection[index].UI_Level.transform.GetChild(1).gameObject.SetActive(true);
+                    Level_Selection[index].UI_Level.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
+ 
 
             if (player_two.Level_Count[index].Unlocked)
             {
@@ -305,7 +304,7 @@ public class Level_Availability : MonoBehaviour
 
                 if (player_two.Level_Count[index].Completed)
                 {
-                    Level_Selection[index].UI_Level.transform.GetChild(1).gameObject.SetActive(true);
+                    Level_Selection[index].UI_Level.transform.GetChild(2).gameObject.SetActive(true);
                 }
             }
         }
@@ -323,6 +322,8 @@ public class Level_Availability : MonoBehaviour
 [System.Serializable]
 public class Level_Container
 {
+    [Range(0, 50)]
+    public int act_level_index;
     [Range(0, 50)]
     public int Game_Manager_Index;
     public GameObject UI_Level;

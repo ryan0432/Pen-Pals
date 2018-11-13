@@ -109,7 +109,103 @@ MonoBehaviour:
     Name: Player_02
     player_type: 2
     active_save: 1
-    Level_Count: []
+    Level_Count:
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
 --- !u!212 &212490864462672130
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -20,7 +20,7 @@ public class Game_Manager : MonoBehaviour
 
     [SerializeField]
     public Lv_Data[] lvData;
-    [HideInInspector]
+    //[HideInInspector]
     public int lvDataIndex = -1;
 
     public Node[,] BL_Nodes;
@@ -1448,32 +1448,39 @@ public class Game_Manager : MonoBehaviour
     [ContextMenu("Check_Shortcut_Input")]
     private void Check_Shortcut_Input()
     {
-        //*! Press [V] to go to [Level Selection] screen
-        if (Input.GetKeyUp(KeyCode.V))
+        //*! Press [Backspace] to go to [Level Selection] screen
+        if (Input.GetKeyUp(KeyCode.Backspace))
         {
             Initialize_Level(1);
         }
 
         //*! Press [X] to skip current level
-        if (Input.GetKeyUp(KeyCode.X))
+        if (lvDataIndex == 2 || lvDataIndex == 9 || lvDataIndex == 16 || lvDataIndex == lvData.Length - 1 || lvDataIndex == lvData.Length - 2)
         {
-            Initialize_Level(lvDataIndex + 1);
+            if (Input.GetKeyUp(KeyCode.X) && lvDataIndex != lvData.Length - 1)
+            {
+                Initialize_Level(lvDataIndex + 1);
+            }
+            else if (Input.GetKeyUp(KeyCode.X) && lvDataIndex == lvData.Length - 1)
+            {
+                Initialize_Level(0);
+            }
         }
 
         //*! Press [Z] go to previous level
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Keypad8) && Input.GetKeyUp(KeyCode.KeypadEnter))
         {
             Initialize_Level(lvDataIndex - 1);
         }
 
         //*! Press [C] restart current level
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.Keypad7) && Input.GetKeyUp(KeyCode.KeypadEnter))
         {
             Initialize_Level(lvDataIndex);
         }
 
         //*! Press [Space] to show/hide gizmos
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Keypad9) && Input.GetKeyUp(KeyCode.KeypadEnter))
         {
             switch (Show_Gizmos)
             {
@@ -1551,6 +1558,8 @@ public class Game_Manager : MonoBehaviour
     public void Save_Players_Data()
     {
         #region Get Scene Player instances and Call Save()
+        if (lvDataIndex == 0) return;
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (GameObject go in players)
@@ -1568,7 +1577,7 @@ public class Game_Manager : MonoBehaviour
             {
                 go.GetComponent<Line_Control>().save_data.Completed_Level(lvDataIndex);
                 go.GetComponent<Line_Control>().save_data.Save();
-                Debug.Log("Player One [Block - Red] Data Saved!");
+                Debug.Log("Player Two [Line - Red] Data Saved!");
             }
 
             if (go.GetComponent<Block_Control>() &&
@@ -1576,7 +1585,7 @@ public class Game_Manager : MonoBehaviour
             {
                 go.GetComponent<Block_Control>().save_data.Completed_Level(lvDataIndex);
                 go.GetComponent<Block_Control>().save_data.Save();
-                Debug.Log("Player Two [Line - Red] Data Saved!");
+                Debug.Log("Player One [Block - Blue] Data Saved!");
             }
 
             if (go.GetComponent<Line_Control>() &&

@@ -64,7 +64,103 @@ MonoBehaviour:
     Name: Player_02
     player_type: 2
     active_save: 1
-    Level_Count: []
+    Level_Count:
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
   isDead: 0
 --- !u!120 &120389679438036090
 LineRenderer:

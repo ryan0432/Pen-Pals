@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Player_Save xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Player_02</Name>
+  <player_type>BLUE</player_type>
+  <active_save>true</active_save>
+  <Level_Count>
+    <Level_Data>
+      <Name>Level Default_1</Name>
+      <Completed>true</Completed>
+      <Unlocked>true</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>1</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_2</Name>
+      <Completed>false</Completed>
+      <Unlocked>true</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>2</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_3</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>3</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_4</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>4</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_5</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>5</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_6</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>6</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_7</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>7</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_8</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>8</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_9</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>9</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_10</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>10</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_11</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>11</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_12</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>12</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_13</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>13</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_14</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>14</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_15</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>15</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_16</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>16</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_17</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>17</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_18</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>18</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_19</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>19</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_20</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>20</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_21</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>21</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_22</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>22</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_23</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>23</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_24</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>24</Level_ID>
+    </Level_Data>
+    <Level_Data>
+      <Name>Level Default_25</Name>
+      <Completed>false</Completed>
+      <Unlocked>false</Unlocked>
+      <Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+        <Sticker_Count>false</Sticker_Count>
+      </Sticker_Count>
+      <Level_ID>25</Level_ID>
+    </Level_Data>
+  </Level_Count>
+  <Data_Path>C:/Users/s171050/Desktop/Pen_Pals/Unity Project Files/The Pen Pals/Assets/Player_Save_Data/Player_02.xml</Data_Path>
+</Player_Save>

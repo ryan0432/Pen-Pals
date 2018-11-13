@@ -31,7 +31,7 @@ public class XML_SaveLoad : MonoBehaviour
     #region Public Variables
 
     //*! Player Saves File Path
-    private string data_path = "./Player Save Files/";
+    //private string data_path;
 
     #endregion
 
@@ -42,7 +42,7 @@ public class XML_SaveLoad : MonoBehaviour
 
     private void Awake()
     {
-        Load_All_Players();
+         Load_All_Players();
     }
 
     #endregion
@@ -98,8 +98,8 @@ public class XML_SaveLoad : MonoBehaviour
             //*! Don't Delete anything.
             return;
         }
-
-        File.Delete("./Player Save Files/" + Player_Saves[player_number].Name + ".xml");
+        
+        File.Delete(Application.dataPath + "/Player_Save_Data/" + Player_Saves[player_number].Name + ".xml");
         Player_Saves.RemoveAt(player_number);
     }
 
@@ -112,7 +112,7 @@ public class XML_SaveLoad : MonoBehaviour
     {
         if (Player_Saves.Count == 0)
         {
-            Load_All_Players();
+            ///Load_All_Players();
 
             //*! Create a new Player
             Player_Saves.Add(new Player_Save());
@@ -169,14 +169,14 @@ public class XML_SaveLoad : MonoBehaviour
             if (index + 1 <= 9)
             {
                 //*! Construct the Player objects save file path
-                Player_Saves[index].Data_Path = (data_path + "Player_0" + (index + 1) + ".xml");
+                Player_Saves[index].Data_Path = (Application.dataPath + "/Player_Save_Data/" + "Player_0" + (index + 1) + ".xml");
                 //*! Save each player
                 Player_Saves[index].Save();
             }
             else
             {
                 //*! Construct the Player objects save file path
-                Player_Saves[index].Data_Path = (data_path + "Player_" + (index + 1) + ".xml");
+                Player_Saves[index].Data_Path = (Application.dataPath + "/Player_Save_Data/" + "Player_" + (index + 1) + ".xml");
                 //*! Save each player
                 Player_Saves[index].Save();
             }
@@ -191,46 +191,45 @@ public class XML_SaveLoad : MonoBehaviour
     [ContextMenu("Load all Players")]
     public void Load_All_Players()
     {
-        //*! Create the directory if it doesnt exist
-        if (!Directory.Exists(data_path))
-        {
-            Directory.CreateDirectory(data_path);
-        }
+        ////*! Create the directory if it doesnt exist
+        //if (!Directory.Exists(Application.dataPath + "/Player_Save_Data/"))
+        //{
+        //    Directory.CreateDirectory(Application.dataPath + "/Player_Save_Data/");
+        //}
 
         //*! Get some information on the directory 
-        DirectoryInfo info = new DirectoryInfo(data_path);
+        //DirectoryInfo info = new DirectoryInfo(Application.dataPath + "/Player_Save_Data/");
 
-        //*! Get the count of files in that directory
-        List<FileInfo> save_files = new List<FileInfo>();
+        ////*! Get the count of files in that directory
+        //List<FileInfo> save_files = new List<FileInfo>();
 
-        save_files.AddRange(info.GetFiles());
+        //save_files.AddRange(info.GetFiles());
+              
 
-        //*! No Save File Count
-        if (save_files.Count == 0)
-        {
-            Debug.LogWarning("NO SAVE FILES IN THE DIRECTORY");
-            //*! Don't load the save files.
-            return;
-        }
+        ////*! No Save File Count
+        //if (save_files.Count == 0)
+        //{
+        //    Debug.LogWarning("NO SAVE FILES IN THE DIRECTORY");
+        //    //*! Don't load the save files.
+        //    return;
+        //}
 
-        //*! Add null objects to the player saves list of the count of files in the saves directory
-        for (int index = 0; index < save_files.Count; index++)
-        {
-            ///Debug.Log("Added a new Player at INDEX : " + index + " : " + save_files[index].Name);
-            Player_Saves.Add(null);
-        }
+        ////*! Add null objects to the player saves list of the count of files in the saves directory
+        //for (int index = 0; index < save_files.Count; index++)
+        //{
+        //    ///Debug.Log("Added a new Player at INDEX : " + index + " : " + save_files[index].Name);
+        //    Player_Saves.Add(null);
+        //}
 
         //*! Load All Players
-        for (int index = 0; index < save_files.Count; index++)
-        {
-            Player_Saves[index] = Load<Player_Save>(data_path + save_files[index].Name);
-        }
+        Player_Saves[0] = Load<Player_Save>(Application.dataPath + "/Player_Save_Data/" + "Player_01.xml");
+        Player_Saves[1] = Load<Player_Save>(Application.dataPath + "/Player_Save_Data/" + "Player_02.xml");
 
-        //*! Remove any null objects in the list
-        while (Player_Saves.Remove(null))
-        {
-            Debug.LogWarning("Removed a null object");
-        };
+        ////*! Remove any null objects in the list
+        //while (Player_Saves.Remove(null))
+        //{
+        //    Debug.LogWarning("Removed a null object");
+        //};
 
     }
 
@@ -247,7 +246,17 @@ public class XML_SaveLoad : MonoBehaviour
         }
     }
 
+    [ContextMenu("Save Data Defaults")]
+    public void Save_Data_Defaults()
+    {
+        Player_Saves[0].player_type = Player_Save.Player_Type.RED;
+        Player_Saves[0].Level_Count[0].Unlocked = true;
+        Player_Saves[0].active_save = true;
 
+        Player_Saves[1].player_type = Player_Save.Player_Type.BLUE;
+        Player_Saves[1].Level_Count[0].Unlocked = true;
+        Player_Saves[1].active_save = true;
+    }
 
     #endregion
 
@@ -275,7 +284,7 @@ public class XML_SaveLoad : MonoBehaviour
             }
 
 
-            for (int inner_index = 0; inner_index < 21; inner_index++)
+            for (int inner_index = 0; inner_index < 25; inner_index++)
             {
                 Player_Saves[player_id].Level_Count.Add(new Level_Data());
             }
@@ -292,14 +301,14 @@ public class XML_SaveLoad : MonoBehaviour
         if (player_id + 1 <= 9)
         {
             //*! Construct the Player objects save file path
-            Player_Saves[player_id].Data_Path = (data_path + "Player_0" + (player_id + 1) + ".xml");
+            Player_Saves[player_id].Data_Path = (Application.dataPath + "/Player_Save_Data/" + "Player_0" + (player_id + 1) + ".xml");
             //*! Save each player
             Player_Saves[player_id].Save();
         }
         else
         {
             //*! Construct the Player objects save file path
-            Player_Saves[player_id].Data_Path = (data_path + "Player_" + (player_id + 1) + ".xml");
+            Player_Saves[player_id].Data_Path = (Application.dataPath + "/Player_Save_Data/" + "Player_" + (player_id + 1) + ".xml");
             //*! Save each player
             Player_Saves[player_id].Save();
         }
@@ -415,13 +424,30 @@ public class Player_Save
     //*! When Completed a level
     public void Completed_Level(int level_index)
     {
-        Level_Count[level_index].Completed = true;
+        //*! Find the first instance of the level unlocked being false and complete the previous level.
 
-        if (level_index < Level_Count.Count - 1)
+        Level_Availability la = GameObject.FindObjectOfType<Level_Availability>();
+
+        if (level_index == 3 || level_index == 10 || level_index == 17)
         {
-            Level_Count[level_index + 1].Unlocked = true;
+            level_index--;
+        }
+
+        for (int index = 0; index < la.Level_Selection.Length - 1; index++)
+        {
+                                      
+            if (level_index == la.Level_Selection[index].Game_Manager_Index)
+            {
+                Level_Count[la.Level_Selection[index].act_level_index].Completed = true;
+                
+                Level_Count[la.Level_Selection[index].act_level_index + 1].Unlocked = true;
+                
+                return;
+            }
         }
     }
+
+
 
 
     //*! Player Save 
@@ -430,10 +456,16 @@ public class Player_Save
         //*! Check Against the level Defaults
         Check_Level_Defaults();
 
+        //*! Create the directory if it doesnt exist
+        if (!Directory.Exists(Application.dataPath + "/Player_Save_Data/"))
+        {
+            Directory.CreateDirectory(Application.dataPath + "/Player_Save_Data/");
+        }
+
         //*! Create the XML Serializer
         XmlSerializer serializer = new XmlSerializer(typeof(Player_Save));
         //*! Create a file stream and write file
-        using (FileStream stream = new FileStream(Data_Path, FileMode.Create))
+        using (FileStream stream = new FileStream(Application.dataPath + "/Player_Save_Data/" + Name + ".xml" , FileMode.Create))
         {
             //*! Write the XML file
             serializer.Serialize(stream, this);
