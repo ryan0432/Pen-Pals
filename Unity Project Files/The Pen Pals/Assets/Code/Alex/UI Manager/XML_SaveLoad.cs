@@ -42,7 +42,7 @@ public class XML_SaveLoad : MonoBehaviour
 
     private void Awake()
     {
-         Load_All_Players();
+        Load_All_Players();
     }
 
     #endregion
@@ -98,10 +98,27 @@ public class XML_SaveLoad : MonoBehaviour
             //*! Don't Delete anything.
             return;
         }
-        
+
         File.Delete(Application.dataPath + "/Player_Save_Data/" + Player_Saves[player_number].Name + ".xml");
         Player_Saves.RemoveAt(player_number);
     }
+
+    [ContextMenu("100% Player Save Daya")]
+    public void Complete_Game_Save_Data()
+    {
+        for (int index = 0; index < Player_Saves[0].Level_Count.Count; index++)
+        {
+            Player_Saves[0].Level_Count[index].Unlocked = true;
+            Player_Saves[0].Level_Count[index].Completed = true;
+
+            Player_Saves[1].Level_Count[index].Unlocked = true;
+            Player_Saves[1].Level_Count[index].Completed = true;
+        }
+
+        Player_Saves[0].Save();
+        Player_Saves[1].Save();
+    }
+
 
 
     /// <summary>
@@ -204,7 +221,7 @@ public class XML_SaveLoad : MonoBehaviour
         //List<FileInfo> save_files = new List<FileInfo>();
 
         //save_files.AddRange(info.GetFiles());
-              
+
 
         ////*! No Save File Count
         //if (save_files.Count == 0)
@@ -435,13 +452,13 @@ public class Player_Save
 
         for (int index = 0; index < la.Level_Selection.Length - 1; index++)
         {
-                                      
+
             if (level_index == la.Level_Selection[index].Game_Manager_Index)
             {
                 Level_Count[la.Level_Selection[index].act_level_index].Completed = true;
-                
+
                 Level_Count[la.Level_Selection[index].act_level_index + 1].Unlocked = true;
-                
+
                 return;
             }
         }
@@ -465,7 +482,7 @@ public class Player_Save
         //*! Create the XML Serializer
         XmlSerializer serializer = new XmlSerializer(typeof(Player_Save));
         //*! Create a file stream and write file
-        using (FileStream stream = new FileStream(Application.dataPath + "/Player_Save_Data/" + Name + ".xml" , FileMode.Create))
+        using (FileStream stream = new FileStream(Application.dataPath + "/Player_Save_Data/" + Name + ".xml", FileMode.Create))
         {
             //*! Write the XML file
             serializer.Serialize(stream, this);
