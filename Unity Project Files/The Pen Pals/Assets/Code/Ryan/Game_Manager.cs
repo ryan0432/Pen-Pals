@@ -186,7 +186,8 @@ public class Game_Manager : MonoBehaviour
                 //*! Check [Node] [Type] == [Block_Blue_Goal]
                 if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Blue_Goal)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    float rand = Random.Range(10f, 270f);
+                    GameObject new_Gizmos_GO = Instantiate(Block_Blue_Goal, BL_Nodes[i, j].Position, Quaternion.Euler(new Vector3(0, 0, rand)), transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                     Blue_Sticker_Count++;
                 }
@@ -194,7 +195,8 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Node] [Type] == [Block_Red_Goal]
                 if (BL_Nodes[i, j].Node_Type == Node_Type.Block_Red_Goal)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    float rand = Random.Range(10f, 270f);
+                    GameObject new_Gizmos_GO = Instantiate(Block_Red_Goal, BL_Nodes[i, j].Position, Quaternion.Euler(new Vector3(0, 0, rand)), transform.Find("Symbols"));
                     BL_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                     Red_Sticker_Count++;
                 }
@@ -287,7 +289,8 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Node] [Type] == [Line_Blue_Goal]
                 if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Blue_Goal)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(Line_Blue_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    float rand = Random.Range(10f, 270f);
+                    GameObject new_Gizmos_GO = Instantiate(Line_Blue_Goal, LI_Nodes[i, j].Position, Quaternion.Euler(new Vector3(0, 0, rand)), transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                     Blue_Sticker_Count++;
                 }
@@ -295,7 +298,8 @@ public class Game_Manager : MonoBehaviour
                 //* Check [Node] [Type] == [Line_Red_Goal]
                 if (LI_Nodes[i, j].Node_Type == Node_Type.Line_Red_Goal)
                 {
-                    GameObject new_Gizmos_GO = Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.identity, transform.Find("Symbols"));
+                    float rand = Random.Range(10f, 270f);
+                    GameObject new_Gizmos_GO = Instantiate(Line_Red_Goal, LI_Nodes[i, j].Position, Quaternion.Euler(new Vector3(0, 0, rand)), transform.Find("Symbols"));
                     LI_Nodes[i, j].Gizmos_GO = new_Gizmos_GO;
                     Red_Sticker_Count++;
                 }
