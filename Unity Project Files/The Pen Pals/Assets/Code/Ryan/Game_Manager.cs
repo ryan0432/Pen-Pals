@@ -92,7 +92,10 @@ public class Game_Manager : MonoBehaviour
 
     [HideInInspector]
     private Sound_Manager snd;
-    
+
+    [HideInInspector]
+    private Level_Availability lvlav;
+
 
     void Awake()
     {
@@ -1451,6 +1454,7 @@ public class Game_Manager : MonoBehaviour
         //*! Press [Backspace] to go to [Level Selection] screen
         if (Input.GetKeyUp(KeyCode.Backspace))
         {
+            lvlav.Load_Available_Levels();
             Initialize_Level(1);
         }
 
@@ -1467,20 +1471,26 @@ public class Game_Manager : MonoBehaviour
             }
         }
 
-        //*! Press [Z] go to previous level
-        if (Input.GetKeyUp(KeyCode.Keypad8) && Input.GetKeyUp(KeyCode.KeypadEnter))
+        //*! Press [Keypad7] go to previous level
+        if (Input.GetKeyUp(KeyCode.Keypad7))
         {
             Initialize_Level(lvDataIndex - 1);
         }
 
-        //*! Press [C] restart current level
-        if (Input.GetKeyUp(KeyCode.Keypad7) && Input.GetKeyUp(KeyCode.KeypadEnter))
+        //*! Press [Keypad8] restart current level
+        if (Input.GetKeyUp(KeyCode.Keypad8))
         {
             Initialize_Level(lvDataIndex);
         }
 
-        //*! Press [Space] to show/hide gizmos
-        if (Input.GetKeyUp(KeyCode.Keypad9) && Input.GetKeyUp(KeyCode.KeypadEnter))
+        //*! Press [Keypad9] restart current level
+        if (Input.GetKeyUp(KeyCode.Keypad9))
+        {
+            Initialize_Level(lvDataIndex + 1);
+        }
+
+        //*! Press [Keypad5] to show/hide gizmos
+        if (Input.GetKeyUp(KeyCode.Keypad5))
         {
             switch (Show_Gizmos)
             {
@@ -1540,7 +1550,8 @@ public class Game_Manager : MonoBehaviour
 
         if (FindObjectOfType<Pencil_Case>() != null) is_pencil_case = true;
         cam = FindObjectOfType<Camera>();
-        snd = GetComponent<Sound_Manager>();
+        snd = FindObjectOfType<Sound_Manager>();
+        lvlav = FindObjectOfType<Level_Availability>();
 
         Blue_Sticker_Count = 0;
         Red_Sticker_Count = 0;

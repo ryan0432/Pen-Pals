@@ -283,9 +283,9 @@ public class Level_Availability : MonoBehaviour
 
 
 
-    private void Load_Available_Levels()
+    public void Load_Available_Levels()
     {
-        for (int index = 0; index < Level_Selection.Length; index++)
+        for (int index = 0; index < Level_Selection.Length - 1; index++)
         {
             if (player_one.Level_Count[index].Unlocked)
             {

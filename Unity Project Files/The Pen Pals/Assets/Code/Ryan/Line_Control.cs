@@ -40,9 +40,6 @@ public class Line_Control : MonoBehaviour
 
     public Player_Save save_data;
 
-    [HideInInspector]
-    public bool isDead;
-
 
     //*!----------------------------!*//
     //*!      Private Variables

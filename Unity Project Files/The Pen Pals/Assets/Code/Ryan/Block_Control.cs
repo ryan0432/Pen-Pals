@@ -74,7 +74,6 @@ public class Block_Control : MonoBehaviour
     private SpriteRenderer spr;
     private Sound_Manager snd;
 
-    private bool isDead;
     private bool isArrived;
     private bool isLanded;
     private bool isSoundPlayed;

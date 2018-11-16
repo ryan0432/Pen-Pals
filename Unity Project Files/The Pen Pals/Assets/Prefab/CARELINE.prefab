@@ -161,6 +161,10 @@ MonoBehaviour:
       Completed: 0
       Unlocked: 0
       sticker_count: 
+    - Name: 
+      Completed: 0
+      Unlocked: 0
+      sticker_count: 
   isDead: 0
 --- !u!120 &120436547271843276
 LineRenderer:
