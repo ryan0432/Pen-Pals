@@ -129,7 +129,6 @@ public class Block_Control : MonoBehaviour
 
         isLanded = true;
 
-        currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
 
         currPressedKey = NONE;
@@ -292,9 +291,7 @@ public class Block_Control : MonoBehaviour
     {
         //Debug.Log("State: Floating");
 
-        currNode.Is_Occupied = true;
         currNode.Set_Traversability(false);
-        //Set_Line_Traversability(DN_Key, true);
 
         ani.Play("stopping", 0);
 
@@ -307,7 +304,6 @@ public class Block_Control : MonoBehaviour
                 timer = floatingTime;
                 qeuePressedKey = LFT_Key;
                 Set_Line_Traversability(LFT_Key, true);
-                Set_Line_Traversability(DN_Key, false);
                 isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
@@ -321,7 +317,6 @@ public class Block_Control : MonoBehaviour
                 timer = floatingTime;
                 qeuePressedKey = RGT_Key;
                 Set_Line_Traversability(RGT_Key, true);
-                Set_Line_Traversability(DN_Key, false);
                 isSoundPlayed = false;
                 isArrived = false;
                 currPressedKey = qeuePressedKey;
@@ -465,7 +460,6 @@ public class Block_Control : MonoBehaviour
     {
         if (currNode.DN_NODE != null && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied)
         {
-            Set_Line_Traversability(DN_Key, true);
             isArrived = false;
             qeuePressedKey = NONE;
             prevState = currState;
@@ -531,16 +525,14 @@ public class Block_Control : MonoBehaviour
         float moveDistance = (transform.position - nextNode.Position).magnitude;
         float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
 
-        if (moveDistance < distBetweenNodes * 0.99f)
+        if (moveDistance < distBetweenNodes)
         {
-            nextNode.Is_Occupied = true;
-            currNode.Is_Occupied = false;
-            currNode.Set_Traversability(true);
+            nextNode.Set_Traversability(false);
         }
 
         if (moveDistance < snapDistance)
         {
-            nextNode.Set_Traversability(false);
+            currNode.Set_Traversability(true);
             currNode = nextNode;
             nextNode = null;
             transform.position = currNode.Position;

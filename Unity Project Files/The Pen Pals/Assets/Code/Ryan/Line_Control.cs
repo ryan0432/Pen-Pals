@@ -165,7 +165,6 @@ public class Line_Control : MonoBehaviour
         currPressedKey = NONE;
         qeuePressedKey = NONE;
 
-        Set_Anchors_Occupied();
         Init_Traversability();
 
         if (Input.GetKeyDown(UP_Key))
@@ -183,7 +182,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(UP_Key) != anchors[1] && currNode.UP_NODE != null && currNode.Can_UP && !currNode.UP_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
-                anchors[anchors.Count - 1].Is_Occupied = false;
+                anchors[anchors.Count - 1].Set_Traversability(true);
                 isArrayMovedForward = false;
                 isSoundPlayed = false;
                 prevState = currState;
@@ -206,7 +205,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(DN_Key) != anchors[1] && currNode.DN_NODE != null && currNode.Can_DN && !currNode.DN_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
-                anchors[anchors.Count - 1].Is_Occupied = false;
+                anchors[anchors.Count - 1].Set_Traversability(true);
                 isArrayMovedForward = false;
                 isSoundPlayed = false;
                 prevState = currState;
@@ -229,7 +228,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(LFT_Key) != anchors[1] && currNode.LFT_NODE != null && currNode.Can_LFT && !currNode.LFT_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
-                anchors[anchors.Count - 1].Is_Occupied = false;
+                anchors[anchors.Count - 1].Set_Traversability(true);
                 isArrayMovedForward = false;
                 isSoundPlayed = false;
                 prevState = currState;
@@ -252,7 +251,7 @@ public class Line_Control : MonoBehaviour
             }
             else if (Return_Input_Node(RGT_Key) != anchors[1] && currNode.RGT_NODE != null && currNode.Can_RGT && !currNode.RGT_NODE.Is_Occupied /*&& !Is_Block_Riding()*/)
             {
-                anchors[anchors.Count - 1].Is_Occupied = false;
+                anchors[anchors.Count - 1].Set_Traversability(true);
                 isArrayMovedForward = false;
                 isSoundPlayed = false;
                 prevState = currState;
@@ -321,7 +320,7 @@ public class Line_Control : MonoBehaviour
                 qeuePressedKey = NONE;
                 isArrived = false;
                 isArrayMovedForward = false;
-                anchors[anchors.Count - 1].Is_Occupied = false;
+                anchors[anchors.Count - 1].Set_Traversability(true);
                 prevState = currState;
                 currState = Line_State.MOVING;
             }
@@ -493,17 +492,8 @@ public class Line_Control : MonoBehaviour
                 currAnchor.RGT_EDGE.Set_Traversability(false);
             }
 
-            currAnchor.Is_Occupied = true;
-            nextAnchor.Is_Occupied = true;
-        }
-    }
-
-    [ContextMenu("Set_Anchors_Occupied")]
-    private void Set_Anchors_Occupied()
-    {
-        for (int i = 0; i < anchors.Count; ++i)
-        {
-            anchors[i].Is_Occupied = true;
+            currAnchor.Set_Traversability(false);
+            nextAnchor.Set_Traversability(false);
         }
     }
 
@@ -570,9 +560,9 @@ public class Line_Control : MonoBehaviour
         float moveDistance = (headGO.transform.position - destNode.Position).magnitude;
         float distBetweenNodes = (currNode.Position - nextNode.Position).magnitude;
 
-        if (moveDistance < distBetweenNodes * 0.8f)
+        if (moveDistance < distBetweenNodes)
         {
-            nextNode.Is_Occupied = true;
+            nextNode.Set_Traversability(false);
         }
 
         if (moveDistance < snapDistance)
