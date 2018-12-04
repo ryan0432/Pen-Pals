@@ -107,7 +107,7 @@ public class Game_Manager : MonoBehaviour
         Check_Shortcut_Input();
         Clear_Pencil_Case_Gizmos();
         Render_Node_Traversability_Gizmos();
-        snd.Game_PlaySound(Game_Sound.BACKGROUND_SOUND);
+        if(snd.Game_Sounds.background.sound != null) snd.Game_PlaySound(Game_Sound.BACKGROUND_SOUND);
     }
 
 
@@ -1493,6 +1493,19 @@ public class Game_Manager : MonoBehaviour
             Initialize_Level(lvDataIndex + 1);
         }
 
+        //*! Press [Keypad6] on/off fullscreen
+        if (Input.GetKeyUp(KeyCode.Keypad6))
+        {
+            if (Screen.fullScreen)
+            {
+                Screen.fullScreen = false;
+            }
+            else
+            {
+                Screen.fullScreen = true;
+            }
+        }
+
         //*! Press [Keypad5] to show/hide gizmos
         if (Input.GetKeyUp(KeyCode.Keypad5))
         {
@@ -1509,6 +1522,12 @@ public class Game_Manager : MonoBehaviour
                         break;
                     }
             }
+        }
+
+        //*! Press [Keypad4] to reset player save data to 0%
+        if (Input.GetKeyUp(KeyCode.Keypad4))
+        {
+            Reset_Players_Data();
         }
 
         //*! Press [ESC] to quit
@@ -1610,6 +1629,78 @@ public class Game_Manager : MonoBehaviour
                 go.GetComponent<Line_Control>().save_data.Save();
                 Debug.Log("Player Two [Line - Blue] Data Saved!");
             }
+        }
+        #endregion
+    }
+
+    [ContextMenu("Reset_Players_Data")]
+    public void Reset_Players_Data()
+    {
+        #region Reset Player Save Data and Call Save()
+        if (lvDataIndex == 0) return;
+
+        if (!GetComponent<XML_SaveLoad>()) return;
+
+        GetComponent<XML_SaveLoad>().Reset_Game_Save_Data();
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject go in players)
+        {
+            #region Reset [Block - Red] Save Data
+            if (go.GetComponent<Block_Control>() &&
+                go.GetComponent<Block_Control>().playerType == Player_Type.RED)
+            {
+                for (int i = 3; i < go.GetComponent<Block_Control>().save_data.Level_Count.Count; ++i)
+                {
+                    go.GetComponent<Block_Control>().save_data.Reset_Level_Availability(i);
+                    go.GetComponent<Block_Control>().save_data.Save();
+                }
+
+                Debug.Log("Player One [Block - Red] Data Reset!");
+            }
+            #endregion
+
+            #region Reset [Line - Red] Save Data
+            if (go.GetComponent<Line_Control>() &&
+                go.GetComponent<Line_Control>().playerType == Player_Type.RED)
+            {
+                for (int i = 3; i < go.GetComponent<Line_Control>().save_data.Level_Count.Count; ++i)
+                {
+                    go.GetComponent<Line_Control>().save_data.Reset_Level_Availability(i);
+                    go.GetComponent<Line_Control>().save_data.Save();
+                }
+
+                go.GetComponent<Line_Control>().save_data.Save();
+                Debug.Log("Player Two [Line - Red] Data Reset!");
+            }
+            #endregion
+
+            #region Reset [Block - Blue] Save Data
+            if (go.GetComponent<Block_Control>() &&
+                go.GetComponent<Block_Control>().playerType == Player_Type.BLUE)
+            {
+                for (int i = 3; i < go.GetComponent<Block_Control>().save_data.Level_Count.Count; ++i)
+                {
+                    go.GetComponent<Block_Control>().save_data.Reset_Level_Availability(i);
+                    go.GetComponent<Block_Control>().save_data.Save();
+                }
+                Debug.Log("Player One [Block - Blue] Data Reset!");
+            }
+            #endregion
+
+            #region Reset [Line - Blue] Save Data
+            if (go.GetComponent<Line_Control>() &&
+                go.GetComponent<Line_Control>().playerType == Player_Type.BLUE)
+            {
+                for (int i = 3; i < go.GetComponent<Line_Control>().save_data.Level_Count.Count; ++i)
+                {
+                    go.GetComponent<Line_Control>().save_data.Reset_Level_Availability(i);
+                    go.GetComponent<Line_Control>().save_data.Save();
+                }
+                Debug.Log("Player Two [Line - Blue] Data Reset!");
+            }
+            #endregion
         }
         #endregion
     }

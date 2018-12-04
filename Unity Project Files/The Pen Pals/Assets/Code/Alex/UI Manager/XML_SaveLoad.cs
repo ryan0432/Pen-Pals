@@ -103,7 +103,7 @@ public class XML_SaveLoad : MonoBehaviour
         Player_Saves.RemoveAt(player_number);
     }
 
-    [ContextMenu("100% Player Save Daya")]
+    [ContextMenu("100% Player Save Data")]
     public void Complete_Game_Save_Data()
     {
         for (int index = 0; index < Player_Saves[0].Level_Count.Count; index++)
@@ -113,6 +113,22 @@ public class XML_SaveLoad : MonoBehaviour
 
             Player_Saves[1].Level_Count[index].Unlocked = true;
             Player_Saves[1].Level_Count[index].Completed = true;
+        }
+
+        Player_Saves[0].Save();
+        Player_Saves[1].Save();
+    }
+
+    [ContextMenu("0% Player Save Data")]
+    public void Reset_Game_Save_Data()
+    {
+        for (int index = 3; index < Player_Saves[0].Level_Count.Count; index++)
+        {
+            Player_Saves[0].Level_Count[index].Unlocked = false;
+            Player_Saves[0].Level_Count[index].Completed = false;
+
+            Player_Saves[1].Level_Count[index].Unlocked = false;
+            Player_Saves[1].Level_Count[index].Completed = false;
         }
 
         Player_Saves[0].Save();
@@ -436,6 +452,29 @@ public class Player_Save
             count++;
         }
     }
+
+
+    //*! Reset Level Availability
+    public void Reset_Level_Availability(int level_index)
+    {
+        //*! Find the first instance of the level unlocked being false and complete the previous level.
+
+        Level_Availability la = GameObject.FindObjectOfType<Level_Availability>();
+
+        for (int index = 0; index < la.Level_Selection.Length; index++)
+        {
+
+            if (level_index == la.Level_Selection[index].Game_Manager_Index)
+            {
+                Level_Count[la.Level_Selection[index].act_level_index].Completed = false;
+
+                Level_Count[la.Level_Selection[index].act_level_index].Unlocked = false;
+
+                return;
+            }
+        }
+    }
+
 
 
     //*! When Completed a level
